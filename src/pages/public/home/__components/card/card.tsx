@@ -1,4 +1,3 @@
-import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { conditions } from "@/constants/conditions";
 
 interface CardProps {
@@ -10,8 +9,8 @@ export default function Card({ card, imageOnly }: CardProps) {
   const { title, img, } = card;
 
   return ( 
-      <div className=" rounded-3xl w-full md:max-w-[285px] lg:min-w-[400px] xl:min-w-[400px]">  
-        <img src={img} alt={title} className="object-fill w-full shadow-2xl"  /> 
+      <div className=" w-full md:max-w-[285px] lg:min-w-[400px] xl:min-w-[400px]">  
+        <img src={img} alt={title} className="object-fill w-full shadow-2xl rounded-2xl"  /> 
         <h2 className={`text-center sm:text-[23px] font-bold tracking-wider text-wrap min-w-fit ${imageOnly && 'hidden'}`}>
           {title}
         </h2>

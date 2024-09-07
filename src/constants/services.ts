@@ -1,11 +1,11 @@
-import Diastema from '@/assets/images/services/services-1.png' 
-import RootCanal from '@/assets/images/services/services-2.png' 
-import DentalCrown from '@/assets/images/services/services-3.png' 
-import ToothFilling from '@/assets/images/services/services-4.png' 
-import FullDentures from '@/assets/images/services/services-5.png' 
-import Braces from '@/assets/images/services/services-6.png' 
+import Diastema from '@/assets/images/services/service-1.png' 
+import RootCanal from '@/assets/images/services/service-2.png' 
+import DentalCrown from '@/assets/images/services/service-3.png' 
+import ToothFilling from '@/assets/images/services/service-4.png' 
+import FullDentures from '@/assets/images/services/service-5.png' 
+import Braces from '@/assets/images/services/service-6.png'  
 
-export const conditions = [
+export const services = [
     {
         title: 'Tooth extraction',
         description: 'Tooth extraction is a dental procedure that involves removing a tooth from its socket in the jawbone, often due to severe decay, damage, or overcrowding. The process begins with a thorough assessment and usually involves taking X-rays to evaluate the tooth and its surrounding structures. Local anesthesia is then administered to numb the area, ensuring the patient is comfortable and pain-free during the procedure. The dentist uses specialized tools to loosen and extract the tooth carefully. Post-procedure, patients may experience swelling or discomfort, which can be managed with prescribed medications and by following aftercare instructions provided by the dentist. Proper care and adherence to these guidelines are crucial for a smooth recovery and to avoid potential complications.',

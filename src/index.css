@@ -2,11 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
-
 .gradient-landing-page {
     background: linear-gradient(180deg, #FFFFFF, #7DE2F3, #7DE2F3, #BCF0F9, #FBFEFE);
 }
 
 .gradient-auth-page {
     background: linear-gradient(180deg, #FFFFFF, #7de1f3);
+}
+
+.gradient-qr {
+    background: linear-gradient(90deg, #FFFFFF 0%, #BCE6FF 40.4%, #58D4E8 98.9%); 
+}
+
+.bg-circle {
+    background: rgb(106,101,189);
+    background: -moz-radial-gradient(circle, rgba(106,101,189,1) 0%, rgba(35,35,105,0.7147233893557423) 38%, rgba(9,32,37,0.4962359943977591) 79%);
+    background: -webkit-radial-gradient(circle, rgba(106,101,189,1) 0%, rgba(35,35,105,0.7147233893557423) 38%, rgba(9,32,37,0.4962359943977591) 79%);
+    background: radial-gradient(circle, rgba(106,101,189,1) 0%, rgba(35,35,105,0.7147233893557423) 38%, rgba(9,32,37,0.4962359943977591) 79%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#6a65bd",endColorstr="#092025",GradientType=1);
+}
+ 
+ 
+
+@layer components {
+    .text-p {
+        @apply text-lg sm:text-[24px] md:text-[30px];
+    }
+    .h-1 {
+        @apply text-2xl md:text-6xl
+    }
+}
+
+@layer utilities {  
+    .btn-1 {
+        @apply bg-1 text-black rounded-[50px] shadow-lg;
+    }
+    .btn-2 {
+        @apply bg-2 text-black rounded-[50px] shadow-lg;
+    }
 }

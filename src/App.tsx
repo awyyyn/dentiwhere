@@ -2,10 +2,17 @@ import {
     createBrowserRouter, 
     RouterProvider, 
 } from "react-router-dom";
-import Login from "./pages/auth/login/login";
+
+/* =============================== LAYOUTS =============================== */
 import AuthLayout from "./layouts/auth-layout";
+import CommonLayout from "./layouts/common-layout";
+
+/* =============================== PAGES =============================== */
+import Login from "./pages/auth/login/login";
 import SignUp from "./pages/auth/sign-up/sign-up";   
 import Home from "./pages/public/home/home";
+import CommonServices from "./pages/public/common-services/common-services";
+import CommonConditions from "./pages/public/common-conditions/common-conditions";
 
 export default function App() {
 
@@ -25,8 +32,22 @@ export default function App() {
         },
         {
             path: "/", 
-            element: <Home />
-        }
+            element: <CommonLayout />,
+            children: [ 
+                {
+                    index: true,
+                    element: <Home />
+                }, 
+                {
+                    path: "conditions", 
+                    element: <CommonConditions />
+                },
+                {
+                    path: "services", 
+                    element: <CommonServices />
+                },
+            ]
+        },
     ]);
 
     return (

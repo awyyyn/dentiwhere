@@ -6,11 +6,11 @@ import Services from './__components/services/services'
 
 export default function Home() {
   return (
-    <div className='gradient-landing-page  '> 
+    <> 
       <Hero />   
       <QrLink /> 
       <Conditions />
       <Services />
-    </div>
+    </>
   )
 }

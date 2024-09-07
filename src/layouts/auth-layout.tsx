@@ -36,7 +36,7 @@ export default function AuthLayout ( ) {
 
 
     return (
-        <div className="h-full flex justify-center items-center gradient-auth-page">
+        <div className="h-dvh flex justify-center items-center gradient-auth-page">
             <div className="w-11/12 bg-[#BCF0F9] p-5 flex flex-row">
                 <div className="hidden md:flex items-center w-[50%] relative justify-center ">
                     <img

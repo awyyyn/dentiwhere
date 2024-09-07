@@ -1,10 +1,14 @@
-import Hero from '@/components/shared/hero/hero'
+import Conditions from './__components/conditions/conditions'
+import Hero from './__components/hero/hero'
+import QrLink from './__components/qr-link/qr-link'
 
 
 export default function Home() {
   return (
-    <div className='gradient-landindg-page'>
-      <Hero />
+    <div className='gradient-landing-page  '> 
+      <Hero />   
+      <QrLink /> 
+      <Conditions />
     </div>
   )
 }

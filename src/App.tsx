@@ -4,8 +4,8 @@ import {
 } from "react-router-dom";
 import Login from "./pages/auth/login/login";
 import AuthLayout from "./layouts/auth-layout";
-import SignUp from "./pages/auth/sign-up/sign-up";  
-import Hero from "./components/shared/hero/hero";
+import SignUp from "./pages/auth/sign-up/sign-up";   
+import Home from "./pages/public/home/home";
 
 export default function App() {
 
@@ -25,14 +25,13 @@ export default function App() {
         },
         {
             path: "/", 
-            element: <Hero />
+            element: <Home />
         }
     ]);
 
     return (
-        <div className="h-[100dvh] w-[100dvw]"> 
-            <RouterProvider router={router} /> 
-            {/* <Routes /> */}
+        <div className=""> 
+            <RouterProvider router={router} />
         </div>
     )
 }

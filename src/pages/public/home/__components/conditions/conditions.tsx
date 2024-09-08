@@ -21,7 +21,7 @@ export default function Conditions() {
         <div className='flex flex-wrap justify-between gap-y-12'>  
           {conditions.map((condition, indx) => 
             // <div key={`${condition.title}-${indx}`} className='w-full  justify-center'>
-              <Card card={condition} key={`${condition.title}-${indx}`} />
+            <Card card={condition} key={`${condition.title}-${indx}`} />
           )}
         </div>
       </div>

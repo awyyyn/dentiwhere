@@ -68,14 +68,14 @@ export default function SignUpForm () {
                 <div className='border-b-2 w-3 border-gray-700' />
             </div>
             <Form {...form} >
-                <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-10">
+                <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-3 lg:space-y-8">
                     <FormField
                         control={form.control}
                         name="fullName"
                         render={({ field }) => ( 
                             <FormItem> 
                                 <FormControl>
-                                    <Input className='lg:px-2 lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] ' placeholder="Full Name" {...field} />
+                                    <Input className='lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] ' placeholder="Full Name" {...field} />
                                 </FormControl> 
                                 <FormMessage className='text-red-600 font-semibold'  />
                             </FormItem>
@@ -87,7 +87,7 @@ export default function SignUpForm () {
                         render={({ field }) => ( 
                             <FormItem> 
                                 <FormControl>
-                                    <Input className='lg:px-2 lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] ' placeholder="Username" {...field} />
+                                    <Input className='lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] ' placeholder="Username" {...field} />
                                 </FormControl> 
                                 <FormMessage className='text-red-600 font-semibold'  />
                             </FormItem>
@@ -99,7 +99,7 @@ export default function SignUpForm () {
                         render={({ field }) => (  
                             <FormItem > 
                                 <FormControl >
-                                    <Input className='lg:px-2 lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] ' placeholder="Email Address" {...field} />
+                                    <Input className='lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] ' placeholder="Email Address" {...field} />
                                 </FormControl> 
                                 <FormMessage className='text-red-600 font-semibold'  />
                             </FormItem> 
@@ -111,7 +111,7 @@ export default function SignUpForm () {
                         render={({ field }) => (  
                             <FormItem > 
                                 <FormControl >
-                                    <Input className='lg:px-2 lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] ' placeholder="Phone Number" {...field} />
+                                    <Input className='lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] ' placeholder="Phone Number" {...field} />
                                 </FormControl> 
                                 <FormMessage className='text-red-600 font-semibold'  />
                             </FormItem> 
@@ -123,7 +123,7 @@ export default function SignUpForm () {
                         render={({ field }) => (  
                             <FormItem> 
                                 <FormControl>
-                                   <Input className='lg:px-2 lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] ' placeholder="Password" {...field}  />
+                                   <Input className='lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] ' placeholder="Password" {...field}  />
                                 </FormControl> 
                                 <FormMessage className='text-red-600 font-semibold'    />
                             </FormItem>

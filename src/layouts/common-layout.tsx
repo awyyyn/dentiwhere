@@ -4,7 +4,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import ScrollToTop from 'react-scroll-up'
 import { SlArrowUp } from "react-icons/sl";
 import Footer from "@/components/shared/footer/footer";
-  
+import { Toaster } from "@/components/ui/toaster"
 
 export default function CommonLayout () {
 
@@ -29,6 +29,7 @@ export default function CommonLayout () {
                     <SlArrowUp strokeWidth={100} />
                 </Button>
             </ScrollToTop>
+            <Toaster />
         </div>
     )
 }

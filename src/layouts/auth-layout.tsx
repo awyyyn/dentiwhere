@@ -6,6 +6,7 @@ import { useAtom } from "jotai";
 import { useEffect } from "react";
 import { db } from "@/utils/supabase"; 
 import { User } from '../types/types';
+import { Toaster } from "@/components/ui/toaster"
  
 export default function AuthLayout ( ) {
 
@@ -73,6 +74,7 @@ export default function AuthLayout ( ) {
                     </div>
                 </div>
             </div>
+            <Toaster />
         </div>
     )
 }

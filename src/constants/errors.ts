@@ -17,3 +17,5 @@ export const ERR_INVALID_CREDENTIALS = "Invalid credentials. Please check your u
 export const ERR_INTERNAL = "An internal error occurred. Please try again later.";
 
 export const ERR_USER_ALREADY_REGISTERED = "User is already registered.";
+
+export const ERR_USER_NOT_VERIFIED = "User is not verified. Please verify your account to continue.";

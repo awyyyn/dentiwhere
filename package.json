@@ -18,6 +18,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "jotai": "^2.9.3",
+    "loadable-image": "^3.2.6",
     "lucide-react": "^0.438.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -26,6 +27,7 @@
     "react-router-dom": "^6.26.1",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
+    "transitions-kit": "^1.2.4",
     "zod": "^3.23.8"
   },
   "devDependencies": {

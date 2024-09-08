@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 import { create } from '@/actions/auth/user'
 import { Role } from '@/types/types'
 import { ERR_INTERNAL } from '@/constants/errors'
+import { useToast } from '@/hooks/use-toast'
 
 const formSchema = z.object({
     licenseNumber: z.string().min(1, {
@@ -15,7 +16,7 @@ const formSchema = z.object({
     }),
     fullName: z.string().min(4, { message: "Please enter your full name" }),
     email: z.string().email({message: "Please enter a valid email address"}),
-    phone: 
+    contact: 
         z.string()
             .min(11, {message: "Please enter a valid phone number"})
             .max(11, {message: "Please enter a valid phone number"})
@@ -26,14 +27,14 @@ const formSchema = z.object({
 })
 
 export default function SignUpForm () {
-
+    const { toast } = useToast()
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             fullName: '',
             email: '',
             licenseNumber: "",
-            phone: "",
+            contact: "",
             password: "",
         }
     });
@@ -42,10 +43,18 @@ export default function SignUpForm () {
         try {
             await create({...values, role: Role.doctor, verified: false});
         } catch (error) {
-            if(error instanceof Error) {
-                console.error(error.message)
-            }
-            console.log(ERR_INTERNAL)
+            if(error instanceof Error) { 
+                toast({
+                    title: "Error",
+                    description: error.message,
+                    variant: "destructive", 
+                })
+            }  
+            toast({
+                title: "Error",
+                description: ERR_INTERNAL,
+                variant: "destructive", 
+            })
         }
     }
 
@@ -64,7 +73,11 @@ export default function SignUpForm () {
                         render={({ field }) => ( 
                             <FormItem> 
                                 <FormControl>
-                                    <Input className='lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] ' placeholder="Full Name" {...field} />
+                                    <Input 
+                                        className='lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] ' 
+                                        placeholder="Full Name" 
+                                        {...field} 
+                                    />
                                 </FormControl> 
                                 <FormMessage className='text-red-600 font-semibold'  />
                             </FormItem>
@@ -76,7 +89,11 @@ export default function SignUpForm () {
                         render={({ field }) => ( 
                             <FormItem> 
                                 <FormControl>
-                                    <Input className='lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] ' placeholder="License Number" {...field} />
+                                    <Input 
+                                        className='lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] '
+                                        placeholder="License Number" 
+                                        {...field} 
+                                    />
                                 </FormControl> 
                                 <FormMessage className='text-red-600 font-semibold'  />
                             </FormItem>
@@ -88,7 +105,11 @@ export default function SignUpForm () {
                         render={({ field }) => (  
                             <FormItem > 
                                 <FormControl >
-                                    <Input className='lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] ' placeholder="Email Address" {...field} />
+                                    <Input 
+                                        className='lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] ' 
+                                        placeholder="Email Address" 
+                                        {...field} 
+                                    />
                                 </FormControl> 
                                 <FormMessage className='text-red-600 font-semibold'  />
                             </FormItem> 
@@ -96,11 +117,15 @@ export default function SignUpForm () {
                     />
                     <FormField
                         control={form.control}
-                        name="phone"
+                        name="contact"
                         render={({ field }) => (  
                             <FormItem > 
                                 <FormControl >
-                                    <Input className='lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] ' placeholder="Phone Number" {...field} />
+                                    <Input 
+                                        className='lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] ' 
+                                        placeholder="Phone Number" 
+                                        {...field} 
+                                    />
                                 </FormControl> 
                                 <FormMessage className='text-red-600 font-semibold'  />
                             </FormItem> 
@@ -112,7 +137,12 @@ export default function SignUpForm () {
                         render={({ field }) => (  
                             <FormItem> 
                                 <FormControl>
-                                   <Input className='lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] ' placeholder="Password" {...field}  />
+                                   <Input 
+                                        className='lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] ' 
+                                        placeholder="Password" 
+                                        {...field}  
+                                        type="password"
+                                    />
                                 </FormControl> 
                                 <FormMessage className='text-red-600 font-semibold'    />
                             </FormItem>

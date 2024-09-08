@@ -8,10 +8,12 @@ import { Button } from '@/components/ui/button'
 import { Link } from 'react-router-dom' 
 import { login } from '@/actions/auth/auth'
 import { ERR_INTERNAL } from '@/constants/errors'
+import { useToast } from '@/hooks/use-toast'
+
 
 const formSchema = z.object({
     email: z.string().email({
-        message: "Email must be at least 4 characters long"
+        message: "Please enter a valid email address"
     }),
     licenseNumber: z.string().min(1, {message: "Required"}),
     password: z.string().min(6, {
@@ -20,6 +22,7 @@ const formSchema = z.object({
 })
 
 export default function LoginForm () {
+    const { toast } = useToast()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -34,10 +37,19 @@ export default function LoginForm () {
         try {
            await login(values) 
         } catch (error) {
+            console.log(error instanceof Error)
             if(error instanceof Error) {
-                console.error(error.message)
-            }
-            console.log(ERR_INTERNAL)
+                return toast({
+                    title: "Error",
+                    description: error.message,
+                    variant: "destructive", 
+                })
+            }   
+            toast({
+                title: "Error",
+                description: ERR_INTERNAL,
+                variant: "destructive", 
+            })
         }
     }
 
@@ -56,9 +68,13 @@ export default function LoginForm () {
                         render={({ field }) => ( 
                             <FormItem> 
                                 <FormControl>
-                                    <Input className='lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] ' placeholder="Username or Email" {...field} />
+                                    <Input 
+                                        className='lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] ' 
+                                        placeholder="Email address" 
+                                        {...field} 
+                                    />
                                 </FormControl> 
-                                <FormMessage className='text-red-600 font-semibold'  />
+                                <FormMessage className='text-red-600 font-semibold '  />
                             </FormItem>
                         )}
                     />
@@ -68,7 +84,11 @@ export default function LoginForm () {
                         render={({ field }) => (  
                             <FormItem > 
                                 <FormControl >
-                                    <Input className='lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] ' placeholder="Phone Number" {...field} />
+                                    <Input 
+                                        className='lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] ' 
+                                        placeholder="License Number" 
+                                        {...field} 
+                                    />
                                 </FormControl> 
                                 <FormMessage className='text-red-600 font-semibold'  />
                             </FormItem> 
@@ -80,7 +100,12 @@ export default function LoginForm () {
                         render={({ field }) => (  
                             <FormItem> 
                                 <FormControl>
-                                   <Input className='lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] ' placeholder="Password" {...field}  />
+                                   <Input 
+                                        className='lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] '
+                                        placeholder="Password" 
+                                        {...field}  
+                                        type="password"
+                                    />
                                 </FormControl> 
                                 <FormMessage className='text-red-600 font-semibold'  />
                             </FormItem>

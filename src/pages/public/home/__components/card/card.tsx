@@ -1,4 +1,6 @@
 import { conditions } from "@/constants/conditions";
+import { AsyncImage } from 'loadable-image'
+import { Blur } from 'transitions-kit'
 
 interface CardProps {
   imageOnly?: boolean;
@@ -10,7 +12,13 @@ export default function Card({ card, imageOnly }: CardProps) {
 
   return ( 
       <div className=" w-full md:max-w-[285px] lg:min-w-[400px] xl:min-w-[400px]">  
-        <img src={img} alt={title} className="object-fill w-full shadow-2xl rounded-2xl"  /> 
+        <AsyncImage
+          src={img}
+          alt={title}  
+          Transition={props => <Blur radius={20} {...props}/>}
+          srcSet={img} 
+          className="object-fill w-full shadow-2xl rounded-2xl h-64 sm:h-80 md:h-60 lg:h-72"
+        /> 
         <h2 className={`text-center sm:text-[23px] font-bold tracking-wider text-wrap min-w-fit ${imageOnly && 'hidden'}`}>
           {title}
         </h2>

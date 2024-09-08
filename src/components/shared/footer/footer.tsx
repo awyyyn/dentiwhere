@@ -54,9 +54,9 @@ export default function Footer() {
               </div>
           </div>
         </div>
-        <div className='space-y-3 flex flex-col items-center'>
+        <div className='space-y-3 flex flex-col sm:items-center'>
           <h1 className='text-lg font-bold sm:text-2xl'>For Patients</h1>
-          <div className='space-y-3 pl-10'>
+          <div className='space-y-3 sm:pl-10 pl-5'>
             {patientLinks.map(({name, path}, indx) => (
               <Link to={path} key={`patient-link-${path}-${indx}`} className='block'>
                 {name}
@@ -64,9 +64,9 @@ export default function Footer() {
             ))}
           </div>
         </div>
-        <div className='space-y-3   flex flex-col items-center'>
+        <div className='space-y-3  flex flex-col sm:items-center'>
           <h1 className='text-lg font-bold sm:text-2xl'>For Doctors</h1>
-          <div className='space-y-3 pl-10'>
+          <div className='space-y-3 sm:pl-10 pl-5' >
             {doctorsLinks.map(({name, path}, indx) => (
               <Link to={path} key={`doctor-link-${path}-${indx}`} className='block'>
                 {name}

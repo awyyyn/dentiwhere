@@ -23,6 +23,11 @@
 }
  
  
+@layer base {
+    button  {
+        @apply active:scale-95 hover:scale-105
+    }
+}
 
 @layer components {
     .text-p {

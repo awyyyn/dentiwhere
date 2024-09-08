@@ -25,7 +25,7 @@ export default function SectionHeader({
             {title}
           </h1>
           {showButton &&
-            <Button className={`btn-2`} onClick={buttonAction}>
+            <Button className={`btn-2 hover:bg-2 transition-all duration-300`} onClick={buttonAction}>
               {buttonLabel}
             </Button>
           } 

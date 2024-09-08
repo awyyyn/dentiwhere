@@ -1,12 +1,18 @@
 
-import dentist from '@/assets/images/dentist.png'
 import InputWithIcon from '@/components/shared/input-with-icon/input-with-icon'
+
 import { FaSearch } from 'react-icons/fa'
 import { Button } from '@/components/ui/button'  
 
+/* ASSETS */
+import dentist from '@/assets/images/dentist.png'
+import MiniCalendar from '@/assets/images/mini-calendar.png'
+import logo from "@/assets/svgs/logo.svg"
+
 export default function Hero() {
   return ( 
-    <section className='flex justify-center items-center h-dvh md:h-[80dvh] lg:h-dvh'> 
+    <section className='flex justify-center items-center h-dvh md:h-[80dvh] lg:h-dvh relative'> 
+        <img src={logo} className='absolute top-14 left-14' /> 
         <div className='relative justify-between flex items-center w-11/12 md:w-10/12 h-[80dvh]'>
             <div className='hidden md:flex relative w-[30%] '>
                 <img src={dentist} alt='Dentist' className='object-contain ml-20 scale-[200%] lg:scale-125 z-0'/>
@@ -24,13 +30,18 @@ export default function Hero() {
                     />
                     <h1 className='text-right text-[#1D4968] drop-shadow-[0_4px_4px_#00000040] text-p my-4 md:my-8'>Need help?</h1>
                 </div>
-                <div className='bg-opacity-70 bg-white md:w-[115%] self-end z-20  rounded-[20px] p-6 sm:p-12 space-y-3 md:space-y-5'> 
+                <div className='bg-opacity-70 bg-white md:w-[115%] self-end z-20  rounded-[20px] p-6 sm:p-12 space-y-3 md:space-y-5 relative overflow-hidden'> 
                     <p className='  md:leading-[36.31px] text-[20px] md:text-[30px] font-semibold text-wrap lg:max-w-[70%] '>
                         Looking for an immediate Dental advice or {/* <br className='hidden lg:block' /> */}
                         planning to have a dental appointment? 
                     </p>
                     <p className='text-[16px] md:text-[20px]'>We have an available doctor in town!</p>
                     <Button  className={'btn-1'}>Canvas Now!</Button> 
+                    <img 
+                        src={MiniCalendar} 
+                        alt='Mini Calendar' 
+                        className='absolute right-0 -bottom-3 w-32  md:w-60 lg:w-80 -z-10  ' 
+                    />
                 </div>
             </div> 
         </div>   

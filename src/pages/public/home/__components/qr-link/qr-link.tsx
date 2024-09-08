@@ -12,10 +12,10 @@ export default function QrLink() {
           </svg> 
         </div>
         <div className=" flex flex-col items-center sm:items-end justify-center"> 
-            <h1 className="sm:text-right text-white drop-shadow-lg xl:text-[60px] text-[30px] md:text-[30px] z-30 leading-[72.61px] tracking-wide font-semibold">For a seamless experience</h1>
+            <h1 className="sm:text-right text-white drop-shadow-lg xl:text-[60px] text-[30px] md:text-[30px] z-30 lg:leading-[72.61px] tracking-wide font-semibold">For a seamless experience</h1>
             <div className="z-30 flex flex-col ">
               <h1 className="text-white drop-shadow-lg xl:text-[60px] font-extrabold text-[50px] md:text-[50px] lg:text-[60px] leading-[3rem] md:leading-normal">Access us now!</h1>
-              <Button className="bg-[#33DDBB] max-w-fit self-center shadow-md rounded-[50px] ">
+              <Button className="bg-[#33DDBB] max-w-fit self-center shadow-md rounded-[50px] mt-10  ">
                 Share Link!
               </Button>
             </div>

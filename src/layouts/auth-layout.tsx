@@ -5,7 +5,7 @@ import { userAtom } from "@/states/user-state";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 import { db } from "@/utils/supabase"; 
-import { User } from '../types/user';
+import { User } from '../types/types';
  
 export default function AuthLayout ( ) {
 

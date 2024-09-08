@@ -1,13 +1,14 @@
-import { Role, User } from '@/types'
+ 
+import { Role } from '@/types/types'
 import { atom,  } from 'jotai'
 
 const userAtomDefaultValue = {
     email: '',
     fullName: '',
     phone: '',
-    role: Role.user,
+    role: Role.doctor,
     username: '',
     uuid: '',  
 }  
 
-export const userAtom = atom<User | null>(userAtomDefaultValue)
+export const userAtom = atom<any | null>(userAtomDefaultValue)

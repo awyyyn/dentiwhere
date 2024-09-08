@@ -5,19 +5,15 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import GoogleButton from '@/components/shared/google-button/google_button'
-import LoginButton from '@/components/shared/fb-button/facebook_button';
-import { Link } from 'react-router-dom'
-import { signInWithProvider } from '@/actions/auth/sign-in-with-provider'
- 
- 
- 
+import { Link } from 'react-router-dom' 
+import { login } from '@/actions/auth/auth'
+import { ERR_INTERNAL } from '@/constants/errors'
 
 const formSchema = z.object({
-    username: z.string().min(4, {
-        message: "Username or email must be at least 4 characters long"
+    email: z.string().email({
+        message: "Email must be at least 4 characters long"
     }),
-    phoneNumber: z.string().min(10, {message: "Please enter a valid phone number"}).max(10, {message: "Please enter a valid phone number"}),
+    licenseNumber: z.string().min(1, {message: "Required"}),
     password: z.string().min(6, {
         message: "Password must be at least 6 characters long"
     })
@@ -28,28 +24,25 @@ export default function LoginForm () {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            username: "",
-            phoneNumber: "",
+            licenseNumber: "",
+            email: "",
             password: "",
         }
     });
 
-    const handleSubmit = async () => {
-        
+    const handleSubmit = async (values: z.infer<typeof formSchema>) => {
+        try {
+           await login(values) 
+        } catch (error) {
+            if(error instanceof Error) {
+                console.error(error.message)
+            }
+            console.log(ERR_INTERNAL)
+        }
     }
 
     return (
-        <> 
-            <div className='flex md:flex-row flex-col flex-wrap space-y-4 md:space-y-0  md:justify-between'>
-                <GoogleButton 
-                    handleClick={() => signInWithProvider("google")} 
-                    className="bg-[#D9D9D9] hover:bg-[#D9D9D9] text-gray-600 rounded-md" 
-                />
-                <LoginButton 
-                    handleClick={() => signInWithProvider("facebook")}  
-                    className="bg-[#D9D9D9] hover:bg-[#D9D9D9] text-gray-600 rounded-md" 
-                />
-            </div>
+        <>  
             <div className='flex flex-row items-center space-x-2 justify-center'>
                 <div className='border-b-[3px] w-3  border-gray-500' />
                 <p className='uppercase text-gray-700 text-sm'>OR</p>
@@ -59,7 +52,7 @@ export default function LoginForm () {
                 <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-3 lg:space-y-8">
                     <FormField
                         control={form.control}
-                        name="username"
+                        name="email"
                         render={({ field }) => ( 
                             <FormItem> 
                                 <FormControl>
@@ -71,7 +64,7 @@ export default function LoginForm () {
                     />
                     <FormField
                         control={form.control}
-                        name="phoneNumber"
+                        name="licenseNumber"
                         render={({ field }) => (  
                             <FormItem > 
                                 <FormControl >

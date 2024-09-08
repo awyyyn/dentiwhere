@@ -13,6 +13,8 @@ import SignUp from "./pages/auth/sign-up/sign-up";
 import Home from "./pages/public/home/home";
 import CommonServices from "./pages/public/common-services/common-services";
 import CommonConditions from "./pages/public/common-conditions/common-conditions";
+import Unauthorized from "./pages/unauthorized/unauthorized";
+import NotFound from "./pages/not-found/not-found";
 
 export default function App() {
 
@@ -48,6 +50,14 @@ export default function App() {
                 },
             ]
         },
+        {
+            path: "*",
+            element: <NotFound />   
+        },
+        {
+            path: "unauthorized",
+            element: <Unauthorized />
+        }
     ]);
 
     return (

@@ -7,10 +7,10 @@ type Props = {
     containerProps?: ComponentProps<"div">
     inputProps?: InputProps,
     startIcon?: ReactElement,
-    endIcon?: ReactElement
+    endIcon?: ReactElement 
 }
 
-export default function InputWithIcon({className, containerProps, startIcon, endIcon, inputProps}: Props) {
+export default function InputWithIcon({className, containerProps, startIcon, endIcon, inputProps }: Props) {
   return (
     <div {...containerProps} className={`flex items-center border-5 relative border-none shadow-md ${startIcon && 'pl-5 space-x-1'} ${endIcon && 'pr-5 space-x-1'} py-2 ${className}`}>
         {startIcon && startIcon}

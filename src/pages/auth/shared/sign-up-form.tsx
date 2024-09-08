@@ -3,17 +3,15 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button' 
-import GoogleButton from '@/components/shared/google-button/google_button' 
-import LoginButton from '@/components/shared/fb-button/facebook_button';
-import { Link } from 'react-router-dom'
-import { signUpWithProvider } from '@/actions/auth/sign-in-with-provider'
-import { signUp } from '@/actions/auth/sign-up'
-import { Role } from '@/types'
+import { Button } from '@/components/ui/button'
+import { Link } from 'react-router-dom' 
+import { create } from '@/actions/auth/user'
+import { Role } from '@/types/types'
+import { ERR_INTERNAL } from '@/constants/errors'
 
 const formSchema = z.object({
-    username: z.string().min(4, {
-        message: "Username or email must be at least 4 characters long"
+    licenseNumber: z.string().min(1, {
+        message: "Required"
     }),
     fullName: z.string().min(4, { message: "Please enter your full name" }),
     email: z.string().email({message: "Please enter a valid email address"}),
@@ -34,34 +32,25 @@ export default function SignUpForm () {
         defaultValues: {
             fullName: '',
             email: '',
-            username: "",
+            licenseNumber: "",
             phone: "",
             password: "",
         }
     });
 
     const handleSubmit = async (values: z.infer<typeof formSchema>) => {
-
-        const { user, session } = await signUp({...values, role: Role.user});
-
-        console.log(user, session)
-        
+        try {
+            await create({...values, role: Role.doctor, verified: false});
+        } catch (error) {
+            if(error instanceof Error) {
+                console.error(error.message)
+            }
+            console.log(ERR_INTERNAL)
+        }
     }
 
     return (
-        <> 
-            <div className='flex md:flex-row flex-col flex-wrap space-y-4 md:space-y-0 md:justify-between'>
-                <GoogleButton 
-                    handleClick={() => signUpWithProvider("google")} 
-                    signUp 
-                    className="bg-[#D9D9D9] hover:bg-[#D9D9D9] text-gray-600 rounded-md" 
-                />
-                <LoginButton 
-                    handleClick={() => signUpWithProvider("facebook")} 
-                    signUp 
-                    className="bg-[#D9D9D9] hover:bg-[#D9D9D9] text-gray-600 rounded-md" 
-                />
-            </div>
+        <>
             <div className='flex flex-row items-center space-x-2 justify-center'>
                 <div className='border-b-2 w-3 border-gray-700' />
                 <p className='uppercase text-gray-700 text-sm'>OR</p>
@@ -83,11 +72,11 @@ export default function SignUpForm () {
                     />
                     <FormField
                         control={form.control}
-                        name="username"
+                        name="licenseNumber"
                         render={({ field }) => ( 
                             <FormItem> 
                                 <FormControl>
-                                    <Input className='lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] ' placeholder="Username" {...field} />
+                                    <Input className='lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] ' placeholder="License Number" {...field} />
                                 </FormControl> 
                                 <FormMessage className='text-red-600 font-semibold'  />
                             </FormItem>

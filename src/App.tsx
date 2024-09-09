@@ -6,15 +6,48 @@ import {
 /* =============================== LAYOUTS =============================== */
 import AuthLayout from "./layouts/auth-layout";
 import CommonLayout from "./layouts/common-layout";
+/* =============================== LAYOUTS =============================== */
 
-/* =============================== PAGES =============================== */
+/* =============================== AUTH PAGES =============================== */
+
 import Login from "./pages/auth/login/login";
 import SignUp from "./pages/auth/sign-up/sign-up";   
+
+/* =============================== AUTH PAGES =============================== */
+
+/* =============================== PUBLIC PAGES =============================== */
+
 import Home from "./pages/public/home/home";
 import CommonServices from "./pages/public/common-services/common-services";
 import CommonConditions from "./pages/public/common-conditions/common-conditions";
+
+/* =============================== PUBLIC PAGES =============================== */ 
+
+/* =============================== PROTECTED PAGES =============================== */
+
+import ProtectedLayout from "./layouts/protected-layout";
+
+/* ====================== DOCTOR PAGES ======================= */
+import DoctorLayout from "./layouts/doctor-layout";
+import Clinic from "./pages/doctor/clinic/clinic";
+import DoctorProfile from './pages/doctor/profile/profile'
+/* ====================== DOCTOR PAGES ======================= */
+
+/* ====================== ADMIN PAGES ======================= */
+import Dashboard from "./pages/admin/dashboard/dashboard";
+import AdminLayout from "./layouts/admin-layout";
+/* ====================== ADMIN PAGES ======================= */
+
+/* =============================== PROTECTED PAGES =============================== */
+ 
+
+
+/* =============================== UTIL PAGES =============================== */
+
 import Unauthorized from "./pages/unauthorized/unauthorized";
 import NotFound from "./pages/not-found/not-found";
+
+/* =============================== UTIL PAGES =============================== */
 
 export default function App() {
 
@@ -47,6 +80,41 @@ export default function App() {
                 {
                     path: "services", 
                     element: <CommonServices />
+                },
+            ]
+        },
+        {
+            element: <ProtectedLayout />,
+            children: [
+                {
+                    element: <AdminLayout />,
+                    children: [
+                        {
+                            path: "dashboard",
+                            element: <Dashboard />
+                        }
+                    ]
+                },
+                {
+                    element: <DoctorLayout />,
+                    children: [
+                        {
+                            path: 'clinic',
+                            element: <Clinic />
+                        },
+                        {
+                            path: 'clinic/add',
+                            element: <Clinic />
+                        },
+                        {
+                            path: 'clinic/edit/:clinic_id',
+                            element: <Clinic />
+                        },
+                        {
+                            path: 'profile',
+                            element: <DoctorProfile />
+                        }
+                    ]
                 },
             ]
         },

@@ -2,7 +2,8 @@ import { Database } from "./db.types";
 
 export enum Role  {
     admin = "ADMIN", 
-    doctor = "doctor"
+    doctor = "DOCTOR",
+    superAdmin = "SUPER_ADMIN"
 } 
 
 export type User = { 

@@ -6,10 +6,11 @@ import { SlArrowUp } from "react-icons/sl";
 import Footer from "@/components/shared/footer/footer";
 import { Toaster } from "@/components/ui/toaster"
 import { useAtom } from "jotai";
-import { userAtom } from "@/states/user-state";
+import { userAtom } from "@/atoms/user-atom";
 import { Role } from "@/types/types";
 import LogoutButton from "@/components/shared/logout-button/logout-button";
 import { db } from "@/utils/supabase";
+import { getOne, getOneByAuthID } from "@/actions/user";
 
 export default function CommonLayout () {
 
@@ -33,18 +34,12 @@ export default function CommonLayout () {
             } 
 
             if(data && data.session) { 
-                const userData = await db.from("user").select("*").eq("auth_id", data.session.user.id).maybeSingle();
+                const userData = await getOneByAuthID(data.session?.user.id)    
 
-                if(userData.error) console.log(userData.error)
-                
-                if(userData === null) {
-                    localStorage.clear()
-                    return setUser(null)
-                }
-
-                setUser(userData.data)
-                return navigate("/")
+                setUser(userData)
+                return
             } 
+
             localStorage.clear()
             setUser(null) 
 

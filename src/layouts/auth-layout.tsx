@@ -1,12 +1,12 @@
  
 import { Outlet, useNavigate } from "react-router-dom";
 import dentist from "@/assets/images/dentist.png"
-import { userAtom } from "@/states/user-state";
+import { userAtom } from "@/atoms/user-atom";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
-import { db } from "@/utils/supabase"; 
-import { User } from '../types/types';
+import { db } from "@/utils/supabase";  
 import { Toaster } from "@/components/ui/toaster"
+import {   getOneByAuthID } from "@/actions/user";
  
 export default function AuthLayout ( ) {
 
@@ -23,14 +23,19 @@ export default function AuthLayout ( ) {
             if(error){
                 console.log(error)
             } 
-            if(data && data.session) { 
-                setUserState(data.session.user.user_metadata as User)
+
+            
+            if(data && data.session) {  
+                const user = await getOneByAuthID(data.session?.user.id)    
+                setUserState(user)
                 return navigate("/")
             }
             
+            await db.auth.signOut()
             setUserState(null) 
 
         })()
+        
 
     }, [])
 

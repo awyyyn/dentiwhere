@@ -1,9 +1,10 @@
 import Navbar from '@/components/shared/navbar/navbar'
-import { userAtom } from '@/states/user-state'
+import { userAtom } from '@/atoms/user-atom'
 import { db } from '@/utils/supabase'
 import { useAtom } from 'jotai'
 import { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
+import {  getOneByAuthID } from '@/actions/user'
 
 const ProtectedLayout = () => {
 
@@ -14,26 +15,37 @@ const ProtectedLayout = () => {
         
     (async() => { 
 
+
+      try {
         const { data, error } = await db.auth.getSession()
 
         if(error){
             console.log(error)
         } 
 
-        if(data && data.session) { 
-            const userData = await db.from("user").select("*").eq("email", data.session.user.email!).maybeSingle();
+        console.log(error)
 
-            if(userData.error) console.log(userData.error)
-            
-            if(userData === null) {
-                localStorage.clear()
-                setUser(null)
-                return navigate("/")
-            } 
-
-            setUser(userData.data)
-            
+        if(data && data.session === null) {  
+            return navigate('/login')
         } 
+
+
+        const userData = await getOneByAuthID(data.session?.user.id)    
+
+
+        if(userData === null) {
+          await db.auth.signOut()
+          navigate("/")
+          return
+        } 
+
+        setUser(userData)
+         
+      } catch (error) {
+        console.log(error)
+      }
+
+       
 
     })()
 

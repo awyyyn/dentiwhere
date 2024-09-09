@@ -5,7 +5,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '@/component
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Link } from 'react-router-dom' 
-import { create } from '@/actions/auth/user'
+import { create } from '@/actions/user'
 import { Role } from '@/types/types'
 import { ERR_INTERNAL } from '@/constants/errors'
 import { useToast } from '@/hooks/use-toast'
@@ -39,9 +39,17 @@ export default function SignUpForm () {
         }
     });
 
-    const handleSubmit = async (values: z.infer<typeof formSchema>) => {
+    const handleSubmit = async (values: z.infer<typeof formSchema>) => { 
         try {
-            await create({...values, role: Role.doctor, verified: false});
+            await create({
+                role: Role.doctor, 
+                verified: false, 
+                name: values.fullName,
+                contacts: [values.contact],
+                email: values.email,
+                licenseNumber: values.licenseNumber,
+                password: values.password
+            });
         } catch (error) {
             if(error instanceof Error) { 
                 toast({

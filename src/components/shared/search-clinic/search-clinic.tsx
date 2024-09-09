@@ -5,8 +5,8 @@ import {
     DialogHeader,
     DialogTitle,
     DialogOverlay, 
-  } from "@/components/ui/dialog"
-import { searchClinicDialog } from "@/states/disalogs-state"
+} from "@/components/ui/dialog"
+import { searchClinicDialog } from "@/atoms/dialogs-atom"
 import { useAtom } from "jotai"
 import InputWithIcon from "../input-with-icon/input-with-icon"
 import { RiCloseLargeLine } from "react-icons/ri";
@@ -20,7 +20,7 @@ export default function SearchClinic() {
 
   return (
     <Dialog open={isOpen} modal > 
-        <DialogOverlay className="bg-opacity-30 bg-white backdrop-blur-sm"/> 
+        <DialogOverlay className="opacity-30 bg-none backdrop-blur-sm"/> 
         <DialogContent removeCloseIcon className="bg-white top-40 lg:bg-red-200 md:min-w-[900px] xl:min-w-[1200px] ">
           <Button 
             size="icon" 

@@ -2,7 +2,7 @@
 import { ERR_INVALID_CREDENTIALS, ERR_USER_NOT_REGISTERED } from "@/constants/errors";
 import { Database } from "@/types/db.types";
 import { db } from "@/utils/supabase";
-import { ERR_USER_NOT_VERIFIED } from '../../constants/errors';
+import { ERR_USER_NOT_VERIFIED } from '../constants/errors';
 
 export const login = async (user: any): Promise<Database["public"]["Tables"]["user"]["Row"]> => {
 

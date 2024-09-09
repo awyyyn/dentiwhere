@@ -15,7 +15,7 @@ export default function Hero() {
     const setSearchClinicDialog = useSetAtom(searchClinicDialog)
 
     return ( 
-        <section className='flex justify-center items-center h-dvh md:h-[80dvh] lg:h-dvh relative'> 
+        <section className='flex justify-center items-center  portrait:h-dvh landscape:h-[800px] md:landscape:h-[80dvh] landscape:lg:h-dvh relative'> 
             <img src={logo} className='absolute lg:top-14 lg:left-14 h-20 w-20 top-2 left-8 md:w-40 md:h-40' /> 
             <div className='relative justify-between flex items-center w-11/12 md:w-10/12 h-[80dvh]'>
                 <div className='hidden md:flex relative w-[30%] '>

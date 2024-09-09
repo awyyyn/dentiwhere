@@ -31,20 +31,35 @@ export type Database = {
           name?: string
           updated_at?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "amenities_clinic_id_fkey"
-            columns: ["clinic_id"]
-            isOneToOne: false
-            referencedRelation: "clinics"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
+      }
+      category: {
+        Row: {
+          created_at: string
+          id: number
+          name: string
+          update_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          name: string
+          update_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          name?: string
+          update_at?: string | null
+        }
+        Relationships: []
       }
       clinics: {
         Row: {
           address: string
-          contacts: string
+          archive: boolean
+          boosted: boolean
+          contacts: string[] | null
           created_at: string
           description: string | null
           doctor_id: number
@@ -58,7 +73,9 @@ export type Database = {
         }
         Insert: {
           address: string
-          contacts: string
+          archive?: boolean
+          boosted?: boolean
+          contacts?: string[] | null
           created_at?: string
           description?: string | null
           doctor_id: number
@@ -72,7 +89,9 @@ export type Database = {
         }
         Update: {
           address?: string
-          contacts?: string
+          archive?: boolean
+          boosted?: boolean
+          contacts?: string[] | null
           created_at?: string
           description?: string | null
           doctor_id?: number
@@ -96,36 +115,49 @@ export type Database = {
       }
       services: {
         Row: {
+          active: boolean
+          category_id: number
           clinic_id: number
           created_at: string
           description: string | null
           id: number
           img: string | null
-          name: string | null
-          rate: Json | null
+          name: string
+          rate: string | null
           updated_at: string | null
         }
         Insert: {
+          active?: boolean
+          category_id: number
           clinic_id: number
           created_at?: string
           description?: string | null
           id?: number
           img?: string | null
-          name?: string | null
-          rate?: Json | null
+          name: string
+          rate?: string | null
           updated_at?: string | null
         }
         Update: {
+          active?: boolean
+          category_id?: number
           clinic_id?: number
           created_at?: string
           description?: string | null
           id?: number
           img?: string | null
-          name?: string | null
-          rate?: Json | null
+          name?: string
+          rate?: string | null
           updated_at?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "services_category_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "category"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "services_clinic_id_fkey"
             columns: ["clinic_id"]
@@ -142,15 +174,15 @@ export type Database = {
           birth_date: string | null
           boost: boolean
           clinic_id: number | null
-          contacts: string | null
+          contacts: string[] | null
           created_at: string | null
           email: string
           id: number
           img: string | null
-          license_number: string | null
+          license_number: string
           name: string
           role: string | null
-          updateduuu_at: string | null
+          updated_at: string | null
           verified: boolean
         }
         Insert: {
@@ -159,15 +191,15 @@ export type Database = {
           birth_date?: string | null
           boost?: boolean
           clinic_id?: number | null
-          contacts?: string | null
+          contacts?: string[] | null
           created_at?: string | null
           email: string
           id?: number
           img?: string | null
-          license_number?: string | null
+          license_number: string
           name: string
           role?: string | null
-          updateduuu_at?: string | null
+          updated_at?: string | null
           verified?: boolean
         }
         Update: {
@@ -176,15 +208,15 @@ export type Database = {
           birth_date?: string | null
           boost?: boolean
           clinic_id?: number | null
-          contacts?: string | null
+          contacts?: string[] | null
           created_at?: string | null
           email?: string
           id?: number
           img?: string | null
-          license_number?: string | null
+          license_number?: string
           name?: string
           role?: string | null
-          updateduuu_at?: string | null
+          updated_at?: string | null
           verified?: boolean
         }
         Relationships: [

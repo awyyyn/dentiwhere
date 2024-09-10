@@ -114,6 +114,9 @@
     .btn-scale  {
         @apply active:scale-95 hover:scale-105                   
     }
+    .success {
+        @apply bg-emerald-500 text-white
+    }
 }
 
 @layer utilities {  

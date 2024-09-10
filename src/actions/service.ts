@@ -34,3 +34,16 @@ export const create = async (inputs: Omit<Service, "createdAt" | "updatedAt" | "
 
     return transformService(data)
 }
+
+
+export const getAllByClinic = async (id: string): Promise<Service[]> => {
+    const { data, error } = await db.from("services").select("*").eq("clinic_id", id);
+
+    if(error) throw new Error(error.message)
+
+    if(data && data.length === 0) return []
+
+    return data.map(service => transformService(service))
+
+
+}

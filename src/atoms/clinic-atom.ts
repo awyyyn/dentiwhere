@@ -7,36 +7,32 @@ import { Clinic } from "@/types/types";
 
 export const clinicEditDataAtom = atom<Clinic>()
 
-export const asyncClinicAtom = atom<Promise<Clinic | null>>(async (get): Promise<Clinic | null> => {
+export const asyncClinicAtom = atom<Promise<Clinic>>(async (get): Promise<Clinic> => {
 
     const user = get(userAtom);
-
-    if(user === null) return null
   
     const response = await db
         .from("clinics")
         .select(`*, services ( img, name, rate, description, active, category_id, clinic_id, created_at, updated_at, id )`)
         .eq("doctor_id", typeof user.id === "number" ? user.id : 0)
-        .maybeSingle()
+         
     
     if(response.error) throw new Error(response.error.message)
-
-    if(response.data === null) return null
-  
+ 
     return { 
-        website: response.data.website || "",
-        address: response.data.address || "",
-        email: response.data.email,
-        img: response.data.img,
-        id: response.data.id,
-        boosted: response.data.boosted,
-        name: response.data.name,
-        contacts: response.data.contacts || [],
-        createdAt: response.data.created_at,
-        updatedAt: response.data.updated_at!,
-        doctorId: response.data.doctor_id,
-        archive: response.data.archive,
-        services: response.data.services.map((service) => ({
+        website: response.data[0]?.website || "",
+        address: response.data[0]?.address || "",
+        email: response.data[0]?.email,
+        img: response.data[0]?.img,
+        id: response.data[0]?.id,
+        boosted: response.data[0]?.boosted,
+        name: response.data[0]?.name,
+        contacts: response.data[0]?.contacts || [],
+        createdAt: response.data[0]?.created_at,
+        updatedAt: response.data[0]?.updated_at as string,
+        doctorId: response.data[0]?.doctor_id,
+        archive: response.data[0]?.archive,
+        services: response.data[0]?.services.map((service) => ({
             img: service.img!,
             name: service.name,
             updated_at: service.id,

@@ -1,4 +1,4 @@
-import { loadableClinicAtom } from '@/atoms/clinic-atom' 
+import { asyncClinicAtom } from '@/atoms/clinic-atom' 
 import {   useAtomValue } from 'jotai' 
 import { AsyncImage } from 'loadable-image';
 import { CiLocationOn } from 'react-icons/ci';
@@ -9,51 +9,41 @@ import About from './__components/about';
 import Services from './__components/services';
 import Reviews from './__components/reviews'; 
 import ClinicEditModal from './__components/service-dialog';
+import { Suspense } from 'react'; 
 
+export default function Clinic() { 
 
-export default function Clinic() {
-    console.log('clinic') 
+    const clinic = useAtomValue(asyncClinicAtom); 
 
-    const clinicLoadable = useAtomValue(loadableClinicAtom);
-     
-    const clinic = clinicLoadable.state === "hasData" ? clinicLoadable.data : null  
-
-    if(clinicLoadable.state === "hasError") { 
-        return <div>Error</div>
-    }
-
-    if(clinicLoadable.state === "loading") return <div>Loading...</div>
-    
-    if(clinic === null) return <h1>add your clinic</h1>
-     
-    
     return (
         <div className=''>
             <section className='w-full shadow-[]'>
                 <div className='py-10 flex flex-col md:flex-row items-center md:space-x-10'>
-                    <div> 
-                        <AsyncImage 
-                            src={clinic.img}
-                            alt={clinic.name}
-                            Transition={props => <Blur radius={20} {...props}/>}
-                            className='shadow-lg w-60 h-60 lg:h-72 lg:w-72 rounded-full'
-                        /> 
-                    </div>
-                    <div className='self space-y-2'>
-                        <h1 className='lg:text-5xl md:text-3xl text-xl font-extrabold tracking-wider'>
-                            {clinic.name}
-                        </h1>
-                        <div className='flex space-x-2'>
-                            <CiLocationOn size={30} strokeWidth={1} />
-                            <p className='md:text-xl text-lg'>{clinic.address}</p>
+                    <Suspense fallback={<h1>Loading...</h1>}>
+                        <div> 
+                            <AsyncImage 
+                                src={clinic.img}
+                                alt={clinic.name}
+                                Transition={props => <Blur radius={20} {...props}/>}
+                                className='shadow-lg w-60 h-60 lg:h-72 lg:w-72 rounded-full'
+                            /> 
                         </div>
-                        {clinic.contacts.length > 0 && 
+                        <div className='self space-y-2'>
+                            <h1 className='lg:text-5xl md:text-3xl text-xl font-extrabold tracking-wider'>
+                                {clinic.name}
+                            </h1>
                             <div className='flex space-x-2'>
-                                <PiPhoneLight size={30} strokeWidth={1} />
-                                <p className='md:text-xl text-lg'>{clinic.contacts.join(" / ")}</p>
+                                <CiLocationOn size={30} strokeWidth={1} />
+                                <p className='md:text-xl text-lg'>{clinic.address}</p>
                             </div>
-                        }
-                    </div>
+                            {clinic.contacts.length > 0 && 
+                                <div className='flex space-x-2'>
+                                    <PiPhoneLight size={30} strokeWidth={1} />
+                                    <p className='md:text-xl text-lg'>{clinic.contacts.join(" / ")}</p>
+                                </div>
+                            }
+                        </div>
+                    </Suspense>
                 </div>
             </section>
  
@@ -81,7 +71,7 @@ export default function Clinic() {
                 </TabsList> 
                 {/* <Separator className='my-5' /> */}
                 <TabsContent value="services">
-                    <Services services={clinic.services || []} />
+                    <Services />
                 </TabsContent>
                 <TabsContent value="about">
                     <About />

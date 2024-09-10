@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useAtom, useAtomValue } from "jotai"
+import { useAtom, useAtomValue, useSetAtom } from "jotai"
 import { useForm } from "react-hook-form"
 
 
@@ -26,14 +26,14 @@ import {
 import { ImSpinner9 } from "react-icons/im";
 
   
-import { serviceDataAtom } from "@/atoms/service-atom"; 
+import { serviceDataAtom, servicesAtom } from "@/atoms/service-atom"; 
 import { serviceDialogAtom } from "@/atoms/dialogs-atom"
 import { loadableCategoriesAtom } from "@/atoms/category-atom";
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { ERR_INTERNAL } from '@/constants/errors';
 import { create } from '@/actions/service';
-import { userAtom } from '@/atoms/user-atom';
+import { userAtom } from '@/atoms/user-atom'; 
   
 
 
@@ -58,12 +58,13 @@ const initialValues = {
 const ServiceDialog = () => {
      
     const [values, setValues] = useAtom(serviceDataAtom);
-    const [dialogAtom, setDialogAtom] = useAtom(serviceDialogAtom); 
+    const [dialogAtom, setDialogAtom] = useAtom(serviceDialogAtom)  
     const categories = useAtomValue(loadableCategoriesAtom);
     const [loading, setLoading] = useState(false);
+    const setServices = useSetAtom(servicesAtom);
     const user = useAtomValue(userAtom)
-    const { toast } = useToast()
-  
+    const { toast } = useToast();
+ 
     const form = useForm<z.infer<typeof serviceSchema>>({
         resolver: zodResolver(serviceSchema),
         defaultValues: values ? { ...values, categoryId: String(values.categoryId) } : initialValues,
@@ -72,28 +73,37 @@ const ServiceDialog = () => {
     })
  
     if(categories.state === 'hasError') return <h1>Error: {JSON.stringify(categories.error)}</h1>
- 
- 
+    
     const viewMode = dialogAtom.mode === "view"
     const createMode = dialogAtom.mode === "create"
     const editMode = dialogAtom.mode === "edit"
-     
+      
  
     const onSubmit = async(v: z.infer<typeof serviceSchema>) => {
-        console.log(user)
+    
         try {
             setLoading(true)
             if(viewMode) {
                 setDialogAtom((p) => ({...p, mode: "edit"}))
                 return setLoading(false)
             }else if(createMode) {
-                await create({
+                const newService = await create({
                     ...v,
                     categoryId: Number(v.categoryId),
                     clinicId: Number(user?.clinicId),
                     rate: v.rate ?? '',
                     img: v.img ?? '' 
-                }) 
+                })  
+                setServices(p => p.concat(newService))
+                toast({
+                    title: "Service created successfully",
+                    description: "Service has been created successfully",
+                    variant: "default",
+                    className: "bg-emerald-600 text-white",
+                    duration: 5000
+                })
+                form.reset(); 
+                setDialogAtom({open: false})
                 return setLoading(false)
             }else if(editMode) {
                 // 
@@ -101,8 +111,7 @@ const ServiceDialog = () => {
             }else {
                 // 
                 return setLoading(false)
-            }
-
+            } 
  
         } catch (error) {
             setLoading(false)
@@ -121,8 +130,7 @@ const ServiceDialog = () => {
         } 
     }
     
-
-    console.log(form.getValues(), 'vvvvv')
+ 
     return (
         <Dialog modal open={dialogAtom.open}> 
             <DialogOverlay className=" backdrop-blur-lg"/> 

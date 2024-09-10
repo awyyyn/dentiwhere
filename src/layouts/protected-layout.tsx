@@ -5,6 +5,7 @@ import { useAtom } from 'jotai'
 import { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import {  getOneByAuthID } from '@/actions/user'
+import { Toaster } from '@/components/ui/toaster'
 
 const ProtectedLayout = () => {
 
@@ -56,7 +57,8 @@ const ProtectedLayout = () => {
       <Navbar />
       <main>
         <Outlet />
-      </main>
+      </main>  
+      <Toaster />
     </div>
   )
 }

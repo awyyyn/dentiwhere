@@ -20,4 +20,4 @@ const userAtomDefaultValue: User = {
     birthDate: '',
 }  
 
-export const userAtom = atom<User | null>(userAtomDefaultValue)
+export const userAtom = atom<User>(userAtomDefaultValue)

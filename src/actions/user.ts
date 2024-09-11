@@ -62,7 +62,7 @@ export const getAll = async () => {
     return data ? data?.map(user => transformUser(user)) : []
 }
 
-export const create = async (user): Promise<User> => { 
+export const create = async (user: any): Promise<User> => { 
  
     const isExists = await db.from("user").select('*').or(`email.eq.${user.email},license_number.eq.${user.licenseNumber}`) 
 

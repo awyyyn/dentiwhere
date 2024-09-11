@@ -2,7 +2,7 @@
 import { Role, User } from '@/types/types'
 import { atom,  } from 'jotai'
 
-const userAtomDefaultValue: User = {
+export const userAtomDefaultValue: User = {
     email: '',
     name: '',
     contacts: [],

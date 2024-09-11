@@ -1,17 +1,15 @@
 import { db } from '@/utils/supabase'
 import { v4 as uuid } from 'uuid'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Dropzone from "react-dropzone"
 import { ImSpinner2 } from 'react-icons/im'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-
-import { Button } from "@/components/ui/button"
+ 
 import {
   Form,
-  FormControl,
-  FormDescription,
+  FormControl, 
   FormField,
   FormItem,
   FormLabel,
@@ -54,9 +52,9 @@ export default function AddClinic() {
   })
 
   const [uploading, setUploading] = useState(false)
-  const [placeholder, setPlaceholder] = React.useState('')
+  const [placeholder, setPlaceholder] = useState('')
 
-  const handleDropImage = async(e) => {
+  const handleDropImage = async(e: any) => {
     try {
       setUploading(true) 
       const name = `${e[0].name}-${uuid()}`;
@@ -94,12 +92,11 @@ export default function AddClinic() {
   return (
     <div className='py-10 '>
       <Form {...form}> 
-        <form className='space-y-8'> 
-          <div className='flex space-x-20 items-center'>
-          
+        <form className='space-y-4 md:space-y-8'> 
+          <div className='flex md:space-x-20 items-center flex-col md:flex-row'> 
             <Dropzone onDrop={handleDropImage}>
               {({getRootProps, getInputProps}) => (
-                <div className='shadow-md rounded-full min-h-[300px] max-h-[300px] min-w-[300px] hover:cursor-pointer overflow-hidden relative hover:shadow-xl transition-all duration-300 group' {...getRootProps()}>
+                <div className='shadow-md rounded-full mb-4 md:mb-0 min-h-[300px] max-h-[300px] min-w-[300px] hover:cursor-pointer overflow-hidden relative hover:shadow-xl transition-all duration-300 group' {...getRootProps()}>
                   <input {...getInputProps()} disabled={uploading} />
                   <div className={`absolute  w-full h-full items-center justify-center backdrop-blur-sm flex-wrap bg-black  z-50 bg-opacity-20 hover:opacity-100 ${uploading ? 'opacity-100 cursor-wait' : 'opacity-0'} flex transition-all duration-300`}>  
                     {uploading ?
@@ -112,7 +109,7 @@ export default function AddClinic() {
                 </div>
               )}
             </Dropzone>  
-            <div className='w-full flex flex-col justify-center space-y-3'>
+            <div className='w-full flex flex-col justify-center space-y-3 '>
               <FormField
                 control={form.control}
                 name="name"
@@ -120,7 +117,7 @@ export default function AddClinic() {
                   <FormItem>
                     <FormLabel>Clinic Name</FormLabel>
                     <FormControl>
-                      <Input className='text-lg py-5 px-3' placeholder="Enter you clinic name" {...field} />
+                      <Input className='text-lg py-5 px-3' placeholder="Enter your clinic name" {...field} />
                     </FormControl> 
                     <FormMessage />
                   </FormItem>
@@ -164,7 +161,7 @@ export default function AddClinic() {
                 <FormItem>
                   <FormLabel>Contact</FormLabel>
                   <FormControl>
-                    <Input className='text-lg py-5 px-3' placeholder="Enter you clinic name" {...field} />
+                    <Input className='text-lg py-5 px-3' placeholder="Enter you clinic contact" {...field} />
                   </FormControl> 
                   <FormMessage />
                 </FormItem>
@@ -178,7 +175,7 @@ export default function AddClinic() {
                 <FormItem>
                   <FormLabel>Website</FormLabel>
                   <FormControl>
-                    <Input className='text-lg py-5 px-3' placeholder="Enter you clinic name" {...field} />
+                    <Input className='text-lg py-5 px-3' placeholder="Enter you clinic website" {...field} />
                   </FormControl> 
                   <FormMessage />
                 </FormItem>
@@ -199,6 +196,7 @@ export default function AddClinic() {
                 </FormItem>
               )}
             />
+ 
           </div>
         </form>
       </Form>

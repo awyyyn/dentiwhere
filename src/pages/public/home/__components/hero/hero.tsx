@@ -9,7 +9,7 @@ import dentist from '@/assets/images/dentist.png'
 import MiniCalendar from '@/assets/images/mini-calendar.png'
 import logo from "@/assets/svgs/logo.svg"
 import { useSetAtom } from 'jotai'
-import { searchClinicDialog } from '@/atoms/dialogs-atom'
+import { searchClinicDialog } from '@/atoms/dialogs-atom' 
 
 export default function Hero() {
     const setSearchClinicDialog = useSetAtom(searchClinicDialog)

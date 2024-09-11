@@ -1,6 +1,5 @@
  
-
-export default function Clinics() {
+export default function EditClinic() {
   return (
     <div>
       

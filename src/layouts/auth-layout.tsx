@@ -1,39 +1,46 @@
  
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import dentist from "@/assets/images/dentist.png"
-import { userAtom } from "@/atoms/user-atom";
-import { useAtom } from "jotai";
+import { userAtom, userAtomDefaultValue } from "@/atoms/user-atom";
+import { useSetAtom } from "jotai";
 import { useEffect } from "react";
 import { db } from "@/utils/supabase";  
 import { Toaster } from "@/components/ui/toaster"
 import {   getOneByAuthID } from "@/actions/user";
+import { useToast } from "@/hooks/use-toast";
  
 export default function AuthLayout ( ) {
 
-    const [_, setUserState] = useAtom(userAtom);
-    
-    const navigate = useNavigate();
+    const setUserState = useSetAtom(userAtom);
+    const { toast } = useToast() 
 
 
     useEffect(() => {
         (async() => { 
 
-            const { data, error } = await db.auth.getSession()
+            try {
+                const { data, error } = await db.auth.getSession()
 
-            if(error){
-                console.log(error)
-            } 
-
-            
-            if(data && data.session) {  
+                if(error) throw new Error(error.message)
+                
+                if(data && data.session === null) throw new Error("No session found")
+                     
                 const user = await getOneByAuthID(data.session?.user.id)    
-                setUserState(user)
-                return navigate("/")
-            }
-            
-            await db.auth.signOut()
-            setUserState(null) 
-
+    
+                if(user === null) throw new Error("No user found")
+    
+                setUserState(user); 
+                
+            } catch {
+                toast({
+                    title: "Error occurred",
+                    description: "Please login to continue",
+                    variant: "destructive"
+                })
+                await db.auth.signOut()
+                setUserState(userAtomDefaultValue) 
+                localStorage.clear();
+            } 
         })()
         
 

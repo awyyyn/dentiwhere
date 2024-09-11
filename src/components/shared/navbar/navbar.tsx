@@ -1,14 +1,13 @@
-import { Button } from '@/components/ui/button'
-import React from 'react'
-import { CiLogout } from 'react-icons/ci'
+import { Button } from '@/components/ui/button' 
 import { Link } from 'react-router-dom'
-import LogoutButton from '../logout-button/logout-button'
+import LogoutButton from '../logout-button/logout-button' 
 
 export default function Navbar() {
-
+ 
+    
     const adminLinks = [
         {
-            path: "clinic"
+            path:  "clinic"  
         },
         {
             path: "profile"

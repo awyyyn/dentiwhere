@@ -1,9 +1,9 @@
-import React from 'react'
+import Map from '@/components/shared/map/map'
 
 export default function Profile() {
   return (
-    <div>
-      
+    <div className='border  w-full grid place-content-center'>
+      <Map />
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import Navbar from '@/components/shared/navbar/navbar'
 import { userAtom } from '@/atoms/user-atom'
 import { db } from '@/utils/supabase'
-import { useAtom } from 'jotai'
+import { useSetAtom } from 'jotai';
 import { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import {  getOneByAuthID } from '@/actions/user'
@@ -9,7 +9,7 @@ import { Toaster } from '@/components/ui/toaster'
 
 const ProtectedLayout = () => {
 
-  const [user, setUser] = useAtom(userAtom);
+  const  setUser  = useSetAtom(userAtom);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,10 +44,7 @@ const ProtectedLayout = () => {
          
       } catch (error) {
         console.log(error)
-      }
-
-       
-
+      } 
     })()
 
   }, [])

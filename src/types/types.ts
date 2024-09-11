@@ -38,14 +38,15 @@ export type Clinic = {
     img: string;
     map?: string;
     services?: Service[]
+    amenities?: Amenities[]
     boosted: boolean;
     archive: boolean;
     createdAt: Date | string;
     updatedAt: Date | string;
 }   
 
-
-
+export type ServiceUpdateInput = Omit<Service, "createdAt" | "updatedAt"> & { userId: string }
+  
 export type Service = {
     id: number;
     clinicId: number;
@@ -69,6 +70,8 @@ export type Amenities = {
     updatedAt: Date | string
 }
 
+export type Accessibility = Amenities
+
 export type Category = {
     id: number;
     name: string;
@@ -82,3 +85,4 @@ export type DBUser = Database["public"]["Tables"]["user"]["Row"];
 export type DBService = Database["public"]["Tables"]["services"]["Row"];
 export type DBClinic = Database["public"]["Tables"]["clinics"]["Row"];
 export type DBAminities = Database["public"]["Tables"]["amenities"]["Row"];
+export type DBAccessibility = Database["public"]["Tables"]["accessiblity"]["Row"];

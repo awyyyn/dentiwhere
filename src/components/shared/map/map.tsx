@@ -1,6 +1,6 @@
  
 
-export default function Clinics() {
+export default function map() {
   return (
     <div>
       

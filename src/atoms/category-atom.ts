@@ -1,4 +1,4 @@
-import { getAll } from "@/actions/category";
+ 
 import { Category } from "@/types/types";
 import { atom } from "jotai";
 import { loadable } from "jotai/utils";

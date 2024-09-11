@@ -29,7 +29,6 @@ import ProtectedLayout from "./layouts/protected-layout";
 
 /* ====================== DOCTOR PAGES ======================= */
 import DoctorLayout from "./layouts/doctor-layout";
-import Clinic from "./pages/doctor/clinic/clinic";
 import DoctorProfile from './pages/doctor/profile/profile'
 /* ====================== DOCTOR PAGES ======================= */
 
@@ -45,9 +44,15 @@ import AdminLayout from "./layouts/admin-layout";
 /* =============================== UTIL PAGES =============================== */
 
 import Unauthorized from "./pages/unauthorized/unauthorized";
-import NotFound from "./pages/not-found/not-found";
+import NotFound from "./pages/not-found/not-found"; 
+import EditClinic from "./pages/doctor/edit-clinic/edit-clinic";
+import Loadable from "./components/loader/loader";
+import { lazy } from "react";
 
 /* =============================== UTIL PAGES =============================== */
+
+const Clinic = Loadable(lazy(() => import("./pages/doctor/clinic/clinic")));
+
 
 export default function App() {
 
@@ -100,11 +105,11 @@ export default function App() {
                     children: [
                         {
                             path: 'clinic',
-                            element: <Clinic />
+                            element: <Clinic /> 
                         },
                         {
                             path: 'clinic/add',
-                            element: <Clinic />
+                            element: <EditClinic />
                         },
                         {
                             path: 'clinic/edit/:clinic_id',

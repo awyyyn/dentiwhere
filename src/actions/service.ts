@@ -44,6 +44,19 @@ export const getAllByClinic = async (id: string): Promise<Service[]> => {
     if(data && data.length === 0) return []
 
     return data.map(service => transformService(service))
+}
 
+export const update = async (inputs: Omit<Service, "createdAt" | "updatedAt">): Promise<Service> => {
 
+    const { data, error } = await db.from("services").update({
+        name: inputs.name,
+        description: inputs.description,
+        active: inputs.active,
+        rate: inputs.rate,
+        category_id: inputs.categoryId, 
+    }).eq("id", inputs.id).select().single()
+ 
+    if(error) throw new Error(error.message)
+ 
+    return transformService(data)
 }

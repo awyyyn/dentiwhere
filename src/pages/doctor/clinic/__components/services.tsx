@@ -72,7 +72,7 @@ export default function Services() {
                 return ( 
                   <div className='' key={`${category.id}`}>
                     <div className='flex flex-row justify-between p-2 bg-gray-100/90'>
-                      <h1 className='font-extrabold tracking-wide md:text-2xl text-lg'>{category.name}</h1>
+                      <h1 className='font-extrabold tracking-wide md:text-2xl text-lg capitalize'>{category.name}</h1>
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger 
@@ -102,7 +102,11 @@ export default function Services() {
                               <TooltipTrigger 
                                 className='transition-all duration-300 hover:shadow-sm' 
                                 onClick={() => { 
-                                  setServiceData(service)
+                                  setServiceData({
+                                    ...service,
+                                    description: service.description ?? "",
+                                    rate: service.rate ?? ""
+                                  })
                                   setServiceDialog({
                                     mode: "view",
                                     open: true, 

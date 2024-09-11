@@ -29,7 +29,7 @@ import { userAtom } from '@/atoms/user-atom';
 
 
 const serviceSchema = z.object({ 
-    name: z.string().min(3, {message: "Name must be at least 3 characters long"}),
+    name: z.string().min(3, {message: "Name is too short!"}),
 })
 
 const initialValues = { 
@@ -109,10 +109,10 @@ const CategoryDialog = () => {
                         return c
                     })
                 })
-                
-                setValues(null)
 
                 form.reset(); 
+
+                setValues(null) 
 
                 setCategoryAtom({open: false})
 
@@ -179,9 +179,13 @@ const CategoryDialog = () => {
                                 variant="destructive" 
                                 className="btn-scale transition-1"
                                 onClick={() => {
-                                    if(editMode) return setCategoryAtom(p => ({...p, mode: "view"}))
-                                    form.reset()
+                                    if(editMode) {
+                                        setCategoryAtom(p => ({...p, mode: "view"}))
+                                        form.reset()
+                                        return 
+                                    }
                                     setValues(null);
+                                    form.reset()
                                     setCategoryAtom({open: false})
                                 }}
                             >
@@ -199,8 +203,7 @@ const CategoryDialog = () => {
                     </form>
                 </Form>  
             </DialogContent>
-        </Dialog>
-    
+        </Dialog> 
     )
 }
 

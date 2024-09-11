@@ -32,7 +32,7 @@ import { loadableCategoriesAtom } from "@/atoms/category-atom";
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { ERR_INTERNAL } from '@/constants/errors';
-import { create } from '@/actions/service';
+import { create, update } from '@/actions/service';
 import { userAtom } from '@/atoms/user-atom'; 
   
 
@@ -105,8 +105,32 @@ const ServiceDialog = () => {
                 form.reset(); 
                 setDialogAtom({open: false})
                 return setLoading(false)
-            }else if(editMode) {
-                // 
+            }else if(editMode) { 
+                const updatedService = await update({
+                    name: v.name,
+                    description: v.description,
+                    active: v.active,
+                    rate: v.rate,
+                    categoryId: Number(v.categoryId), 
+                    clinicId: Number(values?.clinicId),
+                    id: Number(values?.id),
+                    img: values?.img ?? '' 
+                })
+                toast({
+                    title: "Service updated successfully",
+                    description: "Service has been updated successfully",
+                    variant: "default",
+                    className: "bg-emerald-600 text-white",
+                    duration: 5000
+                })
+                form.reset(); 
+                setDialogAtom({open: false})
+                setServices(services => {
+                    return services.map(service => {
+                        if(service.id === updatedService.id) return updatedService
+                        return service
+                    })
+                })
                 return setLoading(false)
             }else {
                 // 
@@ -162,7 +186,7 @@ const ServiceDialog = () => {
                                                 </SelectTrigger>
                                                 <SelectContent className="min-w-full w-full " > 
                                                     {categories.data.map(category => (
-                                                        <SelectItem value={category.id.toString()} key={category.id} className="min-w-[120%] ">
+                                                        <SelectItem value={category.id.toString()} key={category.id} className="min-w-[120%] capitalize">
                                                             {category.name}
                                                         </SelectItem>
                                                     ))}
@@ -268,9 +292,13 @@ const ServiceDialog = () => {
                                 variant="destructive" 
                                 className="btn-scale transition-1"
                                 onClick={() => {
-                                    if(editMode) return setDialogAtom(p => ({...p, mode: "view"}))
+                                    if(editMode) {
+                                        setDialogAtom(p => ({...p, mode: "view"}))
+                                        form.reset()
+                                        return 
+                                    }
                                     form.reset()
-                                    setValues(null);
+                                    setValues(null)
                                     setDialogAtom({open: false})
                                 }}
                             >

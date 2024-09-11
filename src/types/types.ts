@@ -22,8 +22,8 @@ export type User = {
     authId: string;
     boost: boolean;
     verified: boolean;
-    createdAt?: Date | string;
-    updatedAt?: Date | string;
+    createdAt: Date | string;
+    updatedAt: Date | string;
 } 
 
 export type Clinic = {
@@ -40,8 +40,8 @@ export type Clinic = {
     services?: Service[]
     boosted: boolean;
     archive: boolean;
-    createdAt?: Date | string;
-    updatedAt?: Date | string;
+    createdAt: Date | string;
+    updatedAt: Date | string;
 }   
 
 
@@ -55,8 +55,8 @@ export type Service = {
     description?: string;
     rate?: string;
     active: boolean;
-    createdAt?: Date | string
-    updatedAt?: Date | string;
+    createdAt: Date | string
+    updatedAt: Date | string;
 }
 
 export type ServiceCreateInput = Omit<Service, "id" | "createdAt" | "updatedAt" | "clinicId" | "rate">;
@@ -65,15 +65,16 @@ export type Amenities = {
     id: number;
     clinicId: number
     name: string;
-    createdAt?: Date | string;
-    updatedAt?: Date | string
+    createdAt: Date | string;
+    updatedAt: Date | string
 }
 
 export type Category = {
     id: number;
     name: string;
-    createdAt?: Date | string;  
-    updatedAt?: Date | string;
+    clinicId: number;
+    createdAt: Date | string;  
+    updatedAt: Date | string;
 }
 
 export type DBCategory = Database["public"]["Tables"]["category"]["Row"];

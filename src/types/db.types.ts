@@ -15,44 +15,55 @@ export type Database = {
           created_at: string
           id: number
           name: string
-          updated_at: string | null
+          updated_at: string
         }
         Insert: {
           clinic_id: number
           created_at?: string
           id?: number
           name: string
-          updated_at?: string | null
+          updated_at?: string
         }
         Update: {
           clinic_id?: number
           created_at?: string
           id?: number
           name?: string
-          updated_at?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
       category: {
         Row: {
+          clinic_id: number
           created_at: string
           id: number
           name: string
-          update_at: string | null
+          updated_at: string
         }
         Insert: {
+          clinic_id: number
           created_at?: string
           id?: number
           name: string
-          update_at?: string | null
+          updated_at?: string
         }
         Update: {
+          clinic_id?: number
           created_at?: string
           id?: number
           name?: string
-          update_at?: string | null
+          updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "category_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "clinics"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       clinics: {
         Row: {
@@ -68,7 +79,7 @@ export type Database = {
           img: string
           map: string | null
           name: string
-          updated_at: string | null
+          updated_at: string
           website: string | null
         }
         Insert: {
@@ -84,7 +95,7 @@ export type Database = {
           img?: string
           map?: string | null
           name: string
-          updated_at?: string | null
+          updated_at?: string
           website?: string | null
         }
         Update: {
@@ -100,7 +111,7 @@ export type Database = {
           img?: string
           map?: string | null
           name?: string
-          updated_at?: string | null
+          updated_at?: string
           website?: string | null
         }
         Relationships: [
@@ -182,7 +193,7 @@ export type Database = {
           license_number: string
           name: string
           role: string | null
-          updated_at: string | null
+          updated_at: string
           verified: boolean
         }
         Insert: {
@@ -199,7 +210,7 @@ export type Database = {
           license_number: string
           name: string
           role?: string | null
-          updated_at?: string | null
+          updated_at?: string
           verified?: boolean
         }
         Update: {
@@ -216,7 +227,7 @@ export type Database = {
           license_number?: string
           name?: string
           role?: string | null
-          updated_at?: string | null
+          updated_at?: string
           verified?: boolean
         }
         Relationships: [

@@ -7,9 +7,11 @@ import { Clinic } from "@/types/types";
 
 export const clinicEditDataAtom = atom<Clinic>()
 
-export const asyncClinicAtom = atom<Promise<Clinic>>(async (get): Promise<Clinic> => {
+export const asyncClinicAtom = atom(async (get): Promise<Clinic | null> => {
 
     const user = get(userAtom);
+    
+    if(!user.clinicId) return null
   
     const response = await db
         .from("clinics")

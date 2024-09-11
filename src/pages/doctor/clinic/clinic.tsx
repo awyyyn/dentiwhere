@@ -10,6 +10,7 @@ import Services from './__components/services';
 import Reviews from './__components/reviews'; 
 import ClinicEditModal from './__components/service-dialog';
 import { Suspense } from 'react'; 
+import CategoryDialog from './__components/category-dialog';
 
 export default function Clinic() { 
 
@@ -70,8 +71,10 @@ export default function Clinic() {
                     </TabsTrigger>
                 </TabsList> 
                 {/* <Separator className='my-5' /> */}
-                <TabsContent value="services">
-                    <Services />
+                <TabsContent value="services" className='space-y-5'>
+                    <Suspense fallback={<h1>Loading services</h1>}>'
+                        <Services />
+                    </Suspense>
                 </TabsContent>
                 <TabsContent value="about">
                     <About />
@@ -83,6 +86,7 @@ export default function Clinic() {
 
 
             <ClinicEditModal />
+            <CategoryDialog />
         </div>
     )
 }

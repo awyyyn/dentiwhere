@@ -1,7 +1,10 @@
 import { getAll } from "@/actions/category";
+import { Category } from "@/types/types";
 import { atom } from "jotai";
 import { loadable } from "jotai/utils";
 
-export const categoriesAtom = atom(async() =>  await getAll());
+export const categoriesAtom = atom<Category[]>([]);
 
-export const loadableCategoriesAtom = loadable(categoriesAtom)
+export const categoryDataAtom = atom<Category | null>(null)
+
+export const loadableCategoriesAtom = loadable(categoriesAtom);

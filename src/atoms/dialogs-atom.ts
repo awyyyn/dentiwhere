@@ -13,10 +13,10 @@ const initialValues = {
 
 export const searchClinicDialog = atom<boolean>(false);
 
-export const clinicEditDialog = atom<DialogAtom>(initialValues);
+export const clinicDialogDialog = atom<DialogAtom>(initialValues);
 
-export const amenitiesEditDialog = atom<DialogAtom>(initialValues);
+export const amenitiesDialogDialog = atom<DialogAtom>(initialValues);
 
-export const categoryEditDialog = atom<DialogAtom>(initialValues);
+export const categoryDialogDialog = atom<DialogAtom>(initialValues);
 
 export const serviceDialogAtom = atom<DialogAtom>(initialValues);

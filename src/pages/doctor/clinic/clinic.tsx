@@ -1,5 +1,5 @@
-import { clinicAtom, clinicEditDataAtom } from "@/atoms/clinic-atom";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { clinicAtom } from "@/atoms/clinic-atom";
+import { useAtom, useAtomValue } from "jotai";
 import { AsyncImage } from "loadable-image";
 import { CiLocationOn } from "react-icons/ci";
 import { PiPhoneLight } from "react-icons/pi";
@@ -10,25 +10,25 @@ import Reviews from "./__components/reviews";
 import ClinicEditModal from "./__components/service-dialog";
 import CategoryDialog from "./__components/category-dialog";
 import Services from "./__components/services";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getClinic } from "@/actions/clinic";
 import { userAtom } from "@/atoms/user-atom";
 import { TbWorldWww } from "react-icons/tb";
 import Loader from "@/components/shared/loader/loader";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 export default function Clinic() {
 	const user = useAtomValue(userAtom);
 	const [clinic, setClinic] = useAtom(clinicAtom);
-	const setEditClinicData = useSetAtom(clinicEditDataAtom);
 	const [loading, setLoading] = useState(false);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		(async () => {
 			setLoading(true);
 			const response = await getClinic(user.id);
 			setClinic(response);
-			setEditClinicData(response);
 			setLoading(false);
 		})();
 	}, [user.id]);
@@ -71,7 +71,14 @@ export default function Clinic() {
 						)}
 
 						<div className="flex space-x-2">
-							<Button className="bg-1 text-white" size="lg" onClick={() => {}}>
+							<Button
+								className="bg-1 text-white"
+								size="lg"
+								onClick={() => {
+									navigate(`/clinic/edit/${clinic?.id}`, {
+										state: { clinic: clinic },
+									});
+								}}>
 								Edit
 							</Button>
 						</div>

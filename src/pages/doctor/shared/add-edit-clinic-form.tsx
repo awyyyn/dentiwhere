@@ -1,6 +1,6 @@
 import { db } from "@/utils/supabase";
 import { v4 as uuid } from "uuid";
-import { Dispatch, memo, SetStateAction, useState } from "react";
+import { memo, useState } from "react";
 import Dropzone from "react-dropzone";
 import { ImSpinner2 } from "react-icons/im";
 import { useForm } from "react-hook-form";
@@ -25,8 +25,10 @@ import { userAtom } from "@/atoms/user-atom";
 import { createMany as createManyAmenities } from "@/actions/amenities";
 import { createMany as createManyAccessibilities } from "@/actions/accessibilities";
 import { useToast } from "@/hooks/use-toast";
-import { clinicAtom, clinicEditDataAtom } from "@/atoms/clinic-atom";
+import { clinicAtom } from "@/atoms/clinic-atom";
 import { update as updateUser } from "@/actions/user";
+import { Clinic } from "@/types/types";
+import { useNavigate } from "react-router-dom";
 
 const formSchema = z.object({
 	name: z.string().min(1, { message: "Please enter your clinic name!" }),
@@ -52,15 +54,15 @@ const formSchema = z.object({
 
 const AddClinic = ({
 	edit = false,
-	setIsEditing,
+	clinic,
 }: {
 	edit?: boolean;
-	setIsEditing: Dispatch<SetStateAction<boolean>>;
+	clinic?: Clinic;
 }) => {
+	const navigate = useNavigate();
 	const { toast } = useToast();
 	const setClinic = useSetAtom(clinicAtom);
 	const [loading, setLoading] = useState(false);
-	const [editData, setEditData] = useAtom(clinicEditDataAtom);
 	const [user, setUser] = useAtom(userAtom);
 	const [amenitiesForm, setAmenitiesForm] = useState<string[]>(["amenity1"]);
 	const [accessibilityForm, setAccessibilityForm] = useState<string[]>([
@@ -76,13 +78,13 @@ const AddClinic = ({
 	});
 
 	const editDefaultValues = {
-		name: editData?.name ?? "",
-		email: editData?.email ?? "",
-		contact: editData?.contacts[0] ?? "",
-		contact2: editData?.contacts[1] ?? "",
-		address: editData?.address ?? "",
-		website: editData?.website ?? "",
-		description: editData?.description ?? "",
+		name: clinic?.name ?? "",
+		email: clinic?.email ?? "",
+		contact: clinic?.contacts[0] ?? "",
+		contact2: clinic?.contacts[1] ?? "",
+		address: clinic?.address ?? "",
+		website: clinic?.website ?? "",
+		description: clinic?.description ?? "",
 	};
 
 	const form = useForm({
@@ -102,7 +104,7 @@ const AddClinic = ({
 
 	const [uploading, setUploading] = useState(false);
 	const [placeholder, setPlaceholder] = useState(
-		edit && editData?.img ? editData.img : ""
+		edit && clinic?.img ? clinic.img : ""
 	);
 
 	const handleDropImage = async (e: any) => {
@@ -155,49 +157,47 @@ const AddClinic = ({
 
 	const handleSubmit = async (data: z.infer<typeof formSchema>) => {
 		setLoading(true);
-		if (edit && editData) {
+		if (edit && clinic) {
 			const info = JSON.stringify(data) !== JSON.stringify(editDefaultValues);
 
-			if (info) {
+			if (info || placeholder !== clinic.img) {
 				try {
 					const updatedData = await update({
 						address: data.address,
-						archive: editData.archive,
-						boosted: editData.boosted,
+						archive: clinic.archive,
+						boosted: clinic.boosted,
 						contacts: data.contact2
 							? [data.contact, data.contact2]
 							: [data.contact],
 						description: data.description,
 						email: data.email ?? "",
 						website: data.website,
-						map: editData.map,
+						map: clinic.map,
 						name: data.name,
 						img: placeholder,
-						id: Number(editData.id),
+						id: Number(clinic.id),
 					});
 
-					setEditData(updatedData);
 					setClinic(updatedData);
-					toast({
-						title: "Created successfully",
-						description: "Your clinic has been created successfully",
-						variant: "default",
-						className: "bg-emerald-600 text-white",
-					});
-
-					setIsEditing(false);
+					setClinic(updatedData);
 				} catch (error) {
 					console.log(error);
 					setLoading(false);
-					toast({
+					return toast({
 						title: "Failed to update your clinic information",
 						description: "An error occured while updating your clinic",
 						variant: "destructive",
 					});
 				}
 			}
-
-			setIsEditing(false);
+			setLoading(false);
+			toast({
+				title: "Created successfully",
+				description: "Your clinic has been created successfully",
+				variant: "default",
+				className: "bg-emerald-600 text-white",
+			});
+			navigate("/clinic");
 		} else {
 			try {
 				const newClinic = await create({
@@ -257,6 +257,7 @@ const AddClinic = ({
 					variant: "default",
 					className: "bg-emerald-600 text-white",
 				});
+				navigate("/clinic");
 			} catch (error) {
 				setLoading(false);
 

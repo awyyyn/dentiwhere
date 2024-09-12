@@ -1,3 +1,4 @@
+import { lazy } from "react";
 import {
     createBrowserRouter, 
     RouterProvider, 
@@ -6,52 +7,25 @@ import {
 /* =============================== LAYOUTS =============================== */
 import AuthLayout from "./layouts/auth-layout";
 import CommonLayout from "./layouts/common-layout";
-/* =============================== LAYOUTS =============================== */
-
-/* =============================== AUTH PAGES =============================== */
-
-import Login from "./pages/auth/login/login";
-import SignUp from "./pages/auth/sign-up/sign-up";   
-
-/* =============================== AUTH PAGES =============================== */
-
-/* =============================== PUBLIC PAGES =============================== */
-
-import Home from "./pages/public/home/home";
-import CommonServices from "./pages/public/common-services/common-services";
-import CommonConditions from "./pages/public/common-conditions/common-conditions";
-
-/* =============================== PUBLIC PAGES =============================== */ 
-
-/* =============================== PROTECTED PAGES =============================== */
-
 import ProtectedLayout from "./layouts/protected-layout";
-
-/* ====================== DOCTOR PAGES ======================= */
 import DoctorLayout from "./layouts/doctor-layout";
-import DoctorProfile from './pages/doctor/profile/profile'
-/* ====================== DOCTOR PAGES ======================= */
-
-/* ====================== ADMIN PAGES ======================= */
-import Dashboard from "./pages/admin/dashboard/dashboard";
 import AdminLayout from "./layouts/admin-layout";
-/* ====================== ADMIN PAGES ======================= */
+/* =============================== LAYOUTS =============================== */ 
 
-/* =============================== PROTECTED PAGES =============================== */
- 
-
-
-/* =============================== UTIL PAGES =============================== */
-
-import Unauthorized from "./pages/unauthorized/unauthorized";
-import NotFound from "./pages/not-found/not-found"; 
-import EditClinic from "./pages/doctor/edit-clinic/edit-clinic";
-import Loadable from "./components/loader/loader";
-import { lazy } from "react";
-
-/* =============================== UTIL PAGES =============================== */
+import Loadable from "./components/loader/loader";  
+  
 
 const Clinic = Loadable(lazy(() => import("./pages/doctor/clinic/clinic")));
+const Login = Loadable(lazy(() => import("./pages/auth/login/login")));
+const SignUp = Loadable(lazy(() => import("./pages/auth/sign-up/sign-up")));
+const Home = Loadable(lazy(() => import("./pages/public/home/home")));
+const CommonConditions = Loadable(lazy(() => import("./pages/public/common-conditions/common-conditions")));
+const CommonServices = Loadable(lazy(() => import("./pages/public/common-services/common-services")));
+const Dashboard = Loadable(lazy(() => import("./pages/admin/dashboard/dashboard")));
+const EditClinic = Loadable(lazy(() => import("./pages/doctor/edit-clinic/edit-clinic")));
+const DoctorProfile = Loadable(lazy(() => import("./pages/doctor/profile/profile")));
+const NotFound = Loadable(lazy(() => import("./pages/not-found/not-found")));
+const Unauthorized = Loadable(lazy(() => import("./pages/unauthorized/unauthorized")));
 
 
 export default function App() {

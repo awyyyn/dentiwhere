@@ -1,18 +1,17 @@
  
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import dentist from "@/assets/images/dentist.png"
 import { userAtom, userAtomDefaultValue } from "@/atoms/user-atom";
 import { useSetAtom } from "jotai";
 import { useEffect } from "react";
 import { db } from "@/utils/supabase";  
 import { Toaster } from "@/components/ui/toaster"
-import {   getOneByAuthID } from "@/actions/user";
-import { useToast } from "@/hooks/use-toast";
+import {   getOneByAuthID } from "@/actions/user"; 
  
 export default function AuthLayout ( ) {
 
     const setUserState = useSetAtom(userAtom);
-    const { toast } = useToast() 
+    const navigate = useNavigate()
 
 
     useEffect(() => {
@@ -30,13 +29,9 @@ export default function AuthLayout ( ) {
                 if(user === null) throw new Error("No user found")
     
                 setUserState(user); 
+                navigate('/', {replace: true})
                 
             } catch {
-                toast({
-                    title: "Error occurred",
-                    description: "Please login to continue",
-                    variant: "destructive"
-                })
                 await db.auth.signOut()
                 setUserState(userAtomDefaultValue) 
                 localStorage.clear();

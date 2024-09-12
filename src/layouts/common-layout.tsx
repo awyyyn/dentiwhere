@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, useLayoutEffect } from "react";
+import l from 'lodash'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import ScrollToTop from 'react-scroll-up'
 import { SlArrowUp } from "react-icons/sl";
@@ -24,55 +25,49 @@ export default function CommonLayout () {
         window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     }, [location.pathname]);
   
-    useEffect(() => {
+    // useEffect(() => {
 
-        (async() => { 
+    //     (async() => { 
 
-            try {
-                const { data, error } = await db.auth.getSession()
+    //         try {
+    //             if(!l.isEmpty(user.authId)) return
+    //             const { data } = await db.auth.getSession()
 
-                if(error){
-                    console.log(error)
-                } 
+    //             if(data && data.session === null) throw new Error("Session not found") 
 
-                if(data && data.session === null) { 
-                    throw new Error("Session not found")
-                } 
+    //             const userData = await getOneByAuthID(data.session.user.id)  
+                
+    //             if(userData === null) throw new Error("Session not found")
 
-                const userData = await getOneByAuthID(data.session.user.id)    
-                console.log(userData)
-                if(userData === null) throw new Error("Session not found")
-
-                setUser(userData)
-            } catch (err){ 
-                const error = err as Error
-                if(error.message.includes("session")){ 
-                    toast({
-                        title: "Session Expired",
-                        description: "Please login to continue",
-                        variant: "destructive"
-                    })
-                }   
-                localStorage.clear() 
-                setUser(userAtomDefaultValue)
-            }
+    //             setUser(userData)
+    //         } catch (err){ 
+    //             const error = err as Error
+    //             if(error.message.includes("session")){ 
+    //                 toast({
+    //                     title: "Session Expired",
+    //                     description: "Please login to continue",
+    //                     variant: "destructive"
+    //                 })
+    //             }   
+    //             localStorage.clear() 
+    //             setUser(userAtomDefaultValue)
+    //         }
             
 
-        })()
+    //     })()
 
-    }, [])
- 
-
+    // }, [])
+  
     return (
         <div className="gradient-landing-page py-10  "> 
             <div className="flex flex-row justify-end w-11/12 mx-auto md:w-10/12 absolute -translate-x-[50%] left-[50%] z-30">
 
-                { pathname === "/" ? user !== null ?
+                { pathname === "/" && !l.isEmpty(user.authId)  ?
                     <div className="flex space-x-4" >
                         <NavLink to={user.role === Role.doctor ? 'clinic' : 'dashboard'}>
                             <Button className="transition-all duration-300 bg-1 hover:bg-1 hover:shadow-md"  > 
                                 {user.role === Role.doctor ?
-                                    user.clinicId ? "Clinic" : "Add your clinic" 
+                                    user.clinicId !== undefined ? "Clinic" : "Add your clinic" 
                                 : "Dashboard"}
                             </Button>
                         </NavLink>
@@ -83,7 +78,7 @@ export default function CommonLayout () {
                         <Button className="transition-all duration-300">
                             Create Account / Log in
                         </Button>
-                    </Link> : null
+                    </Link>  
                 }
             </div>
             <main>

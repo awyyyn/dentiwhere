@@ -27,7 +27,7 @@ const ProtectedLayout = () => {
         console.log(error)
 
         if(data && data.session === null) {  
-            return navigate('/login')
+          return navigate('/login')
         } 
 
 

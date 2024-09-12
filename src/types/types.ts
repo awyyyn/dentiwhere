@@ -14,7 +14,7 @@ export type User = {
     email: string;
     name: string;
     address?: string;
-    birthDate?: string | Date;
+    birthDate?: string;
     contacts: string[];
     clinicId?: number;
     role: Role,
@@ -39,6 +39,7 @@ export type Clinic = {
     map?: string;
     services?: Service[]
     amenities?: Amenities[]
+    accesibilities?: Accessibility[]
     boosted: boolean;
     archive: boolean;
     createdAt: Date | string;
@@ -84,5 +85,5 @@ export type DBCategory = Database["public"]["Tables"]["category"]["Row"];
 export type DBUser = Database["public"]["Tables"]["user"]["Row"];
 export type DBService = Database["public"]["Tables"]["services"]["Row"];
 export type DBClinic = Database["public"]["Tables"]["clinics"]["Row"];
-export type DBAminities = Database["public"]["Tables"]["amenities"]["Row"];
-export type DBAccessibility = Database["public"]["Tables"]["accessiblity"]["Row"];
+export type DBAmenities = Database["public"]["Tables"]["amenities"]["Row"];
+export type DBAccessibility = Database["public"]["Tables"]["accessibility"]["Row"];

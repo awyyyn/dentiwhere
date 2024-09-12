@@ -39,7 +39,7 @@ export default function Navbar() {
                                 </Button>
                             </Link>
                         ))}
-                        <LogoutButton />
+                        <LogoutButton  />
                     </div>
                 </div>
             </nav>

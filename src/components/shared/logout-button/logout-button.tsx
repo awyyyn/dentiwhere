@@ -7,11 +7,16 @@ export default function LogoutButton(buttonProps: ButtonProps) {
   const { className, ...props } = buttonProps
 
   return (
-    <Button {...props} variant="destructive" className={`space-x-2 transition-all duration-300 ${className}`}  >
-        <CiLogout strokeWidth={2} />
-        <span>
+    <Button 
+      {...props} 
+      size={"icon"} 
+      variant="destructive" 
+      className={`space-x-2 transition-all min-w-max hover:scale-110 active:scale-95 z-20 p-3 rounded-full  w-full duration-300 ${className}`}  
+    >
+        <CiLogout strokeWidth={2} className='mx-auto' />
+        {/* <span>
             Log out
-        </span>
+        </span> */}
     </Button>
   )
 }

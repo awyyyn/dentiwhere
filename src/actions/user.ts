@@ -105,3 +105,10 @@ export const create = async (user: any): Promise<User> => {
     return transformUser(insertToUserTable.data[0])
 }
 
+
+
+export const update = async (inputs: Omit<DBUser, "created_at" | "updated_at" | "auth_id">): Promise<User> => {
+    const { data, error } = await db.from("user").update(inputs).eq("id", inputs.id).select().maybeSingle() 
+    if(error || data === null) throw new Error("Error updating user")
+    return transformUser(data)
+}

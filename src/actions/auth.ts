@@ -1,10 +1,11 @@
  
-import { ERR_INVALID_CREDENTIALS, ERR_USER_NOT_REGISTERED } from "@/constants/errors";
-import { Database } from "@/types/db.types";
+import { ERR_INVALID_CREDENTIALS, ERR_USER_NOT_REGISTERED } from "@/constants/errors"; 
 import { db } from "@/utils/supabase";
 import { ERR_USER_NOT_VERIFIED } from '../constants/errors';
+import { transformUser } from "./user";
+import { User } from "@/types/types";
 
-export const login = async (user: any): Promise<Database["public"]["Tables"]["user"]["Row"]> => {
+export const login = async (user: any): Promise<User> => {
 
     const ifExists = await db.from("user").select("*").match({
         email: user.email,
@@ -28,5 +29,5 @@ export const login = async (user: any): Promise<Database["public"]["Tables"]["us
 
     if(result.error) throw new Error(result.error.message)
     
-    return ifExists.data
+    return transformUser(ifExists.data)
 }

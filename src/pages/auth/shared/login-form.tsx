@@ -5,10 +5,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Link } from 'react-router-dom' 
+import { Link, useNavigate } from 'react-router-dom' 
 import { login } from '@/actions/auth'
 import { ERR_INTERNAL } from '@/constants/errors'
 import { useToast } from '@/hooks/use-toast'
+import { useSetAtom } from 'jotai'
+import { userAtom } from '@/atoms/user-atom'
 
 
 const formSchema = z.object({
@@ -23,6 +25,8 @@ const formSchema = z.object({
 
 export default function LoginForm () {
     const { toast } = useToast()
+    const navigate = useNavigate();
+    const setUser = useSetAtom(userAtom)
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -35,7 +39,11 @@ export default function LoginForm () {
 
     const handleSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-           await login(values) 
+           const data = await login(values);  
+           setUser(data)
+           navigate('/', {
+            replace: true
+           })
         } catch (error) {
             console.log(error instanceof Error)
             if(error instanceof Error) {

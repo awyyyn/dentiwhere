@@ -1,5 +1,5 @@
-import { asyncClinicAtom } from '@/atoms/clinic-atom' 
-import { useAtomValue } from 'jotai' 
+import { asyncClinicAtom, clinicEditDataAtom } from '@/atoms/clinic-atom' 
+import { useAtomValue, useSetAtom } from 'jotai' 
 import { AsyncImage } from 'loadable-image';
 import { CiLocationOn } from 'react-icons/ci';
 import { PiPhoneLight } from 'react-icons/pi';
@@ -10,19 +10,33 @@ import Reviews from './__components/reviews';
 import ClinicEditModal from './__components/service-dialog'; 
 import CategoryDialog from './__components/category-dialog'; 
 import Services from './__components/services';
-import { Suspense } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import AddClinic from './add-clinic';
+import { Button } from '@/components/ui/button';
 
 
 export default function Clinic() { 
 
     const clinic = useAtomValue(asyncClinicAtom); 
+    const setClinic = useSetAtom(clinicEditDataAtom); 
+    const [isEditing, setIsEditing] = useState(false)
+
+    useEffect(() => {
+        if(clinic !== null){
+            setClinic(clinic) 
+        }
+    }, [clinic, isEditing]) 
     
     return (
         <Suspense fallback={"llll"}> 
-            {clinic !== null ?
+            {clinic === null ?
+                <AddClinic setIsEditing={setIsEditing} />
+            : isEditing ?
+                <AddClinic edit={isEditing} setIsEditing={setIsEditing} /> 
+            :
                 <div className=''>
                     <section className='w-full shadow-[]'>
+                        <Button onClick={() => setIsEditing(true)}>Edit</Button>
                         <div className='py-10 flex flex-col md:flex-row items-center md:space-x-10'>
                             <Suspense fallback={<h1>Loading...</h1>}>
                                 <div> 
@@ -89,9 +103,7 @@ export default function Clinic() {
 
                     <ClinicEditModal />
                     <CategoryDialog />
-                </div>
-            :    
-                <AddClinic />
+                </div>    
             }
         </Suspense>
     )

@@ -1,5 +1,5 @@
 import { clinicAtom } from "@/atoms/clinic-atom";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { AsyncImage } from "loadable-image";
 import { CiLocationOn } from "react-icons/ci";
 import { PiPhoneLight } from "react-icons/pi";
@@ -14,13 +14,21 @@ import { useEffect, useState } from "react";
 import { getClinic } from "@/actions/clinic";
 import { userAtom } from "@/atoms/user-atom";
 import { TbWorldWww } from "react-icons/tb";
-import Loader from "@/components/shared/loader/loader";
+import { Loader } from "@/components/shared/loader/loader";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { accessibilitiesAtom } from "@/atoms/accessibility-atom";
+import { amenitiesAtom } from "@/atoms/amenity-atom";
+import { categoriesAtom } from "@/atoms/category-atom";
+import { servicesAtom } from "@/atoms/service-atom";
 
 export default function Clinic() {
 	const user = useAtomValue(userAtom);
 	const [clinic, setClinic] = useAtom(clinicAtom);
+	const setAccessiblities = useSetAtom(accessibilitiesAtom);
+	const setAmenities = useSetAtom(amenitiesAtom);
+	const setCategories = useSetAtom(categoriesAtom);
+	const setServices = useSetAtom(servicesAtom);
 	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
 
@@ -29,6 +37,10 @@ export default function Clinic() {
 			setLoading(true);
 			const response = await getClinic(user.id);
 			setClinic(response);
+			setAccessiblities(response.accesibilities ?? []);
+			setCategories(response.categories ?? []);
+			setServices(response.services ?? []);
+			setAmenities(response.amenities ?? []);
 			setLoading(false);
 		})();
 	}, [user.id]);
@@ -36,7 +48,7 @@ export default function Clinic() {
 	if (loading) return <Loader />;
 
 	return (
-		<div className="">
+		<div className="pb-10">
 			<section className="w-full shadow-[]">
 				<div className="py-10 flex flex-col md:flex-row items-center md:space-x-10 ">
 					<div className="mb-4 md:mb-0">

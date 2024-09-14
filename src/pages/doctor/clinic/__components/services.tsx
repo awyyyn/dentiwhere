@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { categoriesAtom, categoryDataAtom } from "@/atoms/category-atom";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { RiInformation2Line } from "react-icons/ri";
 import {
 	Tooltip,
@@ -8,33 +8,18 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { categoryDialogDialog, serviceDialogAtom } from "@/atoms/dialogs-atom";
+import { categoryDialogAtom, serviceDialogAtom } from "@/atoms/dialogs-atom";
 import { serviceDataAtom, servicesAtom } from "@/atoms/service-atom";
-import { Suspense, useEffect } from "react";
-import { getAllByClinic as getServicesByClinicId } from "@/actions/service";
-import { getAllByClinicId as getCategoriesByClinicId } from "@/actions/category";
-import { userAtom } from "@/atoms/user-atom";
+import { Suspense } from "react";
 import { FiEdit } from "react-icons/fi";
 
 export default function Services() {
 	const setServiceData = useSetAtom(serviceDataAtom);
 	const setCategoryData = useSetAtom(categoryDataAtom);
-	const [services, setServices] = useAtom(servicesAtom);
-	const user = useAtomValue(userAtom);
+	const services = useAtomValue(servicesAtom);
 	const setServiceDialog = useSetAtom(serviceDialogAtom);
-	const setCategoryDialog = useSetAtom(categoryDialogDialog);
-	const [categories, setCategories] = useAtom(categoriesAtom);
-
-	useEffect(() => {
-		(async () => {
-			setServices(
-				await getServicesByClinicId(user.clinicId?.toString() as string)
-			);
-			if (typeof user.clinicId === "number") {
-				setCategories(await getCategoriesByClinicId(user.clinicId));
-			}
-		})();
-	}, [setServices, user.clinicId, setCategories]);
+	const setCategoryDialog = useSetAtom(categoryDialogAtom);
+	const categories = useAtomValue(categoriesAtom);
 
 	return (
 		<>

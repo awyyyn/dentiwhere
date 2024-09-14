@@ -11,6 +11,7 @@ import { IoMenu } from "react-icons/io5";
 import LogoutButton from "../logout-button/logout-button";
 import { useState } from "react";
 import { v4 as uuid } from "uuid";
+import Notification from "../notification/notification";
 
 export default function Navbar() {
 	const [isOpen, setIsOpen] = useState(false);
@@ -28,7 +29,7 @@ export default function Navbar() {
 			<div
 				className={`${
 					mobile ? "flex" : "hidden sm:flex"
-				} sm:space-x-5 space-y-3  flex-col sm:flex-row items-center justify-center  w-full sm:w-fit `}>
+				} sm:space-x-5 space-y-3 sm:space-y-0  flex-col sm:flex-row sm:items-center justify-center  w-full sm:w-fit `}>
 				<Link to="/" className="w-full sm:w-fit hover:no-underline">
 					<Button
 						variant="link"
@@ -48,6 +49,16 @@ export default function Navbar() {
 						</Button>
 					</Link>
 				))}
+				<Notification />
+				<Link
+					to={"notification"}
+					className="w-full hover:no-underline block sm:hidden">
+					<Button
+						className="capitalize transition-all duration-300 w-full hover:shadow-lg hover:no-underline hover:bg-1/50 hover:text-gray"
+						variant="link">
+						Notifications
+					</Button>
+				</Link>
 				<LogoutButton
 					showLabel={mobile}
 					className="flex justify-center text-center"
@@ -79,16 +90,19 @@ export default function Navbar() {
 				</nav>
 			</header>
 			<Sheet open={isOpen} modal>
-				<SheetContent removeCloseIcon className="sm:hidden block">
+				<SheetContent
+					closeSheet={() => setIsOpen(false)}
+					removeCloseIcon
+					className="sm:hidden block">
 					<SheetHeader>
 						<Link to="/">
 							<SheetTitle className="font-bold tracking-wider text-xl md:text-xl">
 								Dentiwhere
 							</SheetTitle>
 						</Link>
+
 						<SheetDescription>
 							<Links mobile />
-							asd
 						</SheetDescription>
 					</SheetHeader>
 				</SheetContent>

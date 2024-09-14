@@ -50,8 +50,8 @@ export default function Clinic() {
 	return (
 		<div className="pb-10">
 			<section className="w-full shadow-[]">
-				<div className="py-10 flex flex-col md:flex-row items-center md:space-x-10 ">
-					<div className="mb-4 md:mb-0">
+				<div className="py-10 flex flex-col md:flex-row items-start md:items-center md:space-x-10 ">
+					<div className="mb-4 md:mb-0 self-center">
 						<AsyncImage
 							src={clinic?.img ?? ""}
 							alt={clinic?.name}

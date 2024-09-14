@@ -9,7 +9,7 @@ import DoctorLayout from "./layouts/doctor-layout";
 import AdminLayout from "./layouts/admin-layout";
 /* =============================== LAYOUTS =============================== */
 
-import Loadable from "./components/loader/loader";
+import Loadable from "./components/shared/loader/loader";
 import AddClinic from "./pages/doctor/add-clinic/add-clinic";
 
 const Clinic = Loadable(lazy(() => import("./pages/doctor/clinic/clinic")));

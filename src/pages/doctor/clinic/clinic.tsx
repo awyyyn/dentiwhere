@@ -39,7 +39,7 @@ export default function Clinic() {
 		<div className="">
 			<section className="w-full shadow-[]">
 				<div className="py-10 flex flex-col md:flex-row items-center md:space-x-10 ">
-					<div>
+					<div className="mb-4 md:mb-0">
 						<AsyncImage
 							src={clinic?.img ?? ""}
 							alt={clinic?.name}

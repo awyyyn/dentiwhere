@@ -89,7 +89,8 @@ export const getClinic = async (id: number): Promise<Clinic> => {
 			`*, 
             services ( img, name, rate, description, active, category_id, clinic_id, created_at, updated_at, id ), 
             amenities (id, clinic_id, name, created_at, updated_at), 
-            accessibility (id, clinic_id, name, created_at, updated_at)
+            accessibility (id, clinic_id, name, created_at, updated_at),
+			category (id, clinic_id, name, created_at, updated_at)
         `
 		)
 		.eq("doctor_id", id);
@@ -139,6 +140,13 @@ export const getClinic = async (id: number): Promise<Clinic> => {
 			id: acc.id,
 			createdAt: acc.created_at,
 			updatedAt: acc.updated_at,
+		})),
+		categories: response.data[0]?.category?.map((cat) => ({
+			clinicId: cat.clinic_id,
+			name: cat.name,
+			id: cat.id,
+			createdAt: cat.created_at,
+			updatedAt: cat.updated_at,
 		})),
 	};
 };

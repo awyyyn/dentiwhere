@@ -26,14 +26,18 @@ export const createMany = async (
 };
 
 export const create = async (inputs: {
-	clinic_id: number;
+	clinicId: number;
 	name: string;
 }): Promise<Accessibility> => {
 	const { data, error } = await db
 		.from("accessibility")
-		.insert(inputs)
+		.insert({
+			clinic_id: inputs.clinicId,
+			name: inputs.name,
+		})
+		.select()
 		.maybeSingle();
-
+	console.log(error, data, "12312321");
 	if (error || data === null) {
 		throw new Error("Failed to create Accessibility");
 	}
@@ -42,16 +46,17 @@ export const create = async (inputs: {
 };
 
 export const update = async (inputs: {
-	clinic_id: number;
+	clinicId: number;
 	name: string;
 	id: number;
 }) => {
-	const { id, ...toUpdate } = inputs;
-
 	const { data, error } = await db
 		.from("accessibility")
-		.update(toUpdate)
-		.eq("id", id)
+		.update({
+			clinic_id: inputs.clinicId,
+			name: inputs.name,
+		})
+		.eq("id", inputs.id)
 		.maybeSingle();
 
 	if (error || data === null) throw new Error("Failed to update Accessibility");

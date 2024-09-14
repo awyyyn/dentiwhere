@@ -23,12 +23,15 @@ export const createMany = async (
 };
 
 export const create = async (inputs: {
-	clinic_id: number;
+	clinicId: number;
 	name: string;
 }): Promise<Amenities> => {
 	const { data, error } = await db
 		.from("amenities")
-		.insert(inputs)
+		.insert({
+			clinic_id: inputs.clinicId,
+			name: inputs.name,
+		})
 		.select()
 		.maybeSingle();
 
@@ -38,16 +41,17 @@ export const create = async (inputs: {
 };
 
 export const update = async (inputs: {
-	clinic_id: number;
+	clinicId: number;
 	name: string;
 	id: number;
 }) => {
-	const { id, ...toUpdate } = inputs;
-
 	const { data, error } = await db
 		.from("amenities")
-		.upsert(toUpdate)
-		.eq("id", id)
+		.upsert({
+			clinic_id: inputs.clinicId,
+			name: inputs.name,
+		})
+		.eq("id", inputs.id)
 		.select()
 		.maybeSingle();
 

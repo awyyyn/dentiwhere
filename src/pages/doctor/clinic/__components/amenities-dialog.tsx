@@ -23,13 +23,13 @@ import { Input } from "@/components/ui/input";
 
 import { ImSpinner9 } from "react-icons/im";
 
-import { categoryDialogAtom } from "@/atoms/dialogs-atom";
-import { categoriesAtom, categoryDataAtom } from "@/atoms/category-atom";
+import { amenitiesDialogAtom } from "@/atoms/dialogs-atom";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { ERR_INTERNAL } from "@/constants/errors";
-import { create, update } from "@/actions/category";
+import { create, update } from "@/actions/amenities";
 import { userAtom } from "@/atoms/user-atom";
+import { amenitiesAtom, amenityDataAtom } from "@/atoms/amenity-atom";
 
 const serviceSchema = z.object({
 	name: z.string().min(3, { message: "Name is too short!" }),
@@ -39,11 +39,11 @@ const initialValues = {
 	name: "",
 };
 
-const CategoryDialog = () => {
-	const [values, setValues] = useAtom(categoryDataAtom);
-	const [category, setCategoryAtom] = useAtom(categoryDialogAtom);
+const AmenityDialog = () => {
+	const [values, setValues] = useAtom(amenityDataAtom);
+	const [amenityState, setAmenityState] = useAtom(amenitiesDialogAtom);
 	const [loading, setLoading] = useState(false);
-	const setCategories = useSetAtom(categoriesAtom);
+	const setAmenities = useSetAtom(amenitiesAtom);
 	const user = useAtomValue(userAtom);
 	const { toast } = useToast();
 
@@ -54,32 +54,32 @@ const CategoryDialog = () => {
 		values: values ?? initialValues,
 	});
 
-	const viewMode = category.mode === "view";
-	const createMode = category.mode === "create";
-	const editMode = category.mode === "edit";
+	const viewMode = amenityState.mode === "view";
+	const createMode = amenityState.mode === "create";
+	const editMode = amenityState.mode === "edit";
 
 	const onSubmit = async (v: z.infer<typeof serviceSchema>) => {
 		try {
 			setLoading(true);
 			if (viewMode) {
-				setCategoryAtom((p) => ({ ...p, mode: "edit" }));
+				setAmenityState((p) => ({ ...p, mode: "edit" }));
 				return setLoading(false);
 			} else if (createMode) {
-				const newCategory = await create({
+				const newAmenity = await create({
 					clinicId: Number(user?.clinicId),
 					name: v.name,
 				});
-				setCategories((params) => [...params, newCategory]);
+				setAmenities((params) => [...params, newAmenity]);
 				toast({
-					title: "Service created successfully",
-					description: "Service has been created successfully",
+					title: "Amenity created successfully",
+					description: "Amenity has been created successfully",
 					variant: "default",
 					className: "bg-emerald-600 text-white",
 					duration: 5000,
 				});
 
 				form.reset();
-				setCategoryAtom({ open: false });
+				setAmenityState({ open: false });
 				setValues(null);
 				return setLoading(false);
 			} else if (editMode) {
@@ -97,7 +97,7 @@ const CategoryDialog = () => {
 					duration: 5000,
 				});
 
-				setCategories((categories) => {
+				setAmenities((categories) => {
 					return categories.map((c) => {
 						if (c.id === updatedCategory.id) return updatedCategory;
 						return c;
@@ -108,7 +108,7 @@ const CategoryDialog = () => {
 
 				setValues(null);
 
-				setCategoryAtom({ open: false });
+				setAmenityState({ open: false });
 
 				return setLoading(false);
 			} else {
@@ -133,11 +133,11 @@ const CategoryDialog = () => {
 	};
 
 	return (
-		<Dialog modal open={category.open}>
+		<Dialog modal open={amenityState.open}>
 			<DialogOverlay className=" backdrop-blur-lg" />
 			<DialogContent removeClose className="">
 				<DialogHeader>
-					<DialogTitle className="mb-">Category</DialogTitle>
+					<DialogTitle className="mb-">Amenity</DialogTitle>
 				</DialogHeader>
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
@@ -171,13 +171,13 @@ const CategoryDialog = () => {
 								className="btn-scale transition-1"
 								onClick={() => {
 									if (editMode) {
-										setCategoryAtom((p) => ({ ...p, mode: "view" }));
+										setAmenityState((p) => ({ ...p, mode: "view" }));
 										form.reset();
 										return;
 									}
 									setValues(null);
 									form.reset();
-									setCategoryAtom({ open: false });
+									setAmenityState({ open: false });
 								}}>
 								{editMode ? "Cancel" : "Close"}
 							</Button>
@@ -201,4 +201,4 @@ const CategoryDialog = () => {
 	);
 };
 
-export default CategoryDialog;
+export default AmenityDialog;

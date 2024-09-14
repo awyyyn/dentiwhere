@@ -23,13 +23,16 @@ import { Input } from "@/components/ui/input";
 
 import { ImSpinner9 } from "react-icons/im";
 
-import { categoryDialogAtom } from "@/atoms/dialogs-atom";
-import { categoriesAtom, categoryDataAtom } from "@/atoms/category-atom";
+import { accessbilityDialogAtom } from "@/atoms/dialogs-atom";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { ERR_INTERNAL } from "@/constants/errors";
-import { create, update } from "@/actions/category";
+import { create, update } from "@/actions/accessibilities";
 import { userAtom } from "@/atoms/user-atom";
+import {
+	accessibilitiesAtom,
+	accessibilitiesDataAtom,
+} from "@/atoms/accessibility-atom";
 
 const serviceSchema = z.object({
 	name: z.string().min(3, { message: "Name is too short!" }),
@@ -39,11 +42,13 @@ const initialValues = {
 	name: "",
 };
 
-const CategoryDialog = () => {
-	const [values, setValues] = useAtom(categoryDataAtom);
-	const [category, setCategoryAtom] = useAtom(categoryDialogAtom);
+const AccessibilityDialog = () => {
+	const [values, setValues] = useAtom(accessibilitiesDataAtom);
+	const [accessibilityState, setAccessiblityState] = useAtom(
+		accessbilityDialogAtom
+	);
 	const [loading, setLoading] = useState(false);
-	const setCategories = useSetAtom(categoriesAtom);
+	const setAccessibilities = useSetAtom(accessibilitiesAtom);
 	const user = useAtomValue(userAtom);
 	const { toast } = useToast();
 
@@ -54,53 +59,53 @@ const CategoryDialog = () => {
 		values: values ?? initialValues,
 	});
 
-	const viewMode = category.mode === "view";
-	const createMode = category.mode === "create";
-	const editMode = category.mode === "edit";
+	const viewMode = accessibilityState.mode === "view";
+	const createMode = accessibilityState.mode === "create";
+	const editMode = accessibilityState.mode === "edit";
 
 	const onSubmit = async (v: z.infer<typeof serviceSchema>) => {
 		try {
 			setLoading(true);
 			if (viewMode) {
-				setCategoryAtom((p) => ({ ...p, mode: "edit" }));
+				setAccessiblityState((p) => ({ ...p, mode: "edit" }));
 				return setLoading(false);
 			} else if (createMode) {
-				const newCategory = await create({
+				const newAccessiblity = await create({
 					clinicId: Number(user?.clinicId),
 					name: v.name,
 				});
-				setCategories((params) => [...params, newCategory]);
+				setAccessibilities((params) => [...params, newAccessiblity]);
 				toast({
-					title: "Service created successfully",
-					description: "Service has been created successfully",
+					title: "Accessibility created successfully",
+					description: "Accessibility has been created successfully",
 					variant: "default",
 					className: "bg-emerald-600 text-white",
 					duration: 5000,
 				});
 
 				form.reset();
-				setCategoryAtom({ open: false });
+				setAccessiblityState({ open: false });
 				setValues(null);
 				return setLoading(false);
 			} else if (editMode) {
 				const updatedCategory = await update({
-					clinicId: Number(user?.clinicId),
+					clinicId: Number(values?.clinicId),
 					name: v.name,
 					id: Number(values?.id),
 				});
 
 				toast({
-					title: "Service updated successfully",
-					description: "Service has been updated successfully",
+					title: "Accessibility updated successfully",
+					description: "Accessibility has been updated successfully",
 					variant: "default",
 					className: "bg-emerald-600 text-white",
 					duration: 5000,
 				});
 
-				setCategories((categories) => {
-					return categories.map((c) => {
-						if (c.id === updatedCategory.id) return updatedCategory;
-						return c;
+				setAccessibilities((accessibilities) => {
+					return accessibilities.map((a) => {
+						if (a.id === updatedCategory.id) return updatedCategory;
+						return a;
 					});
 				});
 
@@ -108,7 +113,7 @@ const CategoryDialog = () => {
 
 				setValues(null);
 
-				setCategoryAtom({ open: false });
+				setAccessiblityState({ open: false });
 
 				return setLoading(false);
 			} else {
@@ -117,6 +122,8 @@ const CategoryDialog = () => {
 			}
 		} catch (error) {
 			setLoading(false);
+
+			console.log(error);
 			if (error instanceof Error) {
 				toast({
 					title: "Error in creating service",
@@ -133,11 +140,11 @@ const CategoryDialog = () => {
 	};
 
 	return (
-		<Dialog modal open={category.open}>
+		<Dialog modal open={accessibilityState.open}>
 			<DialogOverlay className=" backdrop-blur-lg" />
 			<DialogContent removeClose className="">
 				<DialogHeader>
-					<DialogTitle className="mb-">Category</DialogTitle>
+					<DialogTitle className="mb-">Accessibility</DialogTitle>
 				</DialogHeader>
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
@@ -171,13 +178,13 @@ const CategoryDialog = () => {
 								className="btn-scale transition-1"
 								onClick={() => {
 									if (editMode) {
-										setCategoryAtom((p) => ({ ...p, mode: "view" }));
+										setAccessiblityState((p) => ({ ...p, mode: "view" }));
 										form.reset();
 										return;
 									}
 									setValues(null);
 									form.reset();
-									setCategoryAtom({ open: false });
+									setAccessiblityState({ open: false });
 								}}>
 								{editMode ? "Cancel" : "Close"}
 							</Button>
@@ -201,4 +208,4 @@ const CategoryDialog = () => {
 	);
 };
 
-export default CategoryDialog;
+export default AccessibilityDialog;

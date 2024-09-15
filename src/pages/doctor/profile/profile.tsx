@@ -4,6 +4,7 @@ import { AsyncImage } from "loadable-image";
 import { CiLocationOn } from "react-icons/ci";
 import { PiPhoneLight } from "react-icons/pi";
 // import { TbWorldWww } from "react-icons/tb";
+import { TbLicense } from "react-icons/tb";
 import { Blur } from "transitions-kit";
 
 export default function Profile() {
@@ -25,6 +26,10 @@ export default function Profile() {
 						<h1 className="lg:text-5xl md:text-3xl text-xl font-extrabold tracking-wider">
 							{user?.name}
 						</h1>
+						<div className="flex space-x-2">
+							<TbLicense size={30} strokeWidth={1} />
+							<p className="md:text-xl text-lg">{user?.licenseNumber}</p>
+						</div>
 						<div className="flex space-x-2">
 							<CiLocationOn size={30} strokeWidth={1} />
 							<p className="md:text-xl text-lg">{user?.address}</p>

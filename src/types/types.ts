@@ -6,15 +6,25 @@ export enum Role {
 	superAdmin = "SUPER_ADMIN",
 }
 
+export interface LicensedIDImage {
+	frontImg: string;
+	backImg: string;
+}
+
 export type User = {
 	id: number;
 	licenseNumber: string;
 	email: string;
-	name: string;
+	firstName: string;
+	lastName: string;
+	postalId: string;
+	verifiedId: string;
+	gender: string;
 	address?: string;
 	birthDate?: string;
 	contacts: string[];
 	clinicId?: number;
+	licenseId: LicensedIDImage;
 	role: Role;
 	img: string;
 	authId: string;

@@ -111,8 +111,9 @@ export const getClinic = async (id: number): Promise<Clinic> => {
 		contacts: response.data[0]?.contacts || [],
 		createdAt: response.data[0]?.created_at,
 		updatedAt: response.data[0]?.updated_at as string,
-		doctorId: response.data[0]?.doctor_id,
+		doctorId: Number(response.data[0]?.doctor_id),
 		archive: response.data[0]?.archive,
+		map: response.data[0]?.map || "",
 		services: response.data[0]?.services.map((service) => ({
 			img: service.img!,
 			name: service.name,

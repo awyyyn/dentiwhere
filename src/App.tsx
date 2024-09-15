@@ -4,13 +4,16 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 /* =============================== LAYOUTS =============================== */
 import AuthLayout from "./layouts/auth-layout";
 import CommonLayout from "./layouts/common-layout";
-import ProtectedLayout from "./layouts/protected-layout";
 import DoctorLayout from "./layouts/doctor-layout";
 import AdminLayout from "./layouts/admin-layout";
 /* =============================== LAYOUTS =============================== */
 
 import Loadable from "./components/shared/loader/loader";
 import AddClinic from "./pages/doctor/add-clinic/add-clinic";
+import AccountSettings from "./pages/doctor/account-settings/account-settings";
+import Password from "./pages/doctor/password/password";
+import Logout from "./pages/doctor/logout/logout";
+import Parent from "./layouts/parent";
 
 const Clinic = Loadable(lazy(() => import("./pages/doctor/clinic/clinic")));
 const Login = Loadable(lazy(() => import("./pages/auth/login/login")));
@@ -28,9 +31,6 @@ const Dashboard = Loadable(
 const EditClinic = Loadable(
 	lazy(() => import("./pages/doctor/edit-clinic/edit-clinic"))
 );
-const DoctorProfile = Loadable(
-	lazy(() => import("./pages/doctor/profile/profile"))
-);
 const NotFound = Loadable(lazy(() => import("./pages/not-found/not-found")));
 const Unauthorized = Loadable(
 	lazy(() => import("./pages/unauthorized/unauthorized"))
@@ -39,39 +39,39 @@ const Unauthorized = Loadable(
 export default function App() {
 	const router = createBrowserRouter([
 		{
-			element: <AuthLayout />,
+			element: <Parent />,
 			children: [
 				{
-					path: "login",
-					element: <Login />,
+					element: <AuthLayout />,
+					children: [
+						{
+							path: "login",
+							element: <Login />,
+						},
+						{
+							path: "sign-up",
+							element: <SignUp />,
+						},
+					],
 				},
 				{
-					path: "sign-up",
-					element: <SignUp />,
+					path: "/",
+					element: <CommonLayout />,
+					children: [
+						{
+							index: true,
+							element: <Home />,
+						},
+						{
+							path: "conditions",
+							element: <CommonConditions />,
+						},
+						{
+							path: "services",
+							element: <CommonServices />,
+						},
+					],
 				},
-			],
-		},
-		{
-			path: "/",
-			element: <CommonLayout />,
-			children: [
-				{
-					index: true,
-					element: <Home />,
-				},
-				{
-					path: "conditions",
-					element: <CommonConditions />,
-				},
-				{
-					path: "services",
-					element: <CommonServices />,
-				},
-			],
-		},
-		{
-			element: <ProtectedLayout />,
-			children: [
 				{
 					element: <AdminLayout />,
 					children: [
@@ -97,20 +97,33 @@ export default function App() {
 							element: <EditClinic />,
 						},
 						{
-							path: "profile",
-							element: <DoctorProfile />,
+							element: <DoctorLayout />,
+							children: [
+								{
+									path: "profile",
+									element: <AccountSettings />,
+								},
+								{
+									path: "password",
+									element: <Password />,
+								},
+								{
+									path: "logout",
+									element: <Logout />,
+								},
+							],
 						},
 					],
 				},
+				{
+					path: "*",
+					element: <NotFound />,
+				},
+				{
+					path: "unauthorized",
+					element: <Unauthorized />,
+				},
 			],
-		},
-		{
-			path: "*",
-			element: <NotFound />,
-		},
-		{
-			path: "unauthorized",
-			element: <Unauthorized />,
 		},
 	]);
 

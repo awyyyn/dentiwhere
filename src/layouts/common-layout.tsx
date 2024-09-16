@@ -9,7 +9,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { useAtomValue } from "jotai";
 import { userAtom } from "@/atoms/user-atom";
 import { Role } from "@/types/types";
-import LogoutButton from "@/components/shared/logout-button/logout-button";
 export default function CommonLayout() {
 	const { pathname } = useLocation();
 	const user = useAtomValue(userAtom);
@@ -20,21 +19,24 @@ export default function CommonLayout() {
 		window.scrollTo({ top: 0, left: 0, behavior: "instant" });
 	}, [location.pathname]);
 
+	console.log("user", user);
+
 	return (
 		<div className="gradient-landing-page py-10  ">
 			<div className="flex flex-row justify-end w-11/12 mx-auto md:w-10/12 absolute -translate-x-[50%] left-[50%] z-30">
 				{pathname === "/" && !l.isEmpty(user.authId) ? (
 					<div className="flex space-x-4">
-						<NavLink to={user.role === Role.doctor ? "clinic" : "dashboard"}>
+						<NavLink
+							to={user.role === Role.doctor ? "dental-setting" : "dashboard"}>
 							<Button className="transition-all duration-300 bg-1 hover:bg-1 hover:shadow-md">
 								{user.role === Role.doctor
-									? user.clinicId !== undefined
+									? user.clinicId
 										? "Clinic"
 										: "Add your clinic"
 									: "Dashboard"}
 							</Button>
 						</NavLink>
-						<LogoutButton size="default" className="hover:shadow-md" />
+						{/* <LogoutButton size="default" className="hover:shadow-md" /> */}
 					</div>
 				) : (
 					<Link to={"login"}>

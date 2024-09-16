@@ -137,8 +137,6 @@ export default function AccountSettings() {
 
 	const handleSubmit = () => {};
 
-	console.log(form.getValues());
-
 	return (
 		<section className="">
 			<Form {...form}>
@@ -199,7 +197,9 @@ export default function AccountSettings() {
 									className="w-48 mx-auto text-md lg:max-w-min lg:mx-0    xl:text-2xl bg-1 hover:text-black text-black p-6 shadow-lg hover:bg-1 shadow-gray-700/50 hover:shadow-lg active:scale-90 transition-all duration-300">
 									Upload Now
 								</Button>
-								<Button className="w-48 mx-auto text-md lg:max-w-min lg:mx-0    xl:text-2xl p-6 bg-white text-black shadow-md shadow-gray-700/50 hover:text-black hover:bg-white hover:shadow-lg active:scale-90 transition-all duration-300">
+								<Button
+									type="button"
+									className="w-48 mx-auto text-md lg:max-w-min lg:mx-0    xl:text-2xl p-6 bg-white text-black shadow-md shadow-gray-700/50 hover:text-black hover:bg-white hover:shadow-lg active:scale-90 transition-all duration-300">
 									Delete Avatar
 								</Button>
 							</div>
@@ -511,11 +511,14 @@ export default function AccountSettings() {
 									</Dropzone>
 									<div className="flex w-full justify-center gap-y-2 lg:gap-y-2 lg:space-x-4 flex-wrap ">
 										<Button
+											type="button"
 											onClick={() => frontIdRef.current.open()}
 											className="w-full lg:max-w-min bg-gray-300/90 shadow-lg text-[#1D4968]">
 											{frontId ? "Change" : "Upload"}
 										</Button>
-										<Button className="w-full lg:max-w-min text-destructive hover:bg-gray-300 bg-gray-300/90 shadow-lg">
+										<Button
+											type="button"
+											className="w-full lg:max-w-min text-destructive hover:bg-gray-300 bg-gray-300/90 shadow-lg">
 											Remove
 										</Button>
 									</div>
@@ -558,11 +561,14 @@ export default function AccountSettings() {
 									</Dropzone>
 									<div className="flex  w-full justify-center gap-y-2 lg:gap-y-2 lg:space-x-4 flex-wrap ">
 										<Button
+											type="button"
 											onClick={() => backIdRef.current?.open()}
 											className="w-full lg:max-w-min bg-gray-300/90 shadow-lg text-[#1D4968]">
 											{backId ? "Change" : "Upload"}
 										</Button>
-										<Button className="w-full lg:max-w-min text-destructive hover:bg-gray-300 bg-gray-300/90 shadow-lg">
+										<Button
+											type="button"
+											className="w-full lg:max-w-min text-destructive hover:bg-gray-300 bg-gray-300/90 shadow-lg">
 											Remove
 										</Button>
 									</div>

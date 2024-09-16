@@ -1,8 +1,10 @@
-import { Link, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import { FaUserAlt } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { Separator } from "@/components/ui/separator";
 import { IoLogOut } from "react-icons/io5";
+import { RiNotificationFill } from "react-icons/ri";
+import { RiSettingsFill } from "react-icons/ri";
 
 export default function DoctorLayout() {
 	return (
@@ -13,32 +15,62 @@ export default function DoctorLayout() {
 						Account Settings
 					</h1>
 					<Separator className="bg-white w-[200%] -translate-x-52 h-0.5" />
-					<Link to="/" className="flex space-x-5 items-center pl-10 py-2 ">
+					<NavLink
+						to="/profile"
+						className={({ isActive }) =>
+							`flex space-x-5 items-center text-gray-600 transition-all  pl-10 py-2 ${
+								isActive && "font-bold text-gray-900"
+							}`
+						}>
 						<FaUserAlt className="" />
 						<p>Profile Settings</p>
-					</Link>
+					</NavLink>
 					<Separator className="bg-white w-[200%] -translate-x-52 h-0.5" />
-					<Link
+					<NavLink
 						to="password"
-						className="flex space-x-5 items-center pl-10 py-2 ">
+						className={({ isActive }) =>
+							`flex space-x-5 items-center text-gray-600 transition-all  pl-10 py-2 ${
+								isActive && "font-bold text-gray-900"
+							}`
+						}>
 						<RiLockPasswordFill className="" />
 						<p>Password</p>
-					</Link>
+					</NavLink>
 					<Separator className="bg-white w-[200%] -translate-x-52 h-0.5" />
-					<Link to="/" className="flex space-x-5 items-center pl-10 py-2 ">
-						<FaUserAlt className="" />
+					<NavLink
+						to="notification"
+						className={({ isActive }) =>
+							`flex space-x-5 items-center text-gray-600 transition-all  pl-10 py-2 ${
+								isActive && "font-bold text-gray-900"
+							}`
+						}>
+						<RiNotificationFill className="" />
 						<p>Notification</p>
-					</Link>
+					</NavLink>
 					<Separator className="bg-white w-[200%] -translate-x-52 h-0.5" />
-					<Link to="/" className="flex space-x-5 items-center pl-10 py-2 ">
-						<FaUserAlt className="" />
+					<NavLink
+						to="dental-setting"
+						className={({ isActive }) =>
+							`flex space-x-5 items-center  transition-all  pl-10 py-2 ${
+								isActive
+									? "font-bold text-gray-900 odd:fill-gray-900"
+									: "text-gray-600 first:fill-gray-600"
+							}`
+						}>
+						<RiSettingsFill />
 						<p>Dental Settings</p>
-					</Link>
+					</NavLink>
 					<Separator className="bg-white w-[200%] -translate-x-52 h-0.5" />
-					<Link to="logout" className="flex space-x-5 items-center pl-10 py-2 ">
+					<NavLink
+						to="logout"
+						className={({ isActive }) =>
+							`flex space-x-5 pb-[1rem] items-center  transition-all  pl-10 py-2 ${
+								isActive ? "font-bold text-red-600" : "text-gray-600"
+							}`
+						}>
 						<IoLogOut className="" />
 						<p>Logout</p>
-					</Link>
+					</NavLink>
 				</div>
 			</aside>
 			<main className="w-full mx-auto  lg:w-9/12 xl:w-10/12 bg-[#BCF0F9] p-5 rounded-2xl lg:max-h-[90vh] max-h-[95vh] shadow-xl lg:min-h-[90vh] min-h-[95vh]  overflow-y-scroll  scrollbar-hide">

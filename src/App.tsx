@@ -9,13 +9,13 @@ import AdminLayout from "./layouts/admin-layout";
 /* =============================== LAYOUTS =============================== */
 
 import Loadable from "./components/shared/loader/loader";
-import AddClinic from "./pages/doctor/add-clinic/add-clinic";
 import AccountSettings from "./pages/doctor/account-settings/account-settings";
 import Password from "./pages/doctor/password/password";
 import Logout from "./pages/doctor/logout/logout";
 import Parent from "./layouts/parent";
+import DentalSetting from "./pages/doctor/dental-setting/dental-setting";
+import Notification from "./pages/doctor/notification/notification";
 
-const Clinic = Loadable(lazy(() => import("./pages/doctor/clinic/clinic")));
 const Login = Loadable(lazy(() => import("./pages/auth/login/login")));
 const SignUp = Loadable(lazy(() => import("./pages/auth/sign-up/sign-up")));
 const Home = Loadable(lazy(() => import("./pages/public/home/home")));
@@ -27,9 +27,6 @@ const CommonServices = Loadable(
 );
 const Dashboard = Loadable(
 	lazy(() => import("./pages/admin/dashboard/dashboard"))
-);
-const EditClinic = Loadable(
-	lazy(() => import("./pages/doctor/edit-clinic/edit-clinic"))
 );
 const NotFound = Loadable(lazy(() => import("./pages/not-found/not-found")));
 const Unauthorized = Loadable(
@@ -85,33 +82,24 @@ export default function App() {
 					element: <DoctorLayout />,
 					children: [
 						{
-							path: "clinic",
-							element: <Clinic />,
+							path: "profile",
+							element: <AccountSettings />,
 						},
 						{
-							path: "clinic/add",
-							element: <AddClinic />,
+							path: "password",
+							element: <Password />,
 						},
 						{
-							path: "clinic/edit/:clinicId",
-							element: <EditClinic />,
+							path: "dental-setting",
+							element: <DentalSetting />,
 						},
 						{
-							element: <DoctorLayout />,
-							children: [
-								{
-									path: "profile",
-									element: <AccountSettings />,
-								},
-								{
-									path: "password",
-									element: <Password />,
-								},
-								{
-									path: "logout",
-									element: <Logout />,
-								},
-							],
+							path: "notification",
+							element: <Notification />,
+						},
+						{
+							path: "logout",
+							element: <Logout />,
 						},
 					],
 				},

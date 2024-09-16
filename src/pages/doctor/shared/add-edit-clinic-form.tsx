@@ -298,7 +298,7 @@ const AddClinic = ({
 	};
 
 	return (
-		<div className="py-10 ">
+		<div className="py-10 px-3 lg:px-10">
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(handleSubmit)}
@@ -346,7 +346,7 @@ const AddClinic = ({
 										<FormControl>
 											<Input
 												readOnly={loading || uploading}
-												className="text-lg py-5 px-3"
+												className="text-lg py-5 px-3 bg-white"
 												placeholder="Enter your clinic name"
 												{...field}
 											/>
@@ -364,7 +364,7 @@ const AddClinic = ({
 										<FormControl>
 											<Input
 												readOnly={loading || uploading}
-												className="text-lg py-5 px-3"
+												className="text-lg py-5 px-3 bg-white"
 												placeholder="Enter your clinic address"
 												{...field}
 											/>
@@ -382,7 +382,7 @@ const AddClinic = ({
 										<FormControl>
 											<Input
 												readOnly={loading || uploading}
-												className="text-lg py-5 px-3"
+												className="text-lg py-5 px-3 bg-white"
 												placeholder="Enter your clinic email address"
 												{...field}
 											/>
@@ -404,7 +404,7 @@ const AddClinic = ({
 										<FormControl>
 											<Input
 												readOnly={loading || uploading}
-												className="text-lg py-5 px-3"
+												className="text-lg py-5 px-3 bg-white"
 												placeholder="Enter you clinic contact"
 												{...field}
 											/>
@@ -422,7 +422,7 @@ const AddClinic = ({
 										<FormControl>
 											<Input
 												readOnly={loading || uploading}
-												className="text-lg py-5 px-3"
+												className="text-lg py-5 px-3 bg-white"
 												placeholder="Enter you clinic contact"
 												{...field}
 											/>
@@ -442,7 +442,7 @@ const AddClinic = ({
 									<FormControl>
 										<Input
 											readOnly={loading || uploading}
-											className="text-lg py-5 px-3"
+											className="text-lg py-5 px-3 bg-white"
 											placeholder="Enter you clinic website"
 											{...field}
 										/>
@@ -460,7 +460,7 @@ const AddClinic = ({
 									<FormLabel>Description</FormLabel>
 									<FormControl>
 										<Textarea
-											className="text-lg py-3 px-3"
+											className="text-lg py-3 px-3 bg-white"
 											placeholder="Clinic Description...."
 											{...field}
 										/>
@@ -483,7 +483,7 @@ const AddClinic = ({
 													name={acc}
 													value={accessibilityValues[indx]}
 													placeholder="Add clinic accessibility"
-													className={`text-lg py-5 px-3 `}
+													className={`text-lg py-5 px-3 bg-white`}
 													onChange={(e) => {
 														setAccessibilityValues((prevValues) => {
 															if (e.target.value !== "") {
@@ -527,7 +527,7 @@ const AddClinic = ({
 													name={ame}
 													value={amenitiesValues[indx]}
 													placeholder="Add clinic amenity"
-													className={`text-lg py-5 sm:px-3 `}
+													className={`text-lg py-5 sm:px-3 bg-white`}
 													onChange={(e) => {
 														setAmenitiesValues((prevValues) => {
 															if (e.target.value !== "") {

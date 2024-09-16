@@ -4,7 +4,7 @@ export default function LogoWithText() {
 			width="272"
 			height="232"
 			viewBox="0 0 272 232"
-			className=""
+			className="w-44 h-44 md:w-56 md:h-56 lg:w-44 lg:h-44 xl:w-72 xl:h-72"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg">
 			<path

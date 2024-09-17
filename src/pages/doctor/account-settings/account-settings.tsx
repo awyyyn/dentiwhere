@@ -24,16 +24,8 @@ import { userAtom } from "@/atoms/user-atom";
 import { Skeleton } from "@/components/ui/skeleton";
 import { update } from "@/actions/user";
 import { Status } from "@/types/types";
-import { format } from "date-fns";
-import { Calendar } from "@/components/ui/calendar";
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from "@/components/ui/popover";
-import { CalendarIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import CustomDatePicker from "@/components/shared/date-picker/date-picker";
 
 const userForm = z.object({
 	fist_name: z.string().min(1, { message: "First name is required" }),
@@ -465,37 +457,10 @@ export default function AccountSettings() {
 											{loading ? (
 												<Skeleton className="w-full h-[3.1rem]" />
 											) : (
-												<Popover>
-													<br />
-													<PopoverTrigger
-														asChild
-														className="md:ml-2 min-w-full text-lg py-6 px-3 bg-white">
-														<Button
-															variant={"outline"}
-															disabled={!editing || loading || uploading}
-															className={cn(
-																"disabled:opacity-100  w-[280px] justify-start text-left font-normal",
-																!form.getValues("birth_date") &&
-																	"text-muted-foreground"
-															)}>
-															<CalendarIcon className="mr-2 h-4 w-4" />
-															{form.getValues("birth_date") ? (
-																format(form.getValues("birth_date"), "PPP")
-															) : (
-																<span>Pick a date</span>
-															)}
-														</Button>
-													</PopoverTrigger>
-													<PopoverContent className="w-auto p-0">
-														<Calendar
-															disabled={!editing || loading || uploading}
-															mode="single"
-															selected={new Date(form.getValues("birth_date"))}
-															onSelect={field.onChange}
-															initialFocus
-														/>
-													</PopoverContent>
-												</Popover>
+												<CustomDatePicker
+													value={field.value}
+													handleChange={field.onChange}
+												/>
 											)}
 										</FormControl>
 										<FormMessage />

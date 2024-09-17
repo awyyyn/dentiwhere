@@ -11,9 +11,16 @@ export interface LicensedIDImage {
 	backImg: string;
 }
 
+export enum Status {
+	verified = "VERIFIED",
+	unverified = "UNVERIFIED",
+	PENDING = "PENDING",
+}
+
 export type User = {
 	id: number;
 	licenseNumber: string;
+	status: Status;
 	email: string;
 	firstName: string;
 	lastName: string;

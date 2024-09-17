@@ -113,7 +113,7 @@ export type Database = {
           contacts: string[] | null
           created_at: string
           description: string | null
-          doctor_id: number
+          doctor_id: number | null
           email: string
           id: number
           img: string
@@ -129,7 +129,7 @@ export type Database = {
           contacts?: string[] | null
           created_at?: string
           description?: string | null
-          doctor_id: number
+          doctor_id?: number | null
           email: string
           id?: number
           img?: string
@@ -145,7 +145,7 @@ export type Database = {
           contacts?: string[] | null
           created_at?: string
           description?: string | null
-          doctor_id?: number
+          doctor_id?: number | null
           email?: string
           id?: number
           img?: string
@@ -316,10 +316,11 @@ export type Database = {
           id: number
           img: string
           last_name: string
-          license_id: Json
+          license_id: Json | null
           license_number: string
           postal_id: string
           role: string
+          status: string
           updated_at: string
           verified: boolean
         }
@@ -337,10 +338,11 @@ export type Database = {
           id?: number
           img?: string
           last_name: string
-          license_id: Json
+          license_id?: Json | null
           license_number: string
           postal_id: string
           role: string
+          status?: string
           updated_at?: string
           verified?: boolean
         }
@@ -358,10 +360,11 @@ export type Database = {
           id?: number
           img?: string
           last_name?: string
-          license_id?: Json
+          license_id?: Json | null
           license_number?: string
           postal_id?: string
           role?: string
+          status?: string
           updated_at?: string
           verified?: boolean
         }

@@ -150,3 +150,17 @@ export const update = async (
 	if (error || data === null) throw new Error("Error updating user");
 	return transformUser(data);
 };
+
+export const updateUserClinic = async (inputs: {
+	id: number;
+	clinicId: number;
+}) => {
+	const { data, error } = await db
+		.from("user")
+		.update({ clinic_id: inputs.clinicId })
+		.eq("id", inputs.id)
+		.select()
+		.maybeSingle();
+	if (error || data === null) throw new Error("Error updating user");
+	return transformUser(data);
+};

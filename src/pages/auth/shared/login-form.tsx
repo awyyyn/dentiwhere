@@ -54,7 +54,10 @@ export default function LoginForm() {
 						<Button
 							variant="ghost"
 							className="hover:bg-emerald-500 bg-emerald-500 hover:text-white"
-							onClick={() => navigate("/profile", { state: { edit: true } })}>
+							onClick={() => {
+								sessionStorage.setItem("editProfile", "true");
+								navigate("/profile");
+							}}>
 							Setup
 						</Button>
 					),

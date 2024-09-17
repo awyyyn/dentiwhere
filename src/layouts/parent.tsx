@@ -50,7 +50,7 @@ export default function Parent() {
 	if (loading) return <Loader />;
 
 	return (
-		<div className="bg-red-200 sm:bg-red-600 md:bg-yellow-300 lg:bg-1 xl:bg-orange-400">
+		<div className="gradient-bg">
 			<Outlet />
 			<Toaster />
 		</div>

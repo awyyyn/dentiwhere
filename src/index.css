@@ -12,6 +12,9 @@
 		#fbfefe
 	);
 }
+.gradient-bg {
+	background: linear-gradient(180deg, #ffffff, #7de2f3);
+}
 
 .gradient-auth-page {
 	background: linear-gradient(180deg, #ffffff, #7de1f3);

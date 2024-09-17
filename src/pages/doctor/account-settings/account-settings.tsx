@@ -3,7 +3,6 @@ import Dropzone, { DropzoneRef } from "react-dropzone";
 import { db } from "@/utils/supabase";
 import { v4 as uuid } from "uuid";
 import { useAtom } from "jotai";
-import { clinicAtom } from "@/atoms/clinic-atom";
 import { ImSpinner2 } from "react-icons/im";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
@@ -23,7 +22,6 @@ import { Label } from "@/components/ui/label";
 import LogoWithText from "@/components/shared/logo-with-text/logo-with-text";
 import { userAtom } from "@/atoms/user-atom";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useLocation } from "react-router-dom";
 import { update } from "@/actions/user";
 import { Status } from "@/types/types";
 import { format } from "date-fns";
@@ -35,6 +33,7 @@ import {
 } from "@/components/ui/popover";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 
 const userForm = z.object({
 	fist_name: z.string().min(1, { message: "First name is required" }),
@@ -55,17 +54,17 @@ const userForm = z.object({
 });
 
 export default function AccountSettings() {
+	const { toast } = useToast();
 	const avatarRef = useRef<DropzoneRef>(null!);
 	const frontIdRef = useRef<DropzoneRef>(null!);
 	const backIdRef = useRef<DropzoneRef>(null!);
 	const [user, setUser] = useAtom(userAtom);
-	const [clinic, setClinic] = useAtom(clinicAtom);
 	const [editing, setEditing] = useState(false);
 	const [submitting, setSubmitting] = useState(false);
 	const [uploading, setUploading] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [placeholder, setPlaceholder] = useState(
-		editing && clinic?.img ? clinic.img : ""
+		editing && user?.img ? user.img : ""
 	);
 	const [frontId, setFrontId] = useState(
 		editing ? user.licenseId.frontImg : ""
@@ -83,7 +82,7 @@ export default function AccountSettings() {
 			address: user?.address ?? "",
 			gender: user?.address ?? "",
 			postal_id: user?.address ?? "",
-			verified_id: user?.verifiedId ?? "",
+			license_id: user?.licenseNumber ?? "",
 		},
 	});
 
@@ -188,20 +187,38 @@ export default function AccountSettings() {
 				status: Status.PENDING,
 			});
 
+			if (data.status === Status.PENDING) {
+				toast({
+					title: "Profile Updated",
+					description: "Please wait for the admin to verify your account",
+					className: "bg-emerald-500 text-white",
+				});
+			} else {
+				toast({
+					title: "Profile Updated",
+					description: "Your profile has been updated successfully",
+					className: "bg-emerald-500 text-white",
+				});
+			}
 			setUser(data);
 			setEditing(false);
 			setSubmitting(false);
 		} catch (error) {
 			console.error(error);
+			toast({
+				title: "Error",
+				description: "An error occurred while updating your profile",
+				variant: "destructive",
+			});
 			setSubmitting(false);
 		}
 	};
 
 	return (
-		<section className="">
+		<section className=" ">
 			<Form {...form}>
 				<form
-					className=" p-1 sm:px-10 pb-20"
+					className=" p-1 sm:px-10 lg:pb-20"
 					onSubmit={form.handleSubmit(handleSubmit)}>
 					<div className="grid  grid-cols-1 lg:grid-cols-4   gap-y-8 lg:gap-y-0 ">
 						<div className="flex order-2 lg:order-1 md:w-full flex-col lg:flex-row  items-center lg:col-span-3 lg:space-x-10 xl:space-x-20 ">
@@ -269,7 +286,7 @@ export default function AccountSettings() {
 					</div>
 
 					<div className=" grid grid-cols-1 lg:grid-cols-4 grid-flow-row-dense mt-8 lg:mt-10 lg:gap-y-0 ">
-						<div className="flex w-full   flex-col flex-wrap lg:grid  place-content-start lg:-space-y-0 lg:grid-flow-row lg:grid-cols-2 md:gap-8 md:col-span-4  lg:col-span-4 xl:col-span-3 lg:gap-x-10 pr-5 ">
+						<div className="flex w-full   flex-col flex-wrap lg:grid  place-content-start lg:-space-y-0 lg:grid-flow-row lg:grid-cols-2 md:gap-8 md:col-span-4  lg:col-span-4 xl:col-span-3 lg:gap-x-10 pr-5  overflow-y-hidden max-h-full relative">
 							<FormField
 								control={form.control}
 								name="fist_name"
@@ -701,6 +718,7 @@ export default function AccountSettings() {
 								<Button
 									onClick={() => setEditing(false)}
 									type="button"
+									disabled={submitting}
 									className={`bg-white w-full md:max-w-min hover:bg-white text-gray-800 shadow-lg ${
 										editing ?? "hidden"
 									}`}>
@@ -708,8 +726,10 @@ export default function AccountSettings() {
 								</Button>
 								<Button
 									type="submit"
+									disabled={submitting}
 									className="bg-1 w-full md:max-w-min hover:bg-1 text-gray-800 shadow-lg">
-									Save Changes
+									{submitting && <ImSpinner2 className="mr-2 animate-spin" />}
+									{submitting ? "Saving..." : "Save Changes"}
 								</Button>
 							</>
 						)}

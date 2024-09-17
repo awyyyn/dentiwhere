@@ -19,8 +19,6 @@ export default function CommonLayout() {
 		window.scrollTo({ top: 0, left: 0, behavior: "instant" });
 	}, [location.pathname]);
 
-	console.log("user", user);
-
 	return (
 		<div className="gradient-landing-page py-10  ">
 			<div className="flex flex-row justify-end w-11/12 mx-auto md:w-10/12 absolute -translate-x-[50%] left-[50%] z-30">

@@ -69,7 +69,7 @@ export default function LoginForm() {
 				replace: true,
 			});
 		} catch (error) {
-			console.log(error instanceof Error);
+			console.error(error instanceof Error);
 			if (error instanceof Error) {
 				return toast({
 					title: "Error",

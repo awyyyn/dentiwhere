@@ -55,8 +55,6 @@ const userForm = z.object({
 });
 
 export default function AccountSettings() {
-	const { state } = useLocation();
-	console.log(state, "state");
 	const avatarRef = useRef<DropzoneRef>(null!);
 	const frontIdRef = useRef<DropzoneRef>(null!);
 	const backIdRef = useRef<DropzoneRef>(null!);
@@ -104,7 +102,7 @@ export default function AccountSettings() {
 
 			if (data === null) {
 				setUploading(false);
-				return console.log("No data");
+				return;
 			}
 
 			const response = await db.storage
@@ -113,7 +111,7 @@ export default function AccountSettings() {
 
 			if (response.data.publicUrl === null) {
 				setUploading(false);
-				return console.log("No data");
+				return;
 			}
 			if (type === "frontId") {
 				setFrontId(response.data.publicUrl);
@@ -126,7 +124,7 @@ export default function AccountSettings() {
 			}
 			setUploading(false);
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 			setPlaceholder("");
 			setUploading(false);
 		}
@@ -194,13 +192,10 @@ export default function AccountSettings() {
 			setEditing(false);
 			setSubmitting(false);
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 			setSubmitting(false);
 		}
 	};
-
-	console.log(user, "user");
-	console.log(form.getValues("birth_date"), "user date");
 
 	return (
 		<section className="">
@@ -256,7 +251,6 @@ export default function AccountSettings() {
 									type="button"
 									onClick={(e) => {
 										e.preventDefault();
-										console.log(avatarRef.current);
 										avatarRef.current?.open();
 									}}
 									className="w-48 mx-auto text-md lg:max-w-min lg:mx-0    xl:text-2xl bg-1 hover:text-black text-black p-6 shadow-lg hover:bg-1 shadow-gray-700/50 hover:shadow-lg active:scale-90 transition-all duration-300">

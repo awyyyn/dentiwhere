@@ -17,8 +17,6 @@ export default function DentalSetting() {
 
 	if (adding && !user.clinicId) return <AddClinic />;
 
-	console.log("user", user);
-
 	return (
 		<>
 			<Layout>

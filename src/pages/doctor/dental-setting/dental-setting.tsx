@@ -5,13 +5,14 @@ import NotVerified from "./not-verified";
 import NoRecord from "./no-record";
 import { useState } from "react";
 import AddClinic from "./add-clinic";
+import { Status } from "@/types/types";
 
 export default function DentalSetting() {
 	const user = useAtomValue(userAtom);
 	const [adding, setAdding] = useState(false);
 
-	if (!user.verified) return <NotVerified />;
-	if (!user.clinicId && !adding)
+	if (user.status === Status.unverified) return <NotVerified />;
+	if (user.status !== Status.verified && !adding)
 		return <NoRecord handleAdd={() => setAdding(true)} />;
 
 	if (adding && !user.clinicId) return <AddClinic />;

@@ -23,9 +23,22 @@ import { Label } from "@/components/ui/label";
 import LogoWithText from "@/components/shared/logo-with-text/logo-with-text";
 import { userAtom } from "@/atoms/user-atom";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useLocation } from "react-router-dom";
+import { update } from "@/actions/user";
+import { Status } from "@/types/types";
+import { format } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from "@/components/ui/popover";
+import { CalendarIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+
 const userForm = z.object({
 	fist_name: z.string().min(1, { message: "First name is required" }),
-	last_name: z.string().min(1, { message: "First name is required" }),
+	last_name: z.string().min(1, { message: "Last name is required" }),
 	email: z.string().email(),
 	contact: z
 		.string()
@@ -35,13 +48,15 @@ const userForm = z.object({
 			message: "Please enter a valid phone number.",
 		}),
 	gender: z.string(),
-	verified_id: z.string().min(1, { message: "First name is required" }),
-	postal_id: z.string().min(1, { message: "First name is required" }),
-	id: z.string().min(1, { message: "First name is required" }),
-	address: z.string().min(1, { message: "First name is required" }),
+	postal_id: z.string().min(1, { message: "Postal ID is required" }),
+	birth_date: z.date(),
+	license_id: z.string().min(1, { message: "License ID Number is required" }),
+	address: z.string().min(1, { message: "Address is required" }),
 });
 
 export default function AccountSettings() {
+	const { state } = useLocation();
+	console.log(state, "state");
 	const avatarRef = useRef<DropzoneRef>(null!);
 	const frontIdRef = useRef<DropzoneRef>(null!);
 	const backIdRef = useRef<DropzoneRef>(null!);
@@ -58,6 +73,7 @@ export default function AccountSettings() {
 		editing ? user.licenseId.frontImg : ""
 	);
 	const [backId, setBackId] = useState(editing ? user.licenseId.backImg : "");
+	const [errors, setErrors] = useState({ frontImg: false, backImg: false });
 
 	const form = useForm<z.infer<typeof userForm>>({
 		resolver: zodResolver(userForm),
@@ -101,8 +117,10 @@ export default function AccountSettings() {
 			}
 			if (type === "frontId") {
 				setFrontId(response.data.publicUrl);
+				setErrors((e) => ({ ...e, frontImg: false }));
 			} else if (type === "backId") {
 				setBackId(response.data.publicUrl);
+				setErrors((e) => ({ ...e, backImg: false }));
 			} else {
 				setPlaceholder(response.data.publicUrl);
 			}
@@ -116,6 +134,9 @@ export default function AccountSettings() {
 
 	useEffect(() => {
 		if (user.id !== 0) {
+			if (sessionStorage.getItem("editProfile") === "true") {
+				setEditing(true);
+			}
 			setLoading(true);
 			form.setValue("fist_name", user.firstName);
 			form.setValue("last_name", user.lastName);
@@ -124,18 +145,62 @@ export default function AccountSettings() {
 				"contact",
 				user?.contacts[0] ? user?.contacts[0].slice(1) : ""
 			);
+			if (user.birthDate) {
+				form.setValue("birth_date", new Date(user.birthDate));
+			}
 			form.setValue("address", user.address ?? "");
 			form.setValue("gender", user.gender);
 			form.setValue("postal_id", user.postalId);
-			form.setValue("verified_id", user.verifiedId);
+			form.setValue("license_id", user.licenseNumber);
 			setFrontId(user.licenseId.frontImg);
 			setBackId(user.licenseId.backImg);
 			setPlaceholder(user.img);
 			setLoading(false);
 		}
+
+		return () => sessionStorage.clear();
 	}, [setUser, user]);
 
-	const handleSubmit = () => {};
+	const handleSubmit = async (v: z.infer<typeof userForm>) => {
+		setSubmitting(true);
+		if (!frontId) setErrors((e) => ({ ...e, frontImg: true }));
+		if (!backId) setErrors((e) => ({ ...e, backImg: true }));
+		if (errors.backImg || errors.frontImg) return;
+
+		try {
+			const data = await update({
+				id: Number(user?.id),
+				address: v.address,
+				contacts: [`0${v.contact}`],
+				email: v.email,
+				birth_date: v.birth_date.toISOString(),
+				first_name: v.fist_name,
+				last_name: v.last_name,
+				boost: user?.boost ?? 0,
+				verified: user?.verified ?? false,
+				license_id: {
+					frontImg: frontId,
+					backImg: backId,
+				},
+				img: placeholder,
+				postal_id: v.postal_id,
+				gender: v.gender,
+				license_number: v.license_id,
+				role: user?.role ?? "DOCTOR",
+				status: Status.PENDING,
+			});
+
+			setUser(data);
+			setEditing(false);
+			setSubmitting(false);
+		} catch (error) {
+			console.log(error);
+			setSubmitting(false);
+		}
+	};
+
+	console.log(user, "user");
+	console.log(form.getValues("birth_date"), "user date");
 
 	return (
 		<section className="">
@@ -146,7 +211,7 @@ export default function AccountSettings() {
 					<div className="grid  grid-cols-1 lg:grid-cols-4   gap-y-8 lg:gap-y-0 ">
 						<div className="flex order-2 lg:order-1 md:w-full flex-col lg:flex-row  items-center lg:col-span-3 lg:space-x-10 xl:space-x-20 ">
 							<Dropzone
-								disabled={!editing}
+								disabled={!editing || loading || uploading || submitting}
 								useFsAccessApi
 								ref={avatarRef}
 								onDrop={(e) => handleDropImage(e, "avatar")}>
@@ -305,7 +370,7 @@ export default function AccountSettings() {
 													/>
 													<Input
 														{...field}
-														readOnly={editing || loading || uploading}
+														readOnly={!editing || loading || uploading}
 														className="md:ml-2 text-lg py-6 px-3 bg-white"
 														placeholder="9123456789"
 													/>
@@ -321,7 +386,7 @@ export default function AccountSettings() {
 								<FormField
 									control={form.control}
 									name="gender"
-									render={() => (
+									render={({ field }) => (
 										<FormItem>
 											<FormLabel>
 												Gender <span className="text-destructive">*</span>
@@ -334,12 +399,18 @@ export default function AccountSettings() {
 													</div>
 												) : (
 													<RadioGroup
-														disabled={!editing || loading || uploading}
-														className="flex md:ml-2 ">
+														value={field.value}
+														onValueChange={field.onChange}
+														className="flex md:ml-2 disabled:opacity-100">
 														<div
 															onClick={() => form.setValue("gender", "male")}
 															className="flex items-center space-x-2 bg-white rounded-lg px-6 py-3">
-															<RadioGroupItem value="male" id="male" />
+															<RadioGroupItem
+																disabled={!editing || loading || uploading}
+																value="male"
+																className="disabled:opacity-100 "
+																id="male"
+															/>
 															<Label
 																htmlFor="male"
 																className=" text-lg text-gray-400 font-light">
@@ -349,7 +420,12 @@ export default function AccountSettings() {
 														<div
 															onClick={() => form.setValue("gender", "female")}
 															className="flex items-center space-x-2 bg-white rounded-lg px-6 py-3">
-															<RadioGroupItem value="female" id="female" />
+															<RadioGroupItem
+																disabled={!editing || loading || uploading}
+																className="disabled:opacity-100"
+																value="female"
+																id="female"
+															/>
 															<Label
 																htmlFor="female"
 																className=" text-lg text-gray-400 font-light">
@@ -367,23 +443,48 @@ export default function AccountSettings() {
 
 							<FormField
 								control={form.control}
-								name="verified_id"
+								name="birth_date"
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>
-											Verified ID
+											Birth Date
 											<span className="text-destructive">*</span>
 										</FormLabel>
-										<FormControl>
+										<FormControl className="block">
 											{loading ? (
 												<Skeleton className="w-full h-[3.1rem]" />
 											) : (
-												<Input
-													readOnly={!editing || loading || uploading}
-													className="md:ml-2 text-lg py-6 px-3 bg-white"
-													placeholder="1234 0000 5566 7890"
-													{...field}
-												/>
+												<Popover>
+													<br />
+													<PopoverTrigger
+														asChild
+														className="md:ml-2 min-w-full text-lg py-6 px-3 bg-white">
+														<Button
+															variant={"outline"}
+															disabled={!editing || loading || uploading}
+															className={cn(
+																"disabled:opacity-100  w-[280px] justify-start text-left font-normal",
+																!form.getValues("birth_date") &&
+																	"text-muted-foreground"
+															)}>
+															<CalendarIcon className="mr-2 h-4 w-4" />
+															{form.getValues("birth_date") ? (
+																format(form.getValues("birth_date"), "PPP")
+															) : (
+																<span>Pick a date</span>
+															)}
+														</Button>
+													</PopoverTrigger>
+													<PopoverContent className="w-auto p-0">
+														<Calendar
+															disabled={!editing || loading || uploading}
+															mode="single"
+															selected={new Date(form.getValues("birth_date"))}
+															onSelect={field.onChange}
+															initialFocus
+														/>
+													</PopoverContent>
+												</Popover>
 											)}
 										</FormControl>
 										<FormMessage />
@@ -418,11 +519,12 @@ export default function AccountSettings() {
 
 							<FormField
 								control={form.control}
-								name="id"
+								name="license_id"
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>
-											ID Number <span className="text-destructive">*</span>
+											License ID Number{" "}
+											<span className="text-destructive">*</span>
 										</FormLabel>
 										<FormControl>
 											{loading ? (
@@ -474,8 +576,16 @@ export default function AccountSettings() {
 							</h1>
 							<div className="flex flex-col lg:flex-row xl:flex-col gap-5 md:gap-y-0">
 								<div className="  space-y-3">
-									<Label>Front ID</Label>
+									<Label>
+										Front ID <span className="text-destructive">*</span>
+										{errors.frontImg && (
+											<span className="text-xs text-destructive ml-2">
+												Required
+											</span>
+										)}
+									</Label>
 									<Dropzone
+										disabled={!editing || loading || uploading || submitting}
 										ref={frontIdRef}
 										onDrop={(e) => handleDropImage(e, "frontId")}
 										key={"frontId"}>
@@ -524,8 +634,16 @@ export default function AccountSettings() {
 									</div>
 								</div>
 								<div className="space-y-3">
-									<Label>Back ID</Label>
+									<Label>
+										Back ID <span className="text-destructive">*</span>
+										{errors.backImg && (
+											<span className="text-xs text-destructive ml-2">
+												Required
+											</span>
+										)}
+									</Label>
 									<Dropzone
+										disabled={!editing || loading || uploading || submitting}
 										ref={backIdRef}
 										onDrop={(e) => handleDropImage(e, "backId")}
 										key={"frontId"}>
@@ -544,7 +662,7 @@ export default function AccountSettings() {
 														<ImSpinner2 className="animate-spin" size={30} />
 													) : (
 														<p className="transition-all duration-300 text-white font-bold">
-															{frontId ? "Replace Image" : "Upload Image"}
+															{backId ? "Replace Image" : "Upload Image"}
 														</p>
 													)}
 												</div>

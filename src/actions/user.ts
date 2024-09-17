@@ -1,5 +1,5 @@
 import { ERR_INTERNAL, ERR_USER_ALREADY_REGISTERED } from "@/constants/errors";
-import { DBUser, Role, User } from "@/types/types";
+import { DBUser, Role, Status, User } from "@/types/types";
 import { db } from "@/utils/supabase";
 
 export const transformUser = (user: DBUser): User => {
@@ -11,12 +11,19 @@ export const transformUser = (user: DBUser): User => {
 			: Role.superAdmin;
 
 	return {
+		status:
+			user.status.toLowerCase() === "pending"
+				? Status["PENDING"]
+				: user.status.toLowerCase() === "verified"
+				? Status["verified"]
+				: Status["unverified"],
 		id: user.id,
 		authId: user.auth_id,
 		email: user.email,
 		firstName: user.first_name,
 		lastName: user.last_name,
 		gender: user.gender,
+
 		licenseId:
 			typeof user.license_id === "string"
 				? JSON.parse(user.license_id)
@@ -33,7 +40,7 @@ export const transformUser = (user: DBUser): User => {
 		createdAt: user.created_at ?? "",
 		updatedAt: user.updated_at ?? "",
 		address: user.address ?? "",
-		birthDate: user.birth_date ?? "",
+		birthDate: user.birth_date ? new Date(user.birth_date).toISOString() : "",
 	};
 };
 
@@ -45,7 +52,7 @@ export const getOne = async (id: string) => {
 		.or(`auth_id.eq.${id}`);
 
 	if (error) {
-		console.log(error);
+		console.error(error);
 	}
 
 	if (data === null || (data && data?.length === 0)) return null;
@@ -61,7 +68,7 @@ export const getOneByAuthID = async (id: string) => {
 		.maybeSingle();
 
 	if (error) {
-		console.log(error);
+		console.error(error);
 	}
 
 	if (data === null) return null;
@@ -73,7 +80,7 @@ export const getAll = async () => {
 	const { data, error } = await db.from("user").select("*");
 
 	if (error) {
-		console.log(error);
+		console.error(error);
 	}
 
 	return data ? data?.map((user) => transformUser(user)) : [];
@@ -100,7 +107,7 @@ export const create = async (user: any): Promise<User> => {
 	});
 
 	if (error) {
-		console.log(error);
+		console.error(error);
 		throw new Error(error.message);
 	}
 
@@ -132,7 +139,7 @@ export const create = async (user: any): Promise<User> => {
 };
 
 export const update = async (
-	inputs: Omit<DBUser, "created_at" | "updated_at" | "auth_id">
+	inputs: Omit<DBUser, "created_at" | "updated_at" | "auth_id" | "clinic_id">
 ): Promise<User> => {
 	const { data, error } = await db
 		.from("user")

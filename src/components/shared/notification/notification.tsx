@@ -5,7 +5,6 @@ import {
 	PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import React from "react";
 import { RiNotificationFill } from "react-icons/ri";
 
 export default function Notification() {

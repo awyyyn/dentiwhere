@@ -6,16 +6,11 @@ import {
 	amenitiesDialogAtom,
 } from "@/atoms/dialogs-atom";
 import { useAtomValue, useSetAtom } from "jotai";
-import { amenitiesAtom, amenityDataAtom } from "@/atoms/amenity-atom";
-import {
-	accessibilitiesAtom,
-	accessibilitiesDataAtom,
-} from "@/atoms/accessibility-atom";
+import { amenitiesAtom } from "@/atoms/amenity-atom";
+import { accessibilitiesAtom } from "@/atoms/accessibility-atom";
 import { Separator } from "@/components/ui/separator";
 
 export default function About() {
-	const setAmenityData = useSetAtom(amenityDataAtom);
-	const setAccissibilityData = useSetAtom(accessibilitiesDataAtom);
 	const accessibilites = useAtomValue(accessibilitiesAtom);
 	const amenities = useAtomValue(amenitiesAtom);
 	const setAmenityDialog = useSetAtom(amenitiesDialogAtom);

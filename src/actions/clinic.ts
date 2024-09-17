@@ -10,7 +10,7 @@ const transformClinic = (clinic: DBClinic): Clinic => {
 		contacts: clinic.contacts || [],
 		createdAt: clinic.created_at,
 		description: clinic.description || "",
-		doctorId: clinic.doctor_id,
+		doctorId: Number(clinic.doctor_id),
 		email: clinic.email,
 		img: clinic.img,
 		updatedAt: clinic.updated_at,

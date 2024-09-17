@@ -26,7 +26,7 @@ import { createMany as createManyAmenities } from "@/actions/amenities";
 import { createMany as createManyAccessibilities } from "@/actions/accessibilities";
 import { useToast } from "@/hooks/use-toast";
 import { clinicAtom } from "@/atoms/clinic-atom";
-import { update as updateUser } from "@/actions/user";
+import { updateUserClinic } from "@/actions/user";
 import { Clinic } from "@/types/types";
 import { useNavigate } from "react-router-dom";
 
@@ -227,21 +227,9 @@ const AddClinic = ({
 					}))
 				);
 
-				const updatedUser = await updateUser({
-					address: user.address ?? "",
-					birth_date: user?.birthDate
-						? new Date(user?.birthDate).toISOString()
-						: null,
-					contacts: user.contacts,
-					email: user.email,
+				const updatedUser = await updateUserClinic({
+					clinicId: newClinic.id,
 					id: user.id,
-					img: user.img,
-					license_number: user.licenseNumber,
-					name: user.name,
-					boost: user.boost,
-					clinic_id: newClinic.id,
-					role: user.role,
-					verified: user.verified,
 				});
 				setUser(updatedUser);
 				form.reset();

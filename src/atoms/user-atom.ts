@@ -1,4 +1,4 @@
-import { Role, User } from "@/types/types";
+import { Role, Status, User } from "@/types/types";
 import { atom } from "jotai";
 
 export const userAtomDefaultValue: User = {
@@ -15,6 +15,7 @@ export const userAtomDefaultValue: User = {
 		frontImg: "",
 		backImg: "",
 	},
+	status: Status.unverified,
 	licenseNumber: "",
 	verified: false,
 	clinicId: 0,

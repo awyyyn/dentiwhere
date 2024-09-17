@@ -9,7 +9,7 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      accessiblity: {
+      accessibility: {
         Row: {
           clinic_id: number
           created_at: string
@@ -63,7 +63,15 @@ export type Database = {
           name?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "amenities_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "clinics"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       category: {
         Row: {
@@ -105,7 +113,7 @@ export type Database = {
           contacts: string[] | null
           created_at: string
           description: string | null
-          doctor_id: number
+          doctor_id: number | null
           email: string
           id: number
           img: string
@@ -121,7 +129,7 @@ export type Database = {
           contacts?: string[] | null
           created_at?: string
           description?: string | null
-          doctor_id: number
+          doctor_id?: number | null
           email: string
           id?: number
           img?: string
@@ -137,7 +145,7 @@ export type Database = {
           contacts?: string[] | null
           created_at?: string
           description?: string | null
-          doctor_id?: number
+          doctor_id?: number | null
           email?: string
           id?: number
           img?: string
@@ -156,6 +164,89 @@ export type Database = {
           },
         ]
       }
+      notification: {
+        Row: {
+          content: string
+          created_at: string
+          from: number | null
+          id: number
+          title: string
+          to: number | null
+          updated_at: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          from?: number | null
+          id?: number
+          title: string
+          to?: number | null
+          updated_at?: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          from?: number | null
+          id?: number
+          title?: string
+          to?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_from_fkey"
+            columns: ["from"]
+            isOneToOne: false
+            referencedRelation: "user"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notification_to_fkey"
+            columns: ["to"]
+            isOneToOne: false
+            referencedRelation: "user"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reviews: {
+        Row: {
+          clinic_id: number
+          created_at: string
+          id: number
+          name: string
+          rate: number
+          review: string
+          updated_at: string
+        }
+        Insert: {
+          clinic_id: number
+          created_at?: string
+          id?: number
+          name: string
+          rate: number
+          review: string
+          updated_at?: string
+        }
+        Update: {
+          clinic_id?: number
+          created_at?: string
+          id?: number
+          name?: string
+          rate?: number
+          review?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "clinics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       services: {
         Row: {
           active: boolean
@@ -167,7 +258,7 @@ export type Database = {
           img: string | null
           name: string
           rate: string | null
-          updated_at: string | null
+          updated_at: string
         }
         Insert: {
           active?: boolean
@@ -179,7 +270,7 @@ export type Database = {
           img?: string | null
           name: string
           rate?: string | null
-          updated_at?: string | null
+          updated_at?: string
         }
         Update: {
           active?: boolean
@@ -191,7 +282,7 @@ export type Database = {
           img?: string | null
           name?: string
           rate?: string | null
-          updated_at?: string | null
+          updated_at?: string
         }
         Relationships: [
           {
@@ -212,53 +303,68 @@ export type Database = {
       }
       user: {
         Row: {
-          address: string | null
+          address: string
           auth_id: string
           birth_date: string | null
           boost: boolean
           clinic_id: number | null
           contacts: string[] | null
-          created_at: string | null
+          created_at: string
           email: string
+          first_name: string
+          gender: string
           id: number
-          img: string | null
+          img: string
+          last_name: string
+          license_id: Json | null
           license_number: string
-          name: string
-          role: string | null
+          postal_id: string
+          role: string
+          status: string
           updated_at: string
           verified: boolean
         }
         Insert: {
-          address?: string | null
+          address: string
           auth_id: string
           birth_date?: string | null
           boost?: boolean
           clinic_id?: number | null
           contacts?: string[] | null
-          created_at?: string | null
+          created_at?: string
           email: string
+          first_name: string
+          gender: string
           id?: number
-          img?: string | null
+          img?: string
+          last_name: string
+          license_id?: Json | null
           license_number: string
-          name: string
-          role?: string | null
+          postal_id: string
+          role: string
+          status?: string
           updated_at?: string
           verified?: boolean
         }
         Update: {
-          address?: string | null
+          address?: string
           auth_id?: string
           birth_date?: string | null
           boost?: boolean
           clinic_id?: number | null
           contacts?: string[] | null
-          created_at?: string | null
+          created_at?: string
           email?: string
+          first_name?: string
+          gender?: string
           id?: number
-          img?: string | null
+          img?: string
+          last_name?: string
+          license_id?: Json | null
           license_number?: string
-          name?: string
-          role?: string | null
+          postal_id?: string
+          role?: string
+          status?: string
           updated_at?: string
           verified?: boolean
         }
@@ -273,7 +379,7 @@ export type Database = {
           {
             foreignKeyName: "user_clinic_id_fkey"
             columns: ["clinic_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "clinics"
             referencedColumns: ["id"]
           },

@@ -13,7 +13,7 @@ export default function NoRecord({ handleAdd }: { handleAdd: () => void }) {
 			<Layout>
 				<div />
 			</Layout>
-			<div className="flex flex-col items-center gap-y-1">
+			<div className="flex flex-col translate-y-20 md:translate-y-0 text-center items-center gap-y-1">
 				{user.status === Status.PENDING ? (
 					<>
 						<MdOutlinePendingActions size={50} />

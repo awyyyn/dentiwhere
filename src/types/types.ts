@@ -17,6 +17,12 @@ export enum Status {
 	PENDING = "PENDING",
 }
 
+export type Visit = {
+	id: number;
+	isMobile: boolean;
+	createdAt: Date | string;
+};
+
 export type User = {
 	id: number;
 	licenseNumber: string;

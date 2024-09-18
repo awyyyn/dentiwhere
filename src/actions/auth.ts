@@ -5,6 +5,7 @@ import {
 import { db } from "@/utils/supabase";
 import { transformUser } from "./user";
 import { User } from "@/types/types";
+import { format } from "date-fns";
 
 export const login = async (user: any): Promise<User> => {
 	const ifExists = await db
@@ -62,4 +63,61 @@ export const changePassword = async ({
 	if (updateErr) throw new Error(updateErr.message);
 
 	return true;
+};
+
+export const visit = async (isMobile: boolean) => {
+	try {
+		const { error } = await db.from("visits").insert({
+			isMobile,
+		});
+		if (error) throw new Error(error.message);
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+export const getVisits = async () => {
+	try {
+		const { data: mobileData, error: mobileError } = await db
+			.from("visits")
+			.select()
+			.eq("isMobile", true);
+		const { data, error } = await db
+			.from("visits")
+			.select()
+			.neq("isMobile", true);
+
+		if (mobileError || error)
+			throw new Error(error?.message ?? mobileError?.message);
+		const combinedData = mobileData
+			.concat(data)
+			.sort(
+				(a, b) =>
+					new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+			);
+
+		const groupedData = combinedData.reduce((acc, d) => {
+			const date = format(new Date(d.created_at), "yyyy-MM-dd");
+			if (!acc[date]) {
+				acc[date] = { date, desktop: 0, mobile: 0 };
+			}
+			if (d.isMobile) {
+				acc[date].mobile += 1;
+			} else {
+				acc[date].desktop += 1;
+			}
+			return acc;
+		}, {} as Record<string, { date: string; desktop: number; mobile: number }>);
+
+		console.log(groupedData, "groupedData");
+
+		return {
+			error: null,
+			data: Object.values(groupedData),
+		};
+	} catch {
+		return {
+			error: "Something went wrong, Please try again later or contact support!",
+		};
+	}
 };

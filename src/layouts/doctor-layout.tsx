@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { FaUserAlt } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { Separator } from "@/components/ui/separator";
@@ -13,11 +13,23 @@ import {
 	SheetHeader,
 	SheetTitle,
 } from "@/components/ui/sheet";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LogoWithText from "@/components/shared/logo-with-text/logo-with-text";
+import { useAtomValue } from "jotai";
+import { userAtom } from "@/atoms/user-atom";
+import { Role } from "@/types/types";
 
 export default function DoctorLayout() {
+	const user = useAtomValue(userAtom);
 	const [open, setIsOpen] = useState(false);
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (user.role !== Role.doctor) {
+			return navigate("/dashboard", { replace: true });
+		}
+	}, []);
+
 	return (
 		<div className="p-2 h-screen  sm:p-5 items-center lg:items-start lg:max-h-min  lg:p-10 lg:pb-5 lg:space-x-5 flex">
 			<aside className="hidden lg:block  lg:w-3/12 xl:w-2/12 overflow-hidden bg-[#BCF0F9] rounded-xl">

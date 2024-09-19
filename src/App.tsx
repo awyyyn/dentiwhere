@@ -15,6 +15,10 @@ import Logout from "./pages/doctor/logout/logout";
 import Parent from "./layouts/parent";
 import DentalSetting from "./pages/doctor/dental-setting/dental-setting";
 import Notification from "./pages/doctor/notification/notification";
+import Doctors from "./pages/admin/doctors/doctors";
+import Doctor from "./pages/admin/doctor/doctor";
+import Clinics from "./pages/admin/clinics/clinics";
+import Clinic from "./pages/admin/clinic/clinic";
 
 const Login = Loadable(lazy(() => import("./pages/auth/login/login")));
 const SignUp = Loadable(lazy(() => import("./pages/auth/sign-up/sign-up")));
@@ -75,6 +79,22 @@ export default function App() {
 						{
 							path: "dashboard",
 							element: <Dashboard />,
+						},
+						{
+							path: "doctors",
+							element: <Doctors />,
+						},
+						{
+							path: "doctors/view/:id",
+							element: <Doctor />,
+						},
+						{
+							path: "clinics",
+							element: <Clinics />,
+						},
+						{
+							path: "clinics/view/:id",
+							element: <Clinic />,
 						},
 					],
 				},

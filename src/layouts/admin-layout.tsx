@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useAtomValue } from "jotai";
 import { userAtom } from "@/atoms/user-atom";
@@ -35,7 +35,9 @@ export default function AdminLayout() {
 					</Button> */}
 
 					<nav className="space-y-2">
-						<div className="flex     w-full">
+						<div
+							className="flex     w-full"
+							onClick={() => navigate("/dashboard")}>
 							<Tooltip tooltip="Dashboard">
 								<Button
 									variant="ghost"
@@ -47,20 +49,28 @@ export default function AdminLayout() {
 								</Button>
 							</Tooltip>
 						</div>
-						<div className="flex   w-full">
-							<Tooltip tooltip="Dashboard">
+						<NavLink
+							to="doctors"
+							className={({ isActive }) =>
+								`flex w-full border-r-4  group transition-all ${
+									isActive
+										? "border-black bg-1/20"
+										: "border-transparent hover:border-black"
+								}`
+							}>
+							<Tooltip tooltip="Doctors">
 								<Button
 									variant="ghost"
-									className=" md:justify-start lg:px-5 xl:px-10 transition-all duration-300   w-full border-r-4 border-transparent hover:border-black hover:bg-1/20 py-6 rounded-none">
+									className=" md:justify-start lg:px-5 xl:px-10 transition-all duration-300 group-hover:bg-1/20  w-full py-6 rounded-none">
 									<Users className="max-w-10 min-w-10 ml-2 md:ml-0  " />
 									<p className="hidden md:block md:ml-2 lg:ml-4 xl:ml-8">
 										Doctors
 									</p>
 								</Button>
 							</Tooltip>
-						</div>
-						<div className="  w-full">
-							<Tooltip tooltip="Dashboard">
+						</NavLink>
+						<div className="  w-full" onClick={() => navigate("/clinics")}>
+							<Tooltip tooltip="Clinics">
 								<Button
 									variant="ghost"
 									className="  md:justify-start   lg:px-5 xl:px-10 transition-all duration-300   w-full border-r-4 border-transparent hover:border-black hover:bg-1/20 py-6 rounded-none">
@@ -74,7 +84,7 @@ export default function AdminLayout() {
 					</nav>
 				</div>
 			</aside>
-			<main className="mt-16 px-1 w-full max-h-screen overflow-y-scroll md:w-10/12 lg:w-10/12  md:bg-blue-400 lg:bg-red-500 xl:bg-yellow-400 scrollbar-hide">
+			<main className="mt-16 px-1 w-full max-h-screen overflow-y-scroll md:w-10/12 lg:w-10/12  scrollbar-hide">
 				<Navbar />
 				<Outlet />
 			</main>

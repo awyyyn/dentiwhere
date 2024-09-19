@@ -49,6 +49,7 @@ export type User = {
 
 export type ClinicWithDoctor = Clinic & {
 	doctor: string;
+	status: "ACTIVE" | "INACTIVE";
 };
 
 export type Clinic = {

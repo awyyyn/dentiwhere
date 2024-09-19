@@ -12,7 +12,6 @@ export default function Clinics() {
 			try {
 				setLoading(true);
 				const data = await getAllClinics();
-
 				setClinics(data);
 			} catch {
 				setLoading(false);

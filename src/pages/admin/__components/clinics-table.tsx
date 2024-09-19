@@ -36,7 +36,7 @@ import { ClinicWithDoctor } from "@/types/types";
 import { CircleCheck, CircleX } from "lucide-react";
 import { Tooltip } from "./tooltip";
 
-export const columns: ColumnDef<ClinicWithDoctor>[] = [
+const columns: ColumnDef<ClinicWithDoctor>[] = [
 	{
 		accessorKey: "id",
 		id: "id",
@@ -51,11 +51,11 @@ export const columns: ColumnDef<ClinicWithDoctor>[] = [
 	},
 	{
 		accessorKey: "doctor",
-		header: ({ column }) => {
+		header: () => {
 			return <div className="text-start">Doctor</div>;
 		},
 		cell: ({ row }) => (
-			<div className="lowercase text-start capitalize">
+			<div className="  text-start capitalize">
 				Dr. {row.getValue("doctor")}
 			</div>
 		),
@@ -64,13 +64,12 @@ export const columns: ColumnDef<ClinicWithDoctor>[] = [
 		accessorKey: "contacts",
 		header: () => <div className="text-start">Contact</div>,
 		cell: ({ row }) => {
-			console.log(row.getValue("contacts"), "ccc");
 			const contact = (row.getValue("contacts") as string[])[0];
 			return <div className="text-start  ">{`+63${contact.slice(1)}`}</div>;
 		},
 	},
 	{
-		accessorKey: "archive",
+		accessorKey: "status",
 		header: () => <div className="text-start">Status</div>,
 		cell: ({ row }) => {
 			const isActive = Boolean(row.getValue("archive"));
@@ -78,10 +77,13 @@ export const columns: ColumnDef<ClinicWithDoctor>[] = [
 				<div>
 					<Tooltip
 						delayDuration={300}
-						className={`${isActive ? "bg-green-500" : "bg-red-500"} `}
-						tooltip={isActive ? "Active" : "Inactive"}>
-						{isActive ? (
-							<CircleCheck size={20} className="cursor-pointer" />
+						className={`${!isActive ? "bg-green-500" : "bg-red-500"} `}
+						tooltip={row.getValue("status")}>
+						{!isActive ? (
+							<CircleCheck
+								size={20}
+								className="cursor-pointer stroke-emerald-700"
+							/>
 						) : (
 							<CircleX size={20} className="cursor-pointer" />
 						)}

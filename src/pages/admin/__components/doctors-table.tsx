@@ -156,6 +156,7 @@ export default function DataTable({ doctors }: { doctors: User[] }) {
 		onColumnVisibilityChange: setColumnVisibility,
 		globalFilterFn: "auto",
 		onGlobalFilterChange: setGlobalFilter,
+
 		state: {
 			sorting,
 			columnFilters,

@@ -165,6 +165,7 @@ export const getAllClinics = async (): Promise<ClinicWithDoctor[]> => {
 		return {
 			...transformClinic(d),
 			doctor: ` ${d.user?.first_name ?? ""} ${d.user?.last_name ?? ""}`,
+			status: d.archive ? "INACTIVE" : "ACTIVE",
 		};
 	}) as ClinicWithDoctor[];
 };

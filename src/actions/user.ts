@@ -164,3 +164,14 @@ export const updateUserClinic = async (inputs: {
 	if (error || data === null) throw new Error("Error updating user");
 	return transformUser(data);
 };
+
+export const getAllDoctors = async () => {
+	const { error, data } = await db
+		.from("user")
+		.select("*")
+		.eq("role", "DOCTOR");
+
+	if (error) throw new Error(error.message);
+
+	return data.map((user) => transformUser(user));
+};

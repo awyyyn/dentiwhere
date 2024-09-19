@@ -1,4 +1,4 @@
-import { Clinic, DBClinic } from "@/types/types";
+import { Clinic, ClinicWithDoctor, DBClinic } from "@/types/types";
 import { db } from "@/utils/supabase";
 
 const transformClinic = (clinic: DBClinic): Clinic => {
@@ -150,4 +150,21 @@ export const getClinic = async (id: number): Promise<Clinic> => {
 			updatedAt: cat.updated_at,
 		})),
 	};
+};
+
+export const getAllClinics = async (): Promise<ClinicWithDoctor[]> => {
+	const { data, error } = await db.from("clinics").select(
+		`*,
+		user!clinics_doctor_id_fkey(first_name, last_name, id)
+        `
+	);
+
+	if (error) throw new Error(error.message);
+
+	return data.map((d) => {
+		return {
+			...transformClinic(d),
+			doctor: ` ${d.user?.first_name ?? ""} ${d.user?.last_name ?? ""}`,
+		};
+	}) as ClinicWithDoctor[];
 };

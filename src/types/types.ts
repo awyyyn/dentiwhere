@@ -47,6 +47,10 @@ export type User = {
 	updatedAt: Date | string;
 };
 
+export type ClinicWithDoctor = Clinic & {
+	doctor: string;
+};
+
 export type Clinic = {
 	id: number;
 	doctorId: number;

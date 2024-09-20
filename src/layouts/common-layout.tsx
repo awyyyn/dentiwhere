@@ -37,11 +37,13 @@ export default function CommonLayout() {
 						{/* <LogoutButton size="default" className="hover:shadow-md" /> */}
 					</div>
 				) : (
-					<Link to={"login"}>
-						<Button className="transition-all duration-300">
-							Create Account / Log in
-						</Button>
-					</Link>
+					location.pathname === "/" && (
+						<Link to={"login"}>
+							<Button className="transition-all duration-300">
+								Create Account / Log in
+							</Button>
+						</Link>
+					)
 				)}
 			</div>
 			<main>

@@ -1,112 +1,65 @@
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
-import {
-	Sheet,
-	SheetContent,
-	SheetDescription,
-	SheetHeader,
-	SheetTitle,
-} from "@/components/ui/sheet";
-import { IoMenu } from "react-icons/io5";
 import LogoutButton from "../logout-button/logout-button";
-import { useState } from "react";
-import { v4 as uuid } from "uuid";
 import Notification from "../notification/notification";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog";
+import { userAtom, userAtomDefaultValue } from "@/atoms/user-atom";
+import { useSetAtom } from "jotai";
+import { useNavigate } from "react-router-dom";
+import { db } from "@/utils/supabase";
 
 export default function Navbar() {
-	const [isOpen, setIsOpen] = useState(false);
-	const adminLinks = [
-		{
-			path: "clinic",
-		},
-		{
-			path: "profile",
-		},
-	];
+	const setUser = useSetAtom(userAtom);
+	const navigate = useNavigate();
 
-	const Links = ({ mobile }: { mobile?: boolean }) => {
-		return (
-			<div
-				className={`${
-					mobile ? "flex" : "hidden sm:flex"
-				} sm:space-x-5 space-y-3 sm:space-y-0  flex-col sm:flex-row sm:items-center justify-center  w-full sm:w-fit `}>
-				<Link to="/" className="w-full sm:w-fit hover:no-underline">
-					<Button
-						variant="link"
-						className="transition-all w-full  sm:w-max duration-300 hover:no-underline hover:bg-1/50 hover:text-gray">
-						Home
-					</Button>
-				</Link>
-				{adminLinks.map((link, indx) => (
-					<Link
-						key={`${link}-${indx}-${uuid()}`}
-						to={link.path}
-						className="w-full hover:no-underline">
-						<Button
-							className="capitalize transition-all duration-300 w-full hover:shadow-lg hover:no-underline hover:bg-1/50 hover:text-gray"
-							variant="link">
-							{link.path}
-						</Button>
-					</Link>
-				))}
-				<Notification />
-				<Link
-					to={"notification"}
-					className="w-full hover:no-underline block sm:hidden">
-					<Button
-						className="capitalize transition-all duration-300 w-full hover:shadow-lg hover:no-underline hover:bg-1/50 hover:text-gray"
-						variant="link">
-						Notifications
-					</Button>
-				</Link>
-				<LogoutButton
-					showLabel={mobile}
-					className="flex justify-center text-center"
-				/>
-			</div>
-		);
+	const handleLogout = async () => {
+		await db.auth.signOut();
+		setUser(userAtomDefaultValue);
+		localStorage.clear();
+		navigate("/login", { replace: true });
 	};
 
 	return (
 		<>
-			<header className="w-screen fixed top-0 left-0 z-50 bg-white shadow-md">
-				<nav>
-					<div className=" py-3 w-11/12 md:w-9/12 mx-auto flex flex-row justify-between">
-						<Link to="/">
-							<h1 className="font-bold tracking-wider text-xl md:text-xl">
-								Dentiwhere
-							</h1>
-						</Link>
+			<header className=" right-0 fixed top-0   z-10  ">
+				<nav className="">
+					<div className="space-x-3 py-3 px-2 md:w-10/12 lg:md:w-9/12 mx-auto flex flex-row justify-end">
+						<Notification />
 
-						<Button
-							className="flex  group bg-1 hover:bg-white hover:border hover:border-1 sm:hidden "
-							variant="outline"
-							size="icon"
-							onClick={() => setIsOpen(true)}>
-							<IoMenu size={20} className="stroke-white group-hover:stroke-1" />
-						</Button>
-						<Links />
+						<Dialog>
+							<DialogTrigger asChild>
+								<LogoutButton
+									showLabel={false}
+									className="flex justify-center text-center"
+								/>
+							</DialogTrigger>
+							<DialogContent className="sm:max-w-[425px]">
+								<DialogHeader>
+									<DialogTitle>Logout</DialogTitle>
+									<DialogDescription>
+										Are you sure you want to log out?
+									</DialogDescription>
+								</DialogHeader>
+								<DialogFooter>
+									<Button className="bg-emerald-500 hover:bg-emerald-600">
+										Cancel
+									</Button>
+									<Button onClick={handleLogout} variant="destructive">
+										Logout
+									</Button>
+								</DialogFooter>
+							</DialogContent>
+						</Dialog>
 					</div>
 				</nav>
 			</header>
-			<Sheet open={isOpen} modal>
-				<SheetContent
-					closeSheet={() => setIsOpen(false)}
-					removeCloseIcon
-					className="sm:hidden block">
-					<SheetHeader>
-						<Link to="/">
-							<SheetTitle className="font-bold tracking-wider text-xl md:text-xl">
-								Dentiwhere
-							</SheetTitle>
-						</Link>
-
-						<SheetDescription>
-							<Links mobile />
-						</SheetDescription>
-					</SheetHeader>
-				</SheetContent>
-			</Sheet>
 		</>
 	);
 }

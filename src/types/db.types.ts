@@ -385,6 +385,24 @@ export type Database = {
           },
         ]
       }
+      visits: {
+        Row: {
+          created_at: string
+          id: number
+          isMobile: boolean
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          isMobile: boolean
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          isMobile?: boolean
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

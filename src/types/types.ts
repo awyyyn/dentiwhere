@@ -17,6 +17,12 @@ export enum Status {
 	PENDING = "PENDING",
 }
 
+export type Visit = {
+	id: number;
+	isMobile: boolean;
+	createdAt: Date | string;
+};
+
 export type User = {
 	id: number;
 	licenseNumber: string;
@@ -39,6 +45,11 @@ export type User = {
 	verified: boolean;
 	createdAt: Date | string;
 	updatedAt: Date | string;
+};
+
+export type ClinicWithDoctor = Clinic & {
+	doctor: string;
+	status: "ACTIVE" | "INACTIVE";
 };
 
 export type Clinic = {

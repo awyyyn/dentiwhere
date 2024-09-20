@@ -110,7 +110,7 @@ const columns: ColumnDef<ClinicWithDoctor>[] = [
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="end">
 							<DropdownMenuLabel>Actions</DropdownMenuLabel>
-							<Link to={`/clinics/view/${row.getValue("id")}`}>
+							<Link to={`view/${row.getValue("id")}`}>
 								<DropdownMenuItem className="cursor-pointer hover:bg-gray-800/10">
 									View Clinic
 								</DropdownMenuItem>

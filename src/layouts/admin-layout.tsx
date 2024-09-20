@@ -69,7 +69,7 @@ export default function AdminLayout() {
 								</Button>
 							</Tooltip>
 						</NavLink>
-						<div className="  w-full" onClick={() => navigate("/clinics")}>
+						<div className="  w-full" onClick={() => navigate("clinics")}>
 							<Tooltip tooltip="Clinics">
 								<Button
 									variant="ghost"

@@ -41,6 +41,7 @@ export default function App() {
 	const router = createBrowserRouter([
 		{
 			element: <Parent />,
+			path: "/",
 			children: [
 				{
 					element: <AuthLayout />,
@@ -79,9 +80,10 @@ export default function App() {
 				},
 				{
 					element: <AdminLayout />,
+					path: "dashboard",
 					children: [
 						{
-							path: "dashboard",
+							index: true,
 							element: <Dashboard />,
 						},
 						{
@@ -95,6 +97,10 @@ export default function App() {
 						{
 							path: "clinics",
 							element: <Clinics />,
+						},
+						{
+							path: "clinics/view/:id",
+							element: <Clinic />,
 						},
 					],
 				},

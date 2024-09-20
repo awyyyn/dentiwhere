@@ -30,7 +30,7 @@ export default function Navbar() {
 	return (
 		<>
 			<header className=" right-0 fixed top-0   z-10  ">
-				<nav className="">
+				<nav className="pl-6 bg-white shadow-lg rounded-bl-2xl">
 					<div className="space-x-3 py-3 px-2 md:w-10/12 lg:md:w-9/12 mx-auto flex flex-row justify-end">
 						<Notification />
 

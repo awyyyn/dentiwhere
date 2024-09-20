@@ -107,7 +107,7 @@ export const columns: ColumnDef<User>[] = [
 		id: "actions",
 		enableHiding: false,
 		header: () => <div className="justify-center flex   ">Actions</div>,
-		cell: ({ row }) => {
+		cell: () => {
 			return (
 				<div className="flex  justify-center mr-2">
 					<DropdownMenu>

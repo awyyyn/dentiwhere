@@ -17,7 +17,6 @@ import {
 	ChartTooltipContent,
 } from "@/components/ui/chart";
 import { getVisits } from "@/actions/auth";
-import { useToast } from "@/hooks/use-toast";
 import { differenceInDays, differenceInMonths } from "date-fns";
 
 export const description = "An interactive bar chart";
@@ -37,8 +36,8 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export default function ChartData() {
-	const { toast } = useToast();
-	const [error, setError] = React.useState(false);
+	// const { toast } = useToast()
+	const [_, setError] = React.useState(false);
 	const [activeChart, setActiveChart] =
 		React.useState<keyof typeof chartConfig>("desktop");
 	const [data, setData] = React.useState<
@@ -166,16 +165,16 @@ const chartData = [
 	{ month: "June", desktop: 214, mobile: 140 },
 ];
 
-const chartConfig2 = {
-	desktop: {
-		label: "Desktop",
-		color: "#2563eb",
-	},
-	mobile: {
-		label: "Mobile",
-		color: "#60a5fa",
-	},
-} satisfies ChartConfig;
+// const chartConfig2 = {
+// 	desktop: {
+// 		label: "Desktop",
+// 		color: "#2563eb",
+// 	},
+// 	mobile: {
+// 		label: "Mobile",
+// 		color: "#60a5fa",
+// 	},
+// } satisfies ChartConfig;
 
 export function ChartData2() {
 	return (

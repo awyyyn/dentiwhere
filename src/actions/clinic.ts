@@ -82,7 +82,7 @@ export const deleteOne = async (id: number) => {
 	await db.from("clinics").delete().eq("id", id);
 };
 
-export const getClinic = async (id: number): Promise<Clinic> => {
+export const getClinicByDoctor = async (id: number): Promise<Clinic> => {
 	const response = await db
 		.from("clinics")
 		.select(
@@ -143,6 +143,69 @@ export const getClinic = async (id: number): Promise<Clinic> => {
 			updatedAt: acc.updated_at,
 		})),
 		categories: response.data[0]?.category?.map((cat) => ({
+			clinicId: cat.clinic_id,
+			name: cat.name,
+			id: cat.id,
+			createdAt: cat.created_at,
+			updatedAt: cat.updated_at,
+		})),
+	};
+};
+
+export const getClinic = async (id: number): Promise<ClinicWithDoctor> => {
+	const response = await db
+		.from("clinics")
+		.select(
+			`*, 
+            services ( img, name, rate, description, active, category_id, clinic_id, created_at, updated_at, id ), 
+            amenities (id, clinic_id, name, created_at, updated_at), 
+            accessibility (id, clinic_id, name, created_at, updated_at),
+			category (id, clinic_id, name, created_at, updated_at),
+			user!clinics_doctor_id_fkey(first_name, last_name, id)
+        `
+		)
+		.eq("id", id)
+		.maybeSingle();
+
+	if (response.error) throw new Error(response.error.message);
+
+	if (response.data === null || response.data === undefined)
+		throw new Error("No clinic found");
+
+	return {
+		...transformClinic(response.data),
+		doctor: ` ${response.data.user?.first_name ?? ""} ${
+			response.data.user?.last_name ?? ""
+		}`,
+		status: response.data.archive ? "INACTIVE" : "ACTIVE",
+		services: response.data?.services.map((service) => ({
+			img: service.img!,
+			name: service.name,
+			updated_at: service.id,
+			rate: service.rate || "",
+			description: service.description || "",
+			categoryId: service.category_id,
+			clinicId: service.clinic_id,
+			createdAt: service.created_at,
+			updatedAt: service.updated_at!,
+			id: service.id,
+			active: service.active,
+		})),
+		amenities: response.data?.amenities?.map((ame) => ({
+			clinicId: ame.clinic_id,
+			name: ame.name,
+			id: ame.id,
+			createdAt: ame.created_at,
+			updatedAt: ame.updated_at,
+		})),
+		accesibilities: response.data?.accessibility?.map((acc) => ({
+			clinicId: acc.clinic_id,
+			name: acc.name,
+			id: acc.id,
+			createdAt: acc.created_at,
+			updatedAt: acc.updated_at,
+		})),
+		categories: response.data?.category?.map((cat) => ({
 			clinicId: cat.clinic_id,
 			name: cat.name,
 			id: cat.id,

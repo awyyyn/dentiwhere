@@ -3,6 +3,7 @@ import DataTable from "../__components/doctors-table";
 import { useAtom } from "jotai";
 import { doctorsAtom } from "@/atoms/doctors-atom";
 import { getAllDoctors } from "@/actions/user";
+import { ImSpinner2 } from "react-icons/im";
 
 export default function Doctors() {
 	const [loading, setLoading] = useState(false);
@@ -33,7 +34,14 @@ export default function Doctors() {
 			</section>
 			<section>
 				<div className="bg-white/0">
-					<DataTable doctors={doctors} />
+					{loading ? (
+						<div className="w-full p-2 h-[50vh] flex justify-center items-center flex-col bg-white rounded-lg shadow-xl">
+							<ImSpinner2 className="animate-spin" size={50} />
+							<h1>Fetching Data</h1>
+						</div>
+					) : (
+						<DataTable doctors={doctors} />
+					)}
 				</div>
 			</section>
 		</div>

@@ -77,7 +77,7 @@ export default function SharedClinic() {
 				</div>
 			</section>
 
-			<Tabs defaultValue="services" className="">
+			<Tabs defaultValue="services" className="mt-4">
 				{/* <Separator className='my-5' /> */}
 				<TabsList className="w-full flex justify-evenly  rounded-lg bg-transparent space-x-2   py-6">
 					<TabsTrigger

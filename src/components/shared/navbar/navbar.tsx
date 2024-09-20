@@ -14,6 +14,7 @@ import { userAtom, userAtomDefaultValue } from "@/atoms/user-atom";
 import { useSetAtom } from "jotai";
 import { useNavigate } from "react-router-dom";
 import { db } from "@/utils/supabase";
+import { DialogClose } from "@radix-ui/react-dialog";
 
 export default function Navbar() {
 	const setUser = useSetAtom(userAtom);
@@ -40,7 +41,7 @@ export default function Navbar() {
 									className="flex justify-center text-center"
 								/>
 							</DialogTrigger>
-							<DialogContent className="sm:max-w-[425px]">
+							<DialogContent removeClose className="sm:max-w-[425px]">
 								<DialogHeader>
 									<DialogTitle>Logout</DialogTitle>
 									<DialogDescription>
@@ -48,9 +49,11 @@ export default function Navbar() {
 									</DialogDescription>
 								</DialogHeader>
 								<DialogFooter>
-									<Button className="bg-emerald-500 hover:bg-emerald-600">
-										Cancel
-									</Button>
+									<DialogClose asChild>
+										<Button className="bg-emerald-500 hover:bg-emerald-600">
+											Cancel
+										</Button>
+									</DialogClose>
 									<Button onClick={handleLogout} variant="destructive">
 										Logout
 									</Button>

@@ -25,7 +25,7 @@ export default function DoctorLayout() {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (user.role !== Role.doctor) {
+		if (user.role !== Role.doctor && user.id !== 0) {
 			return navigate("/dashboard", { replace: true });
 		}
 	}, []);

@@ -18,7 +18,7 @@ import Notification from "./pages/doctor/notification/notification";
 import Doctors from "./pages/admin/doctors/doctors";
 import Doctor from "./pages/admin/doctor/doctor";
 import Clinics from "./pages/admin/clinics/clinics";
-import Clinic from "./pages/admin/clinic/clinic";
+import Clinic from "./pages/public/clinic/clinic";
 
 const Login = Loadable(lazy(() => import("./pages/auth/login/login")));
 const SignUp = Loadable(lazy(() => import("./pages/auth/sign-up/sign-up")));
@@ -71,6 +71,10 @@ export default function App() {
 							path: "services",
 							element: <CommonServices />,
 						},
+						{
+							path: "clinics/view/:id",
+							element: <Clinic />,
+						},
 					],
 				},
 				{
@@ -91,10 +95,6 @@ export default function App() {
 						{
 							path: "clinics",
 							element: <Clinics />,
-						},
-						{
-							path: "clinics/view/:id",
-							element: <Clinic />,
 						},
 					],
 				},

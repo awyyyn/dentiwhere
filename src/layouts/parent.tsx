@@ -14,7 +14,6 @@ export default function Parent() {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const [loading, setLoading] = useState(false);
-
 	useEffect(() => {
 		(async () => {
 			try {
@@ -38,13 +37,16 @@ export default function Parent() {
 				}
 				setLoading(false);
 			} catch {
-				setLoading(false);
-				await db.auth.signOut();
 				setUser(userAtomDefaultValue);
-				if (location.pathname !== "/") {
+				await db.auth.signOut();
+				localStorage.clear();
+				setLoading(false);
+				if (
+					location.pathname !== "/" &&
+					!location.pathname.includes("clinics/view")
+				) {
 					navigate("/login", { replace: true });
 				}
-				localStorage.clear();
 			}
 		})();
 	}, []);

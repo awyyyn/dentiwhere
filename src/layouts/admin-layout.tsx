@@ -20,8 +20,8 @@ export default function AdminLayout() {
 	}, []);
 
 	return (
-		<div className="bg-s w-full flex">
-			<aside className="w-2/12 z-50 bg-1/20 h-screen py-5 lg:py-14">
+		<div className="bg-s w-full flex  ">
+			<aside className="fixed w-2/12 z-50 bg-1/20 h-screen py-5 lg:py-14">
 				<div className="space-y-5">
 					<Tooltip tooltip="Dentiwhere">
 						<img
@@ -84,7 +84,7 @@ export default function AdminLayout() {
 					</nav>
 				</div>
 			</aside>
-			<main className="mt-16 px-1 w-full max-h-screen overflow-y-scroll md:w-10/12 lg:w-10/12  scrollbar-hide">
+			<main className="min-h-screen  pb-10 ml-[16.666667%] pt-16 px-1 w-full max-h-screen overflow-y-scroll md:w-10/12 lg:w-10/12  scrollbar-hide">
 				<Navbar />
 				<Outlet />
 			</main>

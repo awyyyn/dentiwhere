@@ -1,17 +1,62 @@
+import { Button } from "@/components/ui/button";
 import LogoutButton from "../logout-button/logout-button";
 import Notification from "../notification/notification";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog";
+import { userAtom, userAtomDefaultValue } from "@/atoms/user-atom";
+import { useSetAtom } from "jotai";
+import { useNavigate } from "react-router-dom";
+import { db } from "@/utils/supabase";
 
 export default function Navbar() {
+	const setUser = useSetAtom(userAtom);
+	const navigate = useNavigate();
+
+	const handleLogout = async () => {
+		await db.auth.signOut();
+		setUser(userAtomDefaultValue);
+		localStorage.clear();
+		navigate("/login", { replace: true });
+	};
+
 	return (
 		<>
 			<header className=" right-0 fixed top-0   z-10  ">
 				<nav className="">
 					<div className="space-x-3 py-3 px-2 md:w-10/12 lg:md:w-9/12 mx-auto flex flex-row justify-end">
 						<Notification />
-						<LogoutButton
-							showLabel={false}
-							className="flex justify-center text-center"
-						/>
+
+						<Dialog>
+							<DialogTrigger asChild>
+								<LogoutButton
+									showLabel={false}
+									className="flex justify-center text-center"
+								/>
+							</DialogTrigger>
+							<DialogContent className="sm:max-w-[425px]">
+								<DialogHeader>
+									<DialogTitle>Logout</DialogTitle>
+									<DialogDescription>
+										Are you sure you want to log out?
+									</DialogDescription>
+								</DialogHeader>
+								<DialogFooter>
+									<Button className="bg-emerald-500 hover:bg-emerald-600">
+										Cancel
+									</Button>
+									<Button onClick={handleLogout} variant="destructive">
+										Logout
+									</Button>
+								</DialogFooter>
+							</DialogContent>
+						</Dialog>
 					</div>
 				</nav>
 			</header>

@@ -20,7 +20,6 @@ import {
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuLabel,
-	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
@@ -35,6 +34,7 @@ import {
 import { ClinicWithDoctor } from "@/types/types";
 import { CircleCheck, CircleX } from "lucide-react";
 import { Tooltip } from "./tooltip";
+import { Link } from "react-router-dom";
 
 const columns: ColumnDef<ClinicWithDoctor>[] = [
 	{
@@ -45,6 +45,7 @@ const columns: ColumnDef<ClinicWithDoctor>[] = [
 		cell: ({ row }) => <p className="s">{row.index + 1}</p>,
 	},
 	{
+		enableHiding: false,
 		accessorKey: "name",
 		header: "Clinic Name",
 		cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
@@ -109,14 +110,14 @@ const columns: ColumnDef<ClinicWithDoctor>[] = [
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="end">
 							<DropdownMenuLabel>Actions</DropdownMenuLabel>
-							<DropdownMenuItem
-							// onClick={() => navigator.clipboard.writeText()}
-							>
-								Copy payment ID
-							</DropdownMenuItem>
-							<DropdownMenuSeparator />
+							<Link to={`/clinics/view/${row.getValue("id")}`}>
+								<DropdownMenuItem className="cursor-pointer hover:bg-gray-800/10">
+									View Clinic
+								</DropdownMenuItem>
+							</Link>
+							{/* <DropdownMenuSeparator />
 							<DropdownMenuItem>View customer</DropdownMenuItem>
-							<DropdownMenuItem>View payment details</DropdownMenuItem>
+							<DropdownMenuItem>View payment details</DropdownMenuItem> */}
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</div>

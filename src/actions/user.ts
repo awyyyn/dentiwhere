@@ -1,4 +1,7 @@
-import { ERR_INTERNAL, ERR_USER_ALREADY_REGISTERED } from "@/constants/errors";
+import {
+	ERR_INTERNAL,
+	ERR_USER_ALREADY_REGISTERED,
+} from "@/constants/errors";
 import { DBUser, Role, Status, User } from "@/types/types";
 import { db } from "@/utils/supabase";
 
@@ -45,11 +48,7 @@ export const transformUser = (user: DBUser): User => {
 };
 
 export const getOne = async (id: string) => {
-	const { data, error } = await db
-		.from("user")
-		.select()
-		.eq("id", id)
-		.or(`auth_id.eq.${id}`);
+	const { data, error } = await db.from("user").select().or(`auth_id.eq.${id}`);
 
 	if (error) {
 		console.error(error);
@@ -58,6 +57,27 @@ export const getOne = async (id: string) => {
 	if (data === null || (data && data?.length === 0)) return null;
 
 	return transformUser(data[0]);
+};
+
+export const getOneDoctor = async (
+	id: number
+): Promise<User & { clinicName: string }> => {
+	const { data, error } = await db
+		.from("user")
+		.select("*, clinics!user_clinic_id_fkey (name)")
+		.eq(`id`, id);
+
+	if (error) {
+		console.error(error);
+	}
+
+	if (data === null || (data && data?.length === 0))
+		throw new Error("DOCTOR_NOT_FOUND");
+
+	return {
+		...transformUser(data[0]),
+		clinicName: data[0].clinics?.name ?? "",
+	};
 };
 
 export const getOneByAuthID = async (id: string) => {

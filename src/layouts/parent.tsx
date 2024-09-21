@@ -1,5 +1,7 @@
 import { visit } from "@/actions/auth";
+import { getClinicByDoctor } from "@/actions/clinic";
 import { getOneByAuthID } from "@/actions/user";
+import { clinicAtom } from "@/atoms/clinic-atom";
 import { notificationsAtom } from "@/atoms/notification-atom";
 import { userAtom, userAtomDefaultValue } from "@/atoms/user-atom";
 import { Loader } from "@/components/shared/loader/loader";
@@ -13,6 +15,7 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 export default function Parent() {
 	const [user, setUser] = useAtom(userAtom);
 	const setNotifications = useSetAtom(notificationsAtom);
+	const setClinic = useSetAtom(clinicAtom);
 	const navigate = useNavigate();
 	const location = useLocation();
 	const [loading, setLoading] = useState(false);
@@ -29,6 +32,11 @@ export default function Parent() {
 				const user = await getOneByAuthID(data.session?.user.id);
 
 				if (user === null) throw new Error("No user found");
+
+				if (user.role === Role.doctor && user.clinicId !== 0) {
+					const response = await getClinicByDoctor(user.id);
+					setClinic(response);
+				}
 
 				setUser(user);
 				setNotifications(user.notifications ?? []);

@@ -19,6 +19,7 @@ import { userAtom } from "@/atoms/user-atom";
 import { useState } from "react";
 import { ImSpinner2 } from "react-icons/im";
 import { notificationsAtom } from "@/atoms/notification-atom";
+import { Status } from "@/types/types";
 
 const formSchema = z.object({
 	email: z.string().email({
@@ -53,7 +54,7 @@ export default function LoginForm() {
 
 			setUser(data);
 			setNotifications(data.notifications ?? []);
-			if (!data.verified) {
+			if (data.status === Status.unverified) {
 				toast({
 					title: "Complete profile setup ",
 					description: "Complete your profile setup to get started.",

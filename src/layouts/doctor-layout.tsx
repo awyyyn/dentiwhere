@@ -42,7 +42,7 @@ export default function DoctorLayout() {
 					<NavLink
 						to="/profile"
 						className={({ isActive }) =>
-							`flex space-x-5 items-center text-gray-600 transition-all  py-2 ${
+							`flex space-x-5 items-center text-gray-600 transition-all  px-10 py-2 ${
 								isActive && "font-bold text-gray-900"
 							}`
 						}>
@@ -54,7 +54,7 @@ export default function DoctorLayout() {
 					<NavLink
 						to="password"
 						className={({ isActive }) =>
-							`flex space-x-5 items-center text-gray-600 transition-all  py-2 ${
+							`flex space-x-5 items-center text-gray-600 transition-all px-10 py-2 ${
 								isActive && "font-bold text-gray-900"
 							}`
 						}>
@@ -66,7 +66,7 @@ export default function DoctorLayout() {
 					<NavLink
 						to="notification"
 						className={({ isActive }) =>
-							`flex space-x-5 items-center text-gray-600 transition-all  py-2 ${
+							`flex space-x-5 items-center text-gray-600 transition-all px-10 py-2 ${
 								isActive && "font-bold text-gray-900"
 							}`
 						}>
@@ -78,7 +78,7 @@ export default function DoctorLayout() {
 					<NavLink
 						to="dental-setting"
 						className={({ isActive }) =>
-							`flex space-x-5 items-center  transition-all  py-2 ${
+							`flex space-x-5 items-center  transition-all  px-10 py-2 ${
 								isActive
 									? "font-bold text-gray-900 odd:fill-gray-900"
 									: "text-gray-600 first:fill-gray-600"
@@ -92,7 +92,7 @@ export default function DoctorLayout() {
 					<NavLink
 						to="logout"
 						className={({ isActive }) =>
-							`flex space-x-5 pb-[1rem] items-center  transition-all  py-2 ${
+							`flex space-x-5 pb-[1rem] items-center  px-10 transition-all  py-2 ${
 								isActive ? "font-bold text-red-600" : "text-gray-600"
 							}`
 						}>

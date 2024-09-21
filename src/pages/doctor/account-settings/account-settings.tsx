@@ -155,7 +155,8 @@ export default function AccountSettings() {
 		setSubmitting(true);
 		if (!frontId) setErrors((e) => ({ ...e, frontImg: true }));
 		if (!backId) setErrors((e) => ({ ...e, backImg: true }));
-		if (errors.backImg || errors.frontImg) return;
+		if (!frontId || !backId || errors.backImg || errors.frontImg)
+			return setSubmitting(false);
 
 		try {
 			const data = await update({

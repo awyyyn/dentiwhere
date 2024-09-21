@@ -28,7 +28,6 @@ import { useToast } from "@/hooks/use-toast";
 import { clinicAtom } from "@/atoms/clinic-atom";
 import { updateUserClinic } from "@/actions/user";
 import { Clinic } from "@/types/types";
-import { useNavigate } from "react-router-dom";
 
 const formSchema = z.object({
 	name: z.string().min(1, { message: "Please enter your clinic name!" }),
@@ -59,7 +58,6 @@ const AddClinic = ({
 	edit?: boolean;
 	clinic?: Clinic;
 }) => {
-	const navigate = useNavigate();
 	const { toast } = useToast();
 	const setClinic = useSetAtom(clinicAtom);
 	const [loading, setLoading] = useState(false);
@@ -197,7 +195,6 @@ const AddClinic = ({
 				variant: "default",
 				className: "bg-emerald-600 text-white",
 			});
-			navigate("/clinic");
 		} else {
 			try {
 				const newClinic = await create({
@@ -245,7 +242,6 @@ const AddClinic = ({
 					variant: "default",
 					className: "bg-emerald-600 text-white",
 				});
-				navigate("/clinic");
 			} catch (error) {
 				setLoading(false);
 
@@ -292,11 +288,11 @@ const AddClinic = ({
 					onSubmit={form.handleSubmit(handleSubmit)}
 					className="space-y-4 md:space-y-8">
 					{edit ?? "editing"}
-					<div className="flex md:space-x-20 items-center flex-col md:flex-row">
+					<div className="flex items-center gap-5 lg:flex-wrap mb-4 xl:flex-nowrap flex-col md:flex-row">
 						<Dropzone onDrop={handleDropImage}>
 							{({ getRootProps, getInputProps }) => (
 								<div
-									className="shadow-md rounded-full mb-4 md:mb-0 min-h-[300px] max-h-[300px] min-w-[300px] hover:cursor-pointer overflow-hidden relative hover:shadow-xl transition-all duration-300 group"
+									className="shadow-md  mx-auto rounded-full mb-4 md:mb-0 min-h-[300px] max-h-[300px] min-w-[300px] hover:cursor-pointer overflow-hidden relative hover:shadow-xl transition-all duration-300 group"
 									{...getRootProps()}>
 									<input {...getInputProps()} disabled={uploading} />
 									<div

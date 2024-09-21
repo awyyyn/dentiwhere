@@ -8,7 +8,7 @@ export default function AddClinic() {
 	return (
 		<>
 			<Layout>
-				<div className="bg-[#D9D9D9] mix-blend-multiply p-5 rounded-lg">
+				<div className="bg-[#D9D9D9]/90 mix-blend-multiply p-5 rounded-lg">
 					<h1 className="text-3xl">
 						Welcome,{" "}
 						<b className="capitalize">
@@ -21,8 +21,8 @@ export default function AddClinic() {
 						get started!
 					</p>
 				</div>
+				<AddEditClinicForm />
 			</Layout>
-			<AddEditClinicForm />
 		</>
 	);
 }

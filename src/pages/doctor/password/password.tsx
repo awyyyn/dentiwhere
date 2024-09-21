@@ -77,7 +77,7 @@ export default function Password() {
 
 	return (
 		<section>
-			<div className="px-10 grid gap-y-5 lg:grid-cols-4 mt-8 lg:mt-10 lg:gap-y-0 divide-y-reverse ">
+			<div className="md:px-10 grid grid-cols-1 gap-y-5 lg:grid-cols-4 grid-flow-row mt-8 lg:mt-10 lg:gap-y-0 divide-y-reverse ">
 				<div className="order-2 md:order-1 lg:col-span-3 space-y-5">
 					<h1 className="font-extrabold  text-5xl tracking-wide">Password</h1>
 					<Form {...form}>
@@ -94,7 +94,7 @@ export default function Password() {
 										</FormLabel>
 										<FormControl>
 											<InputWithIcon
-												className="max-w-[500px] rounded-lg px-2 ml-1 text-lg focus:ring-none bg-white"
+												className=" max-w-[500px] rounded-lg px-2 ml-1 text-lg focus:ring-none bg-white"
 												inputProps={{
 													...field,
 													type: "password",
@@ -174,7 +174,9 @@ export default function Password() {
 									</FormItem>
 								)}
 							/>
-							<Button className="w-[500px] ml-2 text-xl py-6" size="lg">
+							<Button
+								className="w-full lg:w-[500px] ml-2 text-xl py-6"
+								size="lg">
 								Change Password{" "}
 							</Button>
 						</form>

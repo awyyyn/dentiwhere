@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import ImgDialog from "./__components/img-dialog";
+import ImgDialog from "../__components/img-dialog.tsx";
 import {Loader} from "@/components/shared/loader/loader.tsx";
 
 export default function Doctor() {
@@ -59,11 +59,11 @@ export default function Doctor() {
 					<div className="space-y-5">
 						<div>
 							<Label>First Name</Label>
-							<Input value={doctor?.firstName} readOnly className="bg-white" />
+							<Input value={doctor?.firstName} readOnly className="bg-white"/>
 						</div>
 						<div>
 							<Label>Last Name</Label>
-							<Input value={doctor?.lastName} readOnly className="bg-white" />
+							<Input value={doctor?.lastName} readOnly className="bg-white"/>
 						</div>
 						<div>
 							<Label>Contact Number</Label>
@@ -86,7 +86,7 @@ export default function Doctor() {
 					</div>
 					<div>
 						<Label>Email</Label>
-						<Input value={doctor?.email} readOnly className="bg-white" />
+						<Input value={doctor?.email} readOnly className="bg-white"/>
 					</div>
 					<div>
 						<Label>License Number</Label>
@@ -98,15 +98,15 @@ export default function Doctor() {
 					</div>
 					<div>
 						<Label>Postal ID</Label>
-						<Input value={doctor?.postalId} readOnly className="bg-white" />
+						<Input value={doctor?.postalId} readOnly className="bg-white"/>
 					</div>
 					<div>
 						<Label>Account Status</Label>
-						<Input value={doctor?.status} readOnly className="bg-white" />
+						<Input value={doctor?.status} readOnly className="bg-white"/>
 					</div>
 					<div>
 						<Label>Address</Label>
-						<Input value={doctor?.address} readOnly className="bg-white" />
+						<Input value={doctor?.address} readOnly className="bg-white"/>
 					</div>
 					<div className="lg:col-span-2">
 						<h1 className="font-bold text-xl">License Pictures</h1>
@@ -121,7 +121,8 @@ export default function Doctor() {
 							}
 							className="relative overflow-hidden cursor-pointer h-72 w-full  ring  ring-white  shadow-lg group">
 							{doctor?.licenseId.frontImg && doctor?.licenseId.backImg && (
-								<div className=" opacity-0 absolute h-full w-full top-0 left-0 grid place-content-center backdrop-blur-sm bg-white/30 z-50 group-hover:opacity-100 translate-y-full  group-hover:translate-y-0 transition-all duration-300">
+								<div
+									className=" opacity-0 absolute h-full w-full top-0 left-0 grid place-content-center backdrop-blur-sm bg-white/30 z-50 group-hover:opacity-100 translate-y-full  group-hover:translate-y-0 transition-all duration-300">
 									<h1 className="font-bold tracking-wider">View Image</h1>
 								</div>
 							)}
@@ -141,7 +142,8 @@ export default function Doctor() {
 							}
 							className="relative overflow-hidden cursor-pointer h-72 w-full  ring  ring-white  shadow-lg group">
 							{doctor?.licenseId.frontImg && doctor?.licenseId.backImg && (
-								<div className=" opacity-0 absolute h-full w-full top-0 left-0 grid place-content-center backdrop-blur-sm bg-white/30 z-50 group-hover:opacity-100 translate-y-full  group-hover:translate-y-0 transition-all duration-300">
+								<div
+									className=" opacity-0 absolute h-full w-full top-0 left-0 grid place-content-center backdrop-blur-sm bg-white/30 z-50 group-hover:opacity-100 translate-y-full  group-hover:translate-y-0 transition-all duration-300">
 									<h1 className="font-bold tracking-wider">View Image</h1>
 								</div>
 							)}

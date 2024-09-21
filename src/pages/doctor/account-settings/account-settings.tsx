@@ -26,6 +26,7 @@ import { update } from "@/actions/user";
 import { Status } from "@/types/types";
 import { useToast } from "@/hooks/use-toast";
 import CustomDatePicker from "@/components/shared/date-picker/date-picker";
+import { sendNotification } from "@/actions/notification";
 
 const userForm = z.object({
 	fist_name: z.string().min(1, { message: "First name is required" }),
@@ -176,10 +177,17 @@ export default function AccountSettings() {
 				gender: v.gender,
 				license_number: v.license_id,
 				role: user?.role ?? "DOCTOR",
-				status: Status.PENDING,
+				status:
+					user.status === Status.verified ? Status.verified : Status.PENDING,
 			});
 
 			if (data.status === Status.PENDING) {
+				await sendNotification({
+					name: `${data.firstName} ${data.lastName}`,
+					message: `Dr. ${data.firstName} ${data.lastName}'s data has been submitted for your verification.`,
+					title: "Data Verification Required",
+					from: data.id,
+				});
 				toast({
 					title: "Profile Updated",
 					description: "Please wait for the admin to verify your account",

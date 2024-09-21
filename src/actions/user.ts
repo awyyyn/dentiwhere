@@ -1,9 +1,7 @@
-import {
-	ERR_INTERNAL,
-	ERR_USER_ALREADY_REGISTERED,
-} from "@/constants/errors";
+import { ERR_INTERNAL, ERR_USER_ALREADY_REGISTERED } from "@/constants/errors";
 import { DBUser, Role, Status, User } from "@/types/types";
 import { db } from "@/utils/supabase";
+import { transformNotification } from "./notification";
 
 export const transformUser = (user: DBUser): User => {
 	const role =
@@ -38,6 +36,7 @@ export const transformUser = (user: DBUser): User => {
 		boost: user.boost,
 		img: user.img!,
 		licenseNumber: user.license_number,
+		notifications: user.notification,
 		verified: user.verified,
 		clinicId: user.clinic_id ?? 0,
 		createdAt: user.created_at ?? "",
@@ -83,7 +82,7 @@ export const getOneDoctor = async (
 export const getOneByAuthID = async (id: string) => {
 	const { data, error } = await db
 		.from("user")
-		.select()
+		.select("*, notification!notification_to_fkey(*)")
 		.eq("auth_id", id)
 		.maybeSingle();
 
@@ -93,7 +92,13 @@ export const getOneByAuthID = async (id: string) => {
 
 	if (data === null) return null;
 
-	return transformUser(data);
+	return transformUser({
+		...data,
+		notification:
+			data.notification.length > 0
+				? data.notification.map((notif) => transformNotification(notif))
+				: [],
+	});
 };
 
 export const getAll = async () => {
@@ -194,4 +199,27 @@ export const getAllDoctors = async () => {
 	if (error) throw new Error(error.message);
 
 	return data.map((user) => transformUser(user));
+};
+
+export const updateDoctorStatus = async (
+	id: number,
+	status: Status
+): Promise<User & { clinicName: string }> => {
+	const response = await db
+		.from("user")
+		.update({
+			status,
+		})
+		.eq("id", id)
+		.select("*, clinics!user_clinic_id_fkey (name)")
+		.maybeSingle();
+
+	if (response.error) throw new Error(ERR_INTERNAL);
+
+	if (response.data === null) throw new Error("Error updating user");
+
+	return {
+		...transformUser(response.data),
+		clinicName: response.data.clinics?.name ?? "",
+	};
 };

@@ -16,6 +16,9 @@ import { ERR_INTERNAL } from "@/constants/errors";
 import { useToast } from "@/hooks/use-toast";
 import { useSetAtom } from "jotai";
 import { userAtom } from "@/atoms/user-atom";
+import { useState } from "react";
+import { ImSpinner2 } from "react-icons/im";
+import { notificationsAtom } from "@/atoms/notification-atom";
 
 const formSchema = z.object({
 	email: z.string().email({
@@ -31,6 +34,8 @@ export default function LoginForm() {
 	const { toast } = useToast();
 	const navigate = useNavigate();
 	const setUser = useSetAtom(userAtom);
+	const setNotifications = useSetAtom(notificationsAtom);
+	const [loading, setLoading] = useState(false);
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -43,8 +48,11 @@ export default function LoginForm() {
 
 	const handleSubmit = async (values: z.infer<typeof formSchema>) => {
 		try {
+			setLoading(true);
 			const data = await login(values);
+
 			setUser(data);
+			setNotifications(data.notifications ?? []);
 			if (!data.verified) {
 				toast({
 					title: "Complete profile setup ",
@@ -65,18 +73,12 @@ export default function LoginForm() {
 					duration: 5000,
 				});
 			}
+			setLoading(false);
 			navigate("/", {
 				replace: true,
 			});
-		} catch (error) {
-			console.error(error instanceof Error);
-			if (error instanceof Error) {
-				return toast({
-					title: "Error",
-					description: error.message,
-					variant: "destructive",
-				});
-			}
+		} catch {
+			setLoading(false);
 			toast({
 				title: "Error",
 				description: ERR_INTERNAL,
@@ -103,6 +105,7 @@ export default function LoginForm() {
 							<FormItem>
 								<FormControl>
 									<Input
+										readOnly={loading}
 										className="lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] "
 										placeholder="Email address"
 										{...field}
@@ -119,6 +122,7 @@ export default function LoginForm() {
 							<FormItem>
 								<FormControl>
 									<Input
+										readOnly={loading}
 										className="lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] "
 										placeholder="License Number"
 										{...field}
@@ -135,6 +139,7 @@ export default function LoginForm() {
 							<FormItem>
 								<FormControl>
 									<Input
+										readOnly={loading}
 										className="lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] "
 										placeholder="Password"
 										{...field}
@@ -146,14 +151,23 @@ export default function LoginForm() {
 						)}
 					/>
 					<Button
+						disabled={loading}
 						type="submit"
 						className="rounded-lg w-full hover:bg-[#00000080] bg-[#00000080] text-white">
-						Login
+						{loading ? (
+							<>
+								<ImSpinner2 className="animate-spin mr-2" />
+								<span>Logging in...</span>
+							</>
+						) : (
+							"Log in"
+						)}
 					</Button>
 
 					<div className="flex flex-row space-x-1 justify-center mt-5">
 						<p>Don&apos;t have an account?</p>
-						<Link to={"/sign-up"} className="font-bold">
+
+						<Link to={loading ? "#" : "/sign-up"} className="font-bold">
 							Sign up
 						</Link>
 					</div>

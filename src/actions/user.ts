@@ -2,6 +2,7 @@ import { ERR_INTERNAL, ERR_USER_ALREADY_REGISTERED } from "@/constants/errors";
 import { DBUser, Role, Status, User } from "@/types/types";
 import { db } from "@/utils/supabase";
 import { transformNotification } from "./notification";
+import { getUnixTime } from "date-fns";
 
 export const transformUser = (user: DBUser): User => {
 	const role =
@@ -96,7 +97,9 @@ export const getOneByAuthID = async (id: string) => {
 		...data,
 		notification:
 			data.notification.length > 0
-				? data.notification.map((notif) => transformNotification(notif))
+				? data.notification
+						.map((notif) => transformNotification(notif))
+						.sort((a, b) => getUnixTime(b.createdAt) - getUnixTime(a.createdAt))
 				: [],
 	});
 };

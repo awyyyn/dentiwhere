@@ -15,15 +15,20 @@ import { useSetAtom } from "jotai";
 import { useNavigate } from "react-router-dom";
 import { db } from "@/utils/supabase";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { useState } from "react";
+import { ImSpinner2 } from "react-icons/im";
 
 export default function Navbar() {
 	const setUser = useSetAtom(userAtom);
 	const navigate = useNavigate();
+	const [loading, setLoading] = useState(false);
 
 	const handleLogout = async () => {
+		setLoading(true);
 		await db.auth.signOut();
 		setUser(userAtomDefaultValue);
 		localStorage.clear();
+		setLoading(false);
 		navigate("/login", { replace: true });
 	};
 
@@ -50,12 +55,24 @@ export default function Navbar() {
 								</DialogHeader>
 								<DialogFooter>
 									<DialogClose asChild>
-										<Button className="bg-emerald-500 hover:bg-emerald-600">
+										<Button
+											disabled={loading}
+											className="bg-emerald-500 hover:bg-emerald-600">
 											Cancel
 										</Button>
 									</DialogClose>
-									<Button onClick={handleLogout} variant="destructive">
-										Logout
+									<Button
+										disabled={loading}
+										onClick={handleLogout}
+										variant="destructive">
+										{loading ? (
+											<>
+												<ImSpinner2 className="animate-spin mr-2" />
+												<span>Logging out...</span>
+											</>
+										) : (
+											"Logout"
+										)}
 									</Button>
 								</DialogFooter>
 							</DialogContent>

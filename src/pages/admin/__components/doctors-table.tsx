@@ -108,6 +108,7 @@ export const columns: ColumnDef<User>[] = [
 		enableHiding: false,
 		header: () => <div className="justify-center flex   ">Actions</div>,
 		cell: ({ row }) => {
+			const status = row.getValue("status");
 			return (
 				<div className="flex  justify-center mr-2">
 					<DropdownMenu>
@@ -124,6 +125,13 @@ export const columns: ColumnDef<User>[] = [
 									View Doctor Details
 								</DropdownMenuItem>
 							</Link>
+							{status === "PENDING" &&
+								<Link to={`verify/${row.getValue("id")}`}>
+									<DropdownMenuItem className="cursor-pointer hover:bg-gray-800/10">
+										Verify Doctor
+									</DropdownMenuItem>
+								</Link>
+							}
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</div>

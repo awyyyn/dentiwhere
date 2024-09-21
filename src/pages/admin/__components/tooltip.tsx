@@ -11,16 +11,18 @@ export function Tooltip({
 	tooltip,
 	delayDuration = 3000,
 	className,
+	side = "right",
 }: PropsWithChildren & {
 	tooltip: string;
 	delayDuration?: number;
 	className?: string;
+	side?: "right" | "left" | "top" | "bottom";
 }) {
 	return (
 		<TooltipProvider>
 			<ShadcnTooltip delayDuration={delayDuration}>
 				<TooltipTrigger asChild>{children}</TooltipTrigger>
-				<TooltipContent side="right" className={className}>
+				<TooltipContent side={side} className={className}>
 					<p>{tooltip}</p>
 				</TooltipContent>
 			</ShadcnTooltip>

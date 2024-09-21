@@ -170,8 +170,10 @@ export type Database = {
           created_at: string
           from: number | null
           id: number
+          name: string
+          read: boolean
           title: string
-          to: number | null
+          to: number
           updated_at: string
         }
         Insert: {
@@ -179,8 +181,10 @@ export type Database = {
           created_at?: string
           from?: number | null
           id?: number
+          name: string
+          read?: boolean
           title: string
-          to?: number | null
+          to: number
           updated_at?: string
         }
         Update: {
@@ -188,8 +192,10 @@ export type Database = {
           created_at?: string
           from?: number | null
           id?: number
+          name?: string
+          read?: boolean
           title?: string
-          to?: number | null
+          to?: number
           updated_at?: string
         }
         Relationships: [

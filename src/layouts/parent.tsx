@@ -1,16 +1,18 @@
 import { visit } from "@/actions/auth";
 import { getOneByAuthID } from "@/actions/user";
+import { notificationsAtom } from "@/atoms/notification-atom";
 import { userAtom, userAtomDefaultValue } from "@/atoms/user-atom";
 import { Loader } from "@/components/shared/loader/loader";
 import { Toaster } from "@/components/ui/toaster";
 import { Role } from "@/types/types";
 import { db } from "@/utils/supabase";
-import { useAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 export default function Parent() {
 	const [user, setUser] = useAtom(userAtom);
+	const setNotifications = useSetAtom(notificationsAtom);
 	const navigate = useNavigate();
 	const location = useLocation();
 	const [loading, setLoading] = useState(false);
@@ -29,6 +31,7 @@ export default function Parent() {
 				if (user === null) throw new Error("No user found");
 
 				setUser(user);
+				setNotifications(user.notifications ?? []);
 				if (
 					location.pathname === "/login" ||
 					location.pathname === "/sign-up"

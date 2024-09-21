@@ -1,6 +1,6 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { userAtom } from "@/atoms/user-atom";
 import { Role } from "@/types/types";
 import Logo from "@/assets/svgs/logo with text.svg";
@@ -8,15 +8,58 @@ import { Tooltip } from "@/pages/admin/__components/tooltip";
 import { Button } from "@/components/ui/button";
 import { Hospital, LayoutDashboard, Users } from "lucide-react";
 import Navbar from "@/components/shared/navbar/navbar";
+import { db } from "@/utils/supabase";
+import { notificationsAtom } from "@/atoms/notification-atom";
 
 export default function AdminLayout() {
 	const user = useAtomValue(userAtom);
+	const setNotifications = useSetAtom(notificationsAtom);
 	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (user.role === Role.doctor) {
 			return navigate("/profile", { replace: true });
 		}
+	}, []);
+
+	useEffect(() => {
+		const options = {
+			event: "INSERT",
+			schema: "public",
+			table: "notification",
+		};
+
+		console.log("notifiction paylod notification");
+
+		const subscribe = db
+			.channel("notification")
+			// @ts-ignore
+			.on("postgres_changes", options, (payload) => {
+				console.log(payload, "paylod notification");
+				if (payload.new.to === user.id) {
+					setNotifications((notifications) => {
+						return [
+							{
+								id: payload.new.id,
+								name: payload.new.name,
+								to: payload.new.to,
+								from: payload.new.from,
+								content: payload.new.content,
+								title: payload.new.title,
+								read: payload.new.read,
+								createdAt: payload.new.created_at,
+								updatedAt: payload.new.updated_at,
+							},
+							...notifications,
+						];
+					});
+				}
+			})
+			.subscribe();
+
+		return () => {
+			subscribe.unsubscribe();
+		};
 	}, []);
 
 	return (

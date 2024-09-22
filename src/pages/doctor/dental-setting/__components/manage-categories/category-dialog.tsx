@@ -1,7 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useForm } from "react-hook-form";
-
 import { Button } from "@/components/ui/button.tsx";
 import {
 	Dialog,
@@ -58,6 +57,21 @@ const CategoryDialog = () => {
 	const editMode = category.mode === "edit";
 	const deleteMode = category.mode === "delete";
 
+	const handleClose = (type: "edit" | "create" | "delete") => {
+		toast({
+			title: `Category ${type === "edit" ? "updated" : type === "create" ? "created" : "deleted"} successfully`,
+			description: `Category ${type === "edit" ? "updated" : type === "create" ? "created" : "deleted"} successfully`,
+			variant: "default",
+			className: "bg-emerald-600 text-white",
+			duration: 5000,
+		});
+		form.reset();
+		setCategoryAtom({ open: false });
+		setValues(null);
+		setLoading(false);
+	}
+
+
 	const onSubmit = async (v: z.infer<typeof serviceSchema>) => {
 		try {
 			setLoading(true);
@@ -69,32 +83,13 @@ const CategoryDialog = () => {
 
 				setCategories((params) => [...params, newCategory]);
 
-				toast({
-					title: "Service created successfully",
-					description: "Service has been created successfully",
-					variant: "default",
-					className: "bg-emerald-600 text-white",
-					duration: 5000,
-				});
-
-				form.reset();
-				setCategoryAtom({ open: false });
-				setValues(null);
-				return setLoading(false);
+				return handleClose("create")
 			} else if (editMode) {
 
 				const updatedCategory = await update({
 					clinicId: Number(user?.clinicId),
 					name: v.name,
 					id: Number(values?.id),
-				});
-
-				toast({
-					title: "Service updated successfully",
-					description: "Service has been updated successfully",
-					variant: "default",
-					className: "bg-emerald-600 text-white",
-					duration: 5000,
 				});
 
 				setCategories((categories) => {
@@ -104,30 +99,15 @@ const CategoryDialog = () => {
 					});
 				});
 
-				form.reset();
-
-				setValues(null);
-
-				setCategoryAtom({ open: false });
-
-				return setLoading(false);
+			 	return handleClose("edit")
 			} else {
 				 await deleteCategory(Number(values?.id))
-				 toast({
-					 title: "Service deleted successfully",
-					 description: "Service has been deleted successfully",
-					 variant: "default",
-					 className: "bg-emerald-600 text-white",
-					 duration: 5000,
-				 });
 
 				 setCategories(categories => {
 				  	return categories.filter(category => category.id !== Number(values?.id))
 				 });
 
-				 setValues(null);
-				 setCategoryAtom({ open: false})
-				 return setLoading(false);
+				 return handleClose("delete")
 			}
 		} catch (error) {
 			setLoading(false);

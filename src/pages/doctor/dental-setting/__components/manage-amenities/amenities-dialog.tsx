@@ -58,6 +58,21 @@ const AmenityDialog = () => {
 	const editMode = amenityState.mode === "edit";
 	const deleteMode = amenityState.mode === "delete";
 
+
+	const handleClose = (type: "edit" | "create" | "delete") => {
+		toast({
+			title: `Amenity ${type === "edit" ? "updated" : type === "create" ? "created" : "deleted"} successfully`,
+			description: `Amenity ${type === "edit" ? "updated" : type === "create" ? "created" : "deleted"} successfully`,
+			variant: "default",
+			className: "bg-emerald-600 text-white",
+			duration: 5000,
+		});
+		form.reset();
+		setAmenityState({ open: false });
+		setValues(null);
+		setLoading(false);
+	}
+
 	const onSubmit = async (v: z.infer<typeof serviceSchema>) => {
 
 		try {
@@ -76,10 +91,7 @@ const AmenityDialog = () => {
 					duration: 5000,
 				});
 
-				form.reset();
-				setAmenityState({ open: false });
-				setValues(null);
-				return setLoading(false);
+				return handleClose("create")
 			} else if (editMode) {
 				const updatedAmenity = await update({
 					clinicId: Number(user?.clinicId),
@@ -87,13 +99,6 @@ const AmenityDialog = () => {
 					id: Number(values?.id),
 				});
 
-				toast({
-					title: "Service updated successfully",
-					description: "Service has been updated successfully",
-					variant: "default",
-					className: "bg-emerald-600 text-white",
-					duration: 5000,
-				});
 
 				setAmenities((amenities) => {
 					return amenities.map((amenity) => {
@@ -102,27 +107,12 @@ const AmenityDialog = () => {
 					});
 				});
 
-				form.reset();
-
-				setValues(null);
-
-				setAmenityState({ open: false });
-
-				return setLoading(false);
+				return handleClose("edit")
 			} else {
 
 				await deleteAmenity(Number(values?.id))
 				setAmenities(amenities => amenities.filter(amenity => amenity.id !== Number(values?.id)));
-				setAmenityState({ open: false })
-				setValues(null)
-				toast({
-					title: "Service deleted successfully",
-					description: "Service has been deleted successfully",
-					variant: "default",
-					className: "bg-emerald-600 text-white",
-					duration: 5000,
-				});
-				return setLoading(false);
+				return handleClose("delete")
 			}
 		} catch (error) {
 			setLoading(false);
@@ -140,6 +130,7 @@ const AmenityDialog = () => {
 			});
 		}
 	};
+
 
 	return (
 		<Dialog modal open={amenityState.open}> 

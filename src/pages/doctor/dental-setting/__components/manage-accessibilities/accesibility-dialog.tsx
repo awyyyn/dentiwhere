@@ -64,6 +64,20 @@ const AccessibilityDialog = () => {
 	const editMode = accessibilityState.mode === "edit";
 	const deleteMode = accessibilityState.mode === "delete";
 
+	const handleClose = (type: "edit" | "create" | "delete") => {
+		toast({
+			title: `Amenity ${type === "edit" ? "updated" : type === "create" ? "created" : "deleted"} successfully`,
+			description: `Amenity ${type === "edit" ? "updated" : type === "create" ? "created" : "deleted"} successfully`,
+			variant: "default",
+			className: "bg-emerald-600 text-white",
+			duration: 5000,
+		});
+		form.reset();
+		setAccessiblityState({ open: false });
+		setValues(null);
+		setLoading(false);
+	}
+
 	const onSubmit = async (v: z.infer<typeof serviceSchema>) => {
 		try {
 			setLoading(true);
@@ -73,30 +87,13 @@ const AccessibilityDialog = () => {
 					name: v.name,
 				});
 				setAccessibilities((params) => [...params, newAccessiblity]);
-				toast({
-					title: "Accessibility created successfully",
-					description: "Accessibility has been created successfully",
-					variant: "default",
-					className: "bg-emerald-600 text-white",
-					duration: 5000,
-				});
 
-				form.reset();
-				setAccessiblityState({ open: false });
-				setValues(null);
-				return setLoading(false);
+				return handleClose("create")
 			} else if (editMode) {
 				const updatedCategory = await update({
 					clinicId: Number(values?.clinicId),
 					name: v.name,
 					id: Number(values?.id),
-				});
-				toast({
-					title: "Accessibility updated successfully",
-					description: "Accessibility has been updated successfully",
-					variant: "default",
-					className: "bg-emerald-600 text-white",
-					duration: 5000,
 				});
 
 				setAccessibilities((accessibilities) => {
@@ -106,26 +103,11 @@ const AccessibilityDialog = () => {
 					});
 				});
 
-				form.reset();
-
-				setValues(null);
-
-				setAccessiblityState({ open: false });
-
-				return setLoading(false);
+				return handleClose("edit")
 			} else {
 				await deleteAccessibility(Number(values?.id))
 				setAccessibilities(accessibilities => accessibilities.filter(accessibility => accessibility.id !== Number(values?.id)))
-				setValues(null)
-				setAccessiblityState({ open: false });
-				toast({
-					title: "Accessibility deleted successfully",
-					description: "Accessibility has been deleted successfully",
-					variant: "default",
-					className: "bg-emerald-600 text-white",
-					duration: 5000,
-				});
-				return setLoading(false);
+				return handleClose("delete")
 			}
 		} catch (error) {
 			setLoading(false);

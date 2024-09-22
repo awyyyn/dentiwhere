@@ -60,3 +60,10 @@ export const update = async (inputs: Omit<Service, "createdAt" | "updatedAt">): 
  
     return transformService(data)
 }
+
+
+export const deleteService = async (id: number) => {
+    const {error} = await db.from("services").delete().eq("id", id)
+    if(error) throw new Error(error.message)
+    return true
+}

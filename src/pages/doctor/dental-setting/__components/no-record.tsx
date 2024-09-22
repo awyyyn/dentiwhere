@@ -1,10 +1,10 @@
-import Layout from "./layout";
+import Layout from "./layout.tsx";
 import { TbDatabaseOff } from "react-icons/tb";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button.tsx";
 import { useAtomValue } from "jotai";
-import { userAtom } from "@/atoms/user-atom";
+import { userAtom } from "@/atoms/user-atom.ts";
 import { MdOutlinePendingActions } from "react-icons/md";
-import { Status } from "@/types/types";
+import { Status } from "@/types/types.ts";
 
 export default function NoRecord({ handleAdd }: { handleAdd: () => void }) {
 	const user = useAtomValue(userAtom);

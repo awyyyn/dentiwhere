@@ -28,6 +28,8 @@ import { useToast } from "@/hooks/use-toast";
 import { clinicAtom } from "@/atoms/clinic-atom";
 import { updateUserClinic } from "@/actions/user";
 import { Clinic } from "@/types/types";
+import { amenitiesAtom } from "@/atoms/amenity-atom";
+import { accessibilitiesAtom } from "@/atoms/accessibility-atom";
 
 const formSchema = z.object({
 	name: z.string().min(1, { message: "Please enter your clinic name!" }),
@@ -62,6 +64,8 @@ const AddClinic = ({
 	const setClinic = useSetAtom(clinicAtom);
 	const [loading, setLoading] = useState(false);
 	const [user, setUser] = useAtom(userAtom);
+	const setAmenities = useSetAtom(amenitiesAtom);
+	const setAccessibilities = useSetAtom(accessibilitiesAtom);
 	const [amenitiesForm, setAmenitiesForm] = useState<string[]>(["amenity1"]);
 	const [accessibilityForm, setAccessibilityForm] = useState<string[]>([
 		"accessiblity1",
@@ -210,14 +214,14 @@ const AddClinic = ({
 					description: data.description,
 				});
 
-				await createManyAmenities(
+				const amenitiesResponse = await createManyAmenities(
 					amenitiesValues.map((amenity) => ({
 						clinic_id: newClinic.id,
 						name: amenity,
 					}))
 				);
 
-				await createManyAccessibilities(
+				const accessibilitiesResponse = await createManyAccessibilities(
 					accessibilityValues.map((accessibility) => ({
 						clinic_id: newClinic.id,
 						name: accessibility,
@@ -229,6 +233,8 @@ const AddClinic = ({
 					id: user.id,
 				});
 				setUser(updatedUser);
+				setAmenities(amenitiesResponse);
+				setAccessibilities(accessibilitiesResponse);
 				form.reset();
 				setAmenitiesValues([""]);
 				setAccessibilityValues([""]);

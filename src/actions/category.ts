@@ -62,3 +62,9 @@ export const update = async (inputs: Omit<Category, "createdAt" | "updatedAt">):
 
     return transformCategory(data)   
 }
+
+export const deleteCategory = async (id: number) => {
+    const { error } = await db.from("category").delete().eq("id",id);
+    if(error) throw new Error(error.message)
+    return true
+}

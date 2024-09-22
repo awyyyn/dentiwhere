@@ -27,7 +27,7 @@ import { accessbilityDialogAtom } from "@/atoms/dialogs-atom.ts";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast.ts";
 import { ERR_INTERNAL } from "@/constants/errors.ts";
-import { create, deleteAccessibility, update } from "@/actions/accessibilities.ts";
+import { createAccessibility, deleteAccessibility, updateAccessibility } from "@/actions";
 import { userAtom } from "@/atoms/user-atom.ts";
 import {
 	accessibilitiesAtom,
@@ -82,7 +82,7 @@ const AccessibilityDialog = () => {
 		try {
 			setLoading(true);
 		  	if (createMode) {
-				const newAccessiblity = await create({
+				const newAccessiblity = await createAccessibility({
 					clinicId: Number(user?.clinicId),
 					name: v.name,
 				});
@@ -90,7 +90,7 @@ const AccessibilityDialog = () => {
 
 				return handleClose("create")
 			} else if (editMode) {
-				const updatedCategory = await update({
+				const updatedCategory = await updateAccessibility({
 					clinicId: Number(values?.clinicId),
 					name: v.name,
 					id: Number(values?.id),

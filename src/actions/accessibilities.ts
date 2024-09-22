@@ -13,7 +13,7 @@ const transformAccessibility = (
 	};
 };
 
-export const createMany = async (
+export const createBulkAccessibility = async (
 	inputs: { clinic_id: number; name: string }[]
 ): Promise<Accessibility[]> => {
 	const { data, error } = await db
@@ -25,7 +25,7 @@ export const createMany = async (
 	return data.map((accessibility) => transformAccessibility(accessibility));
 };
 
-export const create = async (inputs: {
+export const createAccessibility = async (inputs: {
 	clinicId: number;
 	name: string;
 }): Promise<Accessibility> => {
@@ -45,7 +45,7 @@ export const create = async (inputs: {
 	return transformAccessibility(data);
 };
 
-export const update = async (inputs: {
+export const updateAccessibility = async (inputs: {
 	clinicId: number;
 	name: string;
 	id: number;

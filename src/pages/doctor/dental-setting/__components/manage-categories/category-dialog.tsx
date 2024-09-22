@@ -26,7 +26,7 @@ import { categoriesAtom, categoryDataAtom } from "@/atoms/category-atom.ts";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast.ts";
 import { ERR_INTERNAL } from "@/constants/errors.ts";
-import {create, deleteCategory, update} from "@/actions/category.ts";
+import { createCategory, deleteCategory, updateCategory } from "@/actions";
 import { userAtom } from "@/atoms/user-atom.ts";
 
 const serviceSchema = z.object({
@@ -76,7 +76,7 @@ const CategoryDialog = () => {
 		try {
 			setLoading(true);
 			 if (createMode) {
-				const newCategory = await create({
+				const newCategory = await createCategory({
 					clinicId: Number(user?.clinicId),
 					name: v.name,
 				});
@@ -86,7 +86,7 @@ const CategoryDialog = () => {
 				return handleClose("create")
 			} else if (editMode) {
 
-				const updatedCategory = await update({
+				const updatedCategory = await updateCategory({
 					clinicId: Number(user?.clinicId),
 					name: v.name,
 					id: Number(values?.id),

@@ -22,11 +22,10 @@ import { Label } from "@/components/ui/label";
 import LogoWithText from "@/components/shared/logo-with-text/logo-with-text";
 import { userAtom } from "@/atoms/user-atom";
 import { Skeleton } from "@/components/ui/skeleton";
-import { update } from "@/actions/user";
+import { updateUser, sendNotification } from "@/actions";
 import { Status } from "@/types/types";
 import { useToast } from "@/hooks/use-toast";
 import CustomDatePicker from "@/components/shared/date-picker/date-picker";
-import { sendNotification } from "@/actions/notification";
 
 const userForm = z.object({
 	fist_name: z.string().min(1, { message: "First name is required" }),
@@ -159,7 +158,7 @@ export default function AccountSettings() {
 			return setSubmitting(false);
 
 		try {
-			const data = await update({
+			const data = await updateUser({
 				id: Number(user?.id),
 				address: v.address,
 				contacts: [`0${v.contact}`],
@@ -599,6 +598,7 @@ export default function AccountSettings() {
 															? frontId
 															: "https://www.wibits.com/wp-content/themes/wibits-theme/images/sample.jpg"
 													}
+													alt="front Img id"
 													className="absolute h-full z-10 object-cover w-full transition-all duration-300"
 												/>
 											</div>
@@ -657,6 +657,7 @@ export default function AccountSettings() {
 															? backId
 															: "https://www.wibits.com/wp-content/themes/wibits-theme/images/sample.jpg"
 													}
+													alt="back img id"
 													className="absolute h-full z-10 object-cover w-full transition-all duration-300"
 												/>
 											</div>

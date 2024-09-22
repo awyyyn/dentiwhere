@@ -36,8 +36,7 @@ import { categoriesAtom } from "@/atoms/category-atom";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { ERR_INTERNAL } from "@/constants/errors";
-import {create, deleteService, update} from "@/actions/service";
-import { create as createCategory } from "@/actions/category";
+import { createService, deleteService, updateService, createCategory } from "@/actions";
 import { userAtom } from "@/atoms/user-atom";
 
 const serviceSchema = z.object({
@@ -113,7 +112,7 @@ const ServiceDialog = () => {
 					setCategories((p) => p.concat(newCategory));
 					categoryId = String(newCategory.id);
 				}
-				const newService = await create({
+				const newService = await createService({
 					...v,
 					categoryId: Number(categoryId),
 					clinicId: Number(user?.clinicId),
@@ -123,7 +122,7 @@ const ServiceDialog = () => {
 				setServices((p) => p.concat(newService));
 				return handleClose("create")
 			} else if (editMode) {
-				const updatedService = await update({
+				const updatedService = await updateService({
 					name: v.name,
 					description: v.description,
 					active: v.active,

@@ -1,4 +1,4 @@
-import { getAllByClinic } from "@/actions/service";
+import { getAllServiceByClinic } from "@/actions";
 import { Service } from "@/types/types";
 import { atom } from "jotai";
 import { userAtom } from "./user-atom";
@@ -11,7 +11,7 @@ export const serviceDataAtom = atom<Service | null>(null);
 
 export const asyncServicesAtom = atom (async (get) => {
     const user = get(userAtom)
-    return await getAllByClinic((user.clinicId ?? "")?.toString()) 
+    return await getAllServiceByClinic((user.clinicId ?? "")?.toString())
 })
 
 

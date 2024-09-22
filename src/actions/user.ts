@@ -47,7 +47,7 @@ export const transformUser = (user: DBUser): User => {
 	};
 };
 
-export const getOne = async (id: string) => {
+export const getUser = async (id: string) => {
 	const { data, error } = await db.from("user").select().or(`auth_id.eq.${id}`);
 
 	if (error) {
@@ -104,7 +104,7 @@ export const getOneByAuthID = async (id: string) => {
 	});
 };
 
-export const getAll = async () => {
+export const getAllUsers = async () => {
 	const { data, error } = await db.from("user").select("*");
 
 	if (error) {
@@ -114,7 +114,7 @@ export const getAll = async () => {
 	return data ? data?.map((user) => transformUser(user)) : [];
 };
 
-export const create = async (user: any): Promise<User> => {
+export const createUser = async (user: any): Promise<User> => {
 	const isExists = await db
 		.from("user")
 		.select("*")
@@ -166,7 +166,7 @@ export const create = async (user: any): Promise<User> => {
 	return transformUser(insertToUserTable.data[0]);
 };
 
-export const update = async (
+export const updateUser = async (
 	inputs: Omit<DBUser, "created_at" | "updated_at" | "auth_id" | "clinic_id">
 ): Promise<User> => {
 	const { data, error } = await db

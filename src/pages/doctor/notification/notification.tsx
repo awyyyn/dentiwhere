@@ -4,7 +4,7 @@ import { isSameDay, isYesterday, format } from "date-fns";
 import { useAtom } from "jotai";
 
 export default function Notification() {
-	const [notifications, setNotifications] = useAtom(notificationsAtom);
+	const [notifications] = useAtom(notificationsAtom);
 	return (
 		<section>
 			<div className="md:px-10 grid grid-cols-1 gap-y-5 lg:grid-cols-4 grid-flow-row mt-8 lg:mt-10 lg:gap-y-0 divide-y-reverse ">

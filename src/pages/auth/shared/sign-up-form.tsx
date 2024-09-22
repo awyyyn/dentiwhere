@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
-import { create } from "@/actions/user";
+import { createUser } from "@/actions";
 import { Role } from "@/types/types";
 import { ERR_INTERNAL } from "@/constants/errors";
 import { useToast } from "@/hooks/use-toast";
@@ -59,7 +59,7 @@ export default function SignUpForm() {
 	const handleSubmit = async (values: z.infer<typeof formSchema>) => {
 		try {
 			setLoading(true);
-			const user = await create({
+			const user = await createUser({
 				role: Role.doctor,
 				verified: false,
 				firstName: values.firstName,

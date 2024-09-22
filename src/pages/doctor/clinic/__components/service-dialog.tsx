@@ -8,7 +8,7 @@ import {
 	DialogContent,
 	DialogHeader,
 	DialogTitle,
-	DialogOverlay, DialogDescription,
+	DialogOverlay
 } from "@/components/ui/dialog";
 import { z } from "zod";
 import {
@@ -37,8 +37,7 @@ import { categoriesAtom } from "@/atoms/category-atom";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { ERR_INTERNAL } from "@/constants/errors";
-import {create, deleteService, update} from "@/actions/service";
-import { create as createCategory } from "@/actions/category";
+import { createCategory, createService, deleteService, updateService } from "@/actions";
 import { userAtom } from "@/atoms/user-atom";
 import {Label} from "@/components/ui/label.tsx";
 
@@ -104,7 +103,7 @@ const ServiceDialog = () => {
 					setCategories((p) => p.concat(newService));
 					categoryId = String(newService.id);
 				}
-				const newService = await create({
+				const newService = await createService({
 					...v,
 					categoryId: Number(categoryId),
 					clinicId: Number(user?.clinicId),
@@ -123,7 +122,7 @@ const ServiceDialog = () => {
 				setDialogAtom({ open: false });
 				return setLoading(false);
 			} else if (editMode) {
-				const updatedService = await update({
+				const updatedService = await updateService({
 					name: v.name,
 					description: v.description,
 					active: v.active,

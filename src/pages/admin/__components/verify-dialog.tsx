@@ -6,9 +6,7 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger
 } from "@/components/ui/dialog.tsx";
-import {DialogClose} from "@radix-ui/react-dialog";
 import {Button} from "@/components/ui/button.tsx";
 import {Input} from "@/components/ui/input.tsx";
 import {Badge} from "@/components/ui/badge.tsx";

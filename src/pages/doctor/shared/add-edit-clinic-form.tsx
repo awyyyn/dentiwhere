@@ -19,11 +19,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { create, update } from "@/actions/clinic";
+import { createClinic, updateClinic, createBulkAmenity, createBulkAccessibility } from "@/actions";
 import { useAtom, useSetAtom } from "jotai";
 import { userAtom } from "@/atoms/user-atom";
-import { createMany as createManyAmenities } from "@/actions/amenities";
-import { createMany as createManyAccessibilities } from "@/actions/accessibilities";
 import { useToast } from "@/hooks/use-toast";
 import { clinicAtom } from "@/atoms/clinic-atom";
 import { updateUserClinic } from "@/actions/user";
@@ -164,7 +162,7 @@ const AddClinic = ({
 
 			if (info || placeholder !== clinic.img) {
 				try {
-					const updatedData = await update({
+					const updatedData = await updateClinic({
 						address: data.address,
 						archive: clinic.archive,
 						boosted: clinic.boosted,
@@ -201,7 +199,7 @@ const AddClinic = ({
 			});
 		} else {
 			try {
-				const newClinic = await create({
+				const newClinic = await createClinic({
 					address: data.address,
 					contacts:
 						data?.contact2 && data?.contact
@@ -214,14 +212,14 @@ const AddClinic = ({
 					description: data.description,
 				});
 
-				const amenitiesResponse = await createManyAmenities(
+				const amenitiesResponse = await createBulkAmenity(
 					amenitiesValues.map((amenity) => ({
 						clinic_id: newClinic.id,
 						name: amenity,
 					}))
 				);
 
-				const accessibilitiesResponse = await createManyAccessibilities(
+				const accessibilitiesResponse = await createBulkAccessibility(
 					accessibilityValues.map((accessibility) => ({
 						clinic_id: newClinic.id,
 						name: accessibility,
@@ -322,6 +320,7 @@ const AddClinic = ({
 												: "https://www.wibits.com/wp-content/themes/wibits-theme/images/sample.jpg"
 										}
 										className="absolute h-full z-10 object-cover transition-all duration-300"
+										alt="clinic profile"
 									/>
 								</div>
 							)}

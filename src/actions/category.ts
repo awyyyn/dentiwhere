@@ -14,7 +14,7 @@ export const transformCategory = (category: DBCategory): Category => {
     }
 }
 
-export const getAllByClinicId = async (clinicId: number): Promise<Category[]> => {
+export const getAllCategoryByClinicId = async (clinicId: number): Promise<Category[]> => {
 
     const { data, error } = await db.from("category").select("*").eq("clinic_id", clinicId);
 
@@ -25,7 +25,7 @@ export const getAllByClinicId = async (clinicId: number): Promise<Category[]> =>
     return data.map(category => transformCategory(category))
 }
 
-export const getAll = async (): Promise<Category[]> => {
+export const getAllCategory = async (): Promise<Category[]> => {
 
     const { data, error } = await db.from("category").select("*");
 
@@ -38,7 +38,7 @@ export const getAll = async (): Promise<Category[]> => {
 }
 
 
-export const create = async (inputs: Omit<Category, "createdAt" | "updatedAt" | "id">): Promise<Category> => {
+export const createCategory = async (inputs: Omit<Category, "createdAt" | "updatedAt" | "id">): Promise<Category> => {
 
     const { data, error } = await db.from("category").insert({
         clinic_id: inputs.clinicId,
@@ -52,7 +52,7 @@ export const create = async (inputs: Omit<Category, "createdAt" | "updatedAt" | 
     return transformCategory(data)
 }
 
-export const update = async (inputs: Omit<Category, "createdAt" | "updatedAt">): Promise<Category> => {
+export const updateCategory = async (inputs: Omit<Category, "createdAt" | "updatedAt">): Promise<Category> => {
     const { data, error } = await db.from("category").update({
         clinic_id: inputs.clinicId,
         name: inputs.name,

@@ -18,7 +18,7 @@ const transformClinic = (clinic: DBClinic): Clinic => {
 	};
 };
 
-export const create = async (
+export const createClinic = async (
 	inputs: Omit<Clinic, "id" | "createdAt" | "updatedAt" | "archive" | "boosted">
 ): Promise<Clinic> => {
 	const { data, error } = await db
@@ -43,7 +43,7 @@ export const create = async (
 	return transformClinic(data);
 };
 
-export const update = async (
+export const updateClinic = async (
 	inputs: Omit<
 		Clinic,
 		| "createdAt"
@@ -78,7 +78,7 @@ export const update = async (
 	return transformClinic(clinic.data);
 };
 
-export const deleteOne = async (id: number) => {
+export const deleteClinic = async (id: number) => {
 	await db.from("clinics").delete().eq("id", id);
 };
 

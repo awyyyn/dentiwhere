@@ -11,7 +11,7 @@ import ClinicEditModal from "./__components/service-dialog";
 import CategoryDialog from "./__components/category-dialog";
 import Services from "./__components/services";
 import { useEffect, useState } from "react";
-import { getClinic } from "@/actions/clinic";
+import { getClinic } from "@/actions";
 import { userAtom } from "@/atoms/user-atom";
 import { TbWorldWww } from "react-icons/tb";
 import { Loader } from "@/components/shared/loader/loader";

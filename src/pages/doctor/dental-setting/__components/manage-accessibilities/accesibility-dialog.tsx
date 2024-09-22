@@ -27,7 +27,7 @@ import { accessbilityDialogAtom } from "@/atoms/dialogs-atom.ts";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast.ts";
 import { ERR_INTERNAL } from "@/constants/errors.ts";
-import { create, update } from "@/actions/accessibilities.ts";
+import { create, deleteAccessibility, update } from "@/actions/accessibilities.ts";
 import { userAtom } from "@/atoms/user-atom.ts";
 import {
 	accessibilitiesAtom,
@@ -35,7 +35,7 @@ import {
 } from "@/atoms/accessibility-atom.ts";
 
 const serviceSchema = z.object({
-	name: z.string().min(3, { message: "Name is too short!" }),
+	name: z.string().min(2, { message: "Name is too short!" }),
 });
 
 const initialValues = {
@@ -62,14 +62,12 @@ const AccessibilityDialog = () => {
 	const viewMode = accessibilityState.mode === "view";
 	const createMode = accessibilityState.mode === "create";
 	const editMode = accessibilityState.mode === "edit";
+	const deleteMode = accessibilityState.mode === "delete";
 
 	const onSubmit = async (v: z.infer<typeof serviceSchema>) => {
 		try {
 			setLoading(true);
-			if (viewMode) {
-				setAccessiblityState((p) => ({ ...p, mode: "edit" }));
-				return setLoading(false);
-			} else if (createMode) {
+		  	if (createMode) {
 				const newAccessiblity = await create({
 					clinicId: Number(user?.clinicId),
 					name: v.name,
@@ -93,7 +91,6 @@ const AccessibilityDialog = () => {
 					name: v.name,
 					id: Number(values?.id),
 				});
-
 				toast({
 					title: "Accessibility updated successfully",
 					description: "Accessibility has been updated successfully",
@@ -117,13 +114,22 @@ const AccessibilityDialog = () => {
 
 				return setLoading(false);
 			} else {
-				//
+				await deleteAccessibility(Number(values?.id))
+				setAccessibilities(accessibilities => accessibilities.filter(accessibility => accessibility.id !== Number(values?.id)))
+				setValues(null)
+				setAccessiblityState({ open: false });
+				toast({
+					title: "Accessibility deleted successfully",
+					description: "Accessibility has been deleted successfully",
+					variant: "default",
+					className: "bg-emerald-600 text-white",
+					duration: 5000,
+				});
 				return setLoading(false);
 			}
 		} catch (error) {
 			setLoading(false);
-
-			console.log(error);
+			console.error(error);
 			if (error instanceof Error) {
 				toast({
 					title: "Error in creating service",
@@ -144,7 +150,7 @@ const AccessibilityDialog = () => {
 			<DialogOverlay className=" backdrop-blur-lg" />
 			<DialogContent removeClose className="">
 				<DialogHeader>
-					<DialogTitle className="mb-">Accessibility</DialogTitle>
+					<DialogTitle className="mb-">{createMode ? "Create" : editMode ? "Edit" : "Delete"} Accessibility</DialogTitle>
 				</DialogHeader>
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
@@ -153,7 +159,7 @@ const AccessibilityDialog = () => {
 							name="name"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Name</FormLabel>
+									<FormLabel>{deleteMode ? "Are you sure to delete this Accessibility?" : "Name"}</FormLabel>
 									<FormControl>
 										<Input
 											autoComplete="off"
@@ -177,28 +183,21 @@ const AccessibilityDialog = () => {
 								variant="destructive"
 								className="btn-scale transition-1"
 								onClick={() => {
-									if (editMode) {
-										setAccessiblityState((p) => ({ ...p, mode: "view" }));
-										form.reset();
-										return;
-									}
 									setValues(null);
 									form.reset();
 									setAccessiblityState({ open: false });
 								}}>
-								{editMode ? "Cancel" : "Close"}
+								Close
 							</Button>
 							<Button type="submit">
 								{loading && <ImSpinner9 className="animate-spin " />}
 								{loading
 									? "Loading..."
-									: viewMode
-									? "Edit"
 									: createMode
 									? "Create"
-									: editMode
-									? "Update"
-									: "Delete"}
+									: deleteMode
+									? "Delete"
+									: "Update"}
 							</Button>
 						</div>
 					</form>

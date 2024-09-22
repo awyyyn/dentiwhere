@@ -41,6 +41,7 @@ export type User = {
 	role: Role;
 	img: string;
 	authId: string;
+	notifications?: Notification[];
 	boost: boolean;
 	verified: boolean;
 	createdAt: Date | string;
@@ -69,6 +70,18 @@ export type Clinic = {
 	categories?: Category[];
 	boosted: boolean;
 	archive: boolean;
+	createdAt: Date | string;
+	updatedAt: Date | string;
+};
+
+export type Notification = {
+	id: number;
+	title: string;
+	content: string;
+	read: boolean;
+	from?: number;
+	to: number;
+	name: string;
 	createdAt: Date | string;
 	updatedAt: Date | string;
 };
@@ -113,8 +126,12 @@ export type Category = {
 	updatedAt: Date | string;
 };
 
+export type DBNotification =
+	Database["public"]["Tables"]["notification"]["Row"];
 export type DBCategory = Database["public"]["Tables"]["category"]["Row"];
-export type DBUser = Database["public"]["Tables"]["user"]["Row"];
+export type DBUser = Database["public"]["Tables"]["user"]["Row"] & {
+	notification?: Notification[];
+};
 export type DBService = Database["public"]["Tables"]["services"]["Row"];
 export type DBClinic = Database["public"]["Tables"]["clinics"]["Row"];
 export type DBAmenities = Database["public"]["Tables"]["amenities"]["Row"];

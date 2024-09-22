@@ -19,16 +19,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { create, update } from "@/actions/clinic";
+import { createClinic, updateClinic, createBulkAmenity, createBulkAccessibility } from "@/actions";
 import { useAtom, useSetAtom } from "jotai";
 import { userAtom } from "@/atoms/user-atom";
-import { createMany as createManyAmenities } from "@/actions/amenities";
-import { createMany as createManyAccessibilities } from "@/actions/accessibilities";
 import { useToast } from "@/hooks/use-toast";
 import { clinicAtom } from "@/atoms/clinic-atom";
 import { updateUserClinic } from "@/actions/user";
 import { Clinic } from "@/types/types";
-import { useNavigate } from "react-router-dom";
+import { amenitiesAtom } from "@/atoms/amenity-atom";
+import { accessibilitiesAtom } from "@/atoms/accessibility-atom";
 
 const formSchema = z.object({
 	name: z.string().min(1, { message: "Please enter your clinic name!" }),
@@ -59,11 +58,12 @@ const AddClinic = ({
 	edit?: boolean;
 	clinic?: Clinic;
 }) => {
-	const navigate = useNavigate();
 	const { toast } = useToast();
 	const setClinic = useSetAtom(clinicAtom);
 	const [loading, setLoading] = useState(false);
 	const [user, setUser] = useAtom(userAtom);
+	const setAmenities = useSetAtom(amenitiesAtom);
+	const setAccessibilities = useSetAtom(accessibilitiesAtom);
 	const [amenitiesForm, setAmenitiesForm] = useState<string[]>(["amenity1"]);
 	const [accessibilityForm, setAccessibilityForm] = useState<string[]>([
 		"accessiblity1",
@@ -162,7 +162,7 @@ const AddClinic = ({
 
 			if (info || placeholder !== clinic.img) {
 				try {
-					const updatedData = await update({
+					const updatedData = await updateClinic({
 						address: data.address,
 						archive: clinic.archive,
 						boosted: clinic.boosted,
@@ -197,10 +197,9 @@ const AddClinic = ({
 				variant: "default",
 				className: "bg-emerald-600 text-white",
 			});
-			navigate("/clinic");
 		} else {
 			try {
-				const newClinic = await create({
+				const newClinic = await createClinic({
 					address: data.address,
 					contacts:
 						data?.contact2 && data?.contact
@@ -213,14 +212,14 @@ const AddClinic = ({
 					description: data.description,
 				});
 
-				await createManyAmenities(
+				const amenitiesResponse = await createBulkAmenity(
 					amenitiesValues.map((amenity) => ({
 						clinic_id: newClinic.id,
 						name: amenity,
 					}))
 				);
 
-				await createManyAccessibilities(
+				const accessibilitiesResponse = await createBulkAccessibility(
 					accessibilityValues.map((accessibility) => ({
 						clinic_id: newClinic.id,
 						name: accessibility,
@@ -232,6 +231,8 @@ const AddClinic = ({
 					id: user.id,
 				});
 				setUser(updatedUser);
+				setAmenities(amenitiesResponse);
+				setAccessibilities(accessibilitiesResponse);
 				form.reset();
 				setAmenitiesValues([""]);
 				setAccessibilityValues([""]);
@@ -245,7 +246,6 @@ const AddClinic = ({
 					variant: "default",
 					className: "bg-emerald-600 text-white",
 				});
-				navigate("/clinic");
 			} catch (error) {
 				setLoading(false);
 
@@ -286,21 +286,21 @@ const AddClinic = ({
 	};
 
 	return (
-		<div className="py-10 px-3 lg:px-10">
+		<div className="py-10 sm:px-3 lg:px-10">
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(handleSubmit)}
 					className="space-y-4 md:space-y-8">
 					{edit ?? "editing"}
-					<div className="flex md:space-x-20 items-center flex-col md:flex-row">
+					<div className="flex items-center  gap-5  lg:flex-wrap mb-4 xl:flex-nowrap flex-col md:flex-row">
 						<Dropzone onDrop={handleDropImage}>
 							{({ getRootProps, getInputProps }) => (
 								<div
-									className="shadow-md rounded-full mb-4 md:mb-0 min-h-[300px] max-h-[300px] min-w-[300px] hover:cursor-pointer overflow-hidden relative hover:shadow-xl transition-all duration-300 group"
+									className="shadow-md   mx-auto rounded-full md:mb-4 md:mb-0 min-h-[200px] md:min-h-[300px] max-w-[200px] md:max-h-[300px] min-w-[200px] md:min-w-[300px] hover:cursor-pointer overflow-hidden relative hover:shadow-xl transition-all duration-300 group"
 									{...getRootProps()}>
 									<input {...getInputProps()} disabled={uploading} />
 									<div
-										className={`absolute  w-full h-full items-center justify-center backdrop-blur-sm flex-wrap bg-black  z-50 bg-opacity-20 hover:opacity-100 ${
+										className={`absolute rounded-full w-full h-full items-center justify-center backdrop-blur-sm flex-wrap bg-black  z-50 bg-opacity-20 hover:opacity-100 ${
 											uploading || loading
 												? "opacity-100 cursor-wait"
 												: "opacity-0"
@@ -320,6 +320,7 @@ const AddClinic = ({
 												: "https://www.wibits.com/wp-content/themes/wibits-theme/images/sample.jpg"
 										}
 										className="absolute h-full z-10 object-cover transition-all duration-300"
+										alt="clinic profile"
 									/>
 								</div>
 							)}

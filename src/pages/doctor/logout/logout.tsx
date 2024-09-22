@@ -3,16 +3,21 @@ import LogoWithText from "@/components/shared/logo-with-text/logo-with-text";
 import { Button } from "@/components/ui/button";
 import { db } from "@/utils/supabase";
 import { useSetAtom } from "jotai";
+import { useState } from "react";
+import { ImSpinner2 } from "react-icons/im";
 import { useNavigate } from "react-router-dom";
 
 export default function Logout() {
 	const setUser = useSetAtom(userAtom);
 	const navigate = useNavigate();
+	const [loading, setLoading] = useState(false);
 
 	const handleLogout = async () => {
+		setLoading(true);
 		await db.auth.signOut();
 		setUser(userAtomDefaultValue);
 		localStorage.clear();
+		setLoading(false);
 		navigate("/login", { replace: true });
 	};
 
@@ -23,13 +28,27 @@ export default function Logout() {
 					<LogoWithText />
 				</div>
 			</div>
-			<div className="absolute h-full flex flex-col w-full  space-y-5 justify-center items-center -mt-14">
-				<h1 className="text-3xl ">Are you sure you want to log out?</h1>
+			<div className="absolute h-full flex flex-col w-full  space-y-5 justify-center items-center lg:-mt-14 md:mt-0">
+				<h1 className="text-3xl text-center">
+					Are you sure you want to log out?
+				</h1>
 				<div className="flex space-x-4">
-					<Button className="rounded-3xl py-6 px-8" onClick={handleLogout}>
-						Yes
+					<Button
+						disabled={loading}
+						className="rounded-3xl py-6 px-8"
+						onClick={handleLogout}>
+						{loading ? (
+							<>
+								<ImSpinner2 className="animate-spin mr-2" />
+								<span>Logging out...</span>
+							</>
+						) : (
+							"Yes"
+						)}
 					</Button>
-					<Button className="rounded-3xl py-6 px-8">No</Button>
+					<Button disabled={loading} className="rounded-3xl py-6 px-8">
+						No
+					</Button>
 				</div>
 			</div>
 		</section>

@@ -1,16 +1,29 @@
 import { visit } from "@/actions/auth";
+import { getClinicByDoctor } from "@/actions/clinic";
 import { getOneByAuthID } from "@/actions/user";
+import { accessibilitiesAtom } from "@/atoms/accessibility-atom";
+import { amenitiesAtom } from "@/atoms/amenity-atom";
+import { categoriesAtom } from "@/atoms/category-atom";
+import { clinicAtom } from "@/atoms/clinic-atom";
+import { notificationsAtom } from "@/atoms/notification-atom";
+import { servicesAtom } from "@/atoms/service-atom";
 import { userAtom, userAtomDefaultValue } from "@/atoms/user-atom";
 import { Loader } from "@/components/shared/loader/loader";
 import { Toaster } from "@/components/ui/toaster";
 import { Role } from "@/types/types";
 import { db } from "@/utils/supabase";
-import { useAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 export default function Parent() {
 	const [user, setUser] = useAtom(userAtom);
+	const setNotifications = useSetAtom(notificationsAtom);
+	const setClinic = useSetAtom(clinicAtom);
+	const setAccessibilities = useSetAtom(accessibilitiesAtom);
+	const setAmenities = useSetAtom(amenitiesAtom);
+	const setServices = useSetAtom(servicesAtom);
+	const setCategories = useSetAtom(categoriesAtom);
 	const navigate = useNavigate();
 	const location = useLocation();
 	const [loading, setLoading] = useState(false);
@@ -28,7 +41,17 @@ export default function Parent() {
 
 				if (user === null) throw new Error("No user found");
 
+				if (user.role === Role.doctor && user.clinicId !== 0) {
+					const response = await getClinicByDoctor(user.id);
+					setClinic(response);
+					setCategories(response.categories ?? []);
+					setServices(response.services ?? []);
+					setAccessibilities(response.accesibilities ?? []);
+					setAmenities(response.amenities ?? []);
+				}
+
 				setUser(user);
+				setNotifications(user.notifications ?? []);
 				if (
 					location.pathname === "/login" ||
 					location.pathname === "/sign-up"

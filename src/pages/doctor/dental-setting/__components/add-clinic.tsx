@@ -1,14 +1,14 @@
-import AddEditClinicForm from "../shared/add-edit-clinic-form";
-import Layout from "./layout";
+import AddEditClinicForm from "../../shared/add-edit-clinic-form.tsx";
+import Layout from "./layout.tsx";
 import { useAtomValue } from "jotai";
-import { userAtom } from "@/atoms/user-atom";
+import { userAtom } from "@/atoms/user-atom.ts";
 
 export default function AddClinic() {
 	const user = useAtomValue(userAtom);
 	return (
 		<>
 			<Layout>
-				<div className="bg-[#D9D9D9] mix-blend-multiply p-5 rounded-lg">
+				<div className="bg-[#D9D9D9]/90 mix-blend-multiply p-5 rounded-lg">
 					<h1 className="text-3xl">
 						Welcome,{" "}
 						<b className="capitalize">
@@ -21,8 +21,8 @@ export default function AddClinic() {
 						get started!
 					</p>
 				</div>
+				<AddEditClinicForm />
 			</Layout>
-			<AddEditClinicForm />
 		</>
 	);
 }

@@ -1,15 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useForm } from "react-hook-form";
-
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button.tsx";
 import {
 	Dialog,
 	DialogContent,
 	DialogHeader,
 	DialogTitle,
-	DialogOverlay,
-} from "@/components/ui/dialog";
+} from "@/components/ui/dialog.tsx";
 import { z } from "zod";
 import {
 	FormControl,
@@ -18,18 +16,18 @@ import {
 	FormLabel,
 	FormMessage,
 	Form,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from "@/components/ui/form.tsx";
+import { Input } from "@/components/ui/input.tsx";
 
 import { ImSpinner9 } from "react-icons/im";
 
-import { categoryDialogAtom } from "@/atoms/dialogs-atom";
-import { categoriesAtom, categoryDataAtom } from "@/atoms/category-atom";
+import { categoryDialogAtom } from "@/atoms/dialogs-atom.ts";
+import { categoriesAtom, categoryDataAtom } from "@/atoms/category-atom.ts";
 import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
-import { ERR_INTERNAL } from "@/constants/errors";
-import { createCategory, updateCategory } from "@/actions";
-import { userAtom } from "@/atoms/user-atom";
+import { useToast } from "@/hooks/use-toast.ts";
+import { ERR_INTERNAL } from "@/constants/errors.ts";
+import { createCategory, deleteCategory, updateCategory } from "@/actions";
+import { userAtom } from "@/atoms/user-atom.ts";
 
 const serviceSchema = z.object({
 	name: z.string().min(3, { message: "Name is too short!" }),
@@ -57,44 +55,41 @@ const CategoryDialog = () => {
 	const viewMode = category.mode === "view";
 	const createMode = category.mode === "create";
 	const editMode = category.mode === "edit";
+	const deleteMode = category.mode === "delete";
+
+	const handleClose = (type: "edit" | "create" | "delete") => {
+		toast({
+			title: `Category ${type === "edit" ? "updated" : type === "create" ? "created" : "deleted"} successfully`,
+			description: `Category ${type === "edit" ? "updated" : type === "create" ? "created" : "deleted"} successfully`,
+			variant: "default",
+			className: "bg-emerald-600 text-white",
+			duration: 5000,
+		});
+		form.reset();
+		setCategoryAtom({ open: false });
+		setValues(null);
+		setLoading(false);
+	}
+
 
 	const onSubmit = async (v: z.infer<typeof serviceSchema>) => {
 		try {
 			setLoading(true);
-			if (viewMode) {
-				setCategoryAtom((p) => ({ ...p, mode: "edit" }));
-				return setLoading(false);
-			} else if (createMode) {
+			 if (createMode) {
 				const newCategory = await createCategory({
 					clinicId: Number(user?.clinicId),
 					name: v.name,
 				});
-				setCategories((params) => [...params, newCategory]);
-				toast({
-					title: "Service created successfully",
-					description: "Service has been created successfully",
-					variant: "default",
-					className: "bg-emerald-600 text-white",
-					duration: 5000,
-				});
 
-				form.reset();
-				setCategoryAtom({ open: false });
-				setValues(null);
-				return setLoading(false);
+				setCategories((params) => [...params, newCategory]);
+
+				return handleClose("create")
 			} else if (editMode) {
+
 				const updatedCategory = await updateCategory({
 					clinicId: Number(user?.clinicId),
 					name: v.name,
 					id: Number(values?.id),
-				});
-
-				toast({
-					title: "Service updated successfully",
-					description: "Service has been updated successfully",
-					variant: "default",
-					className: "bg-emerald-600 text-white",
-					duration: 5000,
 				});
 
 				setCategories((categories) => {
@@ -104,16 +99,15 @@ const CategoryDialog = () => {
 					});
 				});
 
-				form.reset();
-
-				setValues(null);
-
-				setCategoryAtom({ open: false });
-
-				return setLoading(false);
+			 	return handleClose("edit")
 			} else {
-				//
-				return setLoading(false);
+				 await deleteCategory(Number(values?.id))
+
+				 setCategories(categories => {
+				  	return categories.filter(category => category.id !== Number(values?.id))
+				 });
+
+				 return handleClose("delete")
 			}
 		} catch (error) {
 			setLoading(false);
@@ -134,10 +128,9 @@ const CategoryDialog = () => {
 
 	return (
 		<Dialog modal open={category.open}>
-			<DialogOverlay className=" backdrop-blur-lg" />
-			<DialogContent removeClose className="">
+			<DialogContent removeClose>
 				<DialogHeader>
-					<DialogTitle className="mb-">Category</DialogTitle>
+					<DialogTitle className="mb-">{createMode ? "Add" : editMode ? "Edit" : "Delete"} Category</DialogTitle>
 				</DialogHeader>
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
@@ -146,12 +139,12 @@ const CategoryDialog = () => {
 							name="name"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Name</FormLabel>
+									<FormLabel>{ deleteMode ? "Are you sure to delete this category?" : "Category Name" } </FormLabel>
 									<FormControl>
 										<Input
 											autoComplete="off"
 											autoFocus={false}
-											readOnly={loading || viewMode}
+											readOnly={loading || viewMode || deleteMode}
 											className="first-letter:uppercase"
 											placeholder="Name"
 											{...field}
@@ -170,28 +163,22 @@ const CategoryDialog = () => {
 								variant="destructive"
 								className="btn-scale transition-1"
 								onClick={() => {
-									if (editMode) {
-										setCategoryAtom((p) => ({ ...p, mode: "view" }));
-										form.reset();
-										return;
-									}
 									setValues(null);
 									form.reset();
 									setCategoryAtom({ open: false });
 								}}>
-								{editMode ? "Cancel" : "Close"}
+								 Close
 							</Button>
 							<Button type="submit">
 								{loading && <ImSpinner9 className="animate-spin " />}
 								{loading
 									? "Loading..."
-									: viewMode
-									? "Edit"
 									: createMode
 									? "Create"
 									: editMode
 									? "Update"
-									: "Delete"}
+									: "Delete"
+								}
 							</Button>
 						</div>
 					</form>

@@ -2,14 +2,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useForm } from "react-hook-form";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button.tsx";
 import {
 	Dialog,
 	DialogContent,
 	DialogHeader,
 	DialogTitle,
 	DialogOverlay,
-} from "@/components/ui/dialog";
+} from "@/components/ui/dialog.tsx";
 import { z } from "zod";
 import {
 	FormControl,
@@ -18,24 +18,24 @@ import {
 	FormLabel,
 	FormMessage,
 	Form,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from "@/components/ui/form.tsx";
+import { Input } from "@/components/ui/input.tsx";
 
 import { ImSpinner9 } from "react-icons/im";
 
-import { accessbilityDialogAtom } from "@/atoms/dialogs-atom";
+import { accessbilityDialogAtom } from "@/atoms/dialogs-atom.ts";
 import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
-import { ERR_INTERNAL } from "@/constants/errors";
-import { createAccessibility, updateAccessibility } from "@/actions";
-import { userAtom } from "@/atoms/user-atom";
+import { useToast } from "@/hooks/use-toast.ts";
+import { ERR_INTERNAL } from "@/constants/errors.ts";
+import { createAccessibility, deleteAccessibility, updateAccessibility } from "@/actions";
+import { userAtom } from "@/atoms/user-atom.ts";
 import {
 	accessibilitiesAtom,
 	accessibilitiesDataAtom,
-} from "@/atoms/accessibility-atom";
+} from "@/atoms/accessibility-atom.ts";
 
 const serviceSchema = z.object({
-	name: z.string().min(3, { message: "Name is too short!" }),
+	name: z.string().min(2, { message: "Name is too short!" }),
 });
 
 const initialValues = {
@@ -62,44 +62,38 @@ const AccessibilityDialog = () => {
 	const viewMode = accessibilityState.mode === "view";
 	const createMode = accessibilityState.mode === "create";
 	const editMode = accessibilityState.mode === "edit";
+	const deleteMode = accessibilityState.mode === "delete";
+
+	const handleClose = (type: "edit" | "create" | "delete") => {
+		toast({
+			title: `Amenity ${type === "edit" ? "updated" : type === "create" ? "created" : "deleted"} successfully`,
+			description: `Amenity ${type === "edit" ? "updated" : type === "create" ? "created" : "deleted"} successfully`,
+			variant: "default",
+			className: "bg-emerald-600 text-white",
+			duration: 5000,
+		});
+		form.reset();
+		setAccessiblityState({ open: false });
+		setValues(null);
+		setLoading(false);
+	}
 
 	const onSubmit = async (v: z.infer<typeof serviceSchema>) => {
 		try {
 			setLoading(true);
-			if (viewMode) {
-				setAccessiblityState((p) => ({ ...p, mode: "edit" }));
-				return setLoading(false);
-			} else if (createMode) {
+		  	if (createMode) {
 				const newAccessiblity = await createAccessibility({
 					clinicId: Number(user?.clinicId),
 					name: v.name,
 				});
 				setAccessibilities((params) => [...params, newAccessiblity]);
-				toast({
-					title: "Accessibility created successfully",
-					description: "Accessibility has been created successfully",
-					variant: "default",
-					className: "bg-emerald-600 text-white",
-					duration: 5000,
-				});
 
-				form.reset();
-				setAccessiblityState({ open: false });
-				setValues(null);
-				return setLoading(false);
+				return handleClose("create")
 			} else if (editMode) {
 				const updatedCategory = await updateAccessibility({
 					clinicId: Number(values?.clinicId),
 					name: v.name,
 					id: Number(values?.id),
-				});
-
-				toast({
-					title: "Accessibility updated successfully",
-					description: "Accessibility has been updated successfully",
-					variant: "default",
-					className: "bg-emerald-600 text-white",
-					duration: 5000,
 				});
 
 				setAccessibilities((accessibilities) => {
@@ -109,21 +103,15 @@ const AccessibilityDialog = () => {
 					});
 				});
 
-				form.reset();
-
-				setValues(null);
-
-				setAccessiblityState({ open: false });
-
-				return setLoading(false);
+				return handleClose("edit")
 			} else {
-				//
-				return setLoading(false);
+				await deleteAccessibility(Number(values?.id))
+				setAccessibilities(accessibilities => accessibilities.filter(accessibility => accessibility.id !== Number(values?.id)))
+				return handleClose("delete")
 			}
 		} catch (error) {
 			setLoading(false);
-
-			console.log(error);
+			console.error(error);
 			if (error instanceof Error) {
 				toast({
 					title: "Error in creating service",
@@ -144,7 +132,7 @@ const AccessibilityDialog = () => {
 			<DialogOverlay className=" backdrop-blur-lg" />
 			<DialogContent removeClose className="">
 				<DialogHeader>
-					<DialogTitle className="mb-">Accessibility</DialogTitle>
+					<DialogTitle className="mb-">{createMode ? "Create" : editMode ? "Edit" : "Delete"} Accessibility</DialogTitle>
 				</DialogHeader>
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
@@ -153,7 +141,7 @@ const AccessibilityDialog = () => {
 							name="name"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Name</FormLabel>
+									<FormLabel>{deleteMode ? "Are you sure to delete this Accessibility?" : "Name"}</FormLabel>
 									<FormControl>
 										<Input
 											autoComplete="off"
@@ -177,28 +165,21 @@ const AccessibilityDialog = () => {
 								variant="destructive"
 								className="btn-scale transition-1"
 								onClick={() => {
-									if (editMode) {
-										setAccessiblityState((p) => ({ ...p, mode: "view" }));
-										form.reset();
-										return;
-									}
 									setValues(null);
 									form.reset();
 									setAccessiblityState({ open: false });
 								}}>
-								{editMode ? "Cancel" : "Close"}
+								Close
 							</Button>
 							<Button type="submit">
 								{loading && <ImSpinner9 className="animate-spin " />}
 								{loading
 									? "Loading..."
-									: viewMode
-									? "Edit"
 									: createMode
 									? "Create"
-									: editMode
-									? "Update"
-									: "Delete"}
+									: deleteMode
+									? "Delete"
+									: "Update"}
 							</Button>
 						</div>
 					</form>

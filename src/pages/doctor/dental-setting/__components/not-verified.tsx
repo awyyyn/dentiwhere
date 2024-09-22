@@ -1,6 +1,6 @@
-import Layout from "./layout";
+import Layout from "./layout.tsx";
 import { PiSealWarningFill } from "react-icons/pi";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button.tsx";
 import { Link } from "react-router-dom";
 
 export default function NotVerified() {

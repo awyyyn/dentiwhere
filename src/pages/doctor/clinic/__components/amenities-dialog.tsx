@@ -27,7 +27,7 @@ import { amenitiesDialogAtom } from "@/atoms/dialogs-atom";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { ERR_INTERNAL } from "@/constants/errors";
-import { create, update } from "@/actions/amenities";
+import { createAmenity, updateAmenity } from "@/actions";
 import { userAtom } from "@/atoms/user-atom";
 import { amenitiesAtom, amenityDataAtom } from "@/atoms/amenity-atom";
 
@@ -65,7 +65,7 @@ const AmenityDialog = () => {
 				setAmenityState((p) => ({ ...p, mode: "edit" }));
 				return setLoading(false);
 			} else if (createMode) {
-				const newAmenity = await create({
+				const newAmenity = await createAmenity({
 					clinicId: Number(user?.clinicId),
 					name: v.name,
 				});
@@ -83,7 +83,7 @@ const AmenityDialog = () => {
 				setValues(null);
 				return setLoading(false);
 			} else if (editMode) {
-				const updatedCategory = await update({
+				const updatedCategory = await updateAmenity({
 					clinicId: Number(user?.clinicId),
 					name: v.name,
 					id: Number(values?.id),

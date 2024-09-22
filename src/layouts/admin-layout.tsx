@@ -1,6 +1,6 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { userAtom } from "@/atoms/user-atom";
 import { Role } from "@/types/types";
 import Logo from "@/assets/svgs/logo with text.svg";
@@ -8,9 +8,12 @@ import { Tooltip } from "@/pages/admin/__components/tooltip";
 import { Button } from "@/components/ui/button";
 import { Hospital, LayoutDashboard, Users } from "lucide-react";
 import Navbar from "@/components/shared/navbar/navbar";
+import { db } from "@/utils/supabase";
+import { notificationsAtom } from "@/atoms/notification-atom";
 
 export default function AdminLayout() {
 	const user = useAtomValue(userAtom);
+	const setNotifications = useSetAtom(notificationsAtom);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -19,9 +22,49 @@ export default function AdminLayout() {
 		}
 	}, []);
 
+	useEffect(() => {
+		const options = {
+			event: "INSERT",
+			schema: "public",
+			table: "notification",
+		};
+
+		console.log("notifiction paylod notification");
+
+		const subscribe = db
+			.channel("notification")
+			// @ts-ignore
+			.on("postgres_changes", options, (payload) => {
+				console.log(payload, "paylod notification");
+				if (payload.new.to === user.id) {
+					setNotifications((notifications) => {
+						return [
+							{
+								id: payload.new.id,
+								name: payload.new.name,
+								to: payload.new.to,
+								from: payload.new.from,
+								content: payload.new.content,
+								title: payload.new.title,
+								read: payload.new.read,
+								createdAt: payload.new.created_at,
+								updatedAt: payload.new.updated_at,
+							},
+							...notifications,
+						];
+					});
+				}
+			})
+			.subscribe();
+
+		return () => {
+			subscribe.unsubscribe();
+		};
+	}, []);
+
 	return (
-		<div className="bg-s w-full flex">
-			<aside className="w-2/12 z-50 bg-1/20 h-screen py-5 lg:py-14">
+		<div className="bg-s w-full flex  ">
+			<aside className="fixed w-2/12 z-50 bg-1/20 h-screen py-5 lg:py-14">
 				<div className="space-y-5">
 					<Tooltip tooltip="Dentiwhere">
 						<img
@@ -84,7 +127,7 @@ export default function AdminLayout() {
 					</nav>
 				</div>
 			</aside>
-			<main className="mt-16 px-1 w-full max-h-screen overflow-y-scroll md:w-10/12 lg:w-10/12  scrollbar-hide">
+			<main className="min-h-screen  pb-10 ml-[16.666667%] pt-16 px-1 w-full max-h-screen overflow-y-scroll md:w-10/12 lg:w-10/12  scrollbar-hide">
 				<Navbar />
 				<Outlet />
 			</main>

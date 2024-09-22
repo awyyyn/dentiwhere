@@ -18,7 +18,7 @@ export const transformService = (service: DBService): Service => {
     }
 }
 
-export const create = async (inputs: Omit<Service, "createdAt" | "updatedAt" | "id">): Promise<Service> => {
+export const createService = async (inputs: Omit<Service, "createdAt" | "updatedAt" | "id">): Promise<Service> => {
     const { data, error } = await db.from("services").insert({
         name: inputs.name,
         description: inputs.description,
@@ -36,7 +36,7 @@ export const create = async (inputs: Omit<Service, "createdAt" | "updatedAt" | "
 }
 
 
-export const getAllByClinic = async (id: string): Promise<Service[]> => {
+export const getAllServiceByClinic = async (id: string): Promise<Service[]> => {
     const { data, error } = await db.from("services").select("*").eq("clinic_id", id);
 
     if(error) throw new Error(error.message)
@@ -46,7 +46,7 @@ export const getAllByClinic = async (id: string): Promise<Service[]> => {
     return data.map(service => transformService(service))
 }
 
-export const update = async (inputs: Omit<Service, "createdAt" | "updatedAt">): Promise<Service> => {
+export const updateService = async (inputs: Omit<Service, "createdAt" | "updatedAt">): Promise<Service> => {
 
     const { data, error } = await db.from("services").update({
         name: inputs.name,
@@ -59,4 +59,11 @@ export const update = async (inputs: Omit<Service, "createdAt" | "updatedAt">): 
     if(error) throw new Error(error.message)
  
     return transformService(data)
+}
+
+
+export const deleteService = async (id: number) => {
+    const {error} = await db.from("services").delete().eq("id", id)
+    if(error) throw new Error(error.message)
+    return true
 }

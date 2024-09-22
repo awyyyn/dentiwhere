@@ -13,7 +13,7 @@ const transformAccessibility = (
 	};
 };
 
-export const createMany = async (
+export const createBulkAccessibility = async (
 	inputs: { clinic_id: number; name: string }[]
 ): Promise<Accessibility[]> => {
 	const { data, error } = await db
@@ -25,7 +25,7 @@ export const createMany = async (
 	return data.map((accessibility) => transformAccessibility(accessibility));
 };
 
-export const create = async (inputs: {
+export const createAccessibility = async (inputs: {
 	clinicId: number;
 	name: string;
 }): Promise<Accessibility> => {
@@ -37,7 +37,7 @@ export const create = async (inputs: {
 		})
 		.select()
 		.maybeSingle();
-	console.log(error, data, "12312321");
+
 	if (error || data === null) {
 		throw new Error("Failed to create Accessibility");
 	}
@@ -45,7 +45,7 @@ export const create = async (inputs: {
 	return transformAccessibility(data);
 };
 
-export const update = async (inputs: {
+export const updateAccessibility = async (inputs: {
 	clinicId: number;
 	name: string;
 	id: number;
@@ -57,9 +57,15 @@ export const update = async (inputs: {
 			name: inputs.name,
 		})
 		.eq("id", inputs.id)
-		.maybeSingle();
+		.select().maybeSingle()
 
 	if (error || data === null) throw new Error("Failed to update Accessibility");
 
 	return transformAccessibility(data);
 };
+
+export const deleteAccessibility = async(id: number) => {
+	const { error } = await db.from("accessibility").delete().eq("id", id);
+	if (error) throw new Error(error.message);
+	return true
+}

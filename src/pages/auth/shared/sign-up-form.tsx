@@ -11,19 +11,21 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
-import { create } from "@/actions/user";
+import { createUser } from "@/actions";
 import { Role } from "@/types/types";
 import { ERR_INTERNAL } from "@/constants/errors";
 import { useToast } from "@/hooks/use-toast";
 import { userAtom } from "@/atoms/user-atom";
 import { useSetAtom } from "jotai";
+import { useState } from "react";
+import { ImSpinner2 } from "react-icons/im";
 
 const formSchema = z.object({
 	licenseNumber: z.string().min(1, {
 		message: "Required",
 	}),
-	firstName: z.string().min(4, { message: "Please enter your first name" }),
-	lastName: z.string().min(4, { message: "Please enter your last name" }),
+	firstName: z.string().min(2, { message: "Please enter your first name" }),
+	lastName: z.string().min(2, { message: "Please enter your last name" }),
 	email: z.string().email({ message: "Please enter a valid email address" }),
 	contact: z
 		.string()
@@ -41,6 +43,7 @@ export default function SignUpForm() {
 	const { toast } = useToast();
 	const navigate = useNavigate();
 	const setUser = useSetAtom(userAtom);
+	const [loading, setLoading] = useState(false);
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -55,7 +58,8 @@ export default function SignUpForm() {
 
 	const handleSubmit = async (values: z.infer<typeof formSchema>) => {
 		try {
-			const user = await create({
+			setLoading(true);
+			const user = await createUser({
 				role: Role.doctor,
 				verified: false,
 				firstName: values.firstName,
@@ -65,13 +69,7 @@ export default function SignUpForm() {
 				licenseNumber: values.licenseNumber,
 				password: values.password,
 			});
-			toast({
-				title: "Success",
-				description: "Account created successfully.",
-				variant: "default",
-				className: "bg-emerald-500 text-white",
-				duration: 5000,
-			});
+
 			toast({
 				title: "Complete profile setup ",
 				description: "Complete your profile setup to get started.",
@@ -87,12 +85,15 @@ export default function SignUpForm() {
 						Setup
 					</Button>
 				),
-				className: "bg-emerald-500 text-white",
+				className: "bg-emerald-500 text-white delay-5000",
 				duration: 5000,
 			});
+			setLoading(false);
 			setUser(user);
 			navigate("/", { replace: true });
 		} catch (error) {
+			setLoading(false);
+
 			if (error instanceof Error) {
 				toast({
 					title: "Error",
@@ -219,14 +220,22 @@ export default function SignUpForm() {
 						)}
 					/>
 					<Button
+						disabled={loading}
 						type="submit"
 						className="rounded-lg w-full hover:bg-[#00000080] bg-[#00000080] text-white">
-						Login
+						{loading ? (
+							<>
+								<ImSpinner2 className="animate-spin mr-2" />
+								<span>Signing up...</span>
+							</>
+						) : (
+							"Sign up"
+						)}
 					</Button>
 
 					<div className="flex flex-row space-x-1 justify-center mt-5">
 						<p>I have an account?</p>
-						<Link to={"/login"} className="font-bold">
+						<Link to={loading ? "#" : "/login"} className="font-bold">
 							Sign in
 						</Link>
 					</div>

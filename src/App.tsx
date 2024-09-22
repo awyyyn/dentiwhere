@@ -19,6 +19,7 @@ import Doctors from "./pages/admin/doctors/doctors";
 import Doctor from "./pages/admin/doctor/doctor";
 import Clinics from "./pages/admin/clinics/clinics";
 import Clinic from "./pages/public/clinic/clinic";
+import {VerifyDoctor} from "@/pages/admin/verify-doctor/verify-doctor.tsx";
 
 const Login = Loadable(lazy(() => import("./pages/auth/login/login")));
 const SignUp = Loadable(lazy(() => import("./pages/auth/sign-up/sign-up")));
@@ -93,6 +94,10 @@ export default function App() {
 						{
 							path: "doctors/view/:id",
 							element: <Doctor />,
+						},
+						{
+							path: "doctors/verify/:id",
+							element: <VerifyDoctor />
 						},
 						{
 							path: "clinics",

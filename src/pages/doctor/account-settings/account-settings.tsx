@@ -22,7 +22,7 @@ import { Label } from "@/components/ui/label";
 import LogoWithText from "@/components/shared/logo-with-text/logo-with-text";
 import { userAtom } from "@/atoms/user-atom";
 import { Skeleton } from "@/components/ui/skeleton";
-import { update } from "@/actions/user";
+import { updateUser, sendNotification } from "@/actions";
 import { Status } from "@/types/types";
 import { useToast } from "@/hooks/use-toast";
 import CustomDatePicker from "@/components/shared/date-picker/date-picker";
@@ -154,10 +154,11 @@ export default function AccountSettings() {
 		setSubmitting(true);
 		if (!frontId) setErrors((e) => ({ ...e, frontImg: true }));
 		if (!backId) setErrors((e) => ({ ...e, backImg: true }));
-		if (errors.backImg || errors.frontImg) return;
+		if (!frontId || !backId || errors.backImg || errors.frontImg)
+			return setSubmitting(false);
 
 		try {
-			const data = await update({
+			const data = await updateUser({
 				id: Number(user?.id),
 				address: v.address,
 				contacts: [`0${v.contact}`],
@@ -176,10 +177,17 @@ export default function AccountSettings() {
 				gender: v.gender,
 				license_number: v.license_id,
 				role: user?.role ?? "DOCTOR",
-				status: Status.PENDING,
+				status:
+					user.status === Status.verified ? Status.verified : Status.PENDING,
 			});
 
 			if (data.status === Status.PENDING) {
+				await sendNotification({
+					name: `${data.firstName} ${data.lastName}`,
+					message: `Dr. ${data.firstName} ${data.lastName}'s data has been submitted for your verification.`,
+					title: "Data Verification Required",
+					from: data.id,
+				});
 				toast({
 					title: "Profile Updated",
 					description: "Please wait for the admin to verify your account",
@@ -590,6 +598,7 @@ export default function AccountSettings() {
 															? frontId
 															: "https://www.wibits.com/wp-content/themes/wibits-theme/images/sample.jpg"
 													}
+													alt="front Img id"
 													className="absolute h-full z-10 object-cover w-full transition-all duration-300"
 												/>
 											</div>
@@ -648,6 +657,7 @@ export default function AccountSettings() {
 															? backId
 															: "https://www.wibits.com/wp-content/themes/wibits-theme/images/sample.jpg"
 													}
+													alt="back img id"
 													className="absolute h-full z-10 object-cover w-full transition-all duration-300"
 												/>
 											</div>

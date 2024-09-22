@@ -6,11 +6,12 @@ import { db } from "@/utils/supabase";
 import { transformUser } from "./user";
 import { User } from "@/types/types";
 import { format } from "date-fns";
+import { transformNotification } from "./notification";
 
 export const login = async (user: any): Promise<User> => {
 	const ifExists = await db
 		.from("user")
-		.select("*")
+		.select("*, notification!notification_to_fkey(*)")
 		.match({
 			email: user.email,
 			license_number: user.licenseNumber,
@@ -37,7 +38,15 @@ export const login = async (user: any): Promise<User> => {
 
 	if (result.error) throw new Error(result.error.message);
 
-	return transformUser(ifExists.data);
+	return transformUser({
+		...ifExists.data,
+		notification:
+			ifExists.data.notification.length > 0
+				? ifExists.data.notification.map((notif) =>
+						transformNotification(notif)
+				  )
+				: [],
+	});
 };
 
 export const changePassword = async ({
@@ -108,8 +117,6 @@ export const getVisits = async () => {
 			}
 			return acc;
 		}, {} as Record<string, { date: string; desktop: number; mobile: number }>);
-
-		console.log(groupedData, "groupedData");
 
 		return {
 			error: null,

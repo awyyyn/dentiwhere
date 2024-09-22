@@ -20,7 +20,6 @@ import {
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuLabel,
-	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
@@ -35,6 +34,7 @@ import {
 import { User } from "@/types/types";
 import { BadgeCheck, BadgeX, CircleEllipsis } from "lucide-react";
 import { Tooltip } from "./tooltip";
+import { Link } from "react-router-dom";
 
 export const columns: ColumnDef<User>[] = [
 	{
@@ -107,7 +107,8 @@ export const columns: ColumnDef<User>[] = [
 		id: "actions",
 		enableHiding: false,
 		header: () => <div className="justify-center flex   ">Actions</div>,
-		cell: () => {
+		cell: ({ row }) => {
+			const status = row.getValue("status");
 			return (
 				<div className="flex  justify-center mr-2">
 					<DropdownMenu>
@@ -119,14 +120,18 @@ export const columns: ColumnDef<User>[] = [
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="end">
 							<DropdownMenuLabel>Actions</DropdownMenuLabel>
-							<DropdownMenuItem
-							// onClick={() => navigator.clipboard.writeText(payment.id)}
-							>
-								Copy payment ID
-							</DropdownMenuItem>
-							<DropdownMenuSeparator />
-							<DropdownMenuItem>View customer</DropdownMenuItem>
-							<DropdownMenuItem>View payment details</DropdownMenuItem>
+							<Link to={`view/${row.getValue("id")}`}>
+								<DropdownMenuItem className="cursor-pointer hover:bg-gray-800/10">
+									View Doctor Details
+								</DropdownMenuItem>
+							</Link>
+							{status === "PENDING" &&
+								<Link to={`verify/${row.getValue("id")}`}>
+									<DropdownMenuItem className="cursor-pointer hover:bg-gray-800/10">
+										Verify Doctor
+									</DropdownMenuItem>
+								</Link>
+							}
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</div>

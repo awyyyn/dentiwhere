@@ -11,7 +11,7 @@ const transformAmenities = (amenity: DBAmenities): Amenities => {
 	};
 };
 
-export const createMany = async (
+export const createBulkAmenity = async (
 	inputs: { clinic_id: number; name: string }[]
 ): Promise<Amenities[]> => {
 	const { data, error } = await db.from("amenities").insert(inputs).select();
@@ -22,7 +22,7 @@ export const createMany = async (
 	return data.map((amenity) => transformAmenities(amenity));
 };
 
-export const create = async (inputs: {
+export const createAmenity = async (inputs: {
 	clinicId: number;
 	name: string;
 }): Promise<Amenities> => {
@@ -40,14 +40,14 @@ export const create = async (inputs: {
 	return transformAmenities(data);
 };
 
-export const update = async (inputs: {
+export const updateAmenity = async (inputs: {
 	clinicId: number;
 	name: string;
 	id: number;
 }) => {
 	const { data, error } = await db
 		.from("amenities")
-		.upsert({
+		.update({
 			clinic_id: inputs.clinicId,
 			name: inputs.name,
 		})
@@ -55,9 +55,15 @@ export const update = async (inputs: {
 		.select()
 		.maybeSingle();
 
-	console.log(error?.message, data);
 
 	if (error || data === null) throw new Error("Failed to update Amenity");
 
 	return transformAmenities(data);
 };
+
+
+export const deleteAmenity = async (id: number) => {
+	const { error } = await db.from("amenities").delete().eq("id", id);
+	if (error) throw new Error(error.message);
+	return true
+}

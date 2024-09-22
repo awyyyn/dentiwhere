@@ -20,6 +20,11 @@ import { useState } from "react";
 import { ImSpinner2 } from "react-icons/im";
 import { notificationsAtom } from "@/atoms/notification-atom";
 import { Status } from "@/types/types";
+import {categoriesAtom} from "@/atoms/category-atom.ts";
+import {servicesAtom} from "@/atoms/service-atom.ts";
+import {amenitiesAtom} from "@/atoms/amenity-atom.ts";
+import {accessibilitiesAtom} from "@/atoms/accessibility-atom.ts";
+import {getClinicByDoctor} from "@/actions/clinic.ts";
 
 const formSchema = z.object({
 	email: z.string().email({
@@ -36,6 +41,10 @@ export default function LoginForm() {
 	const navigate = useNavigate();
 	const setUser = useSetAtom(userAtom);
 	const setNotifications = useSetAtom(notificationsAtom);
+	const setCategories = useSetAtom(categoriesAtom)
+	const setServices = useSetAtom(servicesAtom);
+	const setAmenities = useSetAtom(amenitiesAtom);
+	const setAccessibilities = useSetAtom(accessibilitiesAtom)
 	const [loading, setLoading] = useState(false);
 
 	const form = useForm<z.infer<typeof formSchema>>({
@@ -73,6 +82,13 @@ export default function LoginForm() {
 					className: "bg-emerald-500 text-white",
 					duration: 5000,
 				});
+			}
+			if(data.clinicId !== 0){
+				const clinic = await getClinicByDoctor(data.id);
+				setCategories(clinic.categories ?? [])
+				setServices(clinic.services ?? []);
+				setAmenities(clinic.amenities ?? []);
+				setAccessibilities(clinic.accesibilities ?? [])
 			}
 			setLoading(false);
 			navigate("/", {

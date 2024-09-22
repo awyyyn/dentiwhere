@@ -1,4 +1,4 @@
-import LogoWithText from "@/components/shared/logo-with-text/logo-with-text";
+import LogoWithText from "@/components/shared/logo-with-text/logo-with-text.tsx";
 import { PropsWithChildren } from "react";
 
 export default function Layout({ children }: PropsWithChildren) {

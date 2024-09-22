@@ -1,18 +1,18 @@
 import { userAtom } from "@/atoms/user-atom";
 import { useAtomValue } from "jotai";
-import Layout from "./layout";
-import NotVerified from "./not-verified";
-import NoRecord from "./no-record";
+import Layout from "./__components/layout.tsx";
+import NotVerified from "./__components/not-verified.tsx";
+import NoRecord from "./__components/no-record.tsx";
 import { useState } from "react";
 import { Status } from "@/types/types";
 import AddEditClinicForm from "../shared/add-edit-clinic-form";
 import { clinicAtom } from "@/atoms/clinic-atom";
-import AddClinic from "./add-clinic";
+import AddClinic from "./__components/add-clinic.tsx";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import ManageCategories from "./manage-categories";
-import ManageServices from "./manage-services";
-import ManageAccesibility from "./manage-accesibility";
-import ManageAmenities from "./manage-amenities";
+import ManageCategories from "./__components/manage-categories/manage-categories.tsx";
+import ManageServices from "./__components/manage-services/manage-services.tsx";
+import ManageAccesibility from "./__components/manage-accessibilities/manage-accesibility.tsx";
+import ManageAmenities from "./__components/manage-amenities/manage-amenities.tsx";
 import { Tooltip } from "@/pages/admin/__components/tooltip";
 import { MdCategory, MdMedicalInformation } from "react-icons/md";
 import { TbDental } from "react-icons/tb";
@@ -28,7 +28,7 @@ type Manage =
 export default function DentalSetting() {
 	const user = useAtomValue(userAtom);
 	const [adding, setAdding] = useState(false);
-	const [editing, setEditing] = useState(false);
+	// const [editing, setEditing] = useState(false);
 	const [manage, setManage] = useState<Manage>("clinic");
 	const clinic = useAtomValue(clinicAtom);
 
@@ -39,7 +39,7 @@ export default function DentalSetting() {
 		return <AddClinic />;
 
 	const toggleGroupItemStyle =
-		"data-[state=on]:bg-white/80 p-4 py-6 md:py-0 data-[state=off]:bg-white/30 hover:data-[state=off]:text-black  hover:data-[state=off]:bg-white/50 transition-all duration-300 data-[state=on]:shadow-lg data-[state=off]:shadow-none";
+		"data-[state=on]:bg-white/80 p-4 py-6 md:py-0 mx-1 font-normal   data-[state=off]:bg-white/30 hover:data-[state=off]:text-black  hover:data-[state=off]:bg-white/50 transition-all duration-300 data-[state=on]:shadow-lg data-[state=off]:shadow-none";
 
 	return (
 		<>
@@ -52,7 +52,7 @@ export default function DentalSetting() {
 						<ToggleGroup
 							type="single"
 							value={manage}
-							className="flex justify-start flex-wrap flex-1 mt-4 md:max-w-fit"
+							className="flex justify-start  flex-wrap flex-1 mt-4 md:max-w-fit"
 							onValueChange={(value) => {
 								if (value) {
 									setManage(value as Manage);

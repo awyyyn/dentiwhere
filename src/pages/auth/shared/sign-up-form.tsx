@@ -24,8 +24,8 @@ const formSchema = z.object({
 	licenseNumber: z.string().min(1, {
 		message: "Required",
 	}),
-	firstName: z.string().min(4, { message: "Please enter your first name" }),
-	lastName: z.string().min(4, { message: "Please enter your last name" }),
+	firstName: z.string().min(2, { message: "Please enter your first name" }),
+	lastName: z.string().min(2, { message: "Please enter your last name" }),
 	email: z.string().email({ message: "Please enter a valid email address" }),
 	contact: z
 		.string()

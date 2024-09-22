@@ -1,7 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useForm } from "react-hook-form";
-
 import { Button } from "@/components/ui/button";
 import {
 	Dialog,
@@ -37,7 +36,7 @@ import { categoriesAtom } from "@/atoms/category-atom";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { ERR_INTERNAL } from "@/constants/errors";
-import { create, update } from "@/actions/service";
+import {create, deleteService, update} from "@/actions/service";
 import { create as createCategory } from "@/actions/category";
 import { userAtom } from "@/atoms/user-atom";
 
@@ -70,6 +69,11 @@ const ServiceDialog = () => {
 	const user = useAtomValue(userAtom);
 	const { toast } = useToast();
 
+	const viewMode = dialogAtom.mode === "view";
+	const createMode = dialogAtom.mode === "create";
+	const editMode = dialogAtom.mode === "edit";
+	const deleteMode = dialogAtom.mode === "delete";
+
 	const form = useForm<z.infer<typeof serviceSchema>>({
 		resolver: zodResolver(serviceSchema),
 		defaultValues: values
@@ -81,17 +85,11 @@ const ServiceDialog = () => {
 			: initialValues,
 	});
 
-	const viewMode = dialogAtom.mode === "view";
-	const createMode = dialogAtom.mode === "create";
-	const editMode = dialogAtom.mode === "edit";
 
 	const onSubmit = async (v: z.infer<typeof serviceSchema>) => {
 		try {
 			setLoading(true);
-			if (viewMode) {
-				setDialogAtom((p) => ({ ...p, mode: "edit" }));
-				return setLoading(false);
-			} else if (createMode) {
+		 	if (createMode) {
 				const regex = /^\d+$/;
 
 				let categoryId = v.categoryId;
@@ -151,7 +149,16 @@ const ServiceDialog = () => {
 				});
 				return setLoading(false);
 			} else {
-				//
+			 	await deleteService(Number(values?.id))
+				setServices(services => services.filter(service => service.id !== Number(values?.id)))
+				setDialogAtom({ open: false })
+				toast({
+					title: "Service deleted successfully",
+					description: "Service has been deleted successfully",
+					variant: "default",
+					className: "bg-emerald-600 text-white",
+					duration: 5000,
+				});
 				return setLoading(false);
 			}
 		} catch (error) {
@@ -176,7 +183,7 @@ const ServiceDialog = () => {
 			<DialogOverlay className=" backdrop-blur-lg" />
 			<DialogContent removeClose className="">
 				<DialogHeader>
-					<DialogTitle className="mb-">Service</DialogTitle>
+					<DialogTitle className="mb-">{editMode ? "Edit" : createMode ? "Add" : "Delete"} Service</DialogTitle>
 				</DialogHeader>
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
@@ -184,7 +191,7 @@ const ServiceDialog = () => {
 							control={form.control}
 							name="categoryId"
 							render={({ field }) => (
-								<FormItem>
+								<FormItem className={`${deleteMode ? "hidden" : "block"}`}>
 									<FormLabel>Category</FormLabel>
 									{categories.length > 0 ? (
 										<FormControl className="">
@@ -218,7 +225,7 @@ const ServiceDialog = () => {
 											<Input
 												autoComplete="off"
 												autoFocus={false}
-												readOnly={loading || viewMode}
+												readOnly={loading || viewMode || deleteMode}
 												className="first-letter:uppercase"
 												placeholder="Category name..."
 												{...field}
@@ -241,7 +248,7 @@ const ServiceDialog = () => {
 										<Input
 											autoComplete="off"
 											autoFocus={false}
-											readOnly={loading || viewMode}
+											readOnly={loading || viewMode  || deleteMode}
 											className="first-letter:uppercase"
 											placeholder="Name"
 											{...field}
@@ -264,7 +271,7 @@ const ServiceDialog = () => {
 											autoFocus={false}
 											autoComplete="off"
 											className="first-letter:uppercase"
-											readOnly={loading || viewMode}
+											readOnly={loading || viewMode || deleteMode}
 											placeholder="Description..."
 											multiple
 											{...field}
@@ -285,7 +292,7 @@ const ServiceDialog = () => {
 										<div className="flex items-center py-2 space-x-3">
 											<FormLabel>Active</FormLabel>
 											<Switch
-												disabled={loading || viewMode}
+												disabled={loading || viewMode  || deleteMode}
 												value={field.value ? 1 : 0}
 												onCheckedChange={(v) => {
 													form.setValue("active", Boolean(v));
@@ -323,23 +330,16 @@ const ServiceDialog = () => {
 								variant="destructive"
 								className="btn-scale transition-1"
 								onClick={() => {
-									if (editMode) {
-										setDialogAtom((p) => ({ ...p, mode: "view" }));
-										form.reset();
-										return;
-									}
 									form.reset();
 									setValues(null);
 									setDialogAtom({ open: false });
 								}}>
-								{editMode ? "Cancel" : "Close"}
+								Close
 							</Button>
 							<Button type="submit">
 								{loading && <ImSpinner9 className="animate-spin " />}
 								{loading
 									? "Loading..."
-									: viewMode
-									? "Edit"
 									: createMode
 									? "Create"
 									: editMode

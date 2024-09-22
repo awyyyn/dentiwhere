@@ -27,7 +27,6 @@ import CategoryDialog from "./category-dialog.tsx";
 import { categoryDialogAtom } from "@/atoms/dialogs-atom.ts";
 import { Edit, Trash2} from "lucide-react";
 import {Tooltip} from "@/pages/admin/__components/tooltip.tsx";
-import {Separator} from "@/components/ui/separator.tsx";
 
 export default function ManageCategories() {
 	const  categories  = useAtomValue(categoriesAtom);

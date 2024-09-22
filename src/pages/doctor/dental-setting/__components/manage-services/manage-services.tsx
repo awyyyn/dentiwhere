@@ -52,6 +52,18 @@ export default function ManageServices() {
 			cell: ({ row }) => <h1 className="w-[]"> {row.getValue("name")}</h1>,
 		},
 		{
+			accessorKey: "description",
+			header: "Description",
+			enableHiding: false,
+			cell: ({ row }) => <h1 className="w-[]"> {row.getValue("description")}</h1>,
+		},
+		{
+			accessorKey: "active",
+			header: "Availability",
+			enableHiding: false,
+			cell: ({ row }) => <h1 className="w-[]"> {row.getValue("active") === true ? "Yes" : "No"}</h1>,
+		},
+		{
 			id: "actions",
 			enableHiding: false,
 			header: () => <div className=" text-right pr-4  ">Actions</div>,

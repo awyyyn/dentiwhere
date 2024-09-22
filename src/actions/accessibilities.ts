@@ -37,7 +37,7 @@ export const create = async (inputs: {
 		})
 		.select()
 		.maybeSingle();
-	console.log(error, data, "12312321");
+
 	if (error || data === null) {
 		throw new Error("Failed to create Accessibility");
 	}
@@ -57,9 +57,15 @@ export const update = async (inputs: {
 			name: inputs.name,
 		})
 		.eq("id", inputs.id)
-		.maybeSingle();
+		.select().maybeSingle()
 
 	if (error || data === null) throw new Error("Failed to update Accessibility");
 
 	return transformAccessibility(data);
 };
+
+export const deleteAccessibility = async(id: number) => {
+	const { error } = await db.from("accessibility").delete().eq("id", id);
+	if (error) throw new Error(error.message);
+	return true
+}

@@ -288,7 +288,7 @@ const AddClinic = ({
 	};
 
 	return (
-		<div className="py-10 px-3 lg:px-10">
+		<div className="py-10 sm:px-3 lg:px-10">
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(handleSubmit)}
@@ -298,7 +298,7 @@ const AddClinic = ({
 						<Dropzone onDrop={handleDropImage}>
 							{({ getRootProps, getInputProps }) => (
 								<div
-									className="shadow-md   mx-auto rounded-full mb-4 md:mb-0 min-h-[300px] max-h-[300px] min-w-[300px] hover:cursor-pointer overflow-hidden relative hover:shadow-xl transition-all duration-300 group"
+									className="shadow-md   mx-auto rounded-full md:mb-4 md:mb-0 min-h-[200px] md:min-h-[300px] max-w-[200px] md:max-h-[300px] min-w-[200px] md:min-w-[300px] hover:cursor-pointer overflow-hidden relative hover:shadow-xl transition-all duration-300 group"
 									{...getRootProps()}>
 									<input {...getInputProps()} disabled={uploading} />
 									<div

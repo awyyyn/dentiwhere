@@ -25,11 +25,11 @@ import { Input } from "@/components/ui/input.tsx";
 import ServiceDialog from "./service-dialog.tsx";
 import { serviceDialogAtom} from "@/atoms/dialogs-atom.ts";
 import { Edit, Trash2} from "lucide-react";
-import {Tooltip} from "@/pages/admin/__components/tooltip.tsx";
-import {serviceDataAtom, servicesAtom} from "@/atoms/service-atom.ts";
+import { Tooltip } from "@/pages/admin/__components/tooltip.tsx";
+import { serviceDataAtom, servicesAtom } from "@/atoms/service-atom.ts";
 
 export default function ManageServices() {
-	const  services  = useAtomValue(servicesAtom);
+	const services  = useAtomValue(servicesAtom);
 	const setServiceData = useSetAtom(serviceDataAtom);
 	const setServiceDialog = useSetAtom(serviceDialogAtom);
 	const [sorting, setSorting] = useState<SortingState>([]);
@@ -49,17 +49,17 @@ export default function ManageServices() {
 			accessorKey: "name",
 			header: "Name",
 			enableHiding: false,
-			cell: ({ row }) => <h1 className="w-[]"> {row.getValue("name")}</h1>,
+			cell: ({ row }) => <h1 className="first-letter:uppercase"> {row.getValue("name")}</h1>,
 		},
 		{
 			accessorKey: "description",
-			header: "Description",
+			header: () => <h1 className="max-w-[20px] sm:max-w-max truncate">Description</h1>,
 			enableHiding: false,
 			cell: ({ row }) => <h1 className="w-[]"> {row.getValue("description")}</h1>,
 		},
 		{
 			accessorKey: "active",
-			header: "Availability",
+			header: () => <h1 className="max-w-[20px] sm:max-w-max truncate">Availability</h1>,
 			enableHiding: false,
 			cell: ({ row }) => <h1 className="w-[]"> {row.getValue("active") === true ? "Yes" : "No"}</h1>,
 		},
@@ -94,6 +94,7 @@ export default function ManageServices() {
 				</div>;
 			},
 		},
+
 	];
 
 
@@ -117,48 +118,23 @@ export default function ManageServices() {
 
 
 	return (
-		<div className="mr-5 ml-2  ">
+		<div className="sm:mr-5 sm:ml-2 ">
 			<h1 className="mb-5 text-xl lg:text-3xl ">Services</h1>
-			<div className="w-full p-2 bg-white rounded-lg shadow-xl">
-				<div className="flex items-center justify-between py-4">
+			<div className="w-full mb-10 p-2 bg-white rounded-lg shadow-xl">
+				<div className="flex items-center justify-between py-4 flex-wrap gap-2">
 					<Input
 						placeholder="Search..."
 						value={globalFilter}
 						onChange={(e) => setGlobalFilter(e.target.value)}
 						className="max-w-sm"
 					/>
-					<div className="flex">
-						<Button onClick={() => setServiceDialog({mode: "create", open: true})}>Add Service</Button>
+					<div className="flex w-full md:max-w-fit">
+						<Button className="w-full" onClick={() => setServiceDialog({mode: "create", open: true})}>Add Service</Button>
 					</div>
-					{/* <DropdownMenu>
-						<DropdownMenuTrigger asChild>
-							<Button variant="outline" className="ml-auto">
-								Show/Hide Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
-							</Button>
-						</DropdownMenuTrigger>
-						<DropdownMenuContent align="end">
-							{table
-								.getAllColumns()
-								.filter((column) => column.getCanHide())
-								.map((column) => {
-									return (
-										<DropdownMenuCheckboxItem
-											key={column.id}
-											className="capitalize"
-											checked={column.getIsVisible()}
-											onCheckedChange={(value) =>
-												column.toggleVisibility(!!value)
-											}>
-											{column.id}
-										</DropdownMenuCheckboxItem>
-									);
-								})}
-						</DropdownMenuContent>
-					</DropdownMenu> */}
 				</div>
 				<div className="rounded-md border">
-					<Table>
-						<TableHeader>
+					<Table className="">
+						<TableHeader >
 							{table.getHeaderGroups().map((headerGroup) => (
 								<TableRow key={headerGroup.id} className="">
 									{headerGroup.headers.map((header) => {
@@ -183,7 +159,7 @@ export default function ManageServices() {
 										key={row.id}
 										data-state={row.getIsSelected() && "selected"}>
 										{row.getVisibleCells().map((cell) => (
-											<TableCell key={cell.id}>
+											<TableCell  key={cell.id}>
 												{flexRender(
 													cell.column.columnDef.cell,
 													cell.getContext()
@@ -227,7 +203,7 @@ export default function ManageServices() {
 					</div>
 				</div>
 			</div>
-			<ServiceDialog/>
+			<ServiceDialog />
 		</div>
 	);
 }

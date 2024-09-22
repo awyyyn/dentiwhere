@@ -8,7 +8,7 @@ import {
 	DialogContent,
 	DialogHeader,
 	DialogTitle,
-	DialogOverlay,
+	DialogOverlay, DialogDescription,
 } from "@/components/ui/dialog";
 import { z } from "zod";
 import {
@@ -37,9 +37,10 @@ import { categoriesAtom } from "@/atoms/category-atom";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { ERR_INTERNAL } from "@/constants/errors";
-import { create, update } from "@/actions/service";
+import {create, deleteService, update} from "@/actions/service";
 import { create as createCategory } from "@/actions/category";
 import { userAtom } from "@/atoms/user-atom";
+import {Label} from "@/components/ui/label.tsx";
 
 const serviceSchema = z.object({
 	img: z.string().optional(),
@@ -84,26 +85,24 @@ const ServiceDialog = () => {
 	const viewMode = dialogAtom.mode === "view";
 	const createMode = dialogAtom.mode === "create";
 	const editMode = dialogAtom.mode === "edit";
+	const deleteMode = dialogAtom.mode === "delete"
 
 	const onSubmit = async (v: z.infer<typeof serviceSchema>) => {
 		try {
 			setLoading(true);
-			if (viewMode) {
-				setDialogAtom((p) => ({ ...p, mode: "edit" }));
-				return setLoading(false);
-			} else if (createMode) {
+			if (createMode) {
 				const regex = /^\d+$/;
 
 				let categoryId = v.categoryId;
 
 				if (!regex.test(categoryId)) {
-					const newCategory = await createCategory({
+					const newService = await createCategory({
 						clinicId: Number(user?.clinicId),
 						name: v.name,
 					});
 
-					setCategories((p) => p.concat(newCategory));
-					categoryId = String(newCategory.id);
+					setCategories((p) => p.concat(newService));
+					categoryId = String(newService.id);
 				}
 				const newService = await create({
 					...v,
@@ -151,7 +150,17 @@ const ServiceDialog = () => {
 				});
 				return setLoading(false);
 			} else {
-				//
+				await deleteService(Number(values?.id))
+				setServices(services => services.filter(service => service.id !== Number(values?.id)));
+				setValues(null)
+				setDialogAtom({ open: false });
+				toast({
+					title: "Service deleted successfully",
+					description: "Service has been deleted successfully",
+					variant: "default",
+					className: "bg-emerald-600 text-white",
+					duration: 5000,
+				});
 				return setLoading(false);
 			}
 		} catch (error) {
@@ -176,8 +185,9 @@ const ServiceDialog = () => {
 			<DialogOverlay className=" backdrop-blur-lg" />
 			<DialogContent removeClose className="">
 				<DialogHeader>
-					<DialogTitle className="mb-">Service</DialogTitle>
+					<DialogTitle className="mb-">{createMode ? "Add" : editMode ? "Edit" : "Delete"} Service</DialogTitle>
 				</DialogHeader>
+				{deleteMode && <Label>Are you sure to delete this service?</Label>}
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
 						<FormField
@@ -189,7 +199,7 @@ const ServiceDialog = () => {
 									{categories.length > 0 ? (
 										<FormControl className="">
 											<Select
-												disabled={loading || viewMode}
+												disabled={loading}
 												onValueChange={(val) => {
 													form.setValue("categoryId", val);
 													form.clearErrors("categoryId");
@@ -281,17 +291,17 @@ const ServiceDialog = () => {
 							name="active"
 							render={({ field }) => (
 								<FormItem>
-									<FormControl className="">
+									<FormControl >
 										<div className="flex items-center py-2 space-x-3">
 											<FormLabel>Active</FormLabel>
 											<Switch
-												disabled={loading || viewMode}
-												value={field.value ? 1 : 0}
+												checked={field.value}
+												disabled={loading}
+												value={Number(field.value)}
 												onCheckedChange={(v) => {
 													form.setValue("active", Boolean(v));
 													form.clearErrors("active");
 												}}
-												onBlur={field.onBlur}
 												className="scale-100 active:scale-100 hover:right-1 "
 											/>
 										</div>

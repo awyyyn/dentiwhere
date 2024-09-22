@@ -49,7 +49,7 @@ export default function ManageCategories() {
 			accessorKey: "name",
 			header: "Name",
 			enableHiding: false,
-			cell: ({ row }) => <h1 className="w-[]"> {row.getValue("name")}</h1>,
+			cell: ({ row }) => <h1 className="first-letter:uppercase"> {row.getValue("name")}</h1>,
 		},
 		{
 			id: "actions",
@@ -82,6 +82,7 @@ export default function ManageCategories() {
 				</div>;
 			},
 		},
+
 	];
 
 
@@ -105,44 +106,19 @@ export default function ManageCategories() {
 
 
 	return (
-		<div className="mr-5 ml-2  ">
+		<div className="sm:mr-5 sm:ml-2 ">
 			<h1 className="mb-5 text-xl lg:text-3xl ">Categories</h1>
-			<div className="w-full p-2 bg-white rounded-lg shadow-xl">
-				<div className="flex items-center justify-between py-4">
+			<div className="w-full mb-10 p-2 bg-white rounded-lg shadow-xl">
+				<div className="flex items-center justify-between py-4 flex-wrap gap-2">
 					<Input
 						placeholder="Search..."
 						value={globalFilter}
 						onChange={(e) => setGlobalFilter(e.target.value)}
 						className="max-w-sm"
 					/>
-					<div className="flex">
-						<Button onClick={() => setCategoryDialog({mode: "create", open: true})}>Add Category</Button>
+					<div className="flex w-full md:max-w-fit">
+						<Button className="w-full" onClick={() => setCategoryDialog({mode: "create", open: true})}>Add Category</Button>
 					</div>
-					{/* <DropdownMenu>
-						<DropdownMenuTrigger asChild>
-							<Button variant="outline" className="ml-auto">
-								Show/Hide Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
-							</Button>
-						</DropdownMenuTrigger>
-						<DropdownMenuContent align="end">
-							{table
-								.getAllColumns()
-								.filter((column) => column.getCanHide())
-								.map((column) => {
-									return (
-										<DropdownMenuCheckboxItem
-											key={column.id}
-											className="capitalize"
-											checked={column.getIsVisible()}
-											onCheckedChange={(value) =>
-												column.toggleVisibility(!!value)
-											}>
-											{column.id}
-										</DropdownMenuCheckboxItem>
-									);
-								})}
-						</DropdownMenuContent>
-					</DropdownMenu> */}
 				</div>
 				<div className="rounded-md border">
 					<Table>

@@ -44,7 +44,7 @@ export default function DentalSetting() {
 	return (
 		<>
 			<Layout>
-				<div className="">
+				<div>
 					<div>
 						<h1 className="text-3xl font-bold">Dental Setting</h1>
 					</div>
@@ -65,7 +65,7 @@ export default function DentalSetting() {
 									side="bottom"
 									delayDuration={300}>
 									<p>
-										<MdMedicalInformation size={30} className="md:hidden" />
+										<MdMedicalInformation size={18} className="md:hidden" />
 										<span className="hidden md:block">
 											Manage Clinic Information
 										</span>
@@ -81,7 +81,7 @@ export default function DentalSetting() {
 									side="bottom"
 									delayDuration={300}>
 									<p>
-										<MdCategory size={30} className="md:hidden" />
+										<MdCategory size={18} className="md:hidden" />
 										<span className="hidden md:block">Manage Categories</span>
 									</p>
 								</Tooltip>
@@ -95,7 +95,7 @@ export default function DentalSetting() {
 									side="bottom"
 									delayDuration={300}>
 									<p>
-										<TbDental size={30} className="md:hidden" />
+										<TbDental size={18} className="md:hidden" />
 										<span className="hidden md:block">Manage Services</span>
 									</p>
 								</Tooltip>
@@ -109,7 +109,7 @@ export default function DentalSetting() {
 									side="bottom"
 									delayDuration={300}>
 									<p>
-										<Accessibility size={30} className="md:hidden" />
+										<Accessibility size={18} className="md:hidden" />
 										<span className="hidden md:block">
 											Manage Accessibility
 										</span>
@@ -125,7 +125,7 @@ export default function DentalSetting() {
 									side="bottom"
 									delayDuration={300}>
 									<p>
-										<Building size={30} className="md:hidden" />
+										<Building size={18} className="md:hidden" />
 										<span className="hidden md:block">Manage Amenities</span>
 									</p>
 								</Tooltip>

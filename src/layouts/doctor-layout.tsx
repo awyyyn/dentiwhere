@@ -150,7 +150,7 @@ export default function DoctorLayout() {
 					</NavLink>
 				</div>
 			</aside>
-			<main className="relative w-full mx-auto  lg:w-9/12 xl:w-10/12 bg-[#BCF0F9] border-t border-[#BCF0F9] p-5 rounded-2xl lg:max-h-[90vh] max-h-[95vh] shadow-xl lg:min-h-[90vh] min-h-[95vh]  overflow-y-scroll  scrollbar-hide">
+			<main className="relative w-full mx-auto  lg:w-9/12 xl:w-10/12 bg-[#BCF0F9] border-t border-[#BCF0F9] p-2 sm:p-5 rounded-2xl lg:max-h-[90vh] max-h-[95vh] shadow-xl lg:min-h-[90vh] min-h-[95vh]  overflow-y-scroll  scrollbar-hide">
 				<Button
 					onClick={() => setIsOpen(true)}
 					variant="ghost"

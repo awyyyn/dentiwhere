@@ -1,5 +1,5 @@
-import { categoriesAtom } from "@/atoms/category-atom.ts";
-import { Category } from "@/types/types.ts";
+
+import { Amenities } from "@/types/types.ts";
 import {
 	ColumnDef,
 	ColumnFiltersState,
@@ -19,43 +19,75 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table.tsx";
-import { useAtom } from "jotai";
+import {useAtomValue, useSetAtom} from "jotai";
 import { useState } from "react";
 import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
-
-const columns: ColumnDef<Category>[] = [
-	{
-		accessorKey: "id",
-		id: "id",
-		enableHiding: false,
-		header: () => <p className="hidsden">#</p>,
-		cell: ({ row }) => <p className="s">{row.index + 1}</p>,
-	},
-	{
-		accessorKey: "name",
-		header: "Name",
-		enableHiding: false,
-		cell: ({ row }) => <h1> {row.getValue("name")}</h1>,
-	},
-	{
-		id: "actions",
-		enableHiding: false,
-		header: () => <div className="justify-center flex   ">Actions</div>,
-		cell: ({ row }) => {
-			return <div className="flex  justify-center mr-2"></div>;
-		},
-	},
-];
+import AmenityDialog from "./amenities-dialog.tsx";
+import { amenitiesDialogAtom } from "@/atoms/dialogs-atom.ts";
+import { Edit, Trash2} from "lucide-react";
+import {Tooltip} from "@/pages/admin/__components/tooltip.tsx";
+import { amenitiesAtom, amenityDataAtom} from "@/atoms/amenity-atom.ts";
 
 export default function ManageAmenities() {
-	const [categories, setCategories] = useAtom(categoriesAtom);
+	const  amenities  = useAtomValue(amenitiesAtom);
+	const setAmenityData = useSetAtom(amenityDataAtom);
+	const setAmenityDialog = useSetAtom(amenitiesDialogAtom);
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 	const [globalFilter, setGlobalFilter] = useState("");
 
+
+	const columns: ColumnDef<Amenities>[] = [
+		{
+			accessorKey: "id",
+			id: "id",
+			enableHiding: false,
+			header: () => <p className="hidsden">#</p>,
+			cell: ({ row }) => <p className="s">{row.index + 1}</p>,
+		},
+		{
+			accessorKey: "name",
+			header: "Name",
+			enableHiding: false,
+			cell: ({ row }) => <h1 className="w-[]"> {row.getValue("name")}</h1>,
+		},
+		{
+			id: "actions",
+			enableHiding: false,
+			header: () => <div className=" text-right pr-4  ">Actions</div>,
+			cell: ({ row, }) => {
+				return <div className="flex gap-1 justify-end ">
+					<Tooltip tooltip="Edit" delayDuration={500}  side="left">
+						<Button
+							size="icon"
+							className="bg-emerald-600 hover:bg-emerald-600"
+							onClick={() =>  {
+								setAmenityData(row.original)
+								setAmenityDialog({mode: "edit", open: true});
+							}}>
+							<Edit size={18} />
+						</Button>
+					</Tooltip>
+					<Tooltip tooltip="Delete" delayDuration={500} >
+						<Button
+							size="icon"
+							variant="destructive"
+							onClick={() => {
+								setAmenityData(row.original)
+								setAmenityDialog({mode: "delete", open: true})
+							}}>
+							<Trash2 size={18} />
+						</Button>
+					</Tooltip>
+				</div>;
+			},
+		},
+	];
+
+
 	const table = useReactTable({
-		data: categories,
+		data: amenities,
 		columns,
 		onSortingChange: setSorting,
 		onColumnFiltersChange: setColumnFilters,
@@ -72,8 +104,10 @@ export default function ManageAmenities() {
 		},
 	});
 
+
 	return (
-		<div className="mr-5 ml-2 border  flex">
+		<div className="mr-5 ml-2  ">
+			<h1 className="mb-5 text-xl lg:text-3xl ">Amenities</h1>
 			<div className="w-full p-2 bg-white rounded-lg shadow-xl">
 				<div className="flex items-center justify-between py-4">
 					<Input
@@ -83,7 +117,7 @@ export default function ManageAmenities() {
 						className="max-w-sm"
 					/>
 					<div className="flex">
-						<Button>Add Category</Button>
+						<Button onClick={() => setAmenityDialog({mode: "create", open: true})}>Add Amenity</Button>
 					</div>
 					{/* <DropdownMenu>
 						<DropdownMenuTrigger asChild>
@@ -115,7 +149,7 @@ export default function ManageAmenities() {
 					<Table>
 						<TableHeader>
 							{table.getHeaderGroups().map((headerGroup) => (
-								<TableRow key={headerGroup.id}>
+								<TableRow key={headerGroup.id} className="">
 									{headerGroup.headers.map((header) => {
 										return (
 											<TableHead key={header.id}>
@@ -138,7 +172,7 @@ export default function ManageAmenities() {
 										key={row.id}
 										data-state={row.getIsSelected() && "selected"}>
 										{row.getVisibleCells().map((cell) => (
-											<TableCell key={cell.id}>
+											<TableCell  key={cell.id}>
 												{flexRender(
 													cell.column.columnDef.cell,
 													cell.getContext()
@@ -182,6 +216,7 @@ export default function ManageAmenities() {
 					</div>
 				</div>
 			</div>
+			<AmenityDialog />
 		</div>
 	);
 }

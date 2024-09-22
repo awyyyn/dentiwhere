@@ -8,7 +8,6 @@ import {
 	DialogContent,
 	DialogHeader,
 	DialogTitle,
-	DialogOverlay,
 } from "@/components/ui/dialog.tsx";
 import { z } from "zod";
 import {
@@ -27,12 +26,12 @@ import { amenitiesDialogAtom } from "@/atoms/dialogs-atom.ts";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast.ts";
 import { ERR_INTERNAL } from "@/constants/errors.ts";
-import { create, update } from "@/actions/amenities.ts";
+import {create, deleteAmenity, update} from "@/actions/amenities.ts";
 import { userAtom } from "@/atoms/user-atom.ts";
 import { amenitiesAtom, amenityDataAtom } from "@/atoms/amenity-atom.ts";
 
 const serviceSchema = z.object({
-	name: z.string().min(3, { message: "Name is too short!" }),
+	name: z.string().min(2, { message: "Name is too short!" }),
 });
 
 const initialValues = {
@@ -54,17 +53,16 @@ const AmenityDialog = () => {
 		values: values ?? initialValues,
 	});
 
-	const viewMode = amenityState.mode === "view";
+
 	const createMode = amenityState.mode === "create";
 	const editMode = amenityState.mode === "edit";
+	const deleteMode = amenityState.mode === "delete";
 
 	const onSubmit = async (v: z.infer<typeof serviceSchema>) => {
+
 		try {
 			setLoading(true);
-			if (viewMode) {
-				setAmenityState((p) => ({ ...p, mode: "edit" }));
-				return setLoading(false);
-			} else if (createMode) {
+		 	if (createMode) {
 				const newAmenity = await create({
 					clinicId: Number(user?.clinicId),
 					name: v.name,
@@ -83,7 +81,7 @@ const AmenityDialog = () => {
 				setValues(null);
 				return setLoading(false);
 			} else if (editMode) {
-				const updatedCategory = await update({
+				const updatedAmenity = await update({
 					clinicId: Number(user?.clinicId),
 					name: v.name,
 					id: Number(values?.id),
@@ -97,10 +95,10 @@ const AmenityDialog = () => {
 					duration: 5000,
 				});
 
-				setAmenities((categories) => {
-					return categories.map((c) => {
-						if (c.id === updatedCategory.id) return updatedCategory;
-						return c;
+				setAmenities((amenities) => {
+					return amenities.map((amenity) => {
+						if (amenity.id === updatedAmenity.id) return updatedAmenity;
+						return amenity;
 					});
 				});
 
@@ -112,7 +110,18 @@ const AmenityDialog = () => {
 
 				return setLoading(false);
 			} else {
-				//
+
+				await deleteAmenity(Number(values?.id))
+				setAmenities(amenities => amenities.filter(amenity => amenity.id !== Number(values?.id)));
+				setAmenityState({ open: false })
+				setValues(null)
+				toast({
+					title: "Service deleted successfully",
+					description: "Service has been deleted successfully",
+					variant: "default",
+					className: "bg-emerald-600 text-white",
+					duration: 5000,
+				});
 				return setLoading(false);
 			}
 		} catch (error) {
@@ -133,11 +142,10 @@ const AmenityDialog = () => {
 	};
 
 	return (
-		<Dialog modal open={amenityState.open}>
-			<DialogOverlay className=" backdrop-blur-lg" />
+		<Dialog modal open={amenityState.open}> 
 			<DialogContent removeClose className="">
 				<DialogHeader>
-					<DialogTitle className="mb-">Amenity</DialogTitle>
+					<DialogTitle className="mb-">{editMode ? "Edit" : createMode ? "Add" : "Delete"} Amenity</DialogTitle>
 				</DialogHeader>
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
@@ -146,12 +154,12 @@ const AmenityDialog = () => {
 							name="name"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Name</FormLabel>
+									<FormLabel>{deleteMode ? "Are you sure to delete this amenity?" : "Name"}</FormLabel>
 									<FormControl>
 										<Input
 											autoComplete="off"
 											autoFocus={false}
-											readOnly={loading || viewMode}
+											readOnly={loading || deleteMode}
 											className="first-letter:uppercase"
 											placeholder="Name"
 											{...field}
@@ -170,28 +178,21 @@ const AmenityDialog = () => {
 								variant="destructive"
 								className="btn-scale transition-1"
 								onClick={() => {
-									if (editMode) {
-										setAmenityState((p) => ({ ...p, mode: "view" }));
-										form.reset();
-										return;
-									}
 									setValues(null);
 									form.reset();
 									setAmenityState({ open: false });
 								}}>
-								{editMode ? "Cancel" : "Close"}
+								 Close
 							</Button>
 							<Button type="submit">
 								{loading && <ImSpinner9 className="animate-spin " />}
 								{loading
 									? "Loading..."
-									: viewMode
-									? "Edit"
 									: createMode
 									? "Create"
-									: editMode
-									? "Update"
-									: "Delete"}
+									: deleteMode
+									? "Delete"
+									: "Update"}
 							</Button>
 						</div>
 					</form>

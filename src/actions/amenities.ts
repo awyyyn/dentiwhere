@@ -47,7 +47,7 @@ export const update = async (inputs: {
 }) => {
 	const { data, error } = await db
 		.from("amenities")
-		.upsert({
+		.update({
 			clinic_id: inputs.clinicId,
 			name: inputs.name,
 		})
@@ -55,9 +55,15 @@ export const update = async (inputs: {
 		.select()
 		.maybeSingle();
 
-	console.log(error?.message, data);
 
 	if (error || data === null) throw new Error("Failed to update Amenity");
 
 	return transformAmenities(data);
 };
+
+
+export const deleteAmenity = async (id: number) => {
+	const { error } = await db.from("amenities").delete().eq("id", id);
+	if (error) throw new Error(error.message);
+	return true
+}

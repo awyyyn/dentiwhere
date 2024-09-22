@@ -288,15 +288,15 @@ const AddClinic = ({
 					onSubmit={form.handleSubmit(handleSubmit)}
 					className="space-y-4 md:space-y-8">
 					{edit ?? "editing"}
-					<div className="flex items-center gap-5 lg:flex-wrap mb-4 xl:flex-nowrap flex-col md:flex-row">
+					<div className="flex items-center  gap-5  lg:flex-wrap mb-4 xl:flex-nowrap flex-col md:flex-row">
 						<Dropzone onDrop={handleDropImage}>
 							{({ getRootProps, getInputProps }) => (
 								<div
-									className="shadow-md  mx-auto rounded-full mb-4 md:mb-0 min-h-[300px] max-h-[300px] min-w-[300px] hover:cursor-pointer overflow-hidden relative hover:shadow-xl transition-all duration-300 group"
+									className="shadow-md   mx-auto rounded-full mb-4 md:mb-0 min-h-[300px] max-h-[300px] min-w-[300px] hover:cursor-pointer overflow-hidden relative hover:shadow-xl transition-all duration-300 group"
 									{...getRootProps()}>
 									<input {...getInputProps()} disabled={uploading} />
 									<div
-										className={`absolute  w-full h-full items-center justify-center backdrop-blur-sm flex-wrap bg-black  z-50 bg-opacity-20 hover:opacity-100 ${
+										className={`absolute rounded-full w-full h-full items-center justify-center backdrop-blur-sm flex-wrap bg-black  z-50 bg-opacity-20 hover:opacity-100 ${
 											uploading || loading
 												? "opacity-100 cursor-wait"
 												: "opacity-0"

@@ -19,7 +19,7 @@ export default function InputWithIcon({
 	return (
 		<div
 			{...containerProps}
-			className={`flex items-center  relative border-none shadow-md ${
+			className={`flex items-center  relative shadow-md ${
 				startIcon && "pl-5 space-x-1"
 			} ${endIcon && "pr-5 space-x-1"} py-2 ${className}`}>
 			{startIcon && startIcon}

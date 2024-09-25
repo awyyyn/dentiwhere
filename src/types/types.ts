@@ -68,6 +68,7 @@ export type Clinic = {
 	amenities?: Amenities[];
 	accesibilities?: Accessibility[];
 	categories?: Category[];
+	reviews?: Review[];
 	boosted: boolean;
 	archive: boolean;
 	createdAt: Date | string;
@@ -126,6 +127,17 @@ export type Category = {
 	updatedAt: Date | string;
 };
 
+export type Review = {
+	id: number;
+	name: string;
+	rate?: number;
+	clinicId: number;
+	uuid: string;
+	review?: string;
+	createdAt: Date | string;
+	updatedAt: Date | string;
+};
+
 export type DBNotification =
 	Database["public"]["Tables"]["notification"]["Row"];
 export type DBCategory = Database["public"]["Tables"]["category"]["Row"];
@@ -137,3 +149,4 @@ export type DBClinic = Database["public"]["Tables"]["clinics"]["Row"];
 export type DBAmenities = Database["public"]["Tables"]["amenities"]["Row"];
 export type DBAccessibility =
 	Database["public"]["Tables"]["accessibility"]["Row"];
+export type DBReview = Database["public"]["Tables"]["reviews"]["Row"];

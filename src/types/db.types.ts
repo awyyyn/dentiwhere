@@ -221,27 +221,30 @@ export type Database = {
           created_at: string
           id: number
           name: string
-          rate: number
-          review: string
+          rate: number | null
+          review: string | null
           updated_at: string
+          uuid: string
         }
         Insert: {
           clinic_id: number
           created_at?: string
           id?: number
           name: string
-          rate: number
-          review: string
+          rate?: number | null
+          review?: string | null
           updated_at?: string
+          uuid?: string
         }
         Update: {
           clinic_id?: number
           created_at?: string
           id?: number
           name?: string
-          rate?: number
-          review?: string
+          rate?: number | null
+          review?: string | null
           updated_at?: string
+          uuid?: string
         }
         Relationships: [
           {

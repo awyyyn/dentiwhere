@@ -89,7 +89,7 @@ export default function Reviews() {
 					)}
 				</div>
 				<div className="space-y-3">
-					{reviews.map((review, index) => {
+					{reviews.map((review) => {
 						const yesterday = isYesterday(review.createdAt);
 						const now = isSameDay(new Date(), review.createdAt);
 

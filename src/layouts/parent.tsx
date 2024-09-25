@@ -12,15 +12,13 @@ import { Loader } from "@/components/shared/loader/loader";
 import { Toaster } from "@/components/ui/toaster";
 import { Role } from "@/types/types";
 import { db } from "@/utils/supabase";
-import { useAtom, useSetAtom } from "jotai";
+import { useSetAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { v4 as uuid } from "uuid";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { isEmpty } from "lodash";
-import { randomName } from "@/lib/chance";
 
 export default function Parent() {
-	const [user, setUser] = useAtom(userAtom);
+	const setUser = useSetAtom(userAtom);
 	const setNotifications = useSetAtom(notificationsAtom);
 	const setClinic = useSetAtom(clinicAtom);
 	const setAccessibilities = useSetAtom(accessibilitiesAtom);
@@ -32,7 +30,6 @@ export default function Parent() {
 	const [loading, setLoading] = useState(false);
 	useEffect(() => {
 		(async () => {
-			const id = localStorage.getItem("uuid");
 			const token = localStorage.getItem(
 				"sb-vojignvqrwihtgsjvqpq-auth-token"
 			) as string;

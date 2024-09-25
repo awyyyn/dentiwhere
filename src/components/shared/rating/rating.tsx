@@ -1,8 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Star } from "lucide-react";
-import React, { useState } from "react";
-
-interface RatingProps {}
+import { useState } from "react";
 
 export default function Rating() {
 	const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);

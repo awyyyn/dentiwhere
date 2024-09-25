@@ -63,3 +63,7 @@ export const sendNotification = async ({
 		console.error(error);
 	}
 };
+
+export const readNotification = async (id: number) => {
+	await db.from("notification").update({ read: true }).eq("id", id);
+};

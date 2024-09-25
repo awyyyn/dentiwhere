@@ -19,15 +19,21 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { createClinic, updateClinic, createBulkAmenity, createBulkAccessibility } from "@/actions";
+import {
+	createClinic,
+	updateClinic,
+	createBulkAmenity,
+	createBulkAccessibility,
+} from "@/actions";
 import { useAtom, useSetAtom } from "jotai";
 import { userAtom } from "@/atoms/user-atom";
 import { useToast } from "@/hooks/use-toast";
 import { clinicAtom } from "@/atoms/clinic-atom";
 import { updateUserClinic } from "@/actions/user";
-import { Clinic } from "@/types/types";
+import { Accessibility, Amenities, Clinic } from "@/types/types";
 import { amenitiesAtom } from "@/atoms/amenity-atom";
 import { accessibilitiesAtom } from "@/atoms/accessibility-atom";
+import { isEmpty } from "lodash";
 
 const formSchema = z.object({
 	name: z.string().min(1, { message: "Please enter your clinic name!" }),
@@ -119,7 +125,7 @@ const AddClinic = ({
 
 			if (data === null) {
 				setUploading(false);
-				return console.log("No data");
+				return console.error("No data");
 			}
 
 			const response = await db.storage
@@ -128,13 +134,13 @@ const AddClinic = ({
 
 			if (response.data.publicUrl === null) {
 				setUploading(false);
-				return console.log("No data");
+				return console.error("No data");
 			}
 
 			setPlaceholder(response.data.publicUrl);
 			setUploading(false);
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 			setPlaceholder("");
 			setUploading(false);
 		}
@@ -177,11 +183,9 @@ const AddClinic = ({
 						img: placeholder,
 						id: Number(clinic.id),
 					});
-
-					setClinic(updatedData);
 					setClinic(updatedData);
 				} catch (error) {
-					console.log(error);
+					console.error(error);
 					setLoading(false);
 					return toast({
 						title: "Failed to update your clinic information",
@@ -212,24 +216,35 @@ const AddClinic = ({
 					description: data.description,
 				});
 
-				const amenitiesResponse = await createBulkAmenity(
-					amenitiesValues.map((amenity) => ({
-						clinic_id: newClinic.id,
-						name: amenity,
-					}))
-				);
+				let amenitiesResponse: Amenities[] = [];
+				let accessibilitiesResponse: Accessibility[] = [];
 
-				const accessibilitiesResponse = await createBulkAccessibility(
-					accessibilityValues.map((accessibility) => ({
-						clinic_id: newClinic.id,
-						name: accessibility,
-					}))
-				);
+				if (amenitiesValues.length > 0 && !isEmpty(amenitiesValues[0])) {
+					amenitiesResponse = await createBulkAmenity(
+						amenitiesValues.map((amenity) => ({
+							clinic_id: newClinic.id,
+							name: amenity,
+						}))
+					);
+				}
+
+				if (
+					accessibilityValues.length > 0 &&
+					!isEmpty(accessibilityValues[0])
+				) {
+					accessibilitiesResponse = await createBulkAccessibility(
+						accessibilityValues.map((accessibility) => ({
+							clinic_id: newClinic.id,
+							name: accessibility,
+						}))
+					);
+				}
 
 				const updatedUser = await updateUserClinic({
 					clinicId: newClinic.id,
 					id: user.id,
 				});
+				setClinic(newClinic);
 				setUser(updatedUser);
 				setAmenities(amenitiesResponse);
 				setAccessibilities(accessibilitiesResponse);
@@ -447,10 +462,13 @@ const AddClinic = ({
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Description</FormLabel>
-									<FormControl>
+									<FormControl className="min-h-fit">
 										<Textarea
-											className="text-lg py-3 px-3 bg-white"
+											className="text-lg py-3 px-3 bg-white "
 											placeholder="Clinic Description...."
+											rows={Math.max(
+												Math.min(form.getValues("description").length / 10, 10)
+											)}
 											{...field}
 										/>
 									</FormControl>
@@ -556,6 +574,7 @@ const AddClinic = ({
 								Reset form
 							</Button>
 							<Button
+								// disabled={}
 								className="bg-1/70 text-gray-800 hover:bg-1/100 hover:text-gray-700"
 								type={"submit"}>
 								{edit ? "Save changes" : "Submit"}

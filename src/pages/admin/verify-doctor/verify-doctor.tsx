@@ -4,14 +4,14 @@ import { useToast } from "@/hooks/use-toast.ts";
 import { ViewVerifyDoctor } from "@/pages/admin/__components/view-verify-doctor.tsx";
 import { doctorAtom } from "@/atoms/doctors-atom.ts";
 import { Loader } from "@/components/shared/loader/loader.tsx";
-import { useAtom } from "jotai";
+import { useSetAtom } from "jotai";
 import { getOneDoctor } from "@/actions/user.ts";
 
 export const VerifyDoctor = () => {
 	const navigate = useNavigate();
 	const params = useParams();
 	const { toast } = useToast();
-	const [doctor, setDoctor] = useAtom(doctorAtom);
+	const setDoctor = useSetAtom(doctorAtom);
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
@@ -52,5 +52,5 @@ export const VerifyDoctor = () => {
 
 	if (loading) return <Loader />;
 
-	return <ViewVerifyDoctor doctor={doctor!} verify />;
+	return <ViewVerifyDoctor verify />;
 };

@@ -29,13 +29,10 @@ export default function AdminLayout() {
 			table: "notification",
 		};
 
-		console.log("notifiction paylod notification");
-
 		const subscribe = db
 			.channel("notification")
 			// @ts-ignore
 			.on("postgres_changes", options, (payload) => {
-				console.log(payload, "paylod notification");
 				if (payload.new.to === user.id) {
 					setNotifications((notifications) => {
 						return [

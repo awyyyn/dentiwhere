@@ -7,9 +7,6 @@ export default function EditClinic() {
 	const { state } = useLocation();
 	const navigate = useNavigate();
 
-	console.log("state: ", state);
-	console.log("params", clinicId);
-
 	useLayoutEffect(() => {
 		if (!clinicId || !state?.clinic) return navigate("/", { replace: true });
 

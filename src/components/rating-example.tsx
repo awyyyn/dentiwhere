@@ -3,7 +3,6 @@ import { Star, Heart, ThumbsUp } from "lucide-react";
 
 export function RatingExampleComponent() {
 	const handleRatingSubmit = (rating: number) => {
-		console.log(`User submitted rating: ${rating}`);
 		// Here you would typically send this rating to your backend
 	};
 

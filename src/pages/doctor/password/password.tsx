@@ -38,7 +38,6 @@ export default function Password() {
 	});
 
 	const handleSubmit = async (v: z.infer<typeof passwordSchema>) => {
-		console.log(Array(form.formState.errors.confirmPassword).length);
 		if (v.confirmPassword !== v.newPassword) {
 			return form.setError("confirmPassword", {
 				type: "*",

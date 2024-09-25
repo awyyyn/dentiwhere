@@ -33,64 +33,74 @@ export default function Parent() {
 	useEffect(() => {
 		(async () => {
 			const id = localStorage.getItem("uuid");
-			if (isEmpty(id)) {
-				localStorage.setItem("name", randomName());
-				localStorage.setItem("uuid", uuid());
-			}
+			const token = localStorage.getItem(
+				"sb-vojignvqrwihtgsjvqpq-auth-token"
+			) as string;
 
-			try {
-				setLoading(true);
-				const { data, error } = await db.auth.getSession();
+			const parsedToken = JSON.parse(token ?? "{}");
 
-				if (error) throw new Error(error.message);
+			// if (localStorage.getItem("sb-vojignvqrwihtgsjvqpq-auth-token"))
+			if (
+				!isEmpty(parsedToken) &&
+				!isEmpty(parsedToken.user) &&
+				!isEmpty(parsedToken.user.id)
+			) {
+				try {
+					setLoading(true);
+					// const { data, error } = await db.auth.getSession();
 
-				if (data && data.session === null) throw new Error("No session found");
+					// if (error) throw new Error(error.message);
 
-				const user = await getOneByAuthID(data.session?.user.id);
+					// if (data && data.session === null)
+					// 	throw new Error("No session found");
 
-				if (user === null) throw new Error("No user found");
+					const user = await getOneByAuthID(parsedToken.user.id);
 
-				if (user.role === Role.doctor && user.clinicId !== 0) {
-					const response = await getClinicByDoctor(user.id);
-					setClinic(response);
-					setCategories(response.categories ?? []);
-					setServices(response.services ?? []);
-					setAccessibilities(response.accesibilities ?? []);
-					setAmenities(response.amenities ?? []);
+					if (user === null) throw new Error("No user found");
+
+					if (user.role === Role.doctor && user.clinicId !== 0) {
+						const response = await getClinicByDoctor(user.id);
+						setClinic(response);
+						setCategories(response.categories ?? []);
+						setServices(response.services ?? []);
+						setAccessibilities(response.accesibilities ?? []);
+						setAmenities(response.amenities ?? []);
+					}
+
+					localStorage.removeItem("name");
+					localStorage.removeItem("uuid");
+					setUser(user);
+					setNotifications(user.notifications ?? []);
+					if (
+						location.pathname === "/login" ||
+						location.pathname === "/sign-up"
+					) {
+						navigate("/", { replace: true });
+					}
+					setLoading(false);
+				} catch {
+					setUser(userAtomDefaultValue);
+					await db.auth.signOut();
+					localStorage.clear();
+					setLoading(false);
+					if (
+						location.pathname !== "/" &&
+						!location.pathname.includes("clinics/view")
+					) {
+						navigate("/login", { replace: true });
+					}
 				}
-
-				setUser(user);
-				setNotifications(user.notifications ?? []);
-				if (
-					location.pathname === "/login" ||
-					location.pathname === "/sign-up"
-				) {
-					navigate("/", { replace: true });
-				}
-				setLoading(false);
-			} catch {
-				setUser(userAtomDefaultValue);
-				await db.auth.signOut();
-				localStorage.clear();
-				setLoading(false);
-				if (
-					location.pathname !== "/" &&
-					!location.pathname.includes("clinics/view")
-				) {
-					navigate("/login", { replace: true });
-				}
+			} else {
+				//
 			}
 		})();
 	}, []);
 
 	useEffect(() => {
 		return () => {
+			const token = localStorage.getItem("sb-vojignvqrwihtgsjvqpq-auth-token");
 			(async () => {
-				if (
-					user.role !== Role.doctor &&
-					user.role !== Role.admin &&
-					user.role !== Role.superAdmin
-				) {
+				if (isEmpty(token)) {
 					const isMobile = Boolean((navigator as any).userAgentData.mobile);
 					await visit(isMobile);
 				}

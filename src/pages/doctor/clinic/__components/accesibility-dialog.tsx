@@ -123,7 +123,7 @@ const AccessibilityDialog = () => {
 		} catch (error) {
 			setLoading(false);
 
-			console.log(error);
+			console.error(error);
 			if (error instanceof Error) {
 				toast({
 					title: "Error in creating service",

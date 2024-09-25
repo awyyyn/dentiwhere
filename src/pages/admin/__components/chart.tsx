@@ -67,10 +67,7 @@ export default function ChartData() {
 	const currentDate = new Date();
 	const daysDifference = differenceInDays(currentDate, earliestDate);
 	const monthsDifference = differenceInMonths(currentDate, earliestDate);
-	console.log(data[0]?.date);
-	console.log(currentDate);
-	console.log(daysDifference);
-	console.log(monthsDifference);
+
 	const displayMessage =
 		monthsDifference > 0
 			? `Showing total visitors for the last ${monthsDifference} ${

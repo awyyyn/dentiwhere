@@ -59,8 +59,12 @@ const CategoryDialog = () => {
 
 	const handleClose = (type: "edit" | "create" | "delete") => {
 		toast({
-			title: `Category ${type === "edit" ? "updated" : type === "create" ? "created" : "deleted"} successfully`,
-			description: `Category ${type === "edit" ? "updated" : type === "create" ? "created" : "deleted"} successfully`,
+			title: `Category ${
+				type === "edit" ? "updated" : type === "create" ? "created" : "deleted"
+			} successfully`,
+			description: `Category ${
+				type === "edit" ? "updated" : type === "create" ? "created" : "deleted"
+			} successfully`,
 			variant: "default",
 			className: "bg-emerald-600 text-white",
 			duration: 5000,
@@ -69,13 +73,12 @@ const CategoryDialog = () => {
 		setCategoryAtom({ open: false });
 		setValues(null);
 		setLoading(false);
-	}
-
+	};
 
 	const onSubmit = async (v: z.infer<typeof serviceSchema>) => {
 		try {
 			setLoading(true);
-			 if (createMode) {
+			if (createMode) {
 				const newCategory = await createCategory({
 					clinicId: Number(user?.clinicId),
 					name: v.name,
@@ -83,9 +86,8 @@ const CategoryDialog = () => {
 
 				setCategories((params) => [...params, newCategory]);
 
-				return handleClose("create")
+				return handleClose("create");
 			} else if (editMode) {
-
 				const updatedCategory = await updateCategory({
 					clinicId: Number(user?.clinicId),
 					name: v.name,
@@ -99,15 +101,17 @@ const CategoryDialog = () => {
 					});
 				});
 
-			 	return handleClose("edit")
+				return handleClose("edit");
 			} else {
-				 await deleteCategory(Number(values?.id))
+				await deleteCategory(Number(values?.id));
 
-				 setCategories(categories => {
-				  	return categories.filter(category => category.id !== Number(values?.id))
-				 });
+				setCategories((categories) => {
+					return categories.filter(
+						(category) => category.id !== Number(values?.id)
+					);
+				});
 
-				 return handleClose("delete")
+				return handleClose("delete");
 			}
 		} catch (error) {
 			setLoading(false);
@@ -130,7 +134,9 @@ const CategoryDialog = () => {
 		<Dialog modal open={category.open}>
 			<DialogContent removeClose>
 				<DialogHeader>
-					<DialogTitle className="mb-">{createMode ? "Add" : editMode ? "Edit" : "Delete"} Category</DialogTitle>
+					<DialogTitle className="mb-">
+						{createMode ? "Add" : editMode ? "Edit" : "Delete"} Category
+					</DialogTitle>
 				</DialogHeader>
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
@@ -139,7 +145,11 @@ const CategoryDialog = () => {
 							name="name"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>{ deleteMode ? "Are you sure to delete this category?" : "Category Name" } </FormLabel>
+									<FormLabel>
+										{deleteMode
+											? "Are you sure to delete this category?"
+											: "Category Name"}{" "}
+									</FormLabel>
 									<FormControl>
 										<Input
 											autoComplete="off"
@@ -167,18 +177,17 @@ const CategoryDialog = () => {
 									form.reset();
 									setCategoryAtom({ open: false });
 								}}>
-								 Close
+								Close
 							</Button>
 							<Button type="submit">
-								{loading && <ImSpinner9 className="animate-spin " />}
+								{loading && <ImSpinner9 className="animate-spin mr-2" />}
 								{loading
 									? "Loading..."
 									: createMode
 									? "Create"
 									: editMode
 									? "Update"
-									: "Delete"
-								}
+									: "Delete"}
 							</Button>
 						</div>
 					</form>

@@ -53,16 +53,18 @@ const AmenityDialog = () => {
 		values: values ?? initialValues,
 	});
 
-
 	const createMode = amenityState.mode === "create";
 	const editMode = amenityState.mode === "edit";
 	const deleteMode = amenityState.mode === "delete";
 
-
 	const handleClose = (type: "edit" | "create" | "delete") => {
 		toast({
-			title: `Amenity ${type === "edit" ? "updated" : type === "create" ? "created" : "deleted"} successfully`,
-			description: `Amenity ${type === "edit" ? "updated" : type === "create" ? "created" : "deleted"} successfully`,
+			title: `Amenity ${
+				type === "edit" ? "updated" : type === "create" ? "created" : "deleted"
+			} successfully`,
+			description: `Amenity ${
+				type === "edit" ? "updated" : type === "create" ? "created" : "deleted"
+			} successfully`,
 			variant: "default",
 			className: "bg-emerald-600 text-white",
 			duration: 5000,
@@ -71,13 +73,12 @@ const AmenityDialog = () => {
 		setAmenityState({ open: false });
 		setValues(null);
 		setLoading(false);
-	}
+	};
 
 	const onSubmit = async (v: z.infer<typeof serviceSchema>) => {
-
 		try {
 			setLoading(true);
-		 	if (createMode) {
+			if (createMode) {
 				const newAmenity = await createAmenity({
 					clinicId: Number(user?.clinicId),
 					name: v.name,
@@ -91,14 +92,13 @@ const AmenityDialog = () => {
 					duration: 5000,
 				});
 
-				return handleClose("create")
+				return handleClose("create");
 			} else if (editMode) {
 				const updatedAmenity = await updateAmenity({
 					clinicId: Number(user?.clinicId),
 					name: v.name,
 					id: Number(values?.id),
 				});
-
 
 				setAmenities((amenities) => {
 					return amenities.map((amenity) => {
@@ -107,12 +107,13 @@ const AmenityDialog = () => {
 					});
 				});
 
-				return handleClose("edit")
+				return handleClose("edit");
 			} else {
-
-				await deleteAmenity(Number(values?.id))
-				setAmenities(amenities => amenities.filter(amenity => amenity.id !== Number(values?.id)));
-				return handleClose("delete")
+				await deleteAmenity(Number(values?.id));
+				setAmenities((amenities) =>
+					amenities.filter((amenity) => amenity.id !== Number(values?.id))
+				);
+				return handleClose("delete");
 			}
 		} catch (error) {
 			setLoading(false);
@@ -131,12 +132,13 @@ const AmenityDialog = () => {
 		}
 	};
 
-
 	return (
-		<Dialog modal open={amenityState.open}> 
+		<Dialog modal open={amenityState.open}>
 			<DialogContent removeClose className="">
 				<DialogHeader>
-					<DialogTitle className="mb-">{editMode ? "Edit" : createMode ? "Add" : "Delete"} Amenity</DialogTitle>
+					<DialogTitle className="mb-">
+						{editMode ? "Edit" : createMode ? "Add" : "Delete"} Amenity
+					</DialogTitle>
 				</DialogHeader>
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
@@ -145,7 +147,11 @@ const AmenityDialog = () => {
 							name="name"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>{deleteMode ? "Are you sure to delete this amenity?" : "Name"}</FormLabel>
+									<FormLabel>
+										{deleteMode
+											? "Are you sure to delete this amenity?"
+											: "Name"}
+									</FormLabel>
 									<FormControl>
 										<Input
 											autoComplete="off"
@@ -173,10 +179,10 @@ const AmenityDialog = () => {
 									form.reset();
 									setAmenityState({ open: false });
 								}}>
-								 Close
+								Close
 							</Button>
 							<Button type="submit">
-								{loading && <ImSpinner9 className="animate-spin " />}
+								{loading && <ImSpinner9 className="animate-spin  mr-2" />}
 								{loading
 									? "Loading..."
 									: createMode

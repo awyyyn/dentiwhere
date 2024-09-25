@@ -27,7 +27,11 @@ import { accessbilityDialogAtom } from "@/atoms/dialogs-atom.ts";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast.ts";
 import { ERR_INTERNAL } from "@/constants/errors.ts";
-import { createAccessibility, deleteAccessibility, updateAccessibility } from "@/actions";
+import {
+	createAccessibility,
+	deleteAccessibility,
+	updateAccessibility,
+} from "@/actions";
 import { userAtom } from "@/atoms/user-atom.ts";
 import {
 	accessibilitiesAtom,
@@ -66,8 +70,12 @@ const AccessibilityDialog = () => {
 
 	const handleClose = (type: "edit" | "create" | "delete") => {
 		toast({
-			title: `Amenity ${type === "edit" ? "updated" : type === "create" ? "created" : "deleted"} successfully`,
-			description: `Amenity ${type === "edit" ? "updated" : type === "create" ? "created" : "deleted"} successfully`,
+			title: `Amenity ${
+				type === "edit" ? "updated" : type === "create" ? "created" : "deleted"
+			} successfully`,
+			description: `Amenity ${
+				type === "edit" ? "updated" : type === "create" ? "created" : "deleted"
+			} successfully`,
 			variant: "default",
 			className: "bg-emerald-600 text-white",
 			duration: 5000,
@@ -76,19 +84,19 @@ const AccessibilityDialog = () => {
 		setAccessiblityState({ open: false });
 		setValues(null);
 		setLoading(false);
-	}
+	};
 
 	const onSubmit = async (v: z.infer<typeof serviceSchema>) => {
 		try {
 			setLoading(true);
-		  	if (createMode) {
+			if (createMode) {
 				const newAccessiblity = await createAccessibility({
 					clinicId: Number(user?.clinicId),
 					name: v.name,
 				});
 				setAccessibilities((params) => [...params, newAccessiblity]);
 
-				return handleClose("create")
+				return handleClose("create");
 			} else if (editMode) {
 				const updatedCategory = await updateAccessibility({
 					clinicId: Number(values?.clinicId),
@@ -103,11 +111,15 @@ const AccessibilityDialog = () => {
 					});
 				});
 
-				return handleClose("edit")
+				return handleClose("edit");
 			} else {
-				await deleteAccessibility(Number(values?.id))
-				setAccessibilities(accessibilities => accessibilities.filter(accessibility => accessibility.id !== Number(values?.id)))
-				return handleClose("delete")
+				await deleteAccessibility(Number(values?.id));
+				setAccessibilities((accessibilities) =>
+					accessibilities.filter(
+						(accessibility) => accessibility.id !== Number(values?.id)
+					)
+				);
+				return handleClose("delete");
 			}
 		} catch (error) {
 			setLoading(false);
@@ -132,7 +144,9 @@ const AccessibilityDialog = () => {
 			<DialogOverlay className=" backdrop-blur-lg" />
 			<DialogContent removeClose className="">
 				<DialogHeader>
-					<DialogTitle className="mb-">{createMode ? "Create" : editMode ? "Edit" : "Delete"} Accessibility</DialogTitle>
+					<DialogTitle className="mb-">
+						{createMode ? "Create" : editMode ? "Edit" : "Delete"} Accessibility
+					</DialogTitle>
 				</DialogHeader>
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
@@ -141,7 +155,11 @@ const AccessibilityDialog = () => {
 							name="name"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>{deleteMode ? "Are you sure to delete this Accessibility?" : "Name"}</FormLabel>
+									<FormLabel>
+										{deleteMode
+											? "Are you sure to delete this Accessibility?"
+											: "Name"}
+									</FormLabel>
 									<FormControl>
 										<Input
 											autoComplete="off"
@@ -172,7 +190,7 @@ const AccessibilityDialog = () => {
 								Close
 							</Button>
 							<Button type="submit">
-								{loading && <ImSpinner9 className="animate-spin " />}
+								{loading && <ImSpinner9 className="animate-spin  mr-2" />}
 								{loading
 									? "Loading..."
 									: createMode

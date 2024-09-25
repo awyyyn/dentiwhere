@@ -1,6 +1,6 @@
 import { Clinic, ClinicWithDoctor, DBClinic } from "@/types/types";
 import { db } from "@/utils/supabase";
-import {ERR_INTERNAL} from "@/constants/errors.ts";
+import { ERR_INTERNAL } from "@/constants/errors.ts";
 
 const transformClinic = (clinic: DBClinic): Clinic => {
 	return {
@@ -45,7 +45,15 @@ export const createClinic = async (
 };
 
 export const updateClinic = async (
-	inputs: Omit<Clinic, | "createdAt" | "updatedAt" | "accessibilities" | "services" | "amenities" | "doctorId" >
+	inputs: Omit<
+		Clinic,
+		| "createdAt"
+		| "updatedAt"
+		| "accessibilities"
+		| "services"
+		| "amenities"
+		| "doctorId"
+	>
 ) => {
 	const clinic = await db
 		.from("clinics")
@@ -154,6 +162,7 @@ export const getClinic = async (id: number): Promise<ClinicWithDoctor> => {
             amenities (id, clinic_id, name, created_at, updated_at), 
             accessibility (id, clinic_id, name, created_at, updated_at),
 			category (id, clinic_id, name, created_at, updated_at),
+			reviews ( * ),
 			user!clinics_doctor_id_fkey(first_name, last_name, id)
         `
 		)
@@ -205,6 +214,18 @@ export const getClinic = async (id: number): Promise<ClinicWithDoctor> => {
 			createdAt: cat.created_at,
 			updatedAt: cat.updated_at,
 		})),
+		reviews: response.data?.reviews?.map((review) => {
+			return {
+				id: review.id,
+				clinicId: review.clinic_id,
+				name: review.name,
+				uuid: review.uuid,
+				review: review.review ?? "",
+				rate: review.rate ?? undefined,
+				createdAt: review.created_at,
+				updatedAt: review.updated_at,
+			};
+		}),
 	};
 };
 
@@ -226,39 +247,46 @@ export const getAllClinics = async (): Promise<ClinicWithDoctor[]> => {
 	}) as ClinicWithDoctor[];
 };
 
-export const searchClinic = async (query: string): Promise<ClinicWithDoctor[]> =>  {
-	const { data, error } = await db.from("clinics")
+export const searchClinic = async (
+	query: string
+): Promise<ClinicWithDoctor[]> => {
+	const { data, error } = await db
+		.from("clinics")
 		.select("*, user!clinics_doctor_id_fkey(first_name, last_name, id)")
-		.or(`name.ilike.%${query}%,address.ilike.%${query}%`)
+		.or(`name.ilike.%${query}%,address.ilike.%${query}%`);
 
-	if(error) throw new Error(ERR_INTERNAL)
+	if (error) throw new Error(ERR_INTERNAL);
 
-	return data?.length > 0 ? data?.map(clinic => {
-		return {
-			...transformClinic(clinic),
-			doctor: ` ${clinic.user?.first_name ?? ""} ${
-				clinic.user?.last_name ?? ""
-			}`,
-			status: clinic.archive ? "INACTIVE" : "ACTIVE"
-		}
-	}) : []
-}
+	return data?.length > 0
+		? data?.map((clinic) => {
+				return {
+					...transformClinic(clinic),
+					doctor: ` ${clinic.user?.first_name ?? ""} ${
+						clinic.user?.last_name ?? ""
+					}`,
+					status: clinic.archive ? "INACTIVE" : "ACTIVE",
+				};
+		  })
+		: [];
+};
 
 export const getBoostedClinics = async (): Promise<ClinicWithDoctor[]> => {
-	const { data, error } = await db.from("clinics")
+	const { data, error } = await db
+		.from("clinics")
 		.select("*, user!clinics_doctor_id_fkey(first_name, last_name, id)")
 		.eq("boosted", true);
 
-	if(error) throw new Error(ERR_INTERNAL)
+	if (error) throw new Error(ERR_INTERNAL);
 
-	return data?.length > 0 ? data?.map(clinic => {
-		return {
-			...transformClinic(clinic),
-			doctor: ` ${clinic.user?.first_name ?? ""} ${
-				clinic.user?.last_name ?? ""
-			}`,
-			status: clinic.archive ? "INACTIVE" : "ACTIVE"
-		}
-	}) : []
-
-}
+	return data?.length > 0
+		? data?.map((clinic) => {
+				return {
+					...transformClinic(clinic),
+					doctor: ` ${clinic.user?.first_name ?? ""} ${
+						clinic.user?.last_name ?? ""
+					}`,
+					status: clinic.archive ? "INACTIVE" : "ACTIVE",
+				};
+		  })
+		: [];
+};

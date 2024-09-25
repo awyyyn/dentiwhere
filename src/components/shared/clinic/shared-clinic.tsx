@@ -1,5 +1,5 @@
 import { clinicWithDoctorAtom } from "@/atoms/clinic-atom";
-import { useAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { AsyncImage } from "loadable-image";
 import { CiLocationOn } from "react-icons/ci";
 import { PiPhoneLight } from "react-icons/pi";
@@ -14,14 +14,15 @@ import { BriefcaseMedical } from "lucide-react";
 import Services from "./__components/services";
 import About from "./__components/about";
 import Reviews from "./__components/reviews";
-
-
+import { reviewsAtom } from "@/atoms/review-atom";
 
 export default function SharedClinic() {
 	const params = useParams();
 	const navigate = useNavigate();
 	const [clinic, setClinic] = useAtom(clinicWithDoctorAtom);
+	const setReviews = useSetAtom(reviewsAtom);
 	const [loading, setLoading] = useState(false);
+
 	useEffect(() => {
 		(async () => {
 			setLoading(true);
@@ -29,7 +30,7 @@ export default function SharedClinic() {
 				return navigate("/clinics");
 			}
 			const response = await getClinic(parseInt(params.id));
-			console.log(response, "response qqq");
+			setReviews(response.reviews ?? []);
 			setClinic(response);
 			setLoading(false);
 		})();

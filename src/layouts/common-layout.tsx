@@ -9,6 +9,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { useAtomValue } from "jotai";
 import { userAtom } from "@/atoms/user-atom";
 import { Role } from "@/types/types";
+
 export default function CommonLayout() {
 	const { pathname } = useLocation();
 	const user = useAtomValue(userAtom);

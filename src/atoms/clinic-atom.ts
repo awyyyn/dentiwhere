@@ -6,3 +6,5 @@ export const clinicEditDataAtom = atom<Clinic>();
 export const clinicAtom = atom<Clinic>();
 
 export const clinicWithDoctorAtom = atom<ClinicWithDoctor>();
+
+export const clinicsAtom = atom<ClinicWithDoctor[]>([]);

@@ -1,3 +1,4 @@
+import { v4 } from "uuid";
 import { visit } from "@/actions/auth";
 import { getClinicByDoctor } from "@/actions/clinic";
 import { getOneByAuthID } from "@/actions/user";
@@ -16,6 +17,7 @@ import { useSetAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { isEmpty } from "lodash";
+import { randomName } from "@/lib/chance";
 
 export default function Parent() {
 	const setUser = useSetAtom(userAtom);
@@ -88,7 +90,18 @@ export default function Parent() {
 					}
 				}
 			} else {
-				//
+				const uuid = localStorage.getItem("uuid");
+				if (isEmpty(uuid)) {
+					localStorage.setItem("uuid", v4());
+					localStorage.setItem("name", randomName());
+				}
+
+				if (
+					location.pathname !== "/" &&
+					!location.pathname.startsWith("/clinics/view")
+				) {
+					navigate("/login", { replace: true });
+				}
 			}
 		})();
 	}, []);

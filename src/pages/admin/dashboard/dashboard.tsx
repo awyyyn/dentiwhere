@@ -1,10 +1,23 @@
+import { loadableDashboardAtom } from "@/atoms/dashboard-atom";
+import { Loader } from "@/components/shared/loader/loader";
+import { DashboardAtom } from "@/types/types";
+import { useAtomValue } from "jotai";
 import { Hospital, UserCheck, Users } from "lucide-react";
 import { lazy, Suspense } from "react";
-import { ImSpinner2 } from "react-icons/im";
 
 const ChartData = lazy(() => import("../__components/chart"));
 
 export default function Dashboard() {
+	const loadableCounts = useAtomValue(loadableDashboardAtom);
+	const data =
+		loadableCounts.state === "hasData"
+			? loadableCounts.data
+			: ({} as DashboardAtom);
+
+	if (loadableCounts.state === "loading") {
+		return <Loader />;
+	}
+
 	return (
 		<div className="p-2 md:p-5 lg:p-10 xl:p-14   space-y-5">
 			<section className="md:space-y-2">
@@ -20,7 +33,7 @@ export default function Dashboard() {
 						<h1 className="text-center">Total Doctors</h1>
 						<Users />
 					</div>
-					<h1 className=" text-5xl font-bold">123</h1>
+					<h1 className=" text-5xl font-bold">{data.totalDoctors}</h1>
 					<p className=" text-gray-500 text-sm">
 						Registered doctors in the platform
 					</p>
@@ -30,18 +43,19 @@ export default function Dashboard() {
 						<h1 className="text-center">Clinics</h1>
 						<Hospital />
 					</div>
-					<h1 className=" text-5xl font-bold">123</h1>
+					<h1 className=" text-5xl font-bold">{data.totalClinics}</h1>
 					<p className=" text-gray-500 text-sm">
 						Registered clinics in the platform
 					</p>
 				</div>
 				<div className="p-5 shadow-xl rounded-xl backdrop-blur-lg bg-white/50  space-y-1 md:space-y-2">
 					<div className="flex justify-between">
-						<h1 className="text-center"> Doctors</h1>
+						<h1 className="text-center">Verified Doctors</h1>
 						<UserCheck />
 					</div>
 					<h1 className=" text-5xl font-bold">
-						123<span className="text-lg font-normal">/100</span>
+						{data.registeredDoctors}
+						<span className="text-lg font-normal">/{data.totalDoctors}</span>
 					</h1>
 					<p className="text-gray-500 text-sm">
 						Doctors verified in the platform
@@ -49,12 +63,7 @@ export default function Dashboard() {
 				</div>
 			</section>
 			<section>
-				<Suspense
-					fallback={
-						<div className="h-[250px] flex items-center w-full">
-							<ImSpinner2 className="animate-spin" size={50} />
-						</div>
-					}>
+				<Suspense fallback={<Loader />}>
 					<ChartData />
 				</Suspense>
 			</section>

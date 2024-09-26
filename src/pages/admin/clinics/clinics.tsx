@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import ClinicsTable from "../__components/clinics-table";
-import { ClinicWithDoctor } from "@/types/types";
 import { getAllClinics } from "@/actions/clinic";
 import { ImSpinner2 } from "react-icons/im";
 import { useSetAtom } from "jotai";
 import { clinicsAtom } from "@/atoms/clinic-atom";
 
 export default function Clinics() {
-	const setClinics = useSetAtom<ClinicWithDoctor[]>(clinicsAtom);
+	const setClinics = useSetAtom(clinicsAtom);
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {

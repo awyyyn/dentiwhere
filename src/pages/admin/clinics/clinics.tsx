@@ -3,9 +3,11 @@ import ClinicsTable from "../__components/clinics-table";
 import { ClinicWithDoctor } from "@/types/types";
 import { getAllClinics } from "@/actions/clinic";
 import { ImSpinner2 } from "react-icons/im";
+import { useSetAtom } from "jotai";
+import { clinicsAtom } from "@/atoms/clinic-atom";
 
 export default function Clinics() {
-	const [clinics, setClinics] = useState<ClinicWithDoctor[]>([]);
+	const setClinics = useSetAtom<ClinicWithDoctor[]>(clinicsAtom);
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
@@ -35,7 +37,7 @@ export default function Clinics() {
 					<h1>Fetching Data</h1>
 				</div>
 			) : (
-				<ClinicsTable data={clinics ?? []} />
+				<ClinicsTable />
 			)}
 		</div>
 	);

@@ -104,6 +104,12 @@ export type Service = {
 	updatedAt: Date | string;
 };
 
+export interface DashboardAtom {
+	registeredDoctors: number;
+	totalDoctors: number;
+	totalClinics: number;
+}
+
 export type ServiceCreateInput = Omit<
 	Service,
 	"id" | "createdAt" | "updatedAt" | "clinicId" | "rate"

@@ -10,13 +10,19 @@ import { getClinic } from "@/actions/clinic";
 import { TbWorldWww } from "react-icons/tb";
 import { Loader } from "@/components/shared/loader/loader";
 import { useNavigate, useParams } from "react-router-dom";
-import { BriefcaseMedical } from "lucide-react";
+import { BriefcaseMedical, ChevronLeft } from "lucide-react";
 import Services from "./__components/services";
 import About from "./__components/about";
 import Reviews from "./__components/reviews";
 import { reviewsAtom } from "@/atoms/review-atom";
+import { Button } from "@/components/ui/button";
+import { Tooltip } from "@/pages/admin/__components/tooltip";
 
-export default function SharedClinic() {
+export default function SharedClinic({
+	viewOnly = false,
+}: {
+	viewOnly: boolean;
+}) {
 	const params = useParams();
 	const navigate = useNavigate();
 	const [clinic, setClinic] = useAtom(clinicWithDoctorAtom);
@@ -41,6 +47,17 @@ export default function SharedClinic() {
 	return (
 		<div className="p-1 lg:p-5">
 			<section className="w-full shadow-[]">
+				{viewOnly && (
+					<Tooltip tooltip="Back" side="right" delayDuration={500}>
+						<Button
+							onClick={() => navigate("/")}
+							variant="ghost"
+							className="mb-5">
+							<ChevronLeft />
+							&nbsp;Back
+						</Button>
+					</Tooltip>
+				)}
 				<div className="py-2  px-2 flex flex-col md:flex-row items-start md:items-center md:space-x-10 ">
 					<div className="mb-4 md:mb-0 self-center">
 						<AsyncImage

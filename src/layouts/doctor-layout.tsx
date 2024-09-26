@@ -2,7 +2,7 @@ import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { FaUserAlt } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { Separator } from "@/components/ui/separator";
-import { IoLogOut } from "react-icons/io5";
+import { IoHome, IoLogOut } from "react-icons/io5";
 import { RiNotificationFill } from "react-icons/ri";
 import { RiSettingsFill } from "react-icons/ri";
 import { Button } from "@/components/ui/button";
@@ -80,6 +80,18 @@ export default function DoctorLayout() {
 						Account Settings
 					</h1>
 
+					<Separator className="bg-white w-[200%] h-0.5 -translate-x-24" />
+					{/* <Separator className="bg-white w-[200%]   -translate-x-24" /> */}
+					<NavLink
+						to="/"
+						className={({ isActive }) =>
+							`flex space-x-5 items-center text-gray-600 transition-all  px-10 py-2 ${
+								isActive && "font-bold text-gray-900"
+							}`
+						}>
+						<IoHome className="" />
+						<p>Home</p>
+					</NavLink>
 					<Separator className="bg-white w-[200%] h-0.5 -translate-x-24" />
 					<NavLink
 						to="/profile"
@@ -193,12 +205,22 @@ const DoctorDrawer = ({
 					<div className="space-y-2 ">
 						<Separator className="bg-white w-[200%]  -translate-x-24" />
 						<h1 className="font-bold   text-lg py-2">Account Settings</h1>
-						{/* <Separator className="bg-white w-[200%]   -translate-x-24" /> */}
+						<NavLink
+							onClick={handleClose}
+							to="/"
+							className={({ isActive }) =>
+								`flex space-x-5 items-center text-gray-600 transition-all py-2 ${
+									isActive && "font-bold text-gray-900"
+								}`
+							}>
+							<IoHome className="" />
+							<p>Home</p>
+						</NavLink>
 						<NavLink
 							onClick={handleClose}
 							to="/profile"
 							className={({ isActive }) =>
-								`flex space-x-6 items-center text-gray-600 transition-all py-2 ${
+								`flex space-x-5 items-center text-gray-600 transition-all py-2 ${
 									isActive && "font-bold text-gray-900"
 								}`
 							}>

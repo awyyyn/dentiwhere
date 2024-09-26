@@ -290,3 +290,17 @@ export const getBoostedClinics = async (): Promise<ClinicWithDoctor[]> => {
 		  })
 		: [];
 };
+
+export const updateClinicStatus = async (
+	id: number,
+	status: boolean
+): Promise<boolean> => {
+	const { error } = await db
+		.from("clinics")
+		.update({ archive: status })
+		.eq("id", id);
+
+	if (error) throw new Error(ERR_INTERNAL);
+
+	return true;
+};

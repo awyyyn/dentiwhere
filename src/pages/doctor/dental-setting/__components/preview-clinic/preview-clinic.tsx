@@ -9,24 +9,14 @@ import { useEffect, useState } from "react";
 import { getClinic } from "@/actions/clinic";
 import { TbWorldWww } from "react-icons/tb";
 import { Loader } from "@/components/shared/loader/loader";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { BriefcaseMedical, ChevronLeft } from "lucide-react";
-import Services from "./__components/services";
-import About from "./__components/about";
-import Reviews from "./__components/reviews";
+import { useNavigate } from "react-router-dom";
+import { BriefcaseMedical } from "lucide-react";
 import { reviewsAtom } from "@/atoms/review-atom";
-import { Button } from "@/components/ui/button";
-import { Tooltip } from "@/pages/admin/__components/tooltip";
+import Reviews from "@/components/shared/clinic/__components/reviews";
+import About from "@/components/shared/clinic/__components/about";
+import Services from "@/components/shared/clinic/__components/services";
 
-export default function SharedClinic({
-	viewOnly = false,
-}: {
-	viewOnly: boolean;
-}) {
-	const { state } = useLocation();
-	console.log(state, "state qq");
-	const params = useParams();
-	const navigate = useNavigate();
+export default function PreviewClinic({ id }: { id: number }) {
 	const [clinic, setClinic] = useAtom(clinicWithDoctorAtom);
 	const setReviews = useSetAtom(reviewsAtom);
 	const [loading, setLoading] = useState(false);
@@ -34,34 +24,18 @@ export default function SharedClinic({
 	useEffect(() => {
 		(async () => {
 			setLoading(true);
-			if (typeof params.id === "undefined") {
-				return navigate("/clinics");
-			}
-			const response = await getClinic(parseInt(params.id));
+			const response = await getClinic(id);
 			setReviews(response.reviews ?? []);
 			setClinic(response);
 			setLoading(false);
 		})();
-	}, [params.id]);
+	}, [id]);
 
 	if (loading) return <Loader />;
 
 	return (
 		<div className="p-1 lg:p-5">
 			<section className="w-full shadow-[]">
-				{viewOnly && (
-					<Tooltip tooltip="Back" side="right" delayDuration={500}>
-						<Button
-							onClick={() =>
-								navigate(state.navigateToClinics ? "/clinics" : "/")
-							}
-							variant="ghost"
-							className="mb-5">
-							<ChevronLeft />
-							&nbsp;Back
-						</Button>
-					</Tooltip>
-				)}
 				<div className="py-2  px-2 flex flex-col md:flex-row items-start md:items-center md:space-x-10 ">
 					<div className="mb-4 md:mb-0 self-center">
 						<AsyncImage

@@ -128,6 +128,7 @@ export default function SharedClinic({
 				</TabsContent>
 				<TabsContent value="about">
 					<About
+						map={clinic?.map && clinic.map}
 						description={clinic?.description ?? ""}
 						amenities={clinic?.amenities ?? []}
 						accessibilities={clinic?.accesibilities ?? []}

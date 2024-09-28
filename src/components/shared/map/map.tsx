@@ -4,41 +4,87 @@ import "@maptiler/sdk/style.css";
 import "./map.css";
 import { environment } from "@/environments/envronment.dev";
 
-const MapDemo = () => {
+import { GeocodingControl } from "@maptiler/geocoding-control/maptilersdk";
+import "@maptiler/geocoding-control/style.css";
+import { Loader } from "../loader/loader";
+
+interface OpenStreetMapProps {
+	pinning?: boolean;
+	defaultCenter?: [number, number];
+	showMarker?: boolean;
+	handleChange?: (val: { lat: number; lng: number }) => void;
+}
+
+const OpenStreetMap = ({
+	showMarker = false,
+	pinning = false,
+	handleChange,
+	defaultCenter = [123.53506, 13.24104],
+}: OpenStreetMapProps) => {
 	const mapContainer = useRef(null);
 	const map = useRef<any>(null);
-	const [center] = useState({ lng: 13.24104, lat: 123.53506 });
+	const [center, setCenter] = useState(defaultCenter);
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
+		setLoading(true);
 		if (!map.current) return;
-		const geoControl = new maptiler.MaptilerGeolocateControl({});
+		// const geoControl = new maptiler.MaptilerGeolocateControl({});
 		const marker = new maptiler.Marker({});
+
+		const gc = new GeocodingControl({
+			class: `${pinning ? "block" : "hidden"}`,
+			country: "ph",
+			proximity: [{ type: "map-center" }],
+			noResultsMessage: "Not found",
+			marker: false,
+			bbox: [123.210297, 13.006565, 123.64151, 13.318803],
+			// 123.210297,13.006565,123.641510,13.318803
+			excludeTypes: true,
+			types: ["region", "country", "subregion"],
+		});
+
 		map.current = new maptiler.Map({
 			container: mapContainer.current!,
 			style: maptiler.MapStyle.OPENSTREETMAP,
-			center: [center.lat, center.lng],
+			center,
+			// bounds: [123.210297, 13.006565, 123.64151, 13.318803],
+			minZoom: 10,
 			apiKey: environment.maptilerApiKey,
 			maptilerLogo: false,
-			zoom: 14,
+			zoom: showMarker ? 17 : 14,
 			terrainControl: true,
 			scaleControl: true,
-			fullscreenControl: "top-left",
+			geolocate: "POINT",
+			fullscreenControl: "bottom-left",
 			geolocateControl: true,
 		})
-			.addControl(geoControl)
+			.addControl(gc)
 			.on("click", (e) => {
-				marker.setLngLat(e.lngLat).addTo(map.current);
+				if (pinning && handleChange) {
+					marker.setLngLat(e.lngLat).addTo(map.current);
+					handleChange({ lat: e.lngLat.lat, lng: e.lngLat.lng });
+				}
 			});
-	}, [center]);
+		if (showMarker) {
+			marker.setLngLat(center).addTo(map.current);
+		}
+
+		setLoading(false);
+		return () => map.current.remove();
+	}, []);
+
+	if (loading) return <Loader />;
 
 	return (
 		<div className="map-wrap">
-			<h1>Map</h1>
-			<div ref={mapContainer} className="map">
-				<div ref={map} />
+			<div className="relative">
+				<div ref={mapContainer} className="map">
+					<div ref={map} />
+				</div>
 			</div>
 		</div>
 	);
 };
 
-export default memo(MapDemo);
+export default memo(OpenStreetMap);

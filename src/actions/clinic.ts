@@ -1,6 +1,7 @@
 import { Clinic, ClinicWithDoctor, DBClinic } from "@/types/types";
 import { db } from "@/utils/supabase";
 import { ERR_INTERNAL } from "@/constants/errors.ts";
+import { isEmpty } from "lodash";
 
 const transformClinic = (clinic: DBClinic): Clinic => {
 	return {
@@ -176,6 +177,12 @@ export const getClinic = async (id: number): Promise<ClinicWithDoctor> => {
 
 	return {
 		...transformClinic(response.data),
+		map: !isEmpty(response.data.map)
+			? {
+					lat: Number((response.data.map as Clinic["map"])?.lat),
+					lng: Number((response.data.map as Clinic["map"])?.lng),
+			  }
+			: undefined,
 		doctor: ` ${response.data.user?.first_name ?? ""} ${
 			response.data.user?.last_name ?? ""
 		}`,

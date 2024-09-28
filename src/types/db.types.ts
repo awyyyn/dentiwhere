@@ -117,7 +117,7 @@ export type Database = {
           email: string
           id: number
           img: string
-          map: string | null
+          map: Json | null
           name: string
           updated_at: string
           website: string | null
@@ -133,7 +133,7 @@ export type Database = {
           email: string
           id?: number
           img?: string
-          map?: string | null
+          map?: Json | null
           name: string
           updated_at?: string
           website?: string | null
@@ -149,7 +149,7 @@ export type Database = {
           email?: string
           id?: number
           img?: string
-          map?: string | null
+          map?: Json | null
           name?: string
           updated_at?: string
           website?: string | null

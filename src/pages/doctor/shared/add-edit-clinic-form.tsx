@@ -34,6 +34,9 @@ import { Accessibility, Amenities, Clinic } from "@/types/types";
 import { amenitiesAtom } from "@/atoms/amenity-atom";
 import { accessibilitiesAtom } from "@/atoms/accessibility-atom";
 import { isEmpty } from "lodash";
+import { Map as MapIcon } from "lucide-react";
+import { Tooltip } from "@/pages/admin/__components/tooltip";
+import Map from "@/components/shared/map/map";
 
 const formSchema = z.object({
 	name: z.string().min(1, { message: "Please enter your clinic name!" }),
@@ -55,6 +58,12 @@ const formSchema = z.object({
 	address: z.string().min(1, { message: "Please enter your clinic address!" }),
 	website: z.string().optional(),
 	description: z.string().optional(),
+	map: z
+		.object({
+			lat: z.number(),
+			lng: z.number(),
+		})
+		.optional(),
 });
 
 const AddClinic = ({
@@ -66,6 +75,7 @@ const AddClinic = ({
 }) => {
 	const { toast } = useToast();
 	const setClinic = useSetAtom(clinicAtom);
+	const [openMap, setOpenMap] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [user, setUser] = useAtom(userAtom);
 	const setAmenities = useSetAtom(amenitiesAtom);
@@ -91,6 +101,7 @@ const AddClinic = ({
 		address: clinic?.address ?? "",
 		website: clinic?.website ?? "",
 		description: clinic?.description ?? "",
+		map: clinic?.map && clinic.map,
 	};
 
 	const form = useForm({
@@ -178,7 +189,7 @@ const AddClinic = ({
 						description: data.description,
 						email: data.email ?? "",
 						website: data.website,
-						map: clinic.map,
+						map: data.map,
 						name: data.name,
 						img: placeholder,
 						id: Number(clinic.id),
@@ -212,6 +223,7 @@ const AddClinic = ({
 					doctorId: Number(user.id),
 					email: data.email ?? "",
 					img: placeholder,
+					map: data.map,
 					name: data.name,
 					description: data.description,
 				});
@@ -300,6 +312,93 @@ const AddClinic = ({
 		}
 	};
 
+	const SelectAddressOnMap = ({ add }: { add?: string }) => (
+		<div className="space-y-2">
+			<div>
+				<FormField
+					control={form.control}
+					name="address"
+					render={({ field }) => (
+						<FormItem className="w-full  ">
+							<FormLabel>Address</FormLabel>
+							<FormControl>
+								<Input
+									id="mapAddress"
+									className="bg-white focus-visible:ring-0 text-lg py-5 px-3  "
+									{...field}
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="map.lat"
+					render={({ field }) => (
+						<FormItem className="w-full hidden ">
+							<FormLabel>Map Lat</FormLabel>
+							<FormControl>
+								<Input
+									readOnly
+									className="bg-white focus-visible:ring-0 text-lg py-5 px-3  "
+									{...field}
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="map.lng"
+					render={({ field }) => (
+						<FormItem className="w-full hidden ">
+							<FormLabel>Map Lng</FormLabel>
+							<FormControl>
+								<Input
+									readOnly
+									className="bg-white focus-visible:ring-0 text-lg py-5 px-3  "
+									{...field}
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+			</div>
+			<Map
+				showMarker
+				pinning
+				handleChange={(val, place) => {
+					form.setValue("map.lat", val.lat);
+					form.setValue("map.lng", val.lng);
+					if (!isEmpty(place)) form.setValue("address", place);
+				}}
+			/>
+			<div className="flex justify-end gap-3">
+				<Button
+					type="button"
+					onClick={() => {
+						setOpenMap(false);
+						form.resetField("map");
+						if (typeof add !== "undefined") {
+							form.setValue("address", add);
+						}
+					}}
+					variant="destructive">
+					Cancel
+				</Button>
+				<Button
+					onClick={() => setOpenMap(false)}
+					type="button"
+					className="bg-emerald-500 hover:bg-emerald-500">
+					Save
+				</Button>
+			</div>
+		</div>
+	);
+
 	return (
 		<div className="py-10 sm:px-3 lg:px-10">
 			<Form {...form}>
@@ -307,280 +406,339 @@ const AddClinic = ({
 					onSubmit={form.handleSubmit(handleSubmit)}
 					className="space-y-4 md:space-y-8">
 					{edit ?? "editing"}
-					<div className="flex items-center  gap-5  lg:flex-wrap mb-4 xl:flex-nowrap flex-col md:flex-row">
-						<Dropzone onDrop={handleDropImage}>
-							{({ getRootProps, getInputProps }) => (
-								<div
-									className="shadow-md   mx-auto rounded-full md:mb-4 md:mb-0 min-h-[200px] md:min-h-[300px] max-w-[200px] md:max-h-[300px] min-w-[200px] md:min-w-[300px] hover:cursor-pointer overflow-hidden relative hover:shadow-xl transition-all duration-300 group"
-									{...getRootProps()}>
-									<input {...getInputProps()} disabled={uploading} />
-									<div
-										className={`absolute rounded-full w-full h-full items-center justify-center backdrop-blur-sm flex-wrap bg-black  z-50 bg-opacity-20 hover:opacity-100 ${
-											uploading || loading
-												? "opacity-100 cursor-wait"
-												: "opacity-0"
-										} flex transition-all duration-300`}>
-										{uploading || loading ? (
-											<ImSpinner2 className="animate-spin" size={30} />
-										) : (
-											<p className="transition-all duration-300 text-white font-bold">
-												{placeholder ? "Replace Image" : "Upload Image"}
-											</p>
+					{openMap ? (
+						<SelectAddressOnMap add={form.getValues("address") ?? undefined} />
+					) : (
+						<>
+							<div className="flex items-center  gap-5  lg:flex-wrap mb-4 xl:flex-nowrap flex-col md:flex-row">
+								<Dropzone onDrop={handleDropImage}>
+									{({ getRootProps, getInputProps }) => (
+										<div
+											className="shadow-md   mx-auto rounded-full md:mb-4 md:mb-0 min-h-[200px] md:min-h-[300px] max-w-[200px] md:max-h-[300px] min-w-[200px] md:min-w-[300px] hover:cursor-pointer overflow-hidden relative hover:shadow-xl transition-all duration-300 group"
+											{...getRootProps()}>
+											<input {...getInputProps()} disabled={uploading} />
+											<div
+												className={`absolute rounded-full w-full h-full items-center justify-center backdrop-blur-sm flex-wrap bg-black  z-50 bg-opacity-20 hover:opacity-100 ${
+													uploading || loading
+														? "opacity-100 cursor-wait"
+														: "opacity-0"
+												} flex transition-all duration-300`}>
+												{uploading || loading ? (
+													<ImSpinner2 className="animate-spin" size={30} />
+												) : (
+													<p className="transition-all duration-300 text-white font-bold">
+														{placeholder ? "Replace Image" : "Upload Image"}
+													</p>
+												)}
+											</div>
+											<img
+												src={
+													placeholder
+														? placeholder
+														: "https://www.wibits.com/wp-content/themes/wibits-theme/images/sample.jpg"
+												}
+												className="absolute h-full z-10 object-cover transition-all duration-300"
+												alt="clinic profile"
+											/>
+										</div>
+									)}
+								</Dropzone>
+								<div className="w-full flex flex-col justify-center space-y-3 ">
+									<FormField
+										control={form.control}
+										name="name"
+										render={({ field }) => (
+											<FormItem className="ful">
+												<FormLabel>Clinic Name</FormLabel>
+												<FormControl>
+													<Input
+														readOnly={loading || uploading}
+														className="text-lg py-5 px-3 bg-white"
+														placeholder="Enter your clinic name"
+														{...field}
+													/>
+												</FormControl>
+												<FormMessage />
+											</FormItem>
 										)}
-									</div>
-									<img
-										src={
-											placeholder
-												? placeholder
-												: "https://www.wibits.com/wp-content/themes/wibits-theme/images/sample.jpg"
-										}
-										className="absolute h-full z-10 object-cover transition-all duration-300"
-										alt="clinic profile"
+									/>
+									<FormField
+										control={form.control}
+										name="address"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Clinic Address</FormLabel>
+												<FormControl>
+													<div className="flex gap-2 items-center">
+														<Input
+															readOnly={loading || uploading}
+															className="text-lg py-5 px-3 bg-white w-11/12"
+															placeholder="Enter your clinic address"
+															{...field}
+														/>
+														<Tooltip
+															tooltip="Map"
+															delayDuration={500}
+															side="bottom">
+															<Button
+																onClick={() => setOpenMap(true)}
+																type="button"
+																className="min-h-max"
+																variant="secondary"
+																size="default">
+																<MapIcon />
+															</Button>
+														</Tooltip>
+													</div>
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+									<FormField
+										control={form.control}
+										name="email"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Email Address</FormLabel>
+												<FormControl>
+													<Input
+														readOnly={loading || uploading}
+														className="text-lg py-5 px-3 bg-white"
+														placeholder="Enter your clinic email address"
+														{...field}
+													/>
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
 									/>
 								</div>
-							)}
-						</Dropzone>
-						<div className="w-full flex flex-col justify-center space-y-3 ">
-							<FormField
-								control={form.control}
-								name="name"
-								render={({ field }) => (
-									<FormItem className="ful">
-										<FormLabel>Clinic Name</FormLabel>
-										<FormControl>
-											<Input
-												readOnly={loading || uploading}
-												className="text-lg py-5 px-3 bg-white"
-												placeholder="Enter your clinic name"
-												{...field}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="address"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Clinic Address</FormLabel>
-										<FormControl>
-											<Input
-												readOnly={loading || uploading}
-												className="text-lg py-5 px-3 bg-white"
-												placeholder="Enter your clinic address"
-												{...field}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="email"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Email Address</FormLabel>
-										<FormControl>
-											<Input
-												readOnly={loading || uploading}
-												className="text-lg py-5 px-3 bg-white"
-												placeholder="Enter your clinic email address"
-												{...field}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-						</div>
-					</div>
-					<div className="space-y-3">
-						<div className="flex sm:space-x-4 flex-col sm:flex-row">
-							<FormField
-								control={form.control}
-								name="contact"
-								render={({ field }) => (
-									<FormItem className="w-full sm:w-[50%]">
-										<FormLabel>Contact</FormLabel>
-										<FormControl>
-											<Input
-												readOnly={loading || uploading}
-												className="text-lg py-5 px-3 bg-white"
-												placeholder="Enter you clinic contact"
-												{...field}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="contact2"
-								render={({ field }) => (
-									<FormItem className="w-full sm:w-[50%]">
-										<FormLabel>Alternative Contact</FormLabel>
-										<FormControl>
-											<Input
-												readOnly={loading || uploading}
-												className="text-lg py-5 px-3 bg-white"
-												placeholder="Enter you clinic contact"
-												{...field}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-						</div>
-
-						<FormField
-							control={form.control}
-							name="website"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Website</FormLabel>
-									<FormControl>
-										<Input
-											readOnly={loading || uploading}
-											className="text-lg py-5 px-3 bg-white"
-											placeholder="Enter you clinic website"
-											{...field}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-
-						<FormField
-							control={form.control}
-							name="description"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Description</FormLabel>
-									<FormControl className="min-h-fit">
-										<Textarea
-											className="text-lg py-3 px-3 bg-white "
-											placeholder="Clinic Description...."
-											rows={Math.max(
-												Math.min(form.getValues("description").length / 10, 10)
-											)}
-											{...field}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-
-						{!edit && (
-							<div className="flex  flex-col sm:flex-row space-y-5 sm:space-y-0 sm:space-x-5">
-								<div className="w-full sm:w-[50%] ">
-									<h1 className="font-bold text-xl sm:mb-3">Accessibility</h1>
-									<div className="space-y-5">
-										{accessibilityForm.map((acc, indx) => {
-											return (
-												<Input
-													readOnly={loading || uploading}
-													key={acc}
-													name={acc}
-													value={accessibilityValues[indx]}
-													placeholder="Add clinic accessibility"
-													className={`text-lg py-5 px-3 bg-white`}
-													onChange={(e) => {
-														setAccessibilityValues((prevValues) => {
-															if (e.target.value !== "") {
-																setErrors((err) => ({
-																	...err,
-																	accessibility: false,
-																}));
-															} else {
-																setErrors((err) => ({
-																	...err,
-																	accessibility: true,
-																}));
-															}
-															const updatedValues = [...prevValues];
-															updatedValues[indx] = e.target.value;
-															return updatedValues;
-														});
-													}}
-												/>
-											);
-										})}
-									</div>
-									<Button
-										type="button"
-										disabled={errors.accessibility}
-										className="w-full space-x-5 mt-2"
-										size="sm"
-										onClick={() => handleAddInput("accessibility")}>
-										<IoMdAdd />
-										Add Amenity
-									</Button>
+							</div>
+							<div className="space-y-3">
+								<div className="flex sm:space-x-4 flex-col sm:flex-row">
+									<FormField
+										control={form.control}
+										name="contact"
+										render={({ field }) => (
+											<FormItem className="w-full sm:w-[50%]">
+												<FormLabel>Contact</FormLabel>
+												<FormControl>
+													<Input
+														readOnly={loading || uploading}
+														className="text-lg py-5 px-3 bg-white"
+														placeholder="Enter you clinic contact"
+														{...field}
+													/>
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+									<FormField
+										control={form.control}
+										name="contact2"
+										render={({ field }) => (
+											<FormItem className="w-full sm:w-[50%]">
+												<FormLabel>Alternative Contact</FormLabel>
+												<FormControl>
+													<Input
+														readOnly={loading || uploading}
+														className="text-lg py-5 px-3 bg-white"
+														placeholder="Enter you clinic contact"
+														{...field}
+													/>
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
 								</div>
-								<div className="w-full sm:w-[50%]  ">
-									<h1 className="font-bold text-xl  sm:mb-3">Amenities</h1>
-									<div className={`space-y-5 group `}>
-										{amenitiesForm.map((ame, indx) => {
-											return (
+								<FormField
+									control={form.control}
+									name="map.lat"
+									render={({ field }) => (
+										<FormItem className="w-full hidden ">
+											<FormLabel>Map Lat</FormLabel>
+											<FormControl>
+												<Input
+													readOnly
+													className="bg-white focus-visible:ring-0 text-lg py-5 px-3  "
+													{...field}
+												/>
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+								<FormField
+									control={form.control}
+									name="map.lng"
+									render={({ field }) => (
+										<FormItem className="w-full hidden ">
+											<FormLabel>Map Lng</FormLabel>
+											<FormControl>
+												<Input
+													readOnly
+													className="bg-white focus-visible:ring-0 text-lg py-5 px-3  "
+													{...field}
+												/>
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+								<FormField
+									control={form.control}
+									name="website"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Website</FormLabel>
+											<FormControl>
 												<Input
 													readOnly={loading || uploading}
-													key={ame}
-													name={ame}
-													value={amenitiesValues[indx]}
-													placeholder="Add clinic amenity"
-													className={`text-lg py-5 sm:px-3 bg-white`}
-													onChange={(e) => {
-														setAmenitiesValues((prevValues) => {
-															if (e.target.value !== "") {
-																setErrors((err) => ({
-																	...err,
-																	amenity: false,
-																}));
-															} else {
-																setErrors((err) => ({
-																	...err,
-																	amenity: true,
-																}));
-															}
-															const updatedValues = [...prevValues];
-															updatedValues[indx] = e.target.value;
-															return updatedValues;
-														});
-													}}
+													className="text-lg py-5 px-3 bg-white"
+													placeholder="Enter you clinic website"
+													{...field}
 												/>
-											);
-										})}
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+
+								<FormField
+									control={form.control}
+									name="description"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Description</FormLabel>
+											<FormControl className="min-h-fit">
+												<Textarea
+													className="text-lg py-3 px-3 bg-white "
+													placeholder="Clinic Description...."
+													rows={Math.max(
+														Math.min(
+															form.getValues("description").length / 10,
+															10
+														)
+													)}
+													{...field}
+												/>
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+
+								{!edit && (
+									<div className="flex  flex-col sm:flex-row space-y-5 sm:space-y-0 sm:space-x-5">
+										<div className="w-full sm:w-[50%] ">
+											<h1 className="font-bold text-xl sm:mb-3">
+												Accessibility
+											</h1>
+											<div className="space-y-5">
+												{accessibilityForm.map((acc, indx) => {
+													return (
+														<Input
+															readOnly={loading || uploading}
+															key={acc}
+															name={acc}
+															value={accessibilityValues[indx]}
+															placeholder="Add clinic accessibility"
+															className={`text-lg py-5 px-3 bg-white`}
+															onChange={(e) => {
+																setAccessibilityValues((prevValues) => {
+																	if (e.target.value !== "") {
+																		setErrors((err) => ({
+																			...err,
+																			accessibility: false,
+																		}));
+																	} else {
+																		setErrors((err) => ({
+																			...err,
+																			accessibility: true,
+																		}));
+																	}
+																	const updatedValues = [...prevValues];
+																	updatedValues[indx] = e.target.value;
+																	return updatedValues;
+																});
+															}}
+														/>
+													);
+												})}
+											</div>
+											<Button
+												type="button"
+												disabled={errors.accessibility}
+												className="w-full space-x-5 mt-2"
+												size="sm"
+												onClick={() => handleAddInput("accessibility")}>
+												<IoMdAdd />
+												Add Amenity
+											</Button>
+										</div>
+										<div className="w-full sm:w-[50%]  ">
+											<h1 className="font-bold text-xl  sm:mb-3">Amenities</h1>
+											<div className={`space-y-5 group `}>
+												{amenitiesForm.map((ame, indx) => {
+													return (
+														<Input
+															readOnly={loading || uploading}
+															key={ame}
+															name={ame}
+															value={amenitiesValues[indx]}
+															placeholder="Add clinic amenity"
+															className={`text-lg py-5 sm:px-3 bg-white`}
+															onChange={(e) => {
+																setAmenitiesValues((prevValues) => {
+																	if (e.target.value !== "") {
+																		setErrors((err) => ({
+																			...err,
+																			amenity: false,
+																		}));
+																	} else {
+																		setErrors((err) => ({
+																			...err,
+																			amenity: true,
+																		}));
+																	}
+																	const updatedValues = [...prevValues];
+																	updatedValues[indx] = e.target.value;
+																	return updatedValues;
+																});
+															}}
+														/>
+													);
+												})}
+											</div>
+											<Button
+												type="button"
+												disabled={errors.amenity}
+												className="w-full space-x-5 mt-2"
+												size="sm"
+												onClick={() => handleAddInput("amenity")}>
+												<IoMdAdd />
+												Add Amenity
+											</Button>
+										</div>
 									</div>
+								)}
+								<div className="flex justify-end space-x-3 mt-5">
+									<Button type="reset" onClick={() => form.reset()}>
+										Reset form
+									</Button>
 									<Button
-										type="button"
-										disabled={errors.amenity}
-										className="w-full space-x-5 mt-2"
-										size="sm"
-										onClick={() => handleAddInput("amenity")}>
-										<IoMdAdd />
-										Add Amenity
+										// disabled={}
+										className="bg-1/70 text-gray-800 hover:bg-1/100 hover:text-gray-700"
+										type={"submit"}>
+										{edit ? "Save changes" : "Submit"}
 									</Button>
 								</div>
 							</div>
-						)}
-						<div className="flex justify-end space-x-3 mt-5">
-							<Button type="reset" onClick={() => form.reset()}>
-								Reset form
-							</Button>
-							<Button
-								// disabled={}
-								className="bg-1/70 text-gray-800 hover:bg-1/100 hover:text-gray-700"
-								type={"submit"}>
-								{edit ? "Save changes" : "Submit"}
-							</Button>
-						</div>
-					</div>
+						</>
+					)}
 				</form>
 			</Form>
 		</div>

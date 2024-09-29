@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 import { getClinic } from "@/actions/clinic";
 import { TbWorldWww } from "react-icons/tb";
 import { Loader } from "@/components/shared/loader/loader";
-import { useNavigate } from "react-router-dom";
 import { BriefcaseMedical } from "lucide-react";
 import { reviewsAtom } from "@/atoms/review-atom";
 import Reviews from "@/components/shared/clinic/__components/reviews";
@@ -61,7 +60,9 @@ export default function PreviewClinic({ id }: { id: number }) {
 							<div className="flex space-x-2">
 								<PiPhoneLight size={30} strokeWidth={1} />
 								<p className="md:text-xl text-lg">
-									{clinic?.contacts.join(" / ")}
+									{clinic?.contacts
+										.map((contact) => `+63 ${contact.slice(1)}`)
+										.join(" / ")}
 								</p>
 							</div>
 						)}
@@ -105,6 +106,7 @@ export default function PreviewClinic({ id }: { id: number }) {
 						description={clinic?.description ?? ""}
 						amenities={clinic?.amenities ?? []}
 						accessibilities={clinic?.accesibilities ?? []}
+						map={clinic?.map && clinic.map}
 					/>
 				</TabsContent>
 				<TabsContent value="reviews">

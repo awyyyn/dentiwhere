@@ -17,6 +17,7 @@ import Reviews from "./__components/reviews";
 import { reviewsAtom } from "@/atoms/review-atom";
 import { Button } from "@/components/ui/button";
 import { Tooltip } from "@/pages/admin/__components/tooltip";
+import { isEmpty, isUndefined } from "lodash";
 
 export default function SharedClinic({
 	viewOnly = false,
@@ -24,7 +25,6 @@ export default function SharedClinic({
 	viewOnly: boolean;
 }) {
 	const { state } = useLocation();
-	console.log(state, "state qq");
 	const params = useParams();
 	const navigate = useNavigate();
 	const [clinic, setClinic] = useAtom(clinicWithDoctorAtom);
@@ -34,13 +34,19 @@ export default function SharedClinic({
 	useEffect(() => {
 		(async () => {
 			setLoading(true);
-			if (typeof params.id === "undefined") {
-				return navigate("/clinics");
+			if (isEmpty(params.id) || isUndefined(params.id)) {
+				setLoading(false);
+				return navigate("/clinics", { replace: true });
+			} else {
+				try {
+					const response = await getClinic(parseInt(params.id));
+					setReviews(response.reviews ?? []);
+					setClinic(response);
+					setLoading(false);
+				} catch {
+					return navigate("/clinics", { replace: true });
+				}
 			}
-			const response = await getClinic(parseInt(params.id));
-			setReviews(response.reviews ?? []);
-			setClinic(response);
-			setLoading(false);
 		})();
 	}, [params.id]);
 

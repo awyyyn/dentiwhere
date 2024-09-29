@@ -12,7 +12,8 @@ interface OpenStreetMapProps {
 	pinning?: boolean;
 	defaultCenter?: [number, number];
 	showMarker?: boolean;
-	handleChange?: (val: { lat: number; lng: number }) => void;
+	interactive?: boolean;
+	handleChange?: (val: { lat: number; lng: number }, address: string) => void;
 }
 
 const OpenStreetMap = ({
@@ -38,6 +39,7 @@ const OpenStreetMap = ({
 			proximity: [{ type: "map-center" }],
 			noResultsMessage: "Not found",
 			marker: false,
+			debounceSearch: 800,
 			bbox: [123.210297, 13.006565, 123.64151, 13.318803],
 			// 123.210297,13.006565,123.641510,13.318803
 			excludeTypes: true,
@@ -56,14 +58,26 @@ const OpenStreetMap = ({
 			terrainControl: true,
 			scaleControl: true,
 			geolocate: "POINT",
-			fullscreenControl: "bottom-left",
+			fullscreenControl: "top-left",
 			geolocateControl: true,
+			// interactive: interactive,
 		})
 			.addControl(gc)
-			.on("click", (e) => {
+			.on("click", async (e) => {
 				if (pinning && handleChange) {
 					marker.setLngLat(e.lngLat).addTo(map.current);
-					handleChange({ lat: e.lngLat.lat, lng: e.lngLat.lng });
+					const res = await maptiler.geocoding.reverse(
+						[e.lngLat.lng, e.lngLat.lat],
+						{
+							language: "en",
+							types: ["region", "country", "subregion"],
+							excludeTypes: true,
+							limit: 1,
+						}
+					);
+					const placeName =
+						res.features.length > 0 ? res.features[0].place_name_en : "";
+					handleChange({ lat: e.lngLat.lat, lng: e.lngLat.lng }, placeName);
 				}
 			});
 		if (showMarker) {
@@ -71,7 +85,6 @@ const OpenStreetMap = ({
 		}
 
 		setLoading(false);
-		return () => map.current.remove();
 	}, []);
 
 	if (loading) return <Loader />;

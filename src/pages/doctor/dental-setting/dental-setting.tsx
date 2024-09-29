@@ -147,9 +147,7 @@ export default function DentalSetting() {
 						</ToggleGroup>
 					</div>
 				</div>
-				{manage === "view" && (
-					<PreviewClinic viewOnly id={Number(clinic?.id)} />
-				)}
+				{manage === "view" && <PreviewClinic id={Number(clinic?.id)} />}
 				{manage === "clinic" && <AddEditClinicForm edit clinic={clinic} />}
 				{manage === "categories" && <ManageCategories />}
 				{manage === "services" && <ManageServices />}

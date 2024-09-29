@@ -53,7 +53,11 @@ export default function About({
 					<Separator className="w-full h-1 bg-1/20 " />
 					<div>
 						<h1 className="md:text-2xl font-bold tracking-wider">Map</h1>
-						<Map defaultCenter={[map.lat, map.lng]} showMarker />
+						<Map
+							defaultCenter={[map.lng, map.lat]}
+							showMarker
+							interactive={false}
+						/>
 					</div>
 				</>
 			)}

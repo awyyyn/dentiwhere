@@ -2,6 +2,7 @@ import { Clinic, ClinicWithDoctor, DBClinic } from "@/types/types";
 import { db } from "@/utils/supabase";
 import { ERR_INTERNAL } from "@/constants/errors.ts";
 import { isEmpty } from "lodash";
+import { getUnixTime } from "date-fns";
 
 const transformClinic = (clinic: DBClinic): Clinic => {
 	return {
@@ -237,18 +238,20 @@ export const getClinic = async (id: number): Promise<ClinicWithDoctor> => {
 			createdAt: cat.created_at,
 			updatedAt: cat.updated_at,
 		})),
-		reviews: response.data?.reviews?.map((review) => {
-			return {
-				id: review.id,
-				clinicId: review.clinic_id,
-				name: review.name,
-				uuid: review.uuid,
-				review: review.review ?? "",
-				rate: review.rate ?? undefined,
-				createdAt: review.created_at,
-				updatedAt: review.updated_at,
-			};
-		}),
+		reviews: response.data?.reviews
+			?.map((review) => {
+				return {
+					id: review.id,
+					clinicId: review.clinic_id,
+					name: review.name,
+					uuid: review.uuid,
+					review: review.review ?? "",
+					rate: review.rate ?? undefined,
+					createdAt: review.created_at,
+					updatedAt: review.updated_at,
+				};
+			})
+			.sort((a, b) => getUnixTime(b.createdAt) - getUnixTime(a.createdAt)),
 	};
 };
 

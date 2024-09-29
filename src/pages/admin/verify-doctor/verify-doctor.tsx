@@ -21,8 +21,9 @@ export const VerifyDoctor = () => {
 			if (!params.id) {
 				toast({
 					variant: "destructive",
-					title: "Error: Not found",
-					description: "The doctor is not found",
+					title: "Doctor Not Found",
+					description:
+						"The specified doctor could not be found. Please check the details and try again.",
 				});
 				return navigate("/doctors", { replace: true });
 			}

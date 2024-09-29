@@ -8,7 +8,7 @@ import {
 	DialogContent,
 	DialogHeader,
 	DialogTitle,
-	DialogOverlay
+	DialogOverlay,
 } from "@/components/ui/dialog";
 import { z } from "zod";
 import {
@@ -37,9 +37,14 @@ import { categoriesAtom } from "@/atoms/category-atom";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { ERR_INTERNAL } from "@/constants/errors";
-import { createCategory, createService, deleteService, updateService } from "@/actions";
+import {
+	createCategory,
+	createService,
+	deleteService,
+	updateService,
+} from "@/actions";
 import { userAtom } from "@/atoms/user-atom";
-import {Label} from "@/components/ui/label.tsx";
+import { Label } from "@/components/ui/label.tsx";
 
 const serviceSchema = z.object({
 	img: z.string().optional(),
@@ -84,7 +89,7 @@ const ServiceDialog = () => {
 	const viewMode = dialogAtom.mode === "view";
 	const createMode = dialogAtom.mode === "create";
 	const editMode = dialogAtom.mode === "edit";
-	const deleteMode = dialogAtom.mode === "delete"
+	const deleteMode = dialogAtom.mode === "delete";
 
 	const onSubmit = async (v: z.infer<typeof serviceSchema>) => {
 		try {
@@ -133,7 +138,7 @@ const ServiceDialog = () => {
 					img: values?.img ?? "",
 				});
 				toast({
-					title: "Service updated successfully",
+					title: "Service created",
 					description: "Service has been updated successfully",
 					variant: "default",
 					className: "bg-emerald-600 text-white",
@@ -149,12 +154,14 @@ const ServiceDialog = () => {
 				});
 				return setLoading(false);
 			} else {
-				await deleteService(Number(values?.id))
-				setServices(services => services.filter(service => service.id !== Number(values?.id)));
-				setValues(null)
+				await deleteService(Number(values?.id));
+				setServices((services) =>
+					services.filter((service) => service.id !== Number(values?.id))
+				);
+				setValues(null);
 				setDialogAtom({ open: false });
 				toast({
-					title: "Service deleted successfully",
+					title: "Service deleted",
 					description: "Service has been deleted successfully",
 					variant: "default",
 					className: "bg-emerald-600 text-white",
@@ -166,7 +173,7 @@ const ServiceDialog = () => {
 			setLoading(false);
 			if (error instanceof Error) {
 				toast({
-					title: "Error in creating service",
+					title: "Service creation error",
 					description: error.message,
 					variant: "destructive",
 				});
@@ -184,7 +191,9 @@ const ServiceDialog = () => {
 			<DialogOverlay className=" backdrop-blur-lg" />
 			<DialogContent removeClose className="">
 				<DialogHeader>
-					<DialogTitle className="mb-">{createMode ? "Add" : editMode ? "Edit" : "Delete"} Service</DialogTitle>
+					<DialogTitle className="mb-">
+						{createMode ? "Add" : editMode ? "Edit" : "Delete"} Service
+					</DialogTitle>
 				</DialogHeader>
 				{deleteMode && <Label>Are you sure to delete this service?</Label>}
 				<Form {...form}>
@@ -290,7 +299,7 @@ const ServiceDialog = () => {
 							name="active"
 							render={({ field }) => (
 								<FormItem>
-									<FormControl >
+									<FormControl>
 										<div className="flex items-center py-2 space-x-3">
 											<FormLabel>Active</FormLabel>
 											<Switch

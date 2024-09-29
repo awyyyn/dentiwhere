@@ -76,7 +76,7 @@ const AccessibilityDialog = () => {
 				});
 				setAccessibilities((params) => [...params, newAccessiblity]);
 				toast({
-					title: "Accessibility created successfully",
+					title: "Accessibility Created",
 					description: "Accessibility has been created successfully",
 					variant: "default",
 					className: "bg-emerald-600 text-white",
@@ -95,7 +95,7 @@ const AccessibilityDialog = () => {
 				});
 
 				toast({
-					title: "Accessibility updated successfully",
+					title: "Accessibility Updated",
 					description: "Accessibility has been updated successfully",
 					variant: "default",
 					className: "bg-emerald-600 text-white",
@@ -126,7 +126,7 @@ const AccessibilityDialog = () => {
 			console.error(error);
 			if (error instanceof Error) {
 				toast({
-					title: "Error in creating service",
+					title: "Accessibility creation error",
 					description: error.message,
 					variant: "destructive",
 				});

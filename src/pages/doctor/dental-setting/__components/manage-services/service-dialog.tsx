@@ -7,7 +7,8 @@ import {
 	DialogContent,
 	DialogHeader,
 	DialogTitle,
-	DialogOverlay, DialogDescription,
+	DialogOverlay,
+	DialogDescription,
 } from "@/components/ui/dialog";
 import { z } from "zod";
 import {
@@ -36,7 +37,12 @@ import { categoriesAtom } from "@/atoms/category-atom";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { ERR_INTERNAL } from "@/constants/errors";
-import { createService, deleteService, updateService, createCategory } from "@/actions";
+import {
+	createService,
+	deleteService,
+	updateService,
+	createCategory,
+} from "@/actions";
 import { userAtom } from "@/atoms/user-atom";
 
 const serviceSchema = z.object({
@@ -85,8 +91,12 @@ const ServiceDialog = () => {
 
 	const handleClose = (type: "edit" | "create" | "delete") => {
 		toast({
-			title: `Service ${type === "edit" ? "updated" : type === "create" ? "created" : "deleted"} successfully`,
-			description: `Service ${type === "edit" ? "updated" : type === "create" ? "created" : "deleted"} successfully`,
+			title: `Service ${
+				type === "edit" ? "updated" : type === "create" ? "created" : "deleted"
+			} successfully`,
+			description: `Service ${
+				type === "edit" ? "updated" : type === "create" ? "created" : "deleted"
+			} successfully`,
 			variant: "default",
 			className: "bg-emerald-600 text-white",
 			duration: 5000,
@@ -95,12 +105,12 @@ const ServiceDialog = () => {
 		setDialogAtom({ open: false });
 		setValues(null);
 		setLoading(false);
-	}
+	};
 
 	const onSubmit = async (v: z.infer<typeof serviceSchema>) => {
 		try {
 			setLoading(true);
-		 	if (createMode) {
+			if (createMode) {
 				const regex = /^\d+$/;
 				let categoryId = v.categoryId;
 				if (!regex.test(categoryId)) {
@@ -120,7 +130,7 @@ const ServiceDialog = () => {
 					img: v.img ?? "",
 				});
 				setServices((p) => p.concat(newService));
-				return handleClose("create")
+				return handleClose("create");
 			} else if (editMode) {
 				const updatedService = await updateService({
 					name: v.name,
@@ -138,18 +148,19 @@ const ServiceDialog = () => {
 						return service;
 					});
 				});
-				return handleClose("edit")
+				return handleClose("edit");
 			} else {
-
-			 	await deleteService(Number(values?.id))
-				setServices(services => services.filter(service => service.id !== Number(values?.id)))
-				return handleClose("delete")
+				await deleteService(Number(values?.id));
+				setServices((services) =>
+					services.filter((service) => service.id !== Number(values?.id))
+				);
+				return handleClose("delete");
 			}
 		} catch (error) {
 			setLoading(false);
 			if (error instanceof Error) {
 				toast({
-					title: "Error in creating service",
+					title: "Service creation error",
 					description: error.message,
 					variant: "destructive",
 				});
@@ -167,8 +178,14 @@ const ServiceDialog = () => {
 			<DialogOverlay className=" backdrop-blur-lg" />
 			<DialogContent removeClose className="">
 				<DialogHeader>
-					<DialogTitle className="mb-">{editMode ? "Edit" : createMode ? "Add" : "Delete"} Service</DialogTitle>
-					{deleteMode && <DialogDescription>Are you sure to delete this service?</DialogDescription>}
+					<DialogTitle className="mb-">
+						{editMode ? "Edit" : createMode ? "Add" : "Delete"} Service
+					</DialogTitle>
+					{deleteMode && (
+						<DialogDescription>
+							Are you sure to delete this service?
+						</DialogDescription>
+					)}
 				</DialogHeader>
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">

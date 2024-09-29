@@ -46,8 +46,8 @@ export const VerifyDialog = () => {
 			});
 
 			toast({
-				title: "Verify Doctor Account",
-				description: "Doctor Account has been verified!",
+				title: "Doctor Account Verified",
+				description: "The doctor's account has been successfully verified.",
 				variant: "default",
 				className: "bg-emerald-500 text-white",
 			});
@@ -56,8 +56,9 @@ export const VerifyDialog = () => {
 		} catch (error) {
 			console.error(error);
 			toast({
-				title: "Error verifying account",
-				description: "An error occurred while verifying account.",
+				title: "Verification Error",
+				description:
+					"An error occurred while verifying the doctor's account. Please try again later.",
 				variant: "destructive",
 			});
 		}

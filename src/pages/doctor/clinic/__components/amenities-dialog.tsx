@@ -71,7 +71,7 @@ const AmenityDialog = () => {
 				});
 				setAmenities((params) => [...params, newAmenity]);
 				toast({
-					title: "Amenity created successfully",
+					title: "Amenity created",
 					description: "Amenity has been created successfully",
 					variant: "default",
 					className: "bg-emerald-600 text-white",
@@ -90,8 +90,8 @@ const AmenityDialog = () => {
 				});
 
 				toast({
-					title: "Service updated successfully",
-					description: "Service has been updated successfully",
+					title: "Amenity updated",
+					description: "Amenity has been updated successfully",
 					variant: "default",
 					className: "bg-emerald-600 text-white",
 					duration: 5000,
@@ -119,7 +119,7 @@ const AmenityDialog = () => {
 			setLoading(false);
 			if (error instanceof Error) {
 				toast({
-					title: "Error in creating service",
+					title: "Amenity creation error",
 					description: error.message,
 					variant: "destructive",
 				});

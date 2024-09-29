@@ -44,15 +44,16 @@ export default function Reviews({ doctorId }: ReviewsProps) {
 			setReview("");
 			setLoading(false);
 			toast({
-				title: "Review Sent!",
-				description: "Your review has been sent",
+				title: "Review Submitted",
+				description: "Thank you! Your review has been successfully submitted.",
 				className: "bg-emerald-600 text-white",
 			});
 		} catch {
 			setLoading(false);
 			toast({
-				title: "ERROR!",
-				description: "Something went wrong, please try again later.",
+				title: "Submission Error",
+				description:
+					"An error occurred while submitting your review. Please try again later.",
 				variant: "destructive",
 			});
 		}

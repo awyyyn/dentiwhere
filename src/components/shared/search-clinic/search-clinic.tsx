@@ -54,8 +54,9 @@ export default function SearchClinic() {
 				setLoading(false);
 				setDefaultClinics([]);
 				toast({
-					title: "Error",
-					description: "An error occurred, Please try again late.",
+					title: "Search Error",
+					description:
+						"An error occurred while searching for clinics. Please try again later.",
 					variant: "destructive",
 				});
 			}

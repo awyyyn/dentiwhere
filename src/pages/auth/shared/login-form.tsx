@@ -20,11 +20,11 @@ import { useState } from "react";
 import { ImSpinner2 } from "react-icons/im";
 import { notificationsAtom } from "@/atoms/notification-atom";
 import { Status } from "@/types/types";
-import {categoriesAtom} from "@/atoms/category-atom.ts";
-import {servicesAtom} from "@/atoms/service-atom.ts";
-import {amenitiesAtom} from "@/atoms/amenity-atom.ts";
-import {accessibilitiesAtom} from "@/atoms/accessibility-atom.ts";
-import {getClinicByDoctor} from "@/actions/clinic.ts";
+import { categoriesAtom } from "@/atoms/category-atom.ts";
+import { servicesAtom } from "@/atoms/service-atom.ts";
+import { amenitiesAtom } from "@/atoms/amenity-atom.ts";
+import { accessibilitiesAtom } from "@/atoms/accessibility-atom.ts";
+import { getClinicByDoctor } from "@/actions/clinic.ts";
 
 const formSchema = z.object({
 	email: z.string().email({
@@ -41,10 +41,10 @@ export default function LoginForm() {
 	const navigate = useNavigate();
 	const setUser = useSetAtom(userAtom);
 	const setNotifications = useSetAtom(notificationsAtom);
-	const setCategories = useSetAtom(categoriesAtom)
+	const setCategories = useSetAtom(categoriesAtom);
 	const setServices = useSetAtom(servicesAtom);
 	const setAmenities = useSetAtom(amenitiesAtom);
-	const setAccessibilities = useSetAtom(accessibilitiesAtom)
+	const setAccessibilities = useSetAtom(accessibilitiesAtom);
 	const [loading, setLoading] = useState(false);
 
 	const form = useForm<z.infer<typeof formSchema>>({
@@ -65,8 +65,8 @@ export default function LoginForm() {
 			setNotifications(data.notifications ?? []);
 			if (data.status === Status.unverified) {
 				toast({
-					title: "Complete profile setup ",
-					description: "Complete your profile setup to get started.",
+					title: "Complete Profile Information",
+					description: "Please complete your profile information to proceed.",
 					variant: "default",
 					action: (
 						<Button
@@ -83,12 +83,12 @@ export default function LoginForm() {
 					duration: 5000,
 				});
 			}
-			if(data.clinicId !== 0){
+			if (data.clinicId !== 0) {
 				const clinic = await getClinicByDoctor(data.id);
-				setCategories(clinic.categories ?? [])
+				setCategories(clinic.categories ?? []);
 				setServices(clinic.services ?? []);
 				setAmenities(clinic.amenities ?? []);
-				setAccessibilities(clinic.accesibilities ?? [])
+				setAccessibilities(clinic.accesibilities ?? []);
 			}
 			setLoading(false);
 			navigate("/", {
@@ -97,8 +97,9 @@ export default function LoginForm() {
 		} catch {
 			setLoading(false);
 			toast({
-				title: "Error",
-				description: ERR_INTERNAL,
+				title: "Login Error",
+				description:
+					"An error occurred while logging in. Please check your credentials and try again.",
 				variant: "destructive",
 			});
 		}

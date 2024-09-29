@@ -58,8 +58,9 @@ export default function Password() {
 			});
 
 			toast({
-				title: "Password reset successful",
-				description: "Your password has been reset successfully",
+				title: "Password Reset Successful",
+				description:
+					"Your password has been reset successfully. You can now log in with your new password.",
 				variant: "default",
 				className: "bg-emerald-500 text-white",
 				duration: 5000,

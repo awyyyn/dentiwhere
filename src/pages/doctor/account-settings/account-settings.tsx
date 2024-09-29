@@ -190,13 +190,15 @@ export default function AccountSettings() {
 				});
 				toast({
 					title: "Profile Updated",
-					description: "Please wait for the admin to verify your account",
+					description:
+						"Please wait for the admin to verify your account. You will be notified once the verification is complete.",
 					className: "bg-emerald-500 text-white",
 				});
 			} else {
 				toast({
 					title: "Profile Updated",
-					description: "Your profile has been updated successfully",
+					description:
+						"Your profile has been updated successfully. All changes have been saved.",
 					className: "bg-emerald-500 text-white",
 				});
 			}

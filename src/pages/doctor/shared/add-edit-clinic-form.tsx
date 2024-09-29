@@ -200,15 +200,16 @@ const AddClinic = ({
 					setLoading(false);
 					return toast({
 						title: "Failed to update your clinic information",
-						description: "An error occured while updating your clinic",
+						description: "An error occurred while updating your clinic",
 						variant: "destructive",
 					});
 				}
 			}
 			setLoading(false);
 			toast({
-				title: "Updated successfully",
-				description: "Your clinic has been updated successfully",
+				title: "Clinic Updated",
+				description:
+					"Your clinic information has been updated successfully. All changes have been saved.",
 				variant: "default",
 				className: "bg-emerald-600 text-white",
 			});
@@ -268,8 +269,9 @@ const AddClinic = ({
 				setPlaceholder("");
 				setLoading(false);
 				toast({
-					title: "Created successfully",
-					description: "Your clinic has been created successfully",
+					title: "Clinic Created",
+					description:
+						"Your clinic has been created successfully. You can now manage your clinic details.",
 					variant: "default",
 					className: "bg-emerald-600 text-white",
 				});
@@ -280,8 +282,8 @@ const AddClinic = ({
 
 				if (err.message.includes("clinic")) {
 					return toast({
-						title: "Error",
-						description: "An error occured while creating your clinic",
+						title: "Failed to update your clinic information",
+						description: "An error occurred while creating your clinic",
 						variant: "destructive",
 					});
 				}
@@ -290,7 +292,7 @@ const AddClinic = ({
 					toast({
 						title: "Failed to create amenities",
 						description:
-							"An error occured while creating your clinic amenities",
+							"An error occurred while creating your clinic amenities",
 						variant: "destructive",
 					});
 
@@ -301,7 +303,7 @@ const AddClinic = ({
 					toast({
 						title: "Failed to create accessibilities",
 						description:
-							"An error occured while creating your clinic accessibilities",
+							"An error occurred while creating your clinic accessibilities",
 						variant: "destructive",
 					});
 

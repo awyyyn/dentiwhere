@@ -71,8 +71,8 @@ export default function SignUpForm() {
 			});
 
 			toast({
-				title: "Complete profile setup ",
-				description: "Complete your profile setup to get started.",
+				title: "Complete Profile Information",
+				description: "Please complete your profile information to proceed.",
 				variant: "default",
 				action: (
 					<Button

@@ -71,8 +71,8 @@ const CategoryDialog = () => {
 				});
 				setCategories((params) => [...params, newCategory]);
 				toast({
-					title: "Service created successfully",
-					description: "Service has been created successfully",
+					title: "Category created",
+					description: "Category has been created successfully",
 					variant: "default",
 					className: "bg-emerald-600 text-white",
 					duration: 5000,
@@ -90,8 +90,8 @@ const CategoryDialog = () => {
 				});
 
 				toast({
-					title: "Service updated successfully",
-					description: "Service has been updated successfully",
+					title: "Category updated",
+					description: "Category has been updated successfully",
 					variant: "default",
 					className: "bg-emerald-600 text-white",
 					duration: 5000,
@@ -119,7 +119,7 @@ const CategoryDialog = () => {
 			setLoading(false);
 			if (error instanceof Error) {
 				toast({
-					title: "Error in creating service",
+					title: "Category creation error",
 					description: error.message,
 					variant: "destructive",
 				});

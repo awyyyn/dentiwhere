@@ -126,7 +126,7 @@ const AccessibilityDialog = () => {
 			console.error(error);
 			if (error instanceof Error) {
 				toast({
-					title: "Error in creating service",
+					title: "Accessibility creation error",
 					description: error.message,
 					variant: "destructive",
 				});

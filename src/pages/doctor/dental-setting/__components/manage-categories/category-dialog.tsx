@@ -117,7 +117,7 @@ const CategoryDialog = () => {
 			setLoading(false);
 			if (error instanceof Error) {
 				toast({
-					title: "Error in creating service",
+					title: "Category creation error",
 					description: error.message,
 					variant: "destructive",
 				});

@@ -63,7 +63,10 @@ export type Clinic = {
 	website?: string;
 	description?: string;
 	img: string;
-	map?: string;
+	map?: {
+		lat: number;
+		lng: number;
+	};
 	services?: Service[];
 	amenities?: Amenities[];
 	accesibilities?: Accessibility[];

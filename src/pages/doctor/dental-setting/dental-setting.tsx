@@ -17,8 +17,10 @@ import { Tooltip } from "@/pages/admin/__components/tooltip";
 import { MdCategory, MdMedicalInformation } from "react-icons/md";
 import { TbDental } from "react-icons/tb";
 import { Accessibility, Building } from "lucide-react";
+import PreviewClinic from "./__components/preview-clinic/preview-clinic.tsx";
 
 type Manage =
+	| "view"
 	| "clinic"
 	| "categories"
 	| "services"
@@ -69,6 +71,18 @@ export default function DentalSetting() {
 										<span className="hidden md:block">
 											Manage Clinic Information
 										</span>
+									</p>
+								</Tooltip>
+							</ToggleGroupItem>
+							<ToggleGroupItem className={toggleGroupItemStyle} value="view">
+								<Tooltip
+									className="block translate-y-2 lg:hidden"
+									tooltip="Preview Clinic"
+									side="bottom"
+									delayDuration={300}>
+									<p>
+										<MdMedicalInformation size={18} className="md:hidden" />
+										<span className="hidden md:block">Preview Clinic</span>
 									</p>
 								</Tooltip>
 							</ToggleGroupItem>
@@ -133,6 +147,7 @@ export default function DentalSetting() {
 						</ToggleGroup>
 					</div>
 				</div>
+				{manage === "view" && <PreviewClinic id={Number(clinic?.id)} />}
 				{manage === "clinic" && <AddEditClinicForm edit clinic={clinic} />}
 				{manage === "categories" && <ManageCategories />}
 				{manage === "services" && <ManageServices />}

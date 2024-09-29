@@ -1,6 +1,7 @@
 import { Clinic, ClinicWithDoctor, DBClinic } from "@/types/types";
 import { db } from "@/utils/supabase";
 import { ERR_INTERNAL } from "@/constants/errors.ts";
+import { isEmpty } from "lodash";
 
 const transformClinic = (clinic: DBClinic): Clinic => {
 	return {
@@ -35,6 +36,12 @@ export const createClinic = async (
 			contacts: inputs.contacts,
 			description: inputs.description,
 			img: inputs.img,
+			map: inputs.map
+				? {
+						lat: inputs.map.lat,
+						lng: inputs.map.lng,
+				  }
+				: null,
 		})
 		.select()
 		.maybeSingle();
@@ -65,9 +72,14 @@ export const updateClinic = async (
 			description: inputs.description,
 			email: inputs.email,
 			website: inputs.website,
-			map: inputs.map,
 			name: inputs.name,
 			img: inputs.img,
+			map: inputs.map
+				? {
+						lat: inputs.map.lat,
+						lng: inputs.map.lng,
+				  }
+				: null,
 		})
 		.eq("id", inputs.id)
 		.select()
@@ -114,7 +126,12 @@ export const getClinicByDoctor = async (id: number): Promise<Clinic> => {
 		updatedAt: response.data[0]?.updated_at as string,
 		doctorId: Number(response.data[0]?.doctor_id),
 		archive: response.data[0]?.archive,
-		map: response.data[0]?.map || "",
+		map: !isEmpty(response.data[0]?.map)
+			? {
+					lat: Number((response.data[0].map as Clinic["map"])?.lat),
+					lng: Number((response.data[0].map as Clinic["map"])?.lng),
+			  }
+			: undefined,
 		services: response.data[0]?.services.map((service) => ({
 			img: service.img!,
 			name: service.name,
@@ -176,6 +193,12 @@ export const getClinic = async (id: number): Promise<ClinicWithDoctor> => {
 
 	return {
 		...transformClinic(response.data),
+		map: !isEmpty(response.data.map)
+			? {
+					lat: Number((response.data.map as Clinic["map"])?.lat),
+					lng: Number((response.data.map as Clinic["map"])?.lng),
+			  }
+			: undefined,
 		doctor: ` ${response.data.user?.first_name ?? ""} ${
 			response.data.user?.last_name ?? ""
 		}`,
@@ -243,6 +266,12 @@ export const getAllClinics = async (): Promise<ClinicWithDoctor[]> => {
 			...transformClinic(d),
 			doctor: ` ${d.user?.first_name ?? ""} ${d.user?.last_name ?? ""}`,
 			status: d.archive ? "INACTIVE" : "ACTIVE",
+			map: !isEmpty(d?.map)
+				? {
+						lat: Number((d?.map as Clinic["map"])?.lat),
+						lng: Number((d?.map as Clinic["map"])?.lng),
+				  }
+				: undefined,
 		};
 	}) as ClinicWithDoctor[];
 };
@@ -265,6 +294,12 @@ export const searchClinic = async (
 						clinic.user?.last_name ?? ""
 					}`,
 					status: clinic.archive ? "INACTIVE" : "ACTIVE",
+					map: !isEmpty(clinic?.map)
+						? {
+								lat: Number((clinic?.map as Clinic["map"])?.lat),
+								lng: Number((clinic?.map as Clinic["map"])?.lng),
+						  }
+						: undefined,
 				};
 		  })
 		: [];
@@ -286,6 +321,12 @@ export const getBoostedClinics = async (): Promise<ClinicWithDoctor[]> => {
 						clinic.user?.last_name ?? ""
 					}`,
 					status: clinic.archive ? "INACTIVE" : "ACTIVE",
+					map: !isEmpty(clinic?.map)
+						? {
+								lat: Number((clinic?.map as Clinic["map"])?.lat),
+								lng: Number((clinic?.map as Clinic["map"])?.lng),
+						  }
+						: undefined,
 				};
 		  })
 		: [];

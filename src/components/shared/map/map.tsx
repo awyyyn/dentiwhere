@@ -24,7 +24,7 @@ const OpenStreetMap = ({
 }: OpenStreetMapProps) => {
 	const mapContainer = useRef(null);
 	const map = useRef<any>(null);
-	const [center, setCenter] = useState(defaultCenter);
+	const [center] = useState(defaultCenter);
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {

@@ -1,7 +1,13 @@
-import AddEditClinicForm from "../../shared/add-edit-clinic-form.tsx";
-import Layout from "./layout.tsx";
 import { useAtomValue } from "jotai";
-import { userAtom } from "@/atoms/user-atom.ts";
+
+/* STATES */
+import { userAtom } from "@/atoms";
+
+/* LAYOUTS */
+import Layout from "./layout.tsx";
+
+/* COMPONENTS */
+import AddEditClinicForm from "../../shared/add-edit-clinic-form.tsx";
 
 export default function AddClinic() {
 	const user = useAtomValue(userAtom);

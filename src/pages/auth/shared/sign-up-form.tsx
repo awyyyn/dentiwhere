@@ -1,6 +1,23 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Link, useNavigate } from "react-router-dom";
+import { useSetAtom } from "jotai";
+import { useState } from "react";
+
+/* ACTIONS */
+import { createUser } from "@/actions";
+
+/* STATES */
+import { userAtom } from "@/atoms";
+
+/* HOOKS */
+import { useToast } from "@/hooks/use-toast";
+
+/* TYPES */
+import { Role } from "@/types/types";
+
+/* COMPONENTS */
 import {
 	Form,
 	FormControl,
@@ -10,14 +27,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Link, useNavigate } from "react-router-dom";
-import { createUser } from "@/actions";
-import { Role } from "@/types/types";
+
+/* CONSTANTS */
 import { ERR_INTERNAL } from "@/constants/errors";
-import { useToast } from "@/hooks/use-toast";
-import { userAtom } from "@/atoms/user-atom";
-import { useSetAtom } from "jotai";
-import { useState } from "react";
+
+/* ASSETS */
 import { ImSpinner2 } from "react-icons/im";
 
 const formSchema = z.object({

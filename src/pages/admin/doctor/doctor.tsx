@@ -1,12 +1,18 @@
-import { getOneDoctor } from "@/actions/user";
-import { doctorAtom } from "@/atoms/doctors-atom";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+
+/* ACTIONS */
+import { getOneDoctor } from "@/actions";
+
+/* STATES */
+import { doctorAtom } from "@/atoms";
+
+/* COMPONENTS */
+import { Input } from "@/components/ui/input";
 import ImgDialog from "../__components/img-dialog.tsx";
 import { Loader } from "@/components/shared/loader/loader.tsx";
+import { Label } from "@/components/ui/label";
 
 export default function Doctor() {
 	const params = useParams();

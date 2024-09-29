@@ -33,7 +33,7 @@ import {
 } from "@/components/ui/table";
 import { User } from "@/types/types";
 import { BadgeCheck, BadgeX, CircleEllipsis } from "lucide-react";
-import { Tooltip } from "./tooltip";
+import { Tooltip } from "../../../components/shared/tooltip/tooltip";
 import { Link } from "react-router-dom";
 
 export const columns: ColumnDef<User>[] = [
@@ -125,13 +125,13 @@ export const columns: ColumnDef<User>[] = [
 									View Doctor Details
 								</DropdownMenuItem>
 							</Link>
-							{status === "PENDING" &&
+							{status === "PENDING" && (
 								<Link to={`verify/${row.getValue("id")}`}>
 									<DropdownMenuItem className="cursor-pointer hover:bg-gray-800/10">
 										Verify Doctor
 									</DropdownMenuItem>
 								</Link>
-							}
+							)}
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</div>

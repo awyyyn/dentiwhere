@@ -4,7 +4,7 @@ import { AsyncImage } from "loadable-image";
 import { Blur } from "transitions-kit";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
-import { Tooltip } from "@/pages/admin/__components/tooltip";
+import { Tooltip } from "@/components/shared/tooltip/tooltip";
 import { useNavigate } from "react-router-dom";
 
 export default function CommonConditions() {

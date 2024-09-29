@@ -12,7 +12,14 @@ import {
 	getSortedRowModel,
 	useReactTable,
 } from "@tanstack/react-table";
+import { Link } from "react-router-dom";
+import { useAtomValue } from "jotai";
 
+/* STATES */
+import { clinicsAtom } from "@/atoms";
+
+/* COMPONENTS */
+import { ActivateDeactivateClinic } from "./activate-deactivate-dialog";
 import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
@@ -31,13 +38,13 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { ClinicWithDoctor } from "@/types/types";
+import { Tooltip } from "../../../components/shared/tooltip/tooltip";
+
+/* ASSETS */
 import { CircleCheck, CircleX } from "lucide-react";
-import { Tooltip } from "./tooltip";
-import { Link } from "react-router-dom";
-import { ActivateDeactivateClinic } from "./activate-deactivate-dialog";
-import { useAtomValue } from "jotai";
-import { clinicsAtom } from "@/atoms/clinic-atom";
+
+/* TYPES */
+import { ClinicWithDoctor } from "@/types/types";
 
 export default function ClinicsTable() {
 	const [sorting, setSorting] = React.useState<SortingState>([]);

@@ -1,14 +1,18 @@
-import { Button } from "@/components/ui/button";
-import AmenityDialog from "./amenities-dialog";
-import AccessibilityDialog from "./accesibility-dialog";
+import { useAtomValue, useSetAtom } from "jotai";
+
+/* STATES */
 import {
 	accessbilityDialogAtom,
 	amenitiesDialogAtom,
-} from "@/atoms/dialogs-atom";
-import { useAtomValue, useSetAtom } from "jotai";
-import { amenitiesAtom } from "@/atoms/amenity-atom";
-import { accessibilitiesAtom } from "@/atoms/accessibility-atom";
+	amenitiesAtom,
+	accessibilitiesAtom,
+} from "@/atoms";
+
+/* COMPONENTS */
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import AmenityDialog from "./amenities-dialog";
+import AccessibilityDialog from "./accesibility-dialog";
 
 export default function About() {
 	const accessibilites = useAtomValue(accessibilitiesAtom);

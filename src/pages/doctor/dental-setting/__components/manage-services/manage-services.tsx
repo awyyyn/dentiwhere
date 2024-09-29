@@ -1,4 +1,5 @@
-import { Service } from "@/types/types.ts";
+import { useState } from "react";
+import { useAtomValue, useSetAtom } from "jotai";
 import {
 	ColumnDef,
 	ColumnFiltersState,
@@ -10,6 +11,15 @@ import {
 	SortingState,
 	useReactTable,
 } from "@tanstack/react-table";
+
+/* STATES */
+import { serviceDataAtom, servicesAtom, serviceDialogAtom } from "@/atoms";
+
+/* TYPES */
+import { Service } from "@/types/types.ts";
+
+/* COMPONENTS */
+import { Tooltip } from "@/components/shared/tooltip/tooltip.tsx";
 import {
 	Table,
 	TableBody,
@@ -18,24 +28,20 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table.tsx";
-import {useAtomValue, useSetAtom} from "jotai";
-import { useState } from "react";
 import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import ServiceDialog from "./service-dialog.tsx";
-import { serviceDialogAtom} from "@/atoms/dialogs-atom.ts";
-import { Edit, Trash2} from "lucide-react";
-import { Tooltip } from "@/pages/admin/__components/tooltip.tsx";
-import { serviceDataAtom, servicesAtom } from "@/atoms/service-atom.ts";
+
+/* ASSETS */
+import { Edit, Trash2 } from "lucide-react";
 
 export default function ManageServices() {
-	const services  = useAtomValue(servicesAtom);
+	const services = useAtomValue(servicesAtom);
 	const setServiceData = useSetAtom(serviceDataAtom);
 	const setServiceDialog = useSetAtom(serviceDialogAtom);
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 	const [globalFilter, setGlobalFilter] = useState("");
-
 
 	const columns: ColumnDef<Service>[] = [
 		{
@@ -49,54 +55,67 @@ export default function ManageServices() {
 			accessorKey: "name",
 			header: "Name",
 			enableHiding: false,
-			cell: ({ row }) => <h1 className="first-letter:uppercase"> {row.getValue("name")}</h1>,
+			cell: ({ row }) => (
+				<h1 className="first-letter:uppercase"> {row.getValue("name")}</h1>
+			),
 		},
 		{
 			accessorKey: "description",
-			header: () => <h1 className="max-w-[20px] sm:max-w-max truncate">Description</h1>,
+			header: () => (
+				<h1 className="max-w-[20px] sm:max-w-max truncate">Description</h1>
+			),
 			enableHiding: false,
-			cell: ({ row }) => <h1 className="w-[]"> {row.getValue("description")}</h1>,
+			cell: ({ row }) => (
+				<h1 className="w-[]"> {row.getValue("description")}</h1>
+			),
 		},
 		{
 			accessorKey: "active",
-			header: () => <h1 className="max-w-[20px] sm:max-w-max truncate">Availability</h1>,
+			header: () => (
+				<h1 className="max-w-[20px] sm:max-w-max truncate">Availability</h1>
+			),
 			enableHiding: false,
-			cell: ({ row }) => <h1 className="w-[]"> {row.getValue("active") === true ? "Yes" : "No"}</h1>,
+			cell: ({ row }) => (
+				<h1 className="w-[]">
+					{" "}
+					{row.getValue("active") === true ? "Yes" : "No"}
+				</h1>
+			),
 		},
 		{
 			id: "actions",
 			enableHiding: false,
 			header: () => <div className=" text-right pr-4  ">Actions</div>,
-			cell: ({ row, }) => {
-				return <div className="flex gap-1 justify-end ">
-					<Tooltip tooltip="Edit" delayDuration={500}  side="left">
-						<Button
-							size="icon"
-							className="bg-emerald-600 hover:bg-emerald-600"
-							onClick={() =>  {
-								setServiceData(row.original)
-								setServiceDialog({mode: "edit", open: true});
-							}}>
-							<Edit size={18} />
-						</Button>
-					</Tooltip>
-					<Tooltip tooltip="Delete" delayDuration={500} >
-						<Button
-							size="icon"
-							variant="destructive"
-							onClick={() => {
-								setServiceData(row.original)
-								setServiceDialog({mode: "delete", open: true})
-							}}>
-							<Trash2 size={18} />
-						</Button>
-					</Tooltip>
-				</div>;
+			cell: ({ row }) => {
+				return (
+					<div className="flex gap-1 justify-end ">
+						<Tooltip tooltip="Edit" delayDuration={500} side="left">
+							<Button
+								size="icon"
+								className="bg-emerald-600 hover:bg-emerald-600"
+								onClick={() => {
+									setServiceData(row.original);
+									setServiceDialog({ mode: "edit", open: true });
+								}}>
+								<Edit size={18} />
+							</Button>
+						</Tooltip>
+						<Tooltip tooltip="Delete" delayDuration={500}>
+							<Button
+								size="icon"
+								variant="destructive"
+								onClick={() => {
+									setServiceData(row.original);
+									setServiceDialog({ mode: "delete", open: true });
+								}}>
+								<Trash2 size={18} />
+							</Button>
+						</Tooltip>
+					</div>
+				);
 			},
 		},
-
 	];
-
 
 	const table = useReactTable({
 		data: services,
@@ -116,7 +135,6 @@ export default function ManageServices() {
 		},
 	});
 
-
 	return (
 		<div className="sm:mr-5 sm:ml-2 ">
 			<h1 className="mb-5 text-xl lg:text-3xl ">Services</h1>
@@ -129,12 +147,16 @@ export default function ManageServices() {
 						className="max-w-sm"
 					/>
 					<div className="flex w-full md:max-w-fit">
-						<Button className="w-full" onClick={() => setServiceDialog({mode: "create", open: true})}>Add Service</Button>
+						<Button
+							className="w-full"
+							onClick={() => setServiceDialog({ mode: "create", open: true })}>
+							Add Service
+						</Button>
 					</div>
 				</div>
 				<div className="rounded-md border">
 					<Table className="">
-						<TableHeader >
+						<TableHeader>
 							{table.getHeaderGroups().map((headerGroup) => (
 								<TableRow key={headerGroup.id} className="">
 									{headerGroup.headers.map((header) => {
@@ -143,9 +165,9 @@ export default function ManageServices() {
 												{header.isPlaceholder
 													? null
 													: flexRender(
-														header.column.columnDef.header,
-														header.getContext()
-													)}
+															header.column.columnDef.header,
+															header.getContext()
+													  )}
 											</TableHead>
 										);
 									})}
@@ -159,7 +181,7 @@ export default function ManageServices() {
 										key={row.id}
 										data-state={row.getIsSelected() && "selected"}>
 										{row.getVisibleCells().map((cell) => (
-											<TableCell  key={cell.id}>
+											<TableCell key={cell.id}>
 												{flexRender(
 													cell.column.columnDef.cell,
 													cell.getContext()

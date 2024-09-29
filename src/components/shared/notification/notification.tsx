@@ -1,5 +1,15 @@
+import { useState } from "react";
+import { format, isSameDay, isYesterday } from "date-fns";
+import { useNavigate } from "react-router-dom";
+import { useAtom } from "jotai";
+
+/* UTILS */
 import { readNotification } from "@/actions";
-import { notificationsAtom } from "@/atoms/notification-atom";
+
+/* STATES */
+import { notificationsAtom } from "@/atoms";
+
+/* COMPONENTS */
 import { Button } from "@/components/ui/button";
 import {
 	Popover,
@@ -7,13 +17,11 @@ import {
 	PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import { Tooltip } from "@/pages/admin/__components/tooltip";
-import { format, isSameDay, isYesterday } from "date-fns";
-import { useAtom } from "jotai";
-import { ChevronRight } from "lucide-react";
-import { useState } from "react";
+import { Tooltip } from "@/components/shared/tooltip/tooltip";
+
+/* ASSETS */
 import { RiNotificationFill } from "react-icons/ri";
-import { useNavigate } from "react-router-dom";
+import { ChevronRight } from "lucide-react";
 
 export default function Notification() {
 	const [notifications, setNotifications] = useAtom(notificationsAtom);

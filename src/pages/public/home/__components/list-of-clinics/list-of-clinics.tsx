@@ -1,10 +1,14 @@
+import { useAtomValue } from "jotai";
+import { useNavigate } from "react-router-dom";
+
+/* STATES */
+import { clinicsLoadable } from "@/atoms";
 import { Button } from "@/components/ui/button";
 import SectionHeader from "../section-header/section-header";
 import Clinic from "./card";
-import { useAtomValue } from "jotai";
-import { clinicsLoadable } from "@/atoms/clinic-atom";
+
+/* COMPONENTS */
 import ClinicSkeleton from "./clinic-skeleton";
-import { useNavigate } from "react-router-dom";
 
 export default function ListOfClinics() {
 	const clinicsLoadableAtom = useAtomValue(clinicsLoadable);

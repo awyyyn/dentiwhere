@@ -1,13 +1,21 @@
-import { Label } from "@/components/ui/label.tsx";
-import { Input } from "@/components/ui/input.tsx";
-import ImgDialog from "@/pages/admin/__components/img-dialog.tsx";
-import { Status } from "@/types/types.ts";
 import { useState } from "react";
-import { VerifyDialog } from "@/pages/admin/__components/verify-dialog.tsx";
-import { Button } from "@/components/ui/button.tsx";
 import { Link } from "react-router-dom";
 import { useAtomValue } from "jotai";
-import { doctorAtom } from "@/atoms/doctors-atom";
+
+/* STATES */
+import { doctorAtom } from "@/atoms";
+
+/* PAGES */
+import { VerifyDialog } from "@/pages/admin/__components/verify-dialog.tsx";
+import ImgDialog from "@/pages/admin/__components/img-dialog.tsx";
+
+/* COMPONENTS */
+import { Button } from "@/components/ui/button.tsx";
+import { Label } from "@/components/ui/label.tsx";
+import { Input } from "@/components/ui/input.tsx";
+
+/* TYPES */
+import { Status } from "@/types/types.ts";
 
 interface SharedClinicProps {
 	verify?: boolean;

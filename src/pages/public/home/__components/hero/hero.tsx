@@ -1,14 +1,17 @@
+import { useSetAtom } from "jotai";
+
+/* STATES */
+import { searchClinicDialogAtom } from "@/atoms";
+
+/* COMPONENTS */
 import InputWithIcon from "@/components/shared/input-with-icon/input-with-icon";
 
+/* ASSETS */
 import { FaSearch } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
-
-/* ASSETS */
 import dentist from "@/assets/images/dentist.png";
 import MiniCalendar from "@/assets/images/mini-calendar.png";
 import logo from "@/assets/svgs/logo.svg";
-import { useSetAtom } from "jotai";
-import { searchClinicDialogAtom } from "@/atoms/dialogs-atom";
 
 export default function Hero() {
 	const setsearchClinicDialogAtom = useSetAtom(searchClinicDialogAtom);

@@ -1,9 +1,17 @@
 import { useEffect, useState } from "react";
-import ClinicsTable from "../__components/clinics-table";
-import { getAllClinics } from "@/actions/clinic";
-import { ImSpinner2 } from "react-icons/im";
 import { useSetAtom } from "jotai";
-import { clinicsAtom } from "@/atoms/clinic-atom";
+
+/* ACTIONS */
+import { getAllClinics } from "@/actions/clinic";
+
+/* STATES */
+import { clinicsAtom } from "@/atoms";
+
+/* COMPONENTS */
+import ClinicsTable from "../__components/clinics-table";
+
+/* ASSETS */
+import { ImSpinner2 } from "react-icons/im";
 
 export default function Clinics() {
 	const setClinics = useSetAtom(clinicsAtom);

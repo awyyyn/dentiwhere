@@ -1,23 +1,30 @@
-import { userAtom } from "@/atoms/user-atom";
+import { useState } from "react";
 import { useAtomValue } from "jotai";
+
+/* STATES */
+import { userAtom, clinicAtom } from "@/atoms";
+
+/* TYPES */
+import { Status } from "@/types/types";
+
+/* COMPONENTS */
 import Layout from "./__components/layout.tsx";
 import NotVerified from "./__components/not-verified.tsx";
 import NoRecord from "./__components/no-record.tsx";
-import { useState } from "react";
-import { Status } from "@/types/types";
 import AddEditClinicForm from "../shared/add-edit-clinic-form";
-import { clinicAtom } from "@/atoms/clinic-atom";
 import AddClinic from "./__components/add-clinic.tsx";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import ManageCategories from "./__components/manage-categories/manage-categories.tsx";
 import ManageServices from "./__components/manage-services/manage-services.tsx";
 import ManageAccesibility from "./__components/manage-accessibilities/manage-accesibility.tsx";
 import ManageAmenities from "./__components/manage-amenities/manage-amenities.tsx";
-import { Tooltip } from "@/pages/admin/__components/tooltip";
+import { Tooltip } from "@/components/shared/tooltip/tooltip.tsx";
+import PreviewClinic from "./__components/preview-clinic/preview-clinic.tsx";
+
+/* ASSETS */
+import { Accessibility, Building } from "lucide-react";
 import { MdCategory, MdMedicalInformation } from "react-icons/md";
 import { TbDental } from "react-icons/tb";
-import { Accessibility, Building } from "lucide-react";
-import PreviewClinic from "./__components/preview-clinic/preview-clinic.tsx";
 
 type Manage =
 	| "view"

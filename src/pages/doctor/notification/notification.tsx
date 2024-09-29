@@ -1,8 +1,14 @@
-import { readNotification } from "@/actions";
-import { notificationsAtom } from "@/atoms/notification-atom";
-import LogoWithText from "@/components/shared/logo-with-text/logo-with-text";
 import { isSameDay, isYesterday, format } from "date-fns";
 import { useAtom } from "jotai";
+
+/* ACTIONS */
+import { readNotification } from "@/actions";
+
+/* STATES */
+import { notificationsAtom } from "@/atoms";
+
+/* COMPONENTS */
+import LogoWithText from "@/components/shared/logo-with-text/logo-with-text";
 
 export default function Notification() {
 	const [notifications, setNotifications] = useAtom(notificationsAtom);

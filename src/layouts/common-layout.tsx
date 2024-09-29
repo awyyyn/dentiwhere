@@ -1,14 +1,22 @@
-import { Button } from "@/components/ui/button";
 import { useLayoutEffect } from "react";
 import l from "lodash";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import ScrollToTop from "react-scroll-up";
-import { SlArrowUp } from "react-icons/sl";
+import { useAtomValue } from "jotai";
+
+/* STATES */
+import { userAtom } from "@/atoms";
+
+/* COMPONENTS */
 import Footer from "@/components/shared/footer/footer";
 import { Toaster } from "@/components/ui/toaster";
-import { useAtomValue } from "jotai";
-import { userAtom } from "@/atoms/user-atom";
+import { Button } from "@/components/ui/button";
+
+/* TYPES */
 import { Role } from "@/types/types";
+
+/* ASSETS */
+import { SlArrowUp } from "react-icons/sl";
 
 export default function CommonLayout() {
 	const { pathname } = useLocation();

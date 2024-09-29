@@ -1,5 +1,18 @@
-import { changePassword } from "@/actions/auth";
-import { userAtom } from "@/atoms/user-atom";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useAtomValue } from "jotai";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+/* ACTIONS */
+import { changePassword } from "@/actions";
+
+/* STATES */
+import { userAtom } from "@/atoms";
+
+/* HOOKS */
+import { useToast } from "@/hooks/use-toast";
+
+/* COMPONENTS */
 import InputWithIcon from "@/components/shared/input-with-icon/input-with-icon";
 import LogoWithText from "@/components/shared/logo-with-text/logo-with-text";
 import { Button } from "@/components/ui/button";
@@ -12,12 +25,9 @@ import {
 	FormMessage,
 	FormDescription,
 } from "@/components/ui/form";
-import { useToast } from "@/hooks/use-toast";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useAtomValue } from "jotai";
-import { useForm } from "react-hook-form";
+
+/* ASSETS */
 import { RiLockPasswordFill } from "react-icons/ri";
-import { z } from "zod";
 
 const passwordSchema = z.object({
 	oldPassword: z.string(),

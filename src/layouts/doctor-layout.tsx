@@ -1,25 +1,34 @@
+import { useEffect, useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { FaUserAlt } from "react-icons/fa";
-import { RiLockPasswordFill } from "react-icons/ri";
-import { Separator } from "@/components/ui/separator";
-import { IoHome, IoLogOut } from "react-icons/io5";
-import { RiNotificationFill } from "react-icons/ri";
-import { RiSettingsFill } from "react-icons/ri";
-import { Button } from "@/components/ui/button";
-import { AlignJustify } from "lucide-react";
+import { useAtomValue, useAtom } from "jotai";
+
+/* UTILS */
+import { db } from "@/utils/supabase";
+
+/* STATES */
+import { notificationsAtom, userAtom } from "@/atoms";
+
+/* TYPES */
+import { Role } from "@/types/types";
+
+/* COMPONENTS */
 import {
 	Sheet,
 	SheetContent,
 	SheetHeader,
 	SheetTitle,
 } from "@/components/ui/sheet";
-import { useEffect, useState } from "react";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 import LogoWithText from "@/components/shared/logo-with-text/logo-with-text";
-import { useAtomValue, useAtom } from "jotai";
-import { userAtom } from "@/atoms/user-atom";
-import { Role } from "@/types/types";
-import { db } from "@/utils/supabase";
-import { notificationsAtom } from "@/atoms/notification-atom";
+
+/* ASSETS */
+import { IoHome, IoLogOut } from "react-icons/io5";
+import { RiNotificationFill } from "react-icons/ri";
+import { FaUserAlt } from "react-icons/fa";
+import { RiLockPasswordFill } from "react-icons/ri";
+import { RiSettingsFill } from "react-icons/ri";
+import { AlignJustify } from "lucide-react";
 
 export default function DoctorLayout() {
 	const user = useAtomValue(userAtom);

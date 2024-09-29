@@ -1,11 +1,16 @@
-import { clinicsLoadable } from "@/atoms/clinic-atom";
 import { useAtomValue } from "jotai";
+import { useNavigate } from "react-router-dom";
+
+/* STATES */
+import { clinicsLoadable } from "@/atoms";
+
+/* COMPONENTS */
+import { Button } from "@/components/ui/button";
+import { Tooltip } from "@/components/shared/tooltip/tooltip";
 import SectionHeader from "../home/__components/section-header/section-header";
 import ClinicCard from "../home/__components/list-of-clinics/card";
-import { useNavigate } from "react-router-dom";
+/* ASSETS */
 import { ChevronLeft } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Tooltip } from "@/pages/admin/__components/tooltip";
 
 export default function Clinics() {
 	const clinicsLoadableAtom = useAtomValue(clinicsLoadable);

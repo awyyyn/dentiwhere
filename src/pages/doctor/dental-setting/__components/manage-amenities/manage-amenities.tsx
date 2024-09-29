@@ -1,5 +1,3 @@
-
-import { Amenities } from "@/types/types.ts";
 import {
 	ColumnDef,
 	ColumnFiltersState,
@@ -11,6 +9,16 @@ import {
 	SortingState,
 	useReactTable,
 } from "@tanstack/react-table";
+import { useAtomValue, useSetAtom } from "jotai";
+import { useState } from "react";
+
+/* STATES */
+import { amenitiesAtom, amenityDataAtom, amenitiesDialogAtom } from "@/atoms";
+
+/* TYPES */
+import { Amenities } from "@/types/types.ts";
+
+/* COMPONENTS */
 import {
 	Table,
 	TableBody,
@@ -19,24 +27,21 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table.tsx";
-import {useAtomValue, useSetAtom} from "jotai";
-import { useState } from "react";
 import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import AmenityDialog from "./amenities-dialog.tsx";
-import { amenitiesDialogAtom } from "@/atoms/dialogs-atom.ts";
-import { Edit, Trash2} from "lucide-react";
-import {Tooltip} from "@/pages/admin/__components/tooltip.tsx";
-import { amenitiesAtom, amenityDataAtom} from "@/atoms/amenity-atom.ts";
+import { Tooltip } from "@/components/shared/tooltip/tooltip.tsx";
+
+/* ASSETS */
+import { Edit, Trash2 } from "lucide-react";
 
 export default function ManageAmenities() {
-	const  amenities  = useAtomValue(amenitiesAtom);
+	const amenities = useAtomValue(amenitiesAtom);
 	const setAmenityData = useSetAtom(amenityDataAtom);
 	const setAmenityDialog = useSetAtom(amenitiesDialogAtom);
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 	const [globalFilter, setGlobalFilter] = useState("");
-
 
 	const columns: ColumnDef<Amenities>[] = [
 		{
@@ -56,35 +61,36 @@ export default function ManageAmenities() {
 			id: "actions",
 			enableHiding: false,
 			header: () => <div className=" text-right pr-4  ">Actions</div>,
-			cell: ({ row, }) => {
-				return <div className="flex gap-1 justify-end ">
-					<Tooltip tooltip="Edit" delayDuration={500}  side="left">
-						<Button
-							size="icon"
-							className="bg-emerald-600 hover:bg-emerald-600"
-							onClick={() =>  {
-								setAmenityData(row.original)
-								setAmenityDialog({mode: "edit", open: true});
-							}}>
-							<Edit size={18} />
-						</Button>
-					</Tooltip>
-					<Tooltip tooltip="Delete" delayDuration={500} >
-						<Button
-							size="icon"
-							variant="destructive"
-							onClick={() => {
-								setAmenityData(row.original)
-								setAmenityDialog({mode: "delete", open: true})
-							}}>
-							<Trash2 size={18} />
-						</Button>
-					</Tooltip>
-				</div>;
+			cell: ({ row }) => {
+				return (
+					<div className="flex gap-1 justify-end ">
+						<Tooltip tooltip="Edit" delayDuration={500} side="left">
+							<Button
+								size="icon"
+								className="bg-emerald-600 hover:bg-emerald-600"
+								onClick={() => {
+									setAmenityData(row.original);
+									setAmenityDialog({ mode: "edit", open: true });
+								}}>
+								<Edit size={18} />
+							</Button>
+						</Tooltip>
+						<Tooltip tooltip="Delete" delayDuration={500}>
+							<Button
+								size="icon"
+								variant="destructive"
+								onClick={() => {
+									setAmenityData(row.original);
+									setAmenityDialog({ mode: "delete", open: true });
+								}}>
+								<Trash2 size={18} />
+							</Button>
+						</Tooltip>
+					</div>
+				);
 			},
 		},
 	];
-
 
 	const table = useReactTable({
 		data: amenities,
@@ -104,7 +110,6 @@ export default function ManageAmenities() {
 		},
 	});
 
-
 	return (
 		<div className="sm:mr-5 sm:ml-2 ">
 			<h1 className="mb-5 text-xl lg:text-3xl ">Amenities</h1>
@@ -117,7 +122,11 @@ export default function ManageAmenities() {
 						className="md:max-w-sm"
 					/>
 					<div className="flex w-full md:max-w-fit">
-						<Button className="w-full" onClick={() => setAmenityDialog({mode: "create", open: true})}>Add Amenity</Button>
+						<Button
+							className="w-full"
+							onClick={() => setAmenityDialog({ mode: "create", open: true })}>
+							Add Amenity
+						</Button>
 					</div>
 				</div>
 				<div className="rounded-md border">
@@ -131,9 +140,9 @@ export default function ManageAmenities() {
 												{header.isPlaceholder
 													? null
 													: flexRender(
-														header.column.columnDef.header,
-														header.getContext()
-													)}
+															header.column.columnDef.header,
+															header.getContext()
+													  )}
 											</TableHead>
 										);
 									})}
@@ -147,7 +156,7 @@ export default function ManageAmenities() {
 										key={row.id}
 										data-state={row.getIsSelected() && "selected"}>
 										{row.getVisibleCells().map((cell) => (
-											<TableCell  key={cell.id}>
+											<TableCell key={cell.id}>
 												{flexRender(
 													cell.column.columnDef.cell,
 													cell.getContext()

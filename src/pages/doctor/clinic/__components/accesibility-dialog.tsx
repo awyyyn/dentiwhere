@@ -1,16 +1,27 @@
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useForm } from "react-hook-form";
-
-import { Button } from "@/components/ui/button";
-import {
-	Dialog,
-	DialogContent,
-	DialogHeader,
-	DialogTitle,
-	DialogOverlay,
-} from "@/components/ui/dialog";
 import { z } from "zod";
+
+/* ACTIONS */
+import { createAccessibility, updateAccessibility } from "@/actions";
+
+/* HOOKS */
+import { useToast } from "@/hooks/use-toast";
+
+/* STATES */
+import {
+	accessibilitiesAtom,
+	accessibilitiesDataAtom,
+	accessbilityDialogAtom,
+	userAtom,
+} from "@/atoms";
+
+/* CONSTANTS */
+import { ERR_INTERNAL } from "@/constants/errors";
+
+/* COMPONENTS */
 import {
 	FormControl,
 	FormField,
@@ -20,19 +31,17 @@ import {
 	Form,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
-import { ImSpinner9 } from "react-icons/im";
-
-import { accessbilityDialogAtom } from "@/atoms/dialogs-atom";
-import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
-import { ERR_INTERNAL } from "@/constants/errors";
-import { createAccessibility, updateAccessibility } from "@/actions";
-import { userAtom } from "@/atoms/user-atom";
+import { Button } from "@/components/ui/button";
 import {
-	accessibilitiesAtom,
-	accessibilitiesDataAtom,
-} from "@/atoms/accessibility-atom";
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
+	DialogOverlay,
+} from "@/components/ui/dialog";
+
+/* ASSETS */
+import { ImSpinner9 } from "react-icons/im";
 
 const serviceSchema = z.object({
 	name: z.string().min(3, { message: "Name is too short!" }),

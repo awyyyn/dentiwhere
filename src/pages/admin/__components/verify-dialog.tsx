@@ -1,4 +1,21 @@
 import { useState } from "react";
+import { useAtom, useAtomValue } from "jotai";
+
+/* ACTIONS */
+import { sendNotification, updateDoctorStatus } from "@/actions";
+
+/* HOOKS */
+import { useToast } from "@/hooks/use-toast.ts";
+
+/* STATES */
+import { userAtom, doctorAtom } from "@/atoms";
+
+/* TYPES */
+import { Status } from "@/types/types.ts";
+
+/* COMPONENTS */
+import { Button } from "@/components/ui/button.tsx";
+import { Input } from "@/components/ui/input.tsx";
 import {
 	Dialog,
 	DialogContent,
@@ -7,17 +24,10 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import { Input } from "@/components/ui/input.tsx";
 import { Badge } from "@/components/ui/badge.tsx";
-import { useAtom, useAtomValue } from "jotai";
-import { doctorAtom } from "@/atoms/doctors-atom.ts";
-import { updateDoctorStatus } from "@/actions/user.ts";
-import { Status } from "@/types/types.ts";
-import { useToast } from "@/hooks/use-toast.ts";
+
+/* ASSETS */
 import { ImSpinner2 } from "react-icons/im";
-import { sendNotification } from "@/actions";
-import { userAtom } from "@/atoms/user-atom";
 
 export const VerifyDialog = () => {
 	const [loading, setLoading] = useState(false);

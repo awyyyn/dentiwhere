@@ -1,4 +1,17 @@
-import { Button } from "@/components/ui/button";
+import { useSetAtom } from "jotai";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+
+/* UTILS */
+import { db } from "@/utils/supabase";
+
+/* STATES */
+import { userAtom, userAtomDefaultValue } from "@/atoms";
+
+/* ASSETS */
+import { ImSpinner2 } from "react-icons/im";
+
+/* COMPONENTS */ import { Button } from "@/components/ui/button";
 import LogoutButton from "../logout-button/logout-button";
 import Notification from "../notification/notification";
 import {
@@ -9,14 +22,8 @@ import {
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
+	DialogClose,
 } from "@/components/ui/dialog";
-import { userAtom, userAtomDefaultValue } from "@/atoms/user-atom";
-import { useSetAtom } from "jotai";
-import { useNavigate } from "react-router-dom";
-import { db } from "@/utils/supabase";
-import { DialogClose } from "@radix-ui/react-dialog";
-import { useState } from "react";
-import { ImSpinner2 } from "react-icons/im";
 
 export default function Navbar() {
 	const setUser = useSetAtom(userAtom);

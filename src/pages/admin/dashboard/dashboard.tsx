@@ -1,11 +1,18 @@
-import { loadableDashboardAtom } from "@/atoms/dashboard-atom";
-import { Loader } from "@/components/shared/loader/loader";
-import { DashboardAtom } from "@/types/types";
-import { useAtomValue } from "jotai";
-import { Hospital, UserCheck, Users } from "lucide-react";
 import { lazy, Suspense } from "react";
+import { useAtomValue } from "jotai";
 
+/* STATES */
+import { loadableDashboardAtom } from "@/atoms";
+
+/* TYPES */
+import { DashboardAtom } from "@/types/types";
+
+/* COMPONENTS */
+import { Loader } from "@/components/shared/loader/loader";
 const ChartData = lazy(() => import("../__components/chart"));
+
+/* ASSETS */
+import { Hospital, UserCheck, Users } from "lucide-react";
 
 export default function Dashboard() {
 	const loadableCounts = useAtomValue(loadableDashboardAtom);

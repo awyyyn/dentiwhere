@@ -1,9 +1,17 @@
-import { userAtom, userAtomDefaultValue } from "@/atoms/user-atom";
-import LogoWithText from "@/components/shared/logo-with-text/logo-with-text";
-import { Button } from "@/components/ui/button";
-import { db } from "@/utils/supabase";
-import { useSetAtom } from "jotai";
 import { useState } from "react";
+import { useSetAtom } from "jotai";
+
+/* UTILS */
+import { db } from "@/utils/supabase";
+
+/* STATES */
+import { userAtom, userAtomDefaultValue } from "@/atoms";
+
+/* COMPONENTS */
+import { Button } from "@/components/ui/button";
+import LogoWithText from "@/components/shared/logo-with-text/logo-with-text";
+
+/* ASSETS */
 import { ImSpinner2 } from "react-icons/im";
 import { useNavigate } from "react-router-dom";
 

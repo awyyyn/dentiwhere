@@ -1,14 +1,21 @@
+import { useState } from "react";
+import { useAtom, useAtomValue } from "jotai";
+import { useParams } from "react-router-dom";
+import { format, isSameDay, isYesterday } from "date-fns";
+
+/* ACTIONS */
+import { sendNotification, writeReview } from "@/actions";
+
+/* HOOKS */
+import { useToast } from "@/hooks/use-toast.ts";
+
+/* COMPONENTS */
 import { Avatar, AvatarFallback } from "@/components/ui/avatar.tsx";
 import { Textarea } from "@/components/ui/textarea.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { useState } from "react";
-import { useToast } from "@/hooks/use-toast.ts";
-import { sendNotification, writeReview } from "@/actions";
-import { useAtom, useAtomValue } from "jotai";
-import { reviewsAtom } from "@/atoms/review-atom.ts";
-import { useParams } from "react-router-dom";
-import { format, isSameDay, isYesterday } from "date-fns";
-import { userAtom } from "@/atoms/user-atom";
+
+/* STATES */
+import { userAtom, reviewsAtom } from "@/atoms";
 
 interface ReviewsProps {
 	doctorId: number;

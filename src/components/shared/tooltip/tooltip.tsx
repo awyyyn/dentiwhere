@@ -1,10 +1,12 @@
+import { PropsWithChildren } from "react";
+
+/* COMPONENTS */
 import {
 	Tooltip as ShadcnTooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { PropsWithChildren } from "react";
 
 export function Tooltip({
 	children,

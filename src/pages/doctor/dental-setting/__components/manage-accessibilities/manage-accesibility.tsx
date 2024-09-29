@@ -1,5 +1,5 @@
-
-import { Accessibility } from "@/types/types.ts";
+import { useAtomValue, useSetAtom } from "jotai";
+import { useState } from "react";
 import {
 	ColumnDef,
 	ColumnFiltersState,
@@ -11,6 +11,18 @@ import {
 	SortingState,
 	useReactTable,
 } from "@tanstack/react-table";
+
+/* STATES */
+import {
+	accessibilitiesAtom,
+	accessibilitiesDataAtom,
+	accessbilityDialogAtom,
+} from "@/atoms";
+
+/* TYPES */
+import { Accessibility } from "@/types/types.ts";
+
+/* COMPONENTS */
 import {
 	Table,
 	TableBody,
@@ -19,24 +31,21 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table.tsx";
-import {useAtomValue, useSetAtom} from "jotai";
-import { useState } from "react";
 import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import AccessibilityDialog from "./accesibility-dialog.tsx";
-import { accessbilityDialogAtom } from "@/atoms/dialogs-atom.ts";
-import { Edit, Trash2} from "lucide-react";
-import {Tooltip} from "@/pages/admin/__components/tooltip.tsx";
-import {accessibilitiesAtom, accessibilitiesDataAtom} from "@/atoms/accessibility-atom.ts";
+import { Tooltip } from "@/components/shared/tooltip/tooltip.tsx";
+
+/* ASSETS */
+import { Edit, Trash2 } from "lucide-react";
 
 export default function ManageAccessibility() {
-	const accessibilities  = useAtomValue(accessibilitiesAtom);
+	const accessibilities = useAtomValue(accessibilitiesAtom);
 	const setAccessibilityData = useSetAtom(accessibilitiesDataAtom);
 	const setAccessibilityDialog = useSetAtom(accessbilityDialogAtom);
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 	const [globalFilter, setGlobalFilter] = useState("");
-
 
 	const columns: ColumnDef<Accessibility>[] = [
 		{
@@ -56,35 +65,36 @@ export default function ManageAccessibility() {
 			id: "actions",
 			enableHiding: false,
 			header: () => <div className=" text-right pr-4  ">Actions</div>,
-			cell: ({ row, }) => {
-				return <div className="flex gap-1 justify-end ">
-					<Tooltip tooltip="Edit" delayDuration={500}  side="left">
-						<Button
-							size="icon"
-							className="bg-emerald-600 hover:bg-emerald-600"
-							onClick={() =>  {
-								setAccessibilityData(row.original)
-								setAccessibilityDialog({mode: "edit", open: true});
-							}}>
-							<Edit size={18} />
-						</Button>
-					</Tooltip>
-					<Tooltip tooltip="Delete" delayDuration={500} >
-						<Button
-							size="icon"
-							variant="destructive"
-							onClick={() => {
-								setAccessibilityData(row.original)
-								setAccessibilityDialog({mode: "delete", open: true})
-							}}>
-							<Trash2 size={18} />
-						</Button>
-					</Tooltip>
-				</div>;
+			cell: ({ row }) => {
+				return (
+					<div className="flex gap-1 justify-end ">
+						<Tooltip tooltip="Edit" delayDuration={500} side="left">
+							<Button
+								size="icon"
+								className="bg-emerald-600 hover:bg-emerald-600"
+								onClick={() => {
+									setAccessibilityData(row.original);
+									setAccessibilityDialog({ mode: "edit", open: true });
+								}}>
+								<Edit size={18} />
+							</Button>
+						</Tooltip>
+						<Tooltip tooltip="Delete" delayDuration={500}>
+							<Button
+								size="icon"
+								variant="destructive"
+								onClick={() => {
+									setAccessibilityData(row.original);
+									setAccessibilityDialog({ mode: "delete", open: true });
+								}}>
+								<Trash2 size={18} />
+							</Button>
+						</Tooltip>
+					</div>
+				);
 			},
 		},
 	];
-
 
 	const table = useReactTable({
 		data: accessibilities,
@@ -104,7 +114,6 @@ export default function ManageAccessibility() {
 		},
 	});
 
-
 	return (
 		<div className="sm:mr-5 sm:ml-2 ">
 			<h1 className="mb-5 text-xl lg:text-3xl ">Accessibility</h1>
@@ -117,7 +126,13 @@ export default function ManageAccessibility() {
 						className="max-w-sm"
 					/>
 					<div className="flex w-full md:max-w-fit">
-						<Button className="w-full" onClick={() => setAccessibilityDialog({mode: "create", open: true})}>Add Accessibility</Button>
+						<Button
+							className="w-full"
+							onClick={() =>
+								setAccessibilityDialog({ mode: "create", open: true })
+							}>
+							Add Accessibility
+						</Button>
 					</div>
 				</div>
 				<div className="rounded-md border">
@@ -131,9 +146,9 @@ export default function ManageAccessibility() {
 												{header.isPlaceholder
 													? null
 													: flexRender(
-														header.column.columnDef.header,
-														header.getContext()
-													)}
+															header.column.columnDef.header,
+															header.getContext()
+													  )}
 											</TableHead>
 										);
 									})}
@@ -147,7 +162,7 @@ export default function ManageAccessibility() {
 										key={row.id}
 										data-state={row.getIsSelected() && "selected"}>
 										{row.getVisibleCells().map((cell) => (
-											<TableCell  key={cell.id}>
+											<TableCell key={cell.id}>
 												{flexRender(
 													cell.column.columnDef.cell,
 													cell.getContext()

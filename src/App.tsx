@@ -8,20 +8,11 @@ import DoctorLayout from "./layouts/doctor-layout";
 import AdminLayout from "./layouts/admin-layout";
 /* =============================== LAYOUTS =============================== */
 
+/* =============================== COMPONENTS =============================== */
 import Loadable from "./components/shared/loader/loader";
-import AccountSettings from "./pages/doctor/account-settings/account-settings";
-import Password from "./pages/doctor/password/password";
-import Logout from "./pages/doctor/logout/logout";
-import Parent from "./layouts/parent";
-import DentalSetting from "./pages/doctor/dental-setting/dental-setting";
-import Notification from "./pages/doctor/notification/notification";
-import Doctors from "./pages/admin/doctors/doctors";
-import Doctor from "./pages/admin/doctor/doctor";
-import Clinics from "./pages/admin/clinics/clinics";
-import Clinic from "./pages/public/clinic/clinic";
-import PublicViewClinics from "./pages/public/clinics/clinics";
-import { VerifyDoctor } from "@/pages/admin/verify-doctor/verify-doctor.tsx";
+/* =============================== COMPONENTS =============================== */
 
+/* =============================== PAGES =============================== */
 const Login = Loadable(lazy(() => import("./pages/auth/login/login")));
 const SignUp = Loadable(lazy(() => import("./pages/auth/sign-up/sign-up")));
 const Home = Loadable(lazy(() => import("./pages/public/home/home")));
@@ -38,6 +29,31 @@ const NotFound = Loadable(lazy(() => import("./pages/not-found/not-found")));
 const Unauthorized = Loadable(
 	lazy(() => import("./pages/unauthorized/unauthorized"))
 );
+const AccountSettings = Loadable(
+	lazy(() => import("./pages/doctor/account-settings/account-settings"))
+);
+const Password = Loadable(
+	lazy(() => import("./pages/doctor/password/password"))
+);
+const Logout = Loadable(lazy(() => import("./pages/doctor/logout/logout")));
+const Parent = Loadable(lazy(() => import("./layouts/parent")));
+const DentalSetting = Loadable(
+	lazy(() => import("./pages/doctor/dental-setting/dental-setting"))
+);
+const Notification = Loadable(
+	lazy(() => import("./pages/doctor/notification/notification"))
+);
+const Doctors = Loadable(lazy(() => import("./pages/admin/doctors/doctors")));
+const Doctor = Loadable(lazy(() => import("./pages/admin/doctor/doctor")));
+const Clinics = Loadable(lazy(() => import("./pages/admin/clinics/clinics")));
+const Clinic = Loadable(lazy(() => import("./pages/public/clinic/clinic")));
+const PublicViewClinics = Loadable(
+	lazy(() => import("./pages/public/clinics/clinics"))
+);
+const VerifyDoctor = Loadable(
+	lazy(() => import("./pages/admin/verify-doctor/verify-doctor"))
+);
+/* =============================== PAGES =============================== */
 
 export default function App() {
 	const router = createBrowserRouter([

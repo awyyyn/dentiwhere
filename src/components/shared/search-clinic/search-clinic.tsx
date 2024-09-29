@@ -1,25 +1,37 @@
+import { useState, useCallback, useEffect } from "react";
+import { useAtom } from "jotai";
+import { AsyncImage } from "loadable-image";
+import { Blur } from "transitions-kit";
+import { debounce } from "lodash";
+import { useNavigate } from "react-router-dom";
+
+/* HOOKS */
+import { useToast } from "@/hooks/use-toast.ts";
+
+/* ACTIONS */
+import { getBoostedClinics, searchClinic } from "@/actions";
+
+/* COMPONENTS */
 import {
 	Dialog,
 	DialogContent,
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
-import { searchClinicDialogAtom } from "@/atoms/dialogs-atom";
-import { useAtom } from "jotai";
 import InputWithIcon from "../input-with-icon/input-with-icon";
-import { RiCloseLargeLine } from "react-icons/ri";
 import { Button } from "@/components/ui/button";
+
+/* ASSETS */
+import { RiCloseLargeLine } from "react-icons/ri";
 import { FaSearch } from "react-icons/fa";
-import { debounce } from "lodash";
-import { useState, useCallback, useEffect } from "react";
-import { getBoostedClinics, searchClinic } from "@/actions";
-import { ClinicWithDoctor } from "@/types/types.ts";
-import { AsyncImage } from "loadable-image";
-import { Blur } from "transitions-kit";
 import { Contact, Map, User } from "lucide-react";
 import { ImSpinner2 } from "react-icons/im";
-import { useToast } from "@/hooks/use-toast.ts";
-import { useNavigate } from "react-router-dom";
+
+/* STATES */
+import { searchClinicDialogAtom } from "@/atoms";
+
+/* TYPES */
+import { ClinicWithDoctor } from "@/types/types.ts";
 
 export default function SearchClinic() {
 	const navigate = useNavigate();

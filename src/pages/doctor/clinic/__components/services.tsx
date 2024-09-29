@@ -1,16 +1,27 @@
-import { Button } from "@/components/ui/button";
-import { categoriesAtom, categoryDataAtom } from "@/atoms/category-atom";
+import { Suspense } from "react";
 import { useAtomValue, useSetAtom } from "jotai";
-import { RiInformation2Line } from "react-icons/ri";
+
+/* STATES */
+import {
+	serviceDataAtom,
+	servicesAtom,
+	categoriesAtom,
+	categoryDataAtom,
+	categoryDialogAtom,
+	serviceDialogAtom,
+} from "@/atoms";
+
+/* COMPONENTS */
+import { Button } from "@/components/ui/button";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { categoryDialogAtom, serviceDialogAtom } from "@/atoms/dialogs-atom";
-import { serviceDataAtom, servicesAtom } from "@/atoms/service-atom";
-import { Suspense } from "react";
+
+/* ASSETS */
+import { RiInformation2Line } from "react-icons/ri";
 import { FiEdit } from "react-icons/fi";
 
 export default function Services() {

@@ -1,5 +1,5 @@
-import {categoriesAtom, categoryDataAtom} from "@/atoms/category-atom.ts";
-import { Category } from "@/types/types.ts";
+import { useAtomValue, useSetAtom } from "jotai";
+import { useState } from "react";
 import {
 	ColumnDef,
 	ColumnFiltersState,
@@ -11,6 +11,18 @@ import {
 	SortingState,
 	useReactTable,
 } from "@tanstack/react-table";
+
+/* STATES */
+import { categoriesAtom, categoryDataAtom, categoryDialogAtom } from "@/atoms";
+
+/* TYPES */
+import { Category } from "@/types/types.ts";
+
+/* COMPONENTS */
+import { Button } from "@/components/ui/button.tsx";
+import { Input } from "@/components/ui/input.tsx";
+import CategoryDialog from "./category-dialog.tsx";
+import { Tooltip } from "@/components/shared/tooltip/tooltip.tsx";
 import {
 	Table,
 	TableBody,
@@ -19,23 +31,17 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table.tsx";
-import {useAtomValue, useSetAtom} from "jotai";
-import { useState } from "react";
-import { Button } from "@/components/ui/button.tsx";
-import { Input } from "@/components/ui/input.tsx";
-import CategoryDialog from "./category-dialog.tsx";
-import { categoryDialogAtom } from "@/atoms/dialogs-atom.ts";
-import { Edit, Trash2} from "lucide-react";
-import {Tooltip} from "@/pages/admin/__components/tooltip.tsx";
+
+/* ASSETS */
+import { Edit, Trash2 } from "lucide-react";
 
 export default function ManageCategories() {
-	const  categories  = useAtomValue(categoriesAtom);
+	const categories = useAtomValue(categoriesAtom);
 	const setCategoryData = useSetAtom(categoryDataAtom);
 	const setCategoryDialog = useSetAtom(categoryDialogAtom);
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 	const [globalFilter, setGlobalFilter] = useState("");
-
 
 	const columns: ColumnDef<Category>[] = [
 		{
@@ -49,42 +55,44 @@ export default function ManageCategories() {
 			accessorKey: "name",
 			header: "Name",
 			enableHiding: false,
-			cell: ({ row }) => <h1 className="first-letter:uppercase"> {row.getValue("name")}</h1>,
+			cell: ({ row }) => (
+				<h1 className="first-letter:uppercase"> {row.getValue("name")}</h1>
+			),
 		},
 		{
 			id: "actions",
 			enableHiding: false,
 			header: () => <div className=" text-right pr-4  ">Actions</div>,
-			cell: ({ row, }) => {
-				return <div className="flex gap-1 justify-end ">
-					<Tooltip tooltip="Edit" delayDuration={500}  side="left">
-						<Button
-							size="icon"
-							className="bg-emerald-600 hover:bg-emerald-600"
-							onClick={() =>  {
-							setCategoryData(row.original)
-							setCategoryDialog({mode: "edit", open: true});
-						}}>
-							<Edit size={18} />
-						</Button>
-					</Tooltip>
-					<Tooltip tooltip="Delete" delayDuration={500} >
-						<Button
-							size="icon"
-							variant="destructive"
-							onClick={() => {
-							setCategoryData(row.original)
-							setCategoryDialog({mode: "delete", open: true})
-						}}>
-							<Trash2 size={18} />
-						</Button>
-					</Tooltip>
-				</div>;
+			cell: ({ row }) => {
+				return (
+					<div className="flex gap-1 justify-end ">
+						<Tooltip tooltip="Edit" delayDuration={500} side="left">
+							<Button
+								size="icon"
+								className="bg-emerald-600 hover:bg-emerald-600"
+								onClick={() => {
+									setCategoryData(row.original);
+									setCategoryDialog({ mode: "edit", open: true });
+								}}>
+								<Edit size={18} />
+							</Button>
+						</Tooltip>
+						<Tooltip tooltip="Delete" delayDuration={500}>
+							<Button
+								size="icon"
+								variant="destructive"
+								onClick={() => {
+									setCategoryData(row.original);
+									setCategoryDialog({ mode: "delete", open: true });
+								}}>
+								<Trash2 size={18} />
+							</Button>
+						</Tooltip>
+					</div>
+				);
 			},
 		},
-
 	];
-
 
 	const table = useReactTable({
 		data: categories,
@@ -104,7 +112,6 @@ export default function ManageCategories() {
 		},
 	});
 
-
 	return (
 		<div className="sm:mr-5 sm:ml-2 ">
 			<h1 className="mb-5 text-xl lg:text-3xl ">Categories</h1>
@@ -117,7 +124,11 @@ export default function ManageCategories() {
 						className="max-w-sm"
 					/>
 					<div className="flex w-full md:max-w-fit">
-						<Button className="w-full" onClick={() => setCategoryDialog({mode: "create", open: true})}>Add Category</Button>
+						<Button
+							className="w-full"
+							onClick={() => setCategoryDialog({ mode: "create", open: true })}>
+							Add Category
+						</Button>
 					</div>
 				</div>
 				<div className="rounded-md border">
@@ -147,7 +158,7 @@ export default function ManageCategories() {
 										key={row.id}
 										data-state={row.getIsSelected() && "selected"}>
 										{row.getVisibleCells().map((cell) => (
-											<TableCell  key={cell.id}>
+											<TableCell key={cell.id}>
 												{flexRender(
 													cell.column.columnDef.cell,
 													cell.getContext()

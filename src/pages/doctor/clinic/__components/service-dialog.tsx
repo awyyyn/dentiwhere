@@ -1,7 +1,33 @@
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
 
+/* ACTIONS */
+import {
+	createCategory,
+	createService,
+	deleteService,
+	updateService,
+} from "@/actions";
+
+/* HOOKS */
+import { useToast } from "@/hooks/use-toast";
+
+/* STATES */
+import {
+	userAtom,
+	serviceDialogAtom,
+	categoriesAtom,
+	serviceDataAtom,
+	servicesAtom,
+} from "@/atoms";
+
+/* CONSTANT */
+import { ERR_INTERNAL } from "@/constants/errors";
+
+/* COMPONENTS */
 import { Button } from "@/components/ui/button";
 import {
 	Dialog,
@@ -10,7 +36,6 @@ import {
 	DialogTitle,
 	DialogOverlay,
 } from "@/components/ui/dialog";
-import { z } from "zod";
 import {
 	FormControl,
 	FormField,
@@ -28,23 +53,10 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-
-import { ImSpinner9 } from "react-icons/im";
-
-import { serviceDataAtom, servicesAtom } from "@/atoms/service-atom";
-import { serviceDialogAtom } from "@/atoms/dialogs-atom";
-import { categoriesAtom } from "@/atoms/category-atom";
-import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
-import { ERR_INTERNAL } from "@/constants/errors";
-import {
-	createCategory,
-	createService,
-	deleteService,
-	updateService,
-} from "@/actions";
-import { userAtom } from "@/atoms/user-atom";
 import { Label } from "@/components/ui/label.tsx";
+
+/* ASSETS */
+import { ImSpinner9 } from "react-icons/im";
 
 const serviceSchema = z.object({
 	img: z.string().optional(),

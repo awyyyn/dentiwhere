@@ -1,5 +1,13 @@
+import { useState } from "react";
+import { useSetAtom } from "jotai";
+
+/* ACTIONS */
 import { updateClinicStatus } from "@/actions";
-import { clinicsAtom } from "@/atoms/clinic-atom";
+
+/* STATES */
+import { clinicsAtom } from "@/atoms";
+
+/* COMPONENTS */
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,9 +20,9 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useSetAtom } from "jotai";
+
+/* ASSETS */
 import { TriangleAlert } from "lucide-react";
-import { useState } from "react";
 import { ImSpinner2 } from "react-icons/im";
 
 interface ActivateDeactivateClinic {

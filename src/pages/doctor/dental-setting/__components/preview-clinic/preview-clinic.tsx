@@ -1,19 +1,26 @@
-import { clinicWithDoctorAtom } from "@/atoms/clinic-atom";
+import { useEffect, useState } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { AsyncImage } from "loadable-image";
-import { CiLocationOn } from "react-icons/ci";
-import { PiPhoneLight } from "react-icons/pi";
 import { Blur } from "transitions-kit";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useEffect, useState } from "react";
-import { getClinic } from "@/actions/clinic";
-import { TbWorldWww } from "react-icons/tb";
-import { Loader } from "@/components/shared/loader/loader";
-import { BriefcaseMedical } from "lucide-react";
-import { reviewsAtom } from "@/atoms/review-atom";
+
+/* ACTIONS */
+import { getClinic } from "@/actions";
+
+/* STATES */
+import { reviewsAtom, clinicWithDoctorAtom } from "@/atoms";
+
+/* COMPONENTS */
 import Reviews from "@/components/shared/clinic/__components/reviews";
+import { Loader } from "@/components/shared/loader/loader";
 import About from "@/components/shared/clinic/__components/about";
 import Services from "@/components/shared/clinic/__components/services";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+/* ASSETS */
+import { BriefcaseMedical } from "lucide-react";
+import { TbWorldWww } from "react-icons/tb";
+import { CiLocationOn } from "react-icons/ci";
+import { PiPhoneLight } from "react-icons/pi";
 
 export default function PreviewClinic({ id }: { id: number }) {
 	const [clinic, setClinic] = useAtom(clinicWithDoctorAtom);

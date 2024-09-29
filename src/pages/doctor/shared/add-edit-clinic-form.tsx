@@ -1,13 +1,41 @@
-import { db } from "@/utils/supabase";
-import { v4 as uuid } from "uuid";
 import { memo, useState } from "react";
+import { v4 as uuid } from "uuid";
 import Dropzone from "react-dropzone";
-import { ImSpinner2 } from "react-icons/im";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { IoMdAdd } from "react-icons/io";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAtom, useSetAtom } from "jotai";
+import { isEmpty } from "lodash";
 
+/* UTILS */
+import { db } from "@/utils/supabase";
+
+/* ACTIONS */
+import {
+	updateUserClinic,
+	createClinic,
+	updateClinic,
+	createBulkAmenity,
+	createBulkAccessibility,
+} from "@/actions";
+
+/* HOOKS */
+import { useToast } from "@/hooks/use-toast";
+
+/* STATES */
+import {
+	userAtom,
+	accessibilitiesAtom,
+	amenitiesAtom,
+	clinicAtom,
+} from "@/atoms";
+
+/* TYPES */
+import { Accessibility, Amenities, Clinic } from "@/types/types";
+
+/* COMPONENTS */
+import Map from "@/components/shared/map/map";
+import { Tooltip } from "@/components/shared/tooltip/tooltip";
 import {
 	Form,
 	FormControl,
@@ -19,24 +47,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import {
-	createClinic,
-	updateClinic,
-	createBulkAmenity,
-	createBulkAccessibility,
-} from "@/actions";
-import { useAtom, useSetAtom } from "jotai";
-import { userAtom } from "@/atoms/user-atom";
-import { useToast } from "@/hooks/use-toast";
-import { clinicAtom } from "@/atoms/clinic-atom";
-import { updateUserClinic } from "@/actions/user";
-import { Accessibility, Amenities, Clinic } from "@/types/types";
-import { amenitiesAtom } from "@/atoms/amenity-atom";
-import { accessibilitiesAtom } from "@/atoms/accessibility-atom";
-import { isEmpty } from "lodash";
+
+/* ASSETS */
 import { Map as MapIcon } from "lucide-react";
-import { Tooltip } from "@/pages/admin/__components/tooltip";
-import Map from "@/components/shared/map/map";
+import { ImSpinner2 } from "react-icons/im";
+import { IoMdAdd } from "react-icons/io";
 
 const formSchema = z.object({
 	name: z.string().min(1, { message: "Please enter your clinic name!" }),

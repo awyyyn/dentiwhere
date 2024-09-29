@@ -1,15 +1,25 @@
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useAtomValue, useSetAtom } from "jotai";
-import { userAtom } from "@/atoms/user-atom";
-import { Role } from "@/types/types";
-import Logo from "@/assets/svgs/logo with text.svg";
-import { Tooltip } from "@/pages/admin/__components/tooltip";
-import { Button } from "@/components/ui/button";
-import { Hospital, LayoutDashboard, Users } from "lucide-react";
-import Navbar from "@/components/shared/navbar/navbar";
+import { AsyncImage } from "loadable-image";
+
+/* UTILS */
 import { db } from "@/utils/supabase";
-import { notificationsAtom } from "@/atoms/notification-atom";
+
+/* STATES */
+import { userAtom, notificationsAtom } from "@/atoms";
+
+/* COMPONENTS */
+import { Tooltip } from "@/components/shared/tooltip/tooltip";
+import { Button } from "@/components/ui/button";
+import Navbar from "@/components/shared/navbar/navbar";
+
+/* ASSETS */
+import { Hospital, LayoutDashboard, Users } from "lucide-react";
+import Logo from "@/assets/svgs/logo with text.svg";
+
+/* TYPES */
+import { Role } from "@/types/types";
 
 export default function AdminLayout() {
 	const user = useAtomValue(userAtom);
@@ -64,7 +74,7 @@ export default function AdminLayout() {
 			<aside className="fixed w-2/12 z-50 bg-1/20 h-screen py-5 lg:py-14">
 				<div className="space-y-5">
 					<Tooltip tooltip="Dentiwhere">
-						<img
+						<AsyncImage
 							src={Logo}
 							alt="Dentiwhere logo"
 							className="md:max-w-32 px-2 md:px-0 lg:max-w-40 mx-auto"

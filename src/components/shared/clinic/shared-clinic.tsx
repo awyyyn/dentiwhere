@@ -1,23 +1,30 @@
-import { clinicWithDoctorAtom } from "@/atoms/clinic-atom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAtom, useSetAtom } from "jotai";
 import { AsyncImage } from "loadable-image";
-import { CiLocationOn } from "react-icons/ci";
-import { PiPhoneLight } from "react-icons/pi";
 import { Blur } from "transitions-kit";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useEffect, useState } from "react";
+import { isEmpty, isUndefined } from "lodash";
+
+/* ACTIONS */
 import { getClinic } from "@/actions/clinic";
-import { TbWorldWww } from "react-icons/tb";
-import { Loader } from "@/components/shared/loader/loader";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { BriefcaseMedical, ChevronLeft } from "lucide-react";
+
+/* COMPONENTS */
 import Services from "./__components/services";
 import About from "./__components/about";
 import Reviews from "./__components/reviews";
-import { reviewsAtom } from "@/atoms/review-atom";
 import { Button } from "@/components/ui/button";
-import { Tooltip } from "@/pages/admin/__components/tooltip";
-import { isEmpty, isUndefined } from "lodash";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Loader } from "@/components/shared/loader/loader";
+import { Tooltip } from "@/components/shared/tooltip/tooltip";
+
+/* STATES */
+import { reviewsAtom, clinicWithDoctorAtom } from "@/atoms";
+
+/* ASSETS */
+import { BriefcaseMedical, ChevronLeft } from "lucide-react";
+import { CiLocationOn } from "react-icons/ci";
+import { PiPhoneLight } from "react-icons/pi";
+import { TbWorldWww } from "react-icons/tb";
 
 export default function SharedClinic({
 	viewOnly = false,

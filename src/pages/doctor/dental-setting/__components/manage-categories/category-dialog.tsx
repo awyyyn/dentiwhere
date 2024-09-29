@@ -1,6 +1,27 @@
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+/* ACTIONS */
+import { createCategory, deleteCategory, updateCategory } from "@/actions";
+
+/* STATES */
+import {
+	categoriesAtom,
+	categoryDataAtom,
+	categoryDialogAtom,
+	userAtom,
+} from "@/atoms";
+
+/* HOOKS */
+import { useToast } from "@/hooks/use-toast.ts";
+
+/* CONSTANTS */
+import { ERR_INTERNAL } from "@/constants/errors.ts";
+
+/* COMPONENTS */
 import { Button } from "@/components/ui/button.tsx";
 import {
 	Dialog,
@@ -8,7 +29,6 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog.tsx";
-import { z } from "zod";
 import {
 	FormControl,
 	FormField,
@@ -19,15 +39,8 @@ import {
 } from "@/components/ui/form.tsx";
 import { Input } from "@/components/ui/input.tsx";
 
+/* ASSETS */
 import { ImSpinner9 } from "react-icons/im";
-
-import { categoryDialogAtom } from "@/atoms/dialogs-atom.ts";
-import { categoriesAtom, categoryDataAtom } from "@/atoms/category-atom.ts";
-import { useState } from "react";
-import { useToast } from "@/hooks/use-toast.ts";
-import { ERR_INTERNAL } from "@/constants/errors.ts";
-import { createCategory, deleteCategory, updateCategory } from "@/actions";
-import { userAtom } from "@/atoms/user-atom.ts";
 
 const serviceSchema = z.object({
 	name: z.string().min(3, { message: "Name is too short!" }),

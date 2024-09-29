@@ -1,6 +1,30 @@
+import { useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Link, useNavigate } from "react-router-dom";
+import { useSetAtom } from "jotai";
+
+/* ACTIONS */
+import { getClinicByDoctor, login } from "@/actions";
+
+/* HOOKS */
+import { useToast } from "@/hooks/use-toast";
+
+/* STATES */
+import {
+	categoriesAtom,
+	servicesAtom,
+	amenitiesAtom,
+	accessibilitiesAtom,
+	notificationsAtom,
+	userAtom,
+} from "@/atoms";
+
+/* TYPES */
+import { Status } from "@/types/types";
+
+/* COMPONENTS */
 import {
 	Form,
 	FormControl,
@@ -10,20 +34,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Link, useNavigate } from "react-router-dom";
-import { login } from "@/actions/auth";
-import { useToast } from "@/hooks/use-toast";
-import { useSetAtom } from "jotai";
-import { userAtom } from "@/atoms/user-atom";
-import { useState } from "react";
+
+/* ASSETS */
 import { ImSpinner2 } from "react-icons/im";
-import { notificationsAtom } from "@/atoms/notification-atom";
-import { Status } from "@/types/types";
-import { categoriesAtom } from "@/atoms/category-atom.ts";
-import { servicesAtom } from "@/atoms/service-atom.ts";
-import { amenitiesAtom } from "@/atoms/amenity-atom.ts";
-import { accessibilitiesAtom } from "@/atoms/accessibility-atom.ts";
-import { getClinicByDoctor } from "@/actions/clinic.ts";
 
 const formSchema = z.object({
 	email: z.string().email({

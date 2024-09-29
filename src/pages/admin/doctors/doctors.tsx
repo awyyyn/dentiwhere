@@ -1,8 +1,16 @@
 import { useEffect, useState } from "react";
-import DataTable from "../__components/doctors-table";
 import { useAtom } from "jotai";
-import { doctorsAtom } from "@/atoms/doctors-atom";
-import { getAllDoctors } from "@/actions/user";
+
+/* ACTIONS */
+import { getAllDoctors } from "@/actions";
+
+/* STATES */
+import { doctorsAtom } from "@/atoms";
+
+/* COMPONENTS */
+import DataTable from "../__components/doctors-table";
+
+/* ASSETS */
 import { ImSpinner2 } from "react-icons/im";
 
 export default function Doctors() {

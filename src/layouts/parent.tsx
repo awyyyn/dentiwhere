@@ -1,23 +1,36 @@
-import { v4 } from "uuid";
-import { visit } from "@/actions/auth";
-import { getClinicByDoctor } from "@/actions/clinic";
-import { getOneByAuthID } from "@/actions/user";
-import { accessibilitiesAtom } from "@/atoms/accessibility-atom";
-import { amenitiesAtom } from "@/atoms/amenity-atom";
-import { categoriesAtom } from "@/atoms/category-atom";
-import { clinicAtom } from "@/atoms/clinic-atom";
-import { notificationsAtom } from "@/atoms/notification-atom";
-import { servicesAtom } from "@/atoms/service-atom";
-import { userAtom, userAtomDefaultValue } from "@/atoms/user-atom";
-import { Loader } from "@/components/shared/loader/loader";
-import { Toaster } from "@/components/ui/toaster";
-import { Role } from "@/types/types";
-import { db } from "@/utils/supabase";
-import { useSetAtom } from "jotai";
 import { useEffect, useState } from "react";
+import { v4 } from "uuid";
+import { useSetAtom } from "jotai";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { isEmpty } from "lodash";
+
+/* UTILS */
+import { db } from "@/utils/supabase";
+
+/* ACTIONS */
+import { visit, getClinicByDoctor, getOneByAuthID } from "@/actions";
+
+/* LIB */
 import { randomName } from "@/lib/chance";
+
+/* STATES */
+import {
+	servicesAtom,
+	userAtom,
+	userAtomDefaultValue,
+	notificationsAtom,
+	clinicAtom,
+	categoriesAtom,
+	accessibilitiesAtom,
+	amenitiesAtom,
+} from "@/atoms";
+
+/* TYPES */
+import { Role } from "@/types/types";
+
+/* COMPONENTS */
+import { Loader } from "@/components/shared/loader/loader";
+import { Toaster } from "@/components/ui/toaster";
 
 export default function Parent() {
 	const setUser = useSetAtom(userAtom);

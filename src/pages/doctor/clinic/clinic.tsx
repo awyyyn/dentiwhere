@@ -1,26 +1,36 @@
-import { clinicAtom } from "@/atoms/clinic-atom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { AsyncImage } from "loadable-image";
-import { CiLocationOn } from "react-icons/ci";
-import { PiPhoneLight } from "react-icons/pi";
 import { Blur } from "transitions-kit";
+
+/* ACTIONS */
+import { getClinic } from "@/actions";
+
+/* STATES */
+import {
+	categoriesAtom,
+	amenitiesAtom,
+	servicesAtom,
+	accessibilitiesAtom,
+	userAtom,
+	clinicAtom,
+} from "@/atoms";
+
+/* COMPONENTS */
+import { Loader } from "@/components/shared/loader/loader";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import About from "./__components/about";
 import Reviews from "./__components/reviews";
 import ClinicEditModal from "./__components/service-dialog";
 import CategoryDialog from "./__components/category-dialog";
 import Services from "./__components/services";
-import { useEffect, useState } from "react";
-import { getClinic } from "@/actions";
-import { userAtom } from "@/atoms/user-atom";
+
+/* ASSETS */
 import { TbWorldWww } from "react-icons/tb";
-import { Loader } from "@/components/shared/loader/loader";
-import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
-import { accessibilitiesAtom } from "@/atoms/accessibility-atom";
-import { amenitiesAtom } from "@/atoms/amenity-atom";
-import { categoriesAtom } from "@/atoms/category-atom";
-import { servicesAtom } from "@/atoms/service-atom";
+import { CiLocationOn } from "react-icons/ci";
+import { PiPhoneLight } from "react-icons/pi";
 
 export default function Clinic() {
 	const user = useAtomValue(userAtom);

@@ -1,13 +1,23 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useToast } from "@/hooks/use-toast.ts";
-import { ViewVerifyDoctor } from "@/pages/admin/__components/view-verify-doctor.tsx";
-import { doctorAtom } from "@/atoms/doctors-atom.ts";
-import { Loader } from "@/components/shared/loader/loader.tsx";
 import { useSetAtom } from "jotai";
-import { getOneDoctor } from "@/actions/user.ts";
 
-export const VerifyDoctor = () => {
+/* ACTIONS */
+import { getOneDoctor } from "@/actions";
+
+/* STATES */
+import { doctorAtom } from "@/atoms";
+
+/* HOOKS */
+import { useToast } from "@/hooks/use-toast.ts";
+
+/* PAGES */
+import { ViewVerifyDoctor } from "@/pages/admin/__components/view-verify-doctor.tsx";
+
+/* COMPONENTS */
+import { Loader } from "@/components/shared/loader/loader.tsx";
+
+const VerifyDoctor = () => {
 	const navigate = useNavigate();
 	const params = useParams();
 	const { toast } = useToast();
@@ -55,3 +65,5 @@ export const VerifyDoctor = () => {
 
 	return <ViewVerifyDoctor verify />;
 };
+
+export default VerifyDoctor;

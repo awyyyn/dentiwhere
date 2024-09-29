@@ -1,12 +1,34 @@
 import { useEffect, useRef, useState } from "react";
 import Dropzone, { DropzoneRef } from "react-dropzone";
-import { db } from "@/utils/supabase";
 import { v4 as uuid } from "uuid";
 import { useAtom } from "jotai";
-import { ImSpinner2 } from "react-icons/im";
-import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+/* UTILS */
+import { db } from "@/utils/supabase";
+
+/* ACTIONS */
+import { updateUser, sendNotification } from "@/actions";
+
+/* STATES */
+import { userAtom } from "@/atoms";
+
+/* HOOKS */
+import { useToast } from "@/hooks/use-toast";
+
+/* TYPES */
+import { Status } from "@/types/types";
+
+/* COMPONENTS */
+import CustomDatePicker from "@/components/shared/date-picker/date-picker";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Input } from "@/components/ui/input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import LogoWithText from "@/components/shared/logo-with-text/logo-with-text";
+import { Button } from "@/components/ui/button";
 import {
 	Form,
 	FormControl,
@@ -15,17 +37,9 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "@/components/ui/input";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
-import LogoWithText from "@/components/shared/logo-with-text/logo-with-text";
-import { userAtom } from "@/atoms/user-atom";
-import { Skeleton } from "@/components/ui/skeleton";
-import { updateUser, sendNotification } from "@/actions";
-import { Status } from "@/types/types";
-import { useToast } from "@/hooks/use-toast";
-import CustomDatePicker from "@/components/shared/date-picker/date-picker";
+
+/* ASSETS */
+import { ImSpinner2 } from "react-icons/im";
 
 const userForm = z.object({
 	fist_name: z.string().min(1, { message: "First name is required" }),

@@ -1,8 +1,12 @@
 import { useAtomValue } from "jotai";
-import AddEditClinicForm from "../shared/add-edit-clinic-form";
-import { userAtom } from "@/atoms/user-atom";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+
+/* STATES */
+import { userAtom } from "@/atoms";
+
+/* COMPONENTS */
+import AddEditClinicForm from "../shared/add-edit-clinic-form";
 
 export default function AddClinic() {
 	const user = useAtomValue(userAtom);

@@ -3,20 +3,25 @@ import { Textarea } from "@/components/ui/textarea.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast.ts";
-import { writeReview } from "@/actions";
+import { sendNotification, writeReview } from "@/actions";
 import { useAtom, useAtomValue } from "jotai";
 import { reviewsAtom } from "@/atoms/review-atom.ts";
 import { useParams } from "react-router-dom";
 import { format, isSameDay, isYesterday } from "date-fns";
 import { userAtom } from "@/atoms/user-atom";
 
-export default function Reviews() {
+interface ReviewsProps {
+	doctorId: number;
+}
+
+export default function Reviews({ doctorId }: ReviewsProps) {
 	const { toast } = useToast();
 	const params = useParams();
 	const [review, setReview] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [reviews, setReviews] = useAtom(reviewsAtom);
 	const user = useAtomValue(userAtom);
+	const name = localStorage.getItem("name") ?? "U";
 
 	const handleSubmitReview = async () => {
 		setLoading(true);
@@ -28,6 +33,12 @@ export default function Reviews() {
 				review: String(review),
 				name,
 				uuid,
+			});
+			await sendNotification({
+				name,
+				title: "Sent a Review",
+				message: review,
+				to: doctorId,
 			});
 			setReviews((reviews) => [newReview, ...reviews]);
 			setReview("");
@@ -53,9 +64,11 @@ export default function Reviews() {
 				<div className="space-y-1 mb-5">
 					{user.id === 0 && (
 						<>
-							<div className="flex gap-2 ">
+							<div className="flex gap-2 shadow-sm border-white/40 bg-white/60 rounded-lg p-2 py-4">
 								<Avatar>
-									<AvatarFallback>U</AvatarFallback>
+									<AvatarFallback className={`uppercase bg-1/70 font-bold `}>
+										{name[0]}
+									</AvatarFallback>
 								</Avatar>
 								<div className="w-full">
 									{/* <Rating /> */}
@@ -103,9 +116,9 @@ export default function Reviews() {
 
 						return (
 							<div key={review.id} className="">
-								<div className="flex gap-2 shadow-sm border-white/40 bg-white/10 rounded-lg p-2">
+								<div className="flex gap-2 shadow-sm border-white/40 bg-white/60 rounded-lg p-2">
 									<Avatar>
-										<AvatarFallback className={`uppercase  `}>
+										<AvatarFallback className={`uppercase bg-1/70 font-bold `}>
 											{review.name[0]}
 										</AvatarFallback>
 									</Avatar>

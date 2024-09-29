@@ -283,6 +283,11 @@ export default function AccountSettings() {
 											Upload Now
 										</Button>
 										<Button
+											onClick={() => {
+												setPlaceholder(
+													"https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
+												);
+											}}
 											type="button"
 											className="w-48 mx-auto text-md lg:max-w-min lg:mx-0    xl:text-2xl p-6 bg-white text-black shadow-md shadow-gray-700/50 hover:text-black hover:bg-white hover:shadow-lg active:scale-90 transition-all duration-300">
 											Delete Avatar
@@ -622,11 +627,18 @@ export default function AccountSettings() {
 											className="w-full lg:max-w-min bg-gray-300/90 shadow-lg text-[#1D4968]">
 											{frontId ? "Change" : "Upload"}
 										</Button>
-										<Button
-											type="button"
-											className="w-full lg:max-w-min text-destructive hover:bg-gray-300 bg-gray-300/90 shadow-lg">
-											Remove
-										</Button>
+										{user.status !== "VERIFIED" && (
+											<Button
+												onClick={() =>
+													setFrontId(
+														"https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
+													)
+												}
+												type="button"
+												className="w-full lg:max-w-min text-destructive hover:bg-gray-300 bg-gray-300/90 shadow-lg">
+												Remove
+											</Button>
+										)}
 									</div>
 								</div>
 								<div className="space-y-3">
@@ -681,38 +693,44 @@ export default function AccountSettings() {
 											className="w-full lg:max-w-min bg-gray-300/90 shadow-lg text-[#1D4968]">
 											{backId ? "Change" : "Upload"}
 										</Button>
-										<Button
-											type="button"
-											className="w-full lg:max-w-min text-destructive hover:bg-gray-300 bg-gray-300/90 shadow-lg">
-											Remove
-										</Button>
+
+										{user.status !== "VERIFIED" && (
+											<Button
+												onClick={() =>
+													setBackId(
+														"https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
+													)
+												}
+												type="button"
+												className="w-full lg:max-w-min text-destructive hover:bg-gray-300 bg-gray-300/90 shadow-lg">
+												Remove
+											</Button>
+										)}
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div className="lg:col-span-4 mt-5 flex items-center flex-wrap gap-4 h-20">
-						{editing && (
-							<>
-								<Button
-									onClick={() => setEditing(false)}
-									type="button"
-									disabled={submitting}
-									className={`bg-white w-full md:max-w-min hover:bg-white text-gray-800 shadow-lg ${
-										editing ?? "hidden"
-									}`}>
-									Cancel
-								</Button>
-								<Button
-									type="submit"
-									disabled={submitting}
-									className="bg-1 w-full md:max-w-min hover:bg-1 text-gray-800 shadow-lg">
-									{submitting && <ImSpinner2 className="mr-2 animate-spin" />}
-									{submitting ? "Saving..." : "Save Changes"}
-								</Button>
-							</>
-						)}
-					</div>
+					{editing && (
+						<div className="lg:col-span-4 mt-5 flex items-center flex-wrap gap-4 h-20">
+							<Button
+								onClick={() => setEditing(false)}
+								type="button"
+								disabled={submitting}
+								className={`bg-white w-full md:max-w-min hover:bg-white text-gray-800 shadow-lg ${
+									editing ?? "hidden"
+								}`}>
+								Cancel
+							</Button>
+							<Button
+								type="submit"
+								disabled={submitting}
+								className="bg-1 w-full md:max-w-min hover:bg-1 text-gray-800 shadow-lg">
+								{submitting && <ImSpinner2 className="mr-2 animate-spin" />}
+								{submitting ? "Saving..." : "Save Changes"}
+							</Button>
+						</div>
+					)}
 				</form>
 			</Form>
 		</section>

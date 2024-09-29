@@ -207,8 +207,8 @@ const AddClinic = ({
 			}
 			setLoading(false);
 			toast({
-				title: "Created successfully",
-				description: "Your clinic has been created successfully",
+				title: "Updated successfully",
+				description: "Your clinic has been updated successfully",
 				variant: "default",
 				className: "bg-emerald-600 text-white",
 			});
@@ -725,7 +725,7 @@ const AddClinic = ({
 										</div>
 									</div>
 								)}
-								<div className="flex justify-end space-x-3 mt-5">
+								<div className="flex justify-end space-x-3 mt-5  ">
 									<Button type="reset" onClick={() => form.reset()}>
 										Reset form
 									</Button>

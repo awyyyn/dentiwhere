@@ -73,7 +73,7 @@ export default function DoctorLayout() {
 	const unread = notifications.filter((notif) => !notif.read).length;
 
 	return (
-		<div className="p-2 h-screen  sm:p-5 items-center lg:items-start lg:max-h-min  lg:p-10 lg:pb-5 lg:space-x-5 flex">
+		<div className="p-2 min-h-screen sm:p-5 items-center lg:items-start lg:max-h-min     lg:space-x-5 flex">
 			<aside className="hidden lg:block  lg:w-3/12 xl:w-2/12 overflow-hidden  bg-[#BCF0F9] rounded-xl">
 				<div className="space-y-2">
 					<h1 className="font-extrabold  py-3 pl-10 text-2xl">
@@ -162,7 +162,7 @@ export default function DoctorLayout() {
 					</NavLink>
 				</div>
 			</aside>
-			<main className="relative w-full mx-auto  lg:w-9/12 xl:w-10/12 bg-[#BCF0F9] border-t border-[#BCF0F9] p-2 sm:p-5 rounded-2xl lg:max-h-[90vh] max-h-[95vh] shadow-xl lg:min-h-[90vh] min-h-[95vh]  overflow-y-scroll  scrollbar-hide">
+			<main className="relative w-full mx-auto   lg:w-9/12 xl:w-10/12 bg-[#BCF0F9] border-t border-[#BCF0F9] p-2 sm:p-5 rounded-2xl   shadow-xl   overflow-y-scroll  scrollbar-hide max-h-[95vh] min-h-[95vh] ">
 				<Button
 					onClick={() => setIsOpen(true)}
 					variant="ghost"

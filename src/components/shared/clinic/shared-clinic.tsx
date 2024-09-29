@@ -59,7 +59,7 @@ export default function SharedClinic({
 					<Tooltip tooltip="Back" side="right" delayDuration={500}>
 						<Button
 							onClick={() =>
-								navigate(state.navigateToClinics ? "/clinics" : "/")
+								navigate(state?.navigateToClinics ? "/clinics" : "/")
 							}
 							variant="ghost"
 							className="mb-5">
@@ -141,7 +141,7 @@ export default function SharedClinic({
 					/>
 				</TabsContent>
 				<TabsContent value="reviews">
-					<Reviews />
+					<Reviews doctorId={Number(clinic?.doctorId)} />
 				</TabsContent>
 			</Tabs>
 		</div>

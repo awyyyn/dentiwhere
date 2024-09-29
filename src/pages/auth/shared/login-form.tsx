@@ -12,7 +12,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "@/actions/auth";
-import { ERR_INTERNAL } from "@/constants/errors";
 import { useToast } from "@/hooks/use-toast";
 import { useSetAtom } from "jotai";
 import { userAtom } from "@/atoms/user-atom";

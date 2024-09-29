@@ -110,7 +110,7 @@ export default function PreviewClinic({ id }: { id: number }) {
 					/>
 				</TabsContent>
 				<TabsContent value="reviews">
-					<Reviews />
+					<Reviews doctorId={Number(clinic?.doctorId)} />
 				</TabsContent>
 			</Tabs>
 		</div>

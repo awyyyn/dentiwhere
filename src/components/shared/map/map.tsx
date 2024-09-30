@@ -14,6 +14,14 @@ interface OpenStreetMapProps {
 	showMarker?: boolean;
 	interactive?: boolean;
 	handleChange?: (val: { lat: number; lng: number }, address: string) => void;
+	data?: {
+		id: number;
+		name: string;
+		map: {
+			lat: number;
+			lng: number;
+		};
+	}[];
 }
 
 const OpenStreetMap = ({
@@ -21,6 +29,7 @@ const OpenStreetMap = ({
 	pinning = false,
 	handleChange,
 	defaultCenter = [123.53506, 13.24104],
+	data,
 }: OpenStreetMapProps) => {
 	const mapContainer = useRef(null);
 	const map = useRef<any>(null);
@@ -80,6 +89,47 @@ const OpenStreetMap = ({
 					handleChange({ lat: e.lngLat.lat, lng: e.lngLat.lng }, placeName);
 				}
 			});
+
+		console.log("qqqq", data);
+		if (data && data.length > 0) {
+			const markerHeight = 0,
+				markerRadius = 0,
+				linearOffset = 0;
+			const popupOffsets = {
+				top: [0, 0],
+				"top-left": [0, 0],
+				"top-right": [0, 0],
+				bottom: [0, -markerHeight],
+				"bottom-left": [
+					linearOffset,
+					(markerHeight - markerRadius + linearOffset) * -1,
+				],
+				"bottom-right": [
+					-linearOffset,
+					(markerHeight - markerRadius + linearOffset) * -1,
+				],
+				left: [markerRadius, (markerHeight - markerRadius) * -1],
+				right: [-markerRadius, (markerHeight - markerRadius) * -1],
+			};
+			data.map((d) => {
+				// new maptiler.Marker({ color: "#ff0000" })
+				// 	.setLngLat([d.map.lng, d.map.lat])
+				// 	.addTo(map.current);
+				new maptiler.Popup({
+					offset: popupOffsets as any,
+					className: "my-class",
+					closeButton: false,
+					closeOnClick: false,
+
+					closeOnMove: false,
+				})
+					.setLngLat([d.map.lng, d.map.lat])
+					.setHTML(`<h1>${d.name}</h1>`)
+					.setMaxWidth("300px")
+					.addTo(map.current);
+			});
+		}
+
 		if (showMarker) {
 			marker.setLngLat(center).addTo(map.current);
 		}

@@ -7,7 +7,7 @@ import {
 
 export default function CarouselSize() {
 	return (
-		<section className="gradient-qr overflow-hidden py-10 md:py-0 ">
+		<section className="  overflow-hidden py-10 md:py-0 ">
 			<div className="flex md:flex-row flex-col justify-between   mx-auto w-11/12 md:w-10/12">
 				<Carousel
 					opts={{

@@ -348,3 +348,20 @@ export const updateClinicStatus = async (
 
 	return true;
 };
+
+export const getClinicsGeo = async () => {
+	const { data, error } = await db.from("clinics").select("id, name, map");
+
+	if (data === null || error) throw new Error("Error fetching clinics");
+
+	return data?.map((d) => {
+		return {
+			id: d.id,
+			name: d.name,
+			map: {
+				lat: (d.map as Clinic["map"])?.lat as number,
+				lng: (d.map as Clinic["map"])?.lng as number,
+			},
+		};
+	});
+};

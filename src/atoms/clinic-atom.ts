@@ -1,7 +1,7 @@
 import { atom } from "jotai";
-import { Clinic, ClinicWithDoctor } from "@/types/types";
 import { loadable } from "jotai/utils";
-import { getAllClinics } from "@/actions";
+import { Clinic, ClinicWithDoctor } from "@/types/types";
+import { getAllClinics, getClinicsGeo } from "@/actions";
 
 export const clinicEditDataAtom = atom<Clinic>();
 
@@ -16,3 +16,9 @@ const clinicsLoadableAtom = atom(async () => {
 });
 
 export const clinicsLoadable = loadable(clinicsLoadableAtom);
+
+const geoClinicsLoadableAtom = atom(async () => {
+	return await getClinicsGeo();
+});
+
+export const geoClinicsLoadable = loadable(geoClinicsLoadableAtom);

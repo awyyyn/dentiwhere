@@ -330,6 +330,7 @@ export type Database = {
           postal_id: string
           role: string
           status: string
+          subscription_end_date: string
           updated_at: string
           verified: boolean
         }
@@ -352,6 +353,7 @@ export type Database = {
           postal_id: string
           role: string
           status?: string
+          subscription_end_date?: string
           updated_at?: string
           verified?: boolean
         }
@@ -374,6 +376,7 @@ export type Database = {
           postal_id?: string
           role?: string
           status?: string
+          subscription_end_date?: string
           updated_at?: string
           verified?: boolean
         }

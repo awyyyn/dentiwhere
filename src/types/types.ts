@@ -37,6 +37,7 @@ export type User = {
 	birthDate?: string;
 	contacts: string[];
 	clinicId?: number;
+	clinic?: Clinic;
 	licenseId: LicensedIDImage;
 	role: Role;
 	img: string;
@@ -44,6 +45,7 @@ export type User = {
 	notifications?: Notification[];
 	boost: boolean;
 	verified: boolean;
+	subscriptionEndDate: Date;
 	createdAt: Date | string;
 	updatedAt: Date | string;
 };

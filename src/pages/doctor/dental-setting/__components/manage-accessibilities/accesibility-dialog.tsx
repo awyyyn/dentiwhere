@@ -48,7 +48,7 @@ import { Input } from "@/components/ui/input.tsx";
 import { ImSpinner9 } from "react-icons/im";
 
 const serviceSchema = z.object({
-	name: z.string().min(2, { message: "Name is too short!" }),
+	name: z.string().min(1, { message: "Name is required!" }),
 });
 
 const initialValues = {

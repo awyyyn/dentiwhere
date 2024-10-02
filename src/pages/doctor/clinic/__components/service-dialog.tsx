@@ -62,7 +62,7 @@ const serviceSchema = z.object({
 	img: z.string().optional(),
 	name: z
 		.string()
-		.min(3, { message: "Name must be at least 3 characters long" }),
+		.min(1, { message: "Name is required!" }),
 	description: z.string().optional(),
 	categoryId: z.string().min(1, { message: "Category is required" }),
 	rate: z.string().optional(),

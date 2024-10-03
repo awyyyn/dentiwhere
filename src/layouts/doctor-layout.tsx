@@ -21,7 +21,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import LogoWithText from "@/components/shared/logo-with-text/logo-with-text";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 /* ASSETS */
 import { IoHome, IoLogOut } from "react-icons/io5";
@@ -30,11 +30,17 @@ import { FaUserAlt } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { RiSettingsFill } from "react-icons/ri";
 import { AlignJustify, CircleX, Info } from "lucide-react";
-import { formatDate } from "date-fns";
+import { formatDate, isPast } from "date-fns";
+import { Tooltip } from "@/components/shared/tooltip/tooltip";
 
 export default function DoctorLayout() {
 	const user = useAtomValue(userAtom);
-	const [bannerAlert, setBannerAlert] = useState(!user.boost  && user.subscriptionEndDate >= new Date())
+	const [bannerAlert, setBannerAlert] = useState(
+		!user.boost && user.subscriptionEndDate >= new Date()
+	);
+	const [bannerExpiredAlert, setBannerExpiredAlert] = useState(
+		isPast(user.subscriptionEndDate)
+	);
 	const [open, setIsOpen] = useState(false);
 	const [notifications, setNotifications] = useAtom(notificationsAtom);
 	const navigate = useNavigate();
@@ -84,25 +90,56 @@ export default function DoctorLayout() {
 
 	const unread = notifications.filter((notif) => !notif.read).length;
 
-	const FreeAccess = () =>
-		<Alert className="w-[98%] bg-yellow-200 border-none mt-5 mx-auto flex justify-between items-center" >
-			<div className="flex space-x-3 items-center">		
+	const FreeAccess = () => (
+		<Alert className="w-[98%] bg-yellow-200 border-none mt-5 mx-auto flex justify-between items-center">
+			<div className="flex space-x-3 items-center">
 				<Info className="h-6 w-6" />
 				<div className="flex flex-col">
 					<AlertTitle>Reminder !</AlertTitle>
 					<AlertDescription>
-					Your free subscription will expire on {formatDate(user.subscriptionEndDate, "PP")}
+						Your free subscription will expire on{" "}
+						{formatDate(user.subscriptionEndDate, "PP")}
 					</AlertDescription>
 				</div>
 			</div>
 			<Button onClick={() => setBannerAlert(false)} variant="ghost" size="icon">
 				<CircleX className="h-5 w-5" />
 			</Button>
-		</Alert> 
+		</Alert>
+	);
+
+	const AlertAccess = () => (
+		<Alert className="w-[98%] bg-yellow-200 border-none mt-5 mx-auto flex justify-between items-center">
+			<div className="flex space-x-3 items-center">
+				<Info className="h-6 w-6" />
+				<div className="flex flex-col">
+					<AlertTitle>Reminder !</AlertTitle>
+					<AlertDescription>
+						Your {!user.boost && "free "}subscription has already <b>expired</b>{" "}
+						last {formatDate(user.subscriptionEndDate, "PP")}. To keep your
+						clinic visible to patients, please{" "}
+						<Tooltip
+							side="bottom"
+							tooltip="Renew your subscription by clicking here"
+							delayDuration={300}>
+							<span className="font-bold hover:underline hover:cursor-pointer">
+								renew
+							</span>
+						</Tooltip>{" "}
+						your subscription.
+					</AlertDescription>
+				</div>
+			</div>
+			<Button onClick={() => setBannerAlert(false)} variant="ghost" size="icon">
+				<CircleX className="h-5 w-5" />
+			</Button>
+		</Alert>
+	);
 
 	return (
 		<>
-			{bannerAlert && <FreeAccess /> }
+			{bannerAlert && <FreeAccess />}
+			{bannerExpiredAlert && <AlertAccess />}
 			<div className="p-2 min-h-screen sm:p-5 items-center lg:items-start lg:max-h-min     lg:space-x-5 flex">
 				<aside className="hidden lg:block  lg:w-3/12 xl:w-2/12 overflow-hidden  bg-[#BCF0F9] rounded-xl">
 					<div className="space-y-2">

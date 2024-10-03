@@ -2,7 +2,7 @@ import { Clinic, ClinicWithDoctor, DBClinic } from "@/types/types";
 import { db } from "@/utils/supabase";
 import { ERR_INTERNAL } from "@/constants/errors.ts";
 import { isEmpty } from "lodash";
-import { getUnixTime } from "date-fns";
+import { formatDate, getUnixTime, isEqual, isFuture } from "date-fns";
 
 const transformClinic = (clinic: DBClinic): Clinic => {
 	return {
@@ -258,25 +258,34 @@ export const getClinic = async (id: number): Promise<ClinicWithDoctor> => {
 export const getAllClinics = async (): Promise<ClinicWithDoctor[]> => {
 	const { data, error } = await db.from("clinics").select(
 		`*,
-		user!clinics_doctor_id_fkey(first_name, last_name, id)
+		user!clinics_doctor_id_fkey(first_name, last_name, id, subscription_end_date)
         `
 	);
 
 	if (error) throw new Error(error.message);
 
-	return data.map((d) => {
-		return {
-			...transformClinic(d),
-			doctor: ` ${d.user?.first_name ?? ""} ${d.user?.last_name ?? ""}`,
-			status: d.archive ? "INACTIVE" : "ACTIVE",
-			map: !isEmpty(d?.map)
-				? {
-						lat: Number((d?.map as Clinic["map"])?.lat),
-						lng: Number((d?.map as Clinic["map"])?.lng),
-				  }
-				: undefined,
-		};
-	}) as ClinicWithDoctor[];
+	return data
+		.filter(
+			(d) =>
+				isFuture(new Date(d.user?.subscription_end_date as string)) ||
+				isEqual(
+					new Date(d.user?.subscription_end_date as string),
+					formatDate(new Date(), "yyyy-MM-dd")
+				)
+		)
+		.map((d) => {
+			return {
+				...transformClinic(d),
+				doctor: ` ${d.user?.first_name ?? ""} ${d.user?.last_name ?? ""}`,
+				status: d.archive ? "INACTIVE" : "ACTIVE",
+				map: !isEmpty(d?.map)
+					? {
+							lat: Number((d?.map as Clinic["map"])?.lat),
+							lng: Number((d?.map as Clinic["map"])?.lng),
+					  }
+					: undefined,
+			};
+		}) as ClinicWithDoctor[];
 };
 
 export const searchClinic = async (
@@ -284,54 +293,76 @@ export const searchClinic = async (
 ): Promise<ClinicWithDoctor[]> => {
 	const { data, error } = await db
 		.from("clinics")
-		.select("*, user!clinics_doctor_id_fkey(first_name, last_name, id)")
+		.select(
+			"*, user!clinics_doctor_id_fkey(first_name, last_name, id, subscription_end_date)"
+		)
 		.or(`name.ilike.%${query}%,address.ilike.%${query}%`);
 
 	if (error) throw new Error(ERR_INTERNAL);
 
 	return data?.length > 0
-		? data?.map((clinic) => {
-				return {
-					...transformClinic(clinic),
-					doctor: ` ${clinic.user?.first_name ?? ""} ${
-						clinic.user?.last_name ?? ""
-					}`,
-					status: clinic.archive ? "INACTIVE" : "ACTIVE",
-					map: !isEmpty(clinic?.map)
-						? {
-								lat: Number((clinic?.map as Clinic["map"])?.lat),
-								lng: Number((clinic?.map as Clinic["map"])?.lng),
-						  }
-						: undefined,
-				};
-		  })
+		? data
+				.filter(
+					(d) =>
+						isFuture(new Date(d.user?.subscription_end_date as string)) ||
+						isEqual(
+							new Date(d.user?.subscription_end_date as string),
+							formatDate(new Date(), "yyyy-MM-dd")
+						)
+				)
+				?.map((clinic) => {
+					return {
+						...transformClinic(clinic),
+						doctor: ` ${clinic.user?.first_name ?? ""} ${
+							clinic.user?.last_name ?? ""
+						}`,
+						status: clinic.archive ? "INACTIVE" : "ACTIVE",
+						map: !isEmpty(clinic?.map)
+							? {
+									lat: Number((clinic?.map as Clinic["map"])?.lat),
+									lng: Number((clinic?.map as Clinic["map"])?.lng),
+							  }
+							: undefined,
+					};
+				})
 		: [];
 };
 
 export const getBoostedClinics = async (): Promise<ClinicWithDoctor[]> => {
 	const { data, error } = await db
 		.from("clinics")
-		.select("*, user!clinics_doctor_id_fkey(first_name, last_name, id)")
+		.select(
+			"*, user!clinics_doctor_id_fkey(first_name, last_name, id, subscription_end_date)"
+		)
 		.eq("boosted", true);
 
 	if (error) throw new Error(ERR_INTERNAL);
 
 	return data?.length > 0
-		? data?.map((clinic) => {
-				return {
-					...transformClinic(clinic),
-					doctor: ` ${clinic.user?.first_name ?? ""} ${
-						clinic.user?.last_name ?? ""
-					}`,
-					status: clinic.archive ? "INACTIVE" : "ACTIVE",
-					map: !isEmpty(clinic?.map)
-						? {
-								lat: Number((clinic?.map as Clinic["map"])?.lat),
-								lng: Number((clinic?.map as Clinic["map"])?.lng),
-						  }
-						: undefined,
-				};
-		  })
+		? data
+				.filter(
+					(d) =>
+						isFuture(new Date(d.user?.subscription_end_date as string)) ||
+						isEqual(
+							new Date(d.user?.subscription_end_date as string),
+							new Date()
+						)
+				)
+				?.map((clinic) => {
+					return {
+						...transformClinic(clinic),
+						doctor: ` ${clinic.user?.first_name ?? ""} ${
+							clinic.user?.last_name ?? ""
+						}`,
+						status: clinic.archive ? "INACTIVE" : "ACTIVE",
+						map: !isEmpty(clinic?.map)
+							? {
+									lat: Number((clinic?.map as Clinic["map"])?.lat),
+									lng: Number((clinic?.map as Clinic["map"])?.lng),
+							  }
+							: undefined,
+					};
+				})
 		: [];
 };
 
@@ -350,18 +381,31 @@ export const updateClinicStatus = async (
 };
 
 export const getClinicsGeo = async () => {
-	const { data, error } = await db.from("clinics").select("id, name, map");
+	const { data, error } = await db
+		.from("clinics")
+		.select(
+			"id, name, map, user!clinics_doctor_id_fkey(subscription_end_date)"
+		);
 
 	if (data === null || error) throw new Error("Error fetching clinics");
 
-	return data?.map((d) => {
-		return {
-			id: d.id,
-			name: d.name,
-			map: {
-				lat: (d.map as Clinic["map"])?.lat as number,
-				lng: (d.map as Clinic["map"])?.lng as number,
-			},
-		};
-	});
+	return data
+		.filter(
+			(d) =>
+				isFuture(new Date(d.user?.subscription_end_date as string)) ||
+				isEqual(
+					new Date(d.user?.subscription_end_date as string),
+					formatDate(new Date(), "yyyy-MM-dd")
+				)
+		)
+		?.map((d) => {
+			return {
+				id: d.id,
+				name: d.name,
+				map: {
+					lat: (d.map as Clinic["map"])?.lat as number,
+					lng: (d.map as Clinic["map"])?.lng as number,
+				},
+			};
+		});
 };

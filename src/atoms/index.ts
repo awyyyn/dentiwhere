@@ -9,4 +9,5 @@ export * from "./doctors-atom";
 export * from "./notification-atom";
 export * from "./review-atom";
 export * from "./service-atom";
+export * from "./subscription-atom";
 export * from "./user-atom";

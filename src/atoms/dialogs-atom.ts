@@ -21,3 +21,5 @@ export const accessbilityDialogAtom = atom<DialogAtom>(initialValues);
 export const categoryDialogAtom = atom<DialogAtom>(initialValues);
 
 export const serviceDialogAtom = atom<DialogAtom>(initialValues);
+
+export const subscriptionDialogAtom = atom<DialogAtom>(initialValues);

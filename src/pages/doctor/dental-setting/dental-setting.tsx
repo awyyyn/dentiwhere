@@ -25,6 +25,10 @@ import PreviewClinic from "./__components/preview-clinic/preview-clinic.tsx";
 import { Accessibility, Building } from "lucide-react";
 import { MdCategory, MdMedicalInformation } from "react-icons/md";
 import { TbDental } from "react-icons/tb";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert.tsx";
+import { Badge } from "@/components/ui/badge.tsx";
+import { formatDate, isEqual, isFuture } from "date-fns";
+import { Button } from "@/components/ui/button.tsx";
 
 type Manage =
 	| "view"
@@ -50,9 +54,42 @@ export default function DentalSetting() {
 	const toggleGroupItemStyle =
 		"data-[state=on]:bg-white/80 p-4 py-6 md:py-0 mx-1 font-normal   data-[state=off]:bg-white/30 hover:data-[state=off]:text-black  hover:data-[state=off]:bg-white/50 transition-all duration-300 data-[state=on]:shadow-lg data-[state=off]:shadow-none";
 
+	const isFutureDate =
+		isFuture(user.subscriptionEndDate) ||
+		isEqual(user.subscriptionEndDate, formatDate(new Date(), "yyyy-MM-dd"));
+
+	const isFreeAccess = isFutureDate && !user.boost;
+	const noSubscription = !isFreeAccess;
+
 	return (
 		<>
 			<Layout>
+				<Alert className="flex justify-between items-center max-w-[96.5%]">
+					<div className="space-y-1">
+						<AlertTitle className="text-lg font-bold tracking-wider">
+							Subscription
+						</AlertTitle>
+						<AlertDescription className="text-md">
+							{isFreeAccess && "You are currently subscribed to the free plan."}
+							{noSubscription && "You do not have an active subscription."}
+						</AlertDescription>
+						{noSubscription && (
+							<Button size="sm" className="">
+								Subscribe
+							</Button>
+						)}
+					</div>
+					<div>
+						{isFreeAccess && (
+							<Badge className="bg-emerald-500 hover:bg-emerald-500">
+								Free
+							</Badge>
+						)}
+						{noSubscription && (
+							<Badge variant="destructive">No Subscription</Badge>
+						)}
+					</div>
+				</Alert>
 				<div>
 					<div>
 						<h1 className="text-3xl font-bold">Dental Setting</h1>

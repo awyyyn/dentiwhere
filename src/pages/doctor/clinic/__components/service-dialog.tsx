@@ -60,9 +60,7 @@ import { ImSpinner9 } from "react-icons/im";
 
 const serviceSchema = z.object({
 	img: z.string().optional(),
-	name: z
-		.string()
-		.min(1, { message: "Name is required!" }),
+	name: z.string().min(1, { message: "Name is required!" }),
 	description: z.string().optional(),
 	categoryId: z.string().min(1, { message: "Category is required" }),
 	rate: z.string().optional(),
@@ -331,21 +329,21 @@ const ServiceDialog = () => {
 							)}
 						/>
 						{/* <FormField
-                            control={form.control}
-                            name=""
-                            render={({ field}) => (
-                                <FormItem > 
-                                    <FormControl>
-                                        <Input 
-                                            readOnly={ loading || dialogAtom.mode === "view"} 
-                                            placeholder="Name" 
-                                            {...field} 
-                                        />
-                                    </FormControl> 
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        /> */}
+						control={form.control}
+						name=""
+						render={({ field}) => (
+							<FormItem > 
+								<FormControl>
+									<Input 
+										readOnly={ loading || dialogAtom.mode === "view"} 
+										placeholder="Name" 
+										{...field} 
+									/>
+								</FormControl> 
+								<FormMessage />
+							</FormItem>
+						)}
+					/> */}
 						<div className="flex justify-end gap-x-4">
 							<Button
 								type="button"

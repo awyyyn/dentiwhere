@@ -36,7 +36,7 @@ import { Tooltip } from "@/components/shared/tooltip/tooltip";
 export default function DoctorLayout() {
 	const user = useAtomValue(userAtom);
 	const [bannerAlert, setBannerAlert] = useState(
-		!user.boost && user.subscriptionEndDate >= new Date()
+		!user.boost && new Date(user.subscriptionEndDate) >= new Date()
 	);
 	const [bannerExpiredAlert, setBannerExpiredAlert] = useState(
 		isPast(user.subscriptionEndDate)
@@ -130,7 +130,10 @@ export default function DoctorLayout() {
 					</AlertDescription>
 				</div>
 			</div>
-			<Button onClick={() => setBannerAlert(false)} variant="ghost" size="icon">
+			<Button
+				onClick={() => setBannerExpiredAlert(false)}
+				variant="ghost"
+				size="icon">
 				<CircleX className="h-5 w-5" />
 			</Button>
 		</Alert>

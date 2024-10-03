@@ -53,6 +53,9 @@ const PublicViewClinics = Loadable(
 const VerifyDoctor = Loadable(
 	lazy(() => import("./pages/admin/verify-doctor/verify-doctor"))
 );
+const Subscriptions = Loadable(
+	lazy(() => import("./pages/admin/subscription/subscription"))
+);
 /* =============================== PAGES =============================== */
 
 export default function App() {
@@ -127,6 +130,10 @@ export default function App() {
 						{
 							path: "clinics/view/:id",
 							element: <Clinic />,
+						},
+						{
+							path: "subscriptions",
+							element: <Subscriptions />,
 						},
 					],
 				},

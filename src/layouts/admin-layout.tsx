@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import Navbar from "@/components/shared/navbar/navbar";
 
 /* ASSETS */
-import { Hospital, LayoutDashboard, Users } from "lucide-react";
+import { Hospital, LayoutDashboard, PhilippinePeso, Users } from "lucide-react";
 import Logo from "@/assets/svgs/logo with text.svg";
 
 /* TYPES */
@@ -74,7 +74,7 @@ export default function AdminLayout() {
 			<aside className="fixed w-2/12 z-50 bg-1/20 h-screen py-5 lg:py-14">
 				<div className="space-y-5">
 					<Tooltip tooltip="Dentiwhere">
-						<AsyncImage
+						<img
 							src={Logo}
 							alt="Dentiwhere logo"
 							className="md:max-w-32 px-2 md:px-0 lg:max-w-40 mx-auto"
@@ -151,6 +151,26 @@ export default function AdminLayout() {
 								</Button>
 							</Tooltip>
 						</div>
+						<NavLink
+							to="subscriptions"
+							className={({ isActive }) =>
+								`flex w-full border-r-4  group transition-all ${
+									isActive
+										? "border-black bg-1/20"
+										: "border-transparent hover:border-black"
+								}`
+							}>
+							<Tooltip tooltip="Subscription">
+								<Button
+									variant="ghost"
+									className=" md:justify-start lg:px-5 xl:px-10 transition-all duration-300 group-hover:bg-1/20  w-full py-6 rounded-none">
+									<PhilippinePeso className="max-w-10 min-w-10 ml-2 md:ml-0  " />
+									<p className="hidden md:block md:ml-2 lg:ml-4 xl:ml-8">
+										Subscription
+									</p>
+								</Button>
+							</Tooltip>
+						</NavLink>
 					</nav>
 				</div>
 			</aside>

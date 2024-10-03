@@ -45,7 +45,7 @@ export type User = {
 	notifications?: Notification[];
 	boost: boolean;
 	verified: boolean;
-	subscriptionEndDate: Date;
+	subscriptionEndDate: string;
 	createdAt: Date | string;
 	updatedAt: Date | string;
 };
@@ -53,6 +53,16 @@ export type User = {
 export type ClinicWithDoctor = Clinic & {
 	doctor: string;
 	status: "ACTIVE" | "INACTIVE";
+};
+
+export type Subscription = {
+	id: number;
+	name: string;
+	description: string;
+	price: number;
+	months: number;
+	createdAt: Date | string;
+	updatedAt: Date | string;
 };
 
 export type Clinic = {
@@ -161,3 +171,5 @@ export type DBAmenities = Database["public"]["Tables"]["amenities"]["Row"];
 export type DBAccessibility =
 	Database["public"]["Tables"]["accessibility"]["Row"];
 export type DBReview = Database["public"]["Tables"]["reviews"]["Row"];
+export type DBSubscription =
+	Database["public"]["Tables"]["subscription"]["Row"];

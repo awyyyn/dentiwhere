@@ -2,7 +2,7 @@ import { ERR_INTERNAL, ERR_USER_ALREADY_REGISTERED } from "@/constants/errors";
 import { DBUser, Role, Status, User } from "@/types/types";
 import { db } from "@/utils/supabase";
 import { transformNotification } from "./notification";
-import { add, getUnixTime } from "date-fns";
+import { add, formatDate, getUnixTime } from "date-fns";
 
 export const transformUser = (user: DBUser): User => {
 	const role =
@@ -24,8 +24,8 @@ export const transformUser = (user: DBUser): User => {
 		email: user.email,
 		firstName: user.first_name,
 		lastName: user.last_name,
-		gender: user.gender, 
-		subscriptionEndDate: new Date(user.subscription_end_date),
+		gender: user.gender,
+		subscriptionEndDate: formatDate(user.subscription_end_date, "yyyy-MM-dd"),
 		licenseId:
 			typeof user.license_id === "string"
 				? JSON.parse(user.license_id)
@@ -44,7 +44,6 @@ export const transformUser = (user: DBUser): User => {
 		updatedAt: user.updated_at ?? "",
 		address: user.address ?? "",
 		birthDate: user.birth_date ? new Date(user.birth_date).toISOString() : "",
-		
 	};
 };
 
@@ -159,7 +158,7 @@ export const createUser = async (user: any): Promise<User> => {
 			contacts: user.contacts,
 			role: user.role,
 			verified: false,
-			subscription_end_date: add(new Date(), { years: 1 }).toString()
+			subscription_end_date: add(new Date(), { years: 1 }).toString(),
 		})
 		.select();
 

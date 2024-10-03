@@ -310,6 +310,36 @@ export type Database = {
           },
         ]
       }
+      subscription: {
+        Row: {
+          created_at: string
+          description: string
+          id: number
+          months: number
+          name: string
+          price: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          id?: number
+          months: number
+          name: string
+          price: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: number
+          months?: number
+          name?: string
+          price?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user: {
         Row: {
           address: string

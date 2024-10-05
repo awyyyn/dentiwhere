@@ -148,18 +148,20 @@ export default function SubscriptionTable() {
 									<PencilIcon className="h-4 w-4 mr-2" />
 									Edit
 								</DropdownMenuItem>
-								<DropdownMenuItem
-									onClick={() => {
-										setSubscriptionData(row.original);
-										setSubscriptionDialog({
-											mode: "delete",
-											open: true,
-										});
-									}} // Add your delete action handler here
-									className="cursor-pointer hover:bg-gray-800/10">
-									<TrashIcon className="h-4 w-4 mr-2" />
-									Delete
-								</DropdownMenuItem>
+								{row.original.id !== 8 && (
+									<DropdownMenuItem
+										onClick={() => {
+											setSubscriptionData(row.original);
+											setSubscriptionDialog({
+												mode: "delete",
+												open: true,
+											});
+										}} // Add your delete action handler here
+										className="cursor-pointer hover:bg-gray-800/10">
+										<TrashIcon className="h-4 w-4 mr-2" />
+										Delete
+									</DropdownMenuItem>
+								)}
 							</DropdownMenuContent>
 						</DropdownMenu>
 					</div>

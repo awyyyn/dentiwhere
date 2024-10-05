@@ -197,28 +197,30 @@ export function AddSubscriptionDialog() {
 								</FormItem>
 							)}
 						/>
-						<FormField
-							control={form.control}
-							name="price"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Price</FormLabel>
-									<FormControl>
-										<Input
-											autoComplete="off"
-											autoFocus={false}
-											readOnly={loading || viewMode}
-											className="first-letter:uppercase"
-											placeholder="Price"
-											{...field}
-										/>
-									</FormControl>
-									<div className="flex justify-end">
-										<FormMessage />
-									</div>
-								</FormItem>
-							)}
-						/>
+						{(!values || (values && values.id !== 8)) && (
+							<FormField
+								control={form.control}
+								name="price"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Price</FormLabel>
+										<FormControl>
+											<Input
+												autoComplete="off"
+												autoFocus={false}
+												readOnly={loading || viewMode}
+												className="first-letter:uppercase"
+												placeholder="Price"
+												{...field}
+											/>
+										</FormControl>
+										<div className="flex justify-end">
+											<FormMessage />
+										</div>
+									</FormItem>
+								)}
+							/>
+						)}
 						<FormField
 							control={form.control}
 							name="months"
@@ -270,11 +272,6 @@ export function AddSubscriptionDialog() {
 								variant="destructive"
 								className="btn-scale transition-1"
 								onClick={() => {
-									if (editMode) {
-										setDialog((p) => ({ ...p, mode: "view" }));
-										form.reset();
-										return;
-									}
 									setValues(null);
 									form.reset();
 									setDialog({ open: false });

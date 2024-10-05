@@ -2,7 +2,7 @@ import { Clinic, ClinicWithDoctor, DBClinic } from "@/types/types";
 import { db } from "@/utils/supabase";
 import { ERR_INTERNAL } from "@/constants/errors.ts";
 import { isEmpty } from "lodash";
-import { formatDate, getUnixTime, isEqual, isFuture } from "date-fns";
+import { formatDate, getUnixTime, isEqual, isFuture, isPast } from "date-fns";
 
 const transformClinic = (clinic: DBClinic): Clinic => {
 	return {
@@ -332,9 +332,8 @@ export const getBoostedClinics = async (): Promise<ClinicWithDoctor[]> => {
 	const { data, error } = await db
 		.from("clinics")
 		.select(
-			"*, user!clinics_doctor_id_fkey(first_name, last_name, id, subscription_end_date)"
-		)
-		.eq("boosted", true);
+			"*, user!clinics_doctor_id_fkey(first_name, last_name, id, subscription_end_date, boost)"
+		);
 
 	if (error) throw new Error(ERR_INTERNAL);
 
@@ -342,11 +341,7 @@ export const getBoostedClinics = async (): Promise<ClinicWithDoctor[]> => {
 		? data
 				.filter(
 					(d) =>
-						isFuture(new Date(d.user?.subscription_end_date as string)) ||
-						isEqual(
-							new Date(d.user?.subscription_end_date as string),
-							new Date()
-						)
+						!isPast(d.user?.subscription_end_date as string) && d.user?.boost
 				)
 				?.map((clinic) => {
 					return {
@@ -384,19 +379,14 @@ export const getClinicsGeo = async () => {
 	const { data, error } = await db
 		.from("clinics")
 		.select(
-			"id, name, map, user!clinics_doctor_id_fkey(subscription_end_date)"
+			"id, name, map, user!clinics_doctor_id_fkey(subscription_end_date, boost)"
 		);
 
 	if (data === null || error) throw new Error("Error fetching clinics");
 
 	return data
 		.filter(
-			(d) =>
-				isFuture(new Date(d.user?.subscription_end_date as string)) ||
-				isEqual(
-					new Date(d.user?.subscription_end_date as string),
-					formatDate(new Date(), "yyyy-MM-dd")
-				)
+			(d) => !isPast(d.user?.subscription_end_date as string) && d.user?.boost
 		)
 		?.map((d) => {
 			return {

@@ -41,6 +41,8 @@ export type User = {
 	licenseId: LicensedIDImage;
 	role: Role;
 	img: string;
+	subscribe: number;
+	subscription: Subscription;
 	authId: string;
 	notifications?: Notification[];
 	boost: boolean;

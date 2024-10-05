@@ -360,6 +360,7 @@ export type Database = {
           postal_id: string
           role: string
           status: string
+          subscribe: number
           subscription_end_date: string
           updated_at: string
           verified: boolean
@@ -383,6 +384,7 @@ export type Database = {
           postal_id: string
           role: string
           status?: string
+          subscribe?: number
           subscription_end_date?: string
           updated_at?: string
           verified?: boolean
@@ -406,6 +408,7 @@ export type Database = {
           postal_id?: string
           role?: string
           status?: string
+          subscribe?: number
           subscription_end_date?: string
           updated_at?: string
           verified?: boolean
@@ -423,6 +426,13 @@ export type Database = {
             columns: ["clinic_id"]
             isOneToOne: true
             referencedRelation: "clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_subscribe_fkey"
+            columns: ["subscribe"]
+            isOneToOne: false
+            referencedRelation: "subscription"
             referencedColumns: ["id"]
           },
         ]

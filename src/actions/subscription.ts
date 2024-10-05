@@ -1,7 +1,7 @@
 import { DBSubscription, Subscription } from "@/types/types";
 import { db } from "@/utils/supabase";
 
-const transformSubscription = (sub: DBSubscription): Subscription => {
+export const transformSubscription = (sub: DBSubscription): Subscription => {
 	return {
 		id: sub.id,
 		name: sub.name,
@@ -13,9 +13,18 @@ const transformSubscription = (sub: DBSubscription): Subscription => {
 	};
 };
 
+export const getSubscription = async (id: number): Promise<Subscription> => {
+	const { data, error } = await db
+		.from("subscription")
+		.select("*")
+		.eq("id", id)
+		.single();
+	if (error) throw new Error(error.message);
+	return transformSubscription(data);
+};
+
 export const getAllSubscriptions = async (): Promise<Subscription[]> => {
 	const { data, error } = await db.from("subscription").select("*");
-
 	if (error) throw new Error(error.message);
 
 	return data.map((d) => transformSubscription(d));

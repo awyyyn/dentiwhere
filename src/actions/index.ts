@@ -4,6 +4,7 @@ export * from "./auth.ts";
 export * from "./category.ts";
 export * from "./clinic.ts";
 export * from "./notification.ts";
+export * from "./payments";
 export * from "./review.ts";
 export * from "./service.ts";
 export * from "./subscription.ts";

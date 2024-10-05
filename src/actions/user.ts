@@ -1,10 +1,11 @@
 import { ERR_INTERNAL, ERR_USER_ALREADY_REGISTERED } from "@/constants/errors";
-import { DBUser, Role, Status, User } from "@/types/types";
+import { DBUser, Role, Status, Subscription, User } from "@/types/types";
 import { db } from "@/utils/supabase";
 import { transformNotification } from "./notification";
-import { add, formatDate, getUnixTime } from "date-fns";
+import { transformSubscription } from "./subscription";
+import { add, addMonths, formatDate, getUnixTime } from "date-fns";
 
-export const transformUser = (user: DBUser): User => {
+export const transformUser = (user: DBUser): Omit<User, "subscription"> => {
 	const role =
 		user.role === "DOCTOR"
 			? Role.doctor
@@ -26,6 +27,7 @@ export const transformUser = (user: DBUser): User => {
 		lastName: user.last_name,
 		gender: user.gender,
 		subscriptionEndDate: formatDate(user.subscription_end_date, "yyyy-MM-dd"),
+		subscribe: user.subscribe,
 		licenseId:
 			typeof user.license_id === "string"
 				? JSON.parse(user.license_id)
@@ -48,7 +50,10 @@ export const transformUser = (user: DBUser): User => {
 };
 
 export const getUser = async (id: string) => {
-	const { data, error } = await db.from("user").select().or(`auth_id.eq.${id}`);
+	const { data, error } = await db
+		.from("user")
+		.select("*,  subscription(*)")
+		.or(`auth_id.eq.${id}`);
 
 	if (error) {
 		console.error(error);
@@ -56,7 +61,10 @@ export const getUser = async (id: string) => {
 
 	if (data === null || (data && data?.length === 0)) return null;
 
-	return transformUser(data[0]);
+	return {
+		...transformUser(data[0]),
+		subscription: transformSubscription(data[0].subscription!),
+	};
 };
 
 export const getOneDoctor = async (
@@ -64,7 +72,7 @@ export const getOneDoctor = async (
 ): Promise<User & { clinicName: string }> => {
 	const { data, error } = await db
 		.from("user")
-		.select("*, clinics!user_clinic_id_fkey (name)")
+		.select("*, clinics!user_clinic_id_fkey (name), subscription(*)")
 		.eq(`id`, id);
 
 	if (error) {
@@ -76,14 +84,15 @@ export const getOneDoctor = async (
 
 	return {
 		...transformUser(data[0]),
+		subscription: transformSubscription(data[0].subscription!),
 		clinicName: data[0].clinics?.name ?? "",
 	};
 };
 
-export const getOneByAuthID = async (id: string) => {
+export const getOneByAuthID = async (id: string): Promise<User> => {
 	const { data, error } = await db
 		.from("user")
-		.select("*, notification!notification_to_fkey(*)")
+		.select("*, notification!notification_to_fkey(*),  subscription(*)")
 		.eq("auth_id", id)
 		.maybeSingle();
 
@@ -91,33 +100,43 @@ export const getOneByAuthID = async (id: string) => {
 		console.error(error);
 	}
 
-	if (data === null) return null;
+	if (data === null) throw new Error("Something went wrong!");
 
-	return transformUser({
-		...data,
-		notification:
-			data.notification.length > 0
-				? data.notification
-						.map((notif) => transformNotification(notif))
-						.sort((a, b) => getUnixTime(b.createdAt) - getUnixTime(a.createdAt))
-				: [],
-	});
+	return {
+		...transformUser({
+			...data,
+			notification:
+				data.notification.length > 0
+					? data.notification
+							.map((notif) => transformNotification(notif))
+							.sort(
+								(a, b) => getUnixTime(b.createdAt) - getUnixTime(a.createdAt)
+							)
+					: [],
+		}),
+		subscription: transformSubscription(data.subscription!),
+	};
 };
 
-export const getAllUsers = async () => {
-	const { data, error } = await db.from("user").select("*");
+export const getAllUsers = async (): Promise<User[]> => {
+	const { data, error } = await db.from("user").select("*,  subscription(*)");
 
 	if (error) {
 		console.error(error);
 	}
 
-	return data ? data?.map((user) => transformUser(user)) : [];
+	return data
+		? data?.map((user) => ({
+				...transformUser(user),
+				subscription: transformSubscription(user.subscription!),
+		  }))
+		: [];
 };
 
 export const createUser = async (user: any): Promise<User> => {
 	const isExists = await db
 		.from("user")
-		.select("*")
+		.select("*,  subscription(*)")
 		.or(`email.eq.${user.email},license_number.eq.${user.licenseNumber}`);
 
 	if (isExists.data && isExists.data.length > 0)
@@ -160,11 +179,16 @@ export const createUser = async (user: any): Promise<User> => {
 			verified: false,
 			subscription_end_date: add(new Date(), { years: 1 }).toString(),
 		})
-		.select();
+		.select("*, subscription(*)");
 
 	if (insertToUserTable.error) throw new Error(insertToUserTable.error.message);
 
-	return transformUser(insertToUserTable.data[0]);
+	return {
+		...transformUser(insertToUserTable.data[0]),
+		subscription: transformSubscription(
+			insertToUserTable.data[0].subscription!
+		),
+	};
 };
 
 export const updateUser = async (
@@ -174,10 +198,13 @@ export const updateUser = async (
 		.from("user")
 		.update(inputs)
 		.eq("id", inputs.id)
-		.select()
+		.select("*, subscription(*)")
 		.maybeSingle();
 	if (error || data === null) throw new Error("Error updating user");
-	return transformUser(data);
+	return {
+		...transformUser(data),
+		subscription: transformSubscription(data.subscription!),
+	};
 };
 
 export const updateUserClinic = async (inputs: {
@@ -188,21 +215,29 @@ export const updateUserClinic = async (inputs: {
 		.from("user")
 		.update({ clinic_id: inputs.clinicId })
 		.eq("id", inputs.id)
-		.select()
+		.select("*,  subscription(*)")
 		.maybeSingle();
 	if (error || data === null) throw new Error("Error updating user");
-	return transformUser(data);
+	return {
+		...transformUser(data),
+		subscription: transformSubscription(data.subscription!),
+	};
 };
 
-export const getAllDoctors = async () => {
+export const getAllDoctors = async (): Promise<User[]> => {
 	const { error, data } = await db
 		.from("user")
-		.select("*")
+		.select("*, subscription(*)")
 		.eq("role", "DOCTOR");
 
 	if (error) throw new Error(error.message);
 
-	return data.map((user) => transformUser(user));
+	return data.map((user) => {
+		return {
+			...transformUser(user),
+			subscription: transformSubscription(user.subscription!),
+		};
+	});
 };
 
 export const updateDoctorStatus = async (
@@ -215,7 +250,7 @@ export const updateDoctorStatus = async (
 			status,
 		})
 		.eq("id", id)
-		.select("*, clinics!user_clinic_id_fkey (name)")
+		.select("*, clinics!user_clinic_id_fkey (name),  subscription(*)")
 		.maybeSingle();
 
 	if (response.error) throw new Error(ERR_INTERNAL);
@@ -224,6 +259,31 @@ export const updateDoctorStatus = async (
 
 	return {
 		...transformUser(response.data),
+		subscription: transformSubscription(response.data.subscription!),
 		clinicName: response.data.clinics?.name ?? "",
+	};
+};
+
+export const updateDoctorSubscription = async (
+	subId: number,
+	months: number,
+	id: number
+): Promise<User> => {
+	const { data, error } = await db
+		.from("user")
+		.update({
+			subscribe: subId,
+			subscription_end_date: addMonths(new Date(), months).toISOString(),
+			boost: true,
+		})
+		.eq("id", id)
+		.select("*, subscription(*)")
+		.single();
+
+	if (data === null || error) throw new Error("Something went wrong");
+
+	return {
+		...transformUser(data),
+		subscription: transformSubscription(data.subscription!),
 	};
 };

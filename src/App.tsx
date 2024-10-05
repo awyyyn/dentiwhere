@@ -56,6 +56,9 @@ const VerifyDoctor = Loadable(
 const Subscriptions = Loadable(
 	lazy(() => import("./pages/admin/subscription/subscription"))
 );
+const Subscription = Loadable(
+	lazy(() => import("./pages/doctor/subscription/subscription"))
+);
 /* =============================== PAGES =============================== */
 
 export default function App() {
@@ -155,6 +158,10 @@ export default function App() {
 						{
 							path: "notification",
 							element: <Notification />,
+						},
+						{
+							path: "subscribe",
+							element: <Subscription />,
 						},
 						{
 							path: "logout",

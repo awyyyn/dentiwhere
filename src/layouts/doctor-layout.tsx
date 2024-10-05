@@ -35,12 +35,8 @@ import { Tooltip } from "@/components/shared/tooltip/tooltip";
 
 export default function DoctorLayout() {
 	const user = useAtomValue(userAtom);
-	const [bannerAlert, setBannerAlert] = useState(
-		!user.boost && new Date(user.subscriptionEndDate) >= new Date()
-	);
-	const [bannerExpiredAlert, setBannerExpiredAlert] = useState(
-		isPast(user.subscriptionEndDate)
-	);
+	const [bannerAlert, setBannerAlert] = useState(false);
+	const [bannerExpiredAlert, setBannerExpiredAlert] = useState(false);
 	const [open, setIsOpen] = useState(false);
 	const [notifications, setNotifications] = useAtom(notificationsAtom);
 	const navigate = useNavigate();
@@ -49,7 +45,14 @@ export default function DoctorLayout() {
 		if (user.role !== Role.doctor && user.id !== 0) {
 			return navigate("/dashboard", { replace: true });
 		}
-	}, []);
+
+		if (user) {
+			setBannerAlert(
+				!user.boost && new Date(user.subscriptionEndDate) >= new Date()
+			);
+			setBannerExpiredAlert(isPast(user.subscriptionEndDate));
+		}
+	}, [user]);
 
 	useEffect(() => {
 		const options = {

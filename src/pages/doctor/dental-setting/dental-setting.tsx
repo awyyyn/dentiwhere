@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useAtomValue } from "jotai";
+import { formatDate, isEqual, isFuture, isPast } from "date-fns";
+import { useNavigate } from "react-router-dom";
 
 /* STATES */
 import { userAtom, clinicAtom } from "@/atoms";
@@ -27,7 +29,6 @@ import { MdCategory, MdMedicalInformation } from "react-icons/md";
 import { TbDental } from "react-icons/tb";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert.tsx";
 import { Badge } from "@/components/ui/badge.tsx";
-import { formatDate, isEqual, isFuture } from "date-fns";
 import { Button } from "@/components/ui/button.tsx";
 
 type Manage =
@@ -44,6 +45,7 @@ export default function DentalSetting() {
 	// const [editing, setEditing] = useState(false);
 	const [manage, setManage] = useState<Manage>("clinic");
 	const clinic = useAtomValue(clinicAtom);
+	const navigate = useNavigate();
 
 	if (user.status === Status.unverified) return <NotVerified />;
 	if (user.status !== Status.verified && !adding)
@@ -59,7 +61,7 @@ export default function DentalSetting() {
 		isEqual(user.subscriptionEndDate, formatDate(new Date(), "yyyy-MM-dd"));
 
 	const isFreeAccess = isFutureDate && !user.boost;
-	const noSubscription = !isFreeAccess;
+	const noSubscription = isPast(user.subscriptionEndDate);
 
 	return (
 		<>
@@ -71,10 +73,20 @@ export default function DentalSetting() {
 						</AlertTitle>
 						<AlertDescription className="text-md">
 							{isFreeAccess && "You are currently subscribed to the free plan."}
-							{noSubscription && "You do not have an active subscription."}
+							{noSubscription ? (
+								"You do not have an active subscription."
+							) : (
+								<span>
+									You're currently subscribed to
+									<b> "{user.subscription.name}"</b>
+								</span>
+							)}
 						</AlertDescription>
 						{noSubscription && (
-							<Button size="sm" className="">
+							<Button
+								size="sm"
+								onClick={() => navigate("/subscribe")}
+								className="">
 								Subscribe
 							</Button>
 						)}
@@ -85,8 +97,10 @@ export default function DentalSetting() {
 								Free
 							</Badge>
 						)}
-						{noSubscription && (
+						{noSubscription ? (
 							<Badge variant="destructive">No Subscription</Badge>
+						) : (
+							<Badge>{user.subscription.name}</Badge>
 						)}
 					</div>
 				</Alert>

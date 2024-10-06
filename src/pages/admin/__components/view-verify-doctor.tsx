@@ -93,9 +93,16 @@ export const ViewVerifyDoctor = ({ verify = false }: SharedClinicProps) => {
 						<Label>Address</Label>
 						<Input value={doctor?.address} readOnly className="bg-white" />
 					</div>
-					<div className="lg:col-span-2">
+					<div className="lg:col-span-2 flex items-center justify-between gap-y-2 fslex-wrap">
 						<h1 className="font-bold text-xl">License Pictures</h1>
+						<Link
+							to="https://online.prc.gov.ph/Verification"
+							target="_blank"
+							className="text-black bg-white/80 rounded-lg shadow-sm p-2  max-w-fit">
+							Go to PRC Verification Page
+						</Link>
 					</div>
+					<div className="lg:hidden" />
 					<div className="space-y-2 p-1">
 						<h1 className="font-semibold">Front Image</h1>
 						<div

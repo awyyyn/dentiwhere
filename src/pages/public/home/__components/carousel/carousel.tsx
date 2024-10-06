@@ -6,11 +6,45 @@ import {
 	CarouselItem,
 } from "@/components/ui/carousel";
 
-// GUINOBATAN = https://scontent.flgp1-1.fna.fbcdn.net/v/t1.6435-9/57297836_2343997612536105_9196792262376292352_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=2a1932&_nc_eui2=AeE0LRx_j-rscT5OMxnGQaNChKExZWNvWfSEoTFlY29Z9GQSfD0tiQJzSuFfNY8VD4CHlgY55bfz-8ccUOFxN-KN&_nc_ohc=nYdDfjEMiqsQ7kNvgHd1Ojk&_nc_ht=scontent.flgp1-1.fna&_nc_gid=ArwxxXJvNENlCTtrpFm_fNJ&oh=00_AYAWXK7F8qWXs-ZgqJxqssLmEaIc-K5fu36vnO4XClHowA&oe=67222B14
+/* ASSETS */
+import Guinobatan from "@/assets/images/third_district/guinobatan.png";
+import Jovellar from "@/assets/images/third_district/jovellar.png";
+import Libon from "@/assets/images/third_district/libon.png";
+import Ligao from "@/assets/images/third_district/ligao.png";
+import Oas from "@/assets/images/third_district/oas.png";
+import Pioduran from "@/assets/images/third_district/pioduran.png";
+import Polangui from "@/assets/images/third_district/polangui.png";
 
-// LIGAO = https://scontent.flgp1-1.fna.fbcdn.net/v/t39.30808-6/460843895_3822435394751043_2073815357668793575_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=86c6b0&_nc_eui2=AeF9mH835tSaDtoxWOmtnVuMfCBAAxISxq18IEADEhLGrfEdTugEoMMckXJLpMahpykWJ81BVk_XfXMipoFUYFC7&_nc_ohc=SJ7M8g0xfjgQ7kNvgHl_sRm&_nc_ht=scontent.flgp1-1.fna&_nc_gid=AUDxKKAjSLUGYVqx7TFzW-b&oh=00_AYDOFynhyUB7oNR7yRrIhBPyESRnVpg1NEpkFEJ6V3YDDw&oe=670096F2
-
-//
+const items = [
+	{
+		img: Guinobatan,
+		name: "Guinobatan",
+	},
+	{
+		img: Jovellar,
+		name: "Jovellar",
+	},
+	{
+		img: Libon,
+		name: "Libon",
+	},
+	{
+		img: Ligao,
+		name: "Ligao",
+	},
+	{
+		img: Oas,
+		name: "Oas",
+	},
+	{
+		img: Pioduran,
+		name: "Pioduran",
+	},
+	{
+		img: Polangui,
+		name: "Polangui",
+	},
+];
 
 export default function CarouselSize() {
 	return (
@@ -20,16 +54,16 @@ export default function CarouselSize() {
 					opts={{
 						align: "start",
 					}}
-					className="w-full   bg-wshite ">
+					className="w-full bg-blend-screen  bg-wshite ">
 					<CarouselContent>
-						{Array.from({ length: 5 }).map((_, index) => (
-							<CarouselItem key={index} className="basis-96">
-								<div className="p-1 h-[300px]">
+						{items.map((item, index) => (
+							<CarouselItem key={index} className="md:basis-1/2 lg:basis-1/5">
+								<div className="p-1 h-[300px] ">
 									<AsyncImage
-										className="h-full w-full object-cover"
-										src="https://scontent.flgp1-1.fna.fbcdn.net/v/t39.30808-6/460843895_3822435394751043_2073815357668793575_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=86c6b0&_nc_eui2=AeF9mH835tSaDtoxWOmtnVuMfCBAAxISxq18IEADEhLGrfEdTugEoMMckXJLpMahpykWJ81BVk_XfXMipoFUYFC7&_nc_ohc=SJ7M8g0xfjgQ7kNvgHl_sRm&_nc_ht=scontent.flgp1-1.fna&_nc_gid=AUDxKKAjSLUGYVqx7TFzW-b&oh=00_AYDOFynhyUB7oNR7yRrIhBPyESRnVpg1NEpkFEJ6V3YDDw&oe=670096F2"
-										srcSet="https://scontent.flgp1-1.fna.fbcdn.net/v/t39.30808-6/460843895_3822435394751043_2073815357668793575_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=86c6b0&_nc_eui2=AeF9mH835tSaDtoxWOmtnVuMfCBAAxISxq18IEADEhLGrfEdTugEoMMckXJLpMahpykWJ81BVk_XfXMipoFUYFC7&_nc_ohc=SJ7M8g0xfjgQ7kNvgHl_sRm&_nc_ht=scontent.flgp1-1.fna&_nc_gid=AUDxKKAjSLUGYVqx7TFzW-b&oh=00_AYDOFynhyUB7oNR7yRrIhBPyESRnVpg1NEpkFEJ6V3YDDw&oe=670096F2"
-										alt="ligao"
+										className="h-full w-full object-contain bg-blend-screen"
+										src={item.img}
+										srcSet={item.img}
+										alt={item.name}
 									/>
 								</div>
 							</CarouselItem>

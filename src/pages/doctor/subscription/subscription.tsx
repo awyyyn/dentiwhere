@@ -148,7 +148,8 @@ export default function Subscribe() {
 											name: sub.name,
 											description: sub.description ?? "Subscribe to a plan",
 										},
-										sub.id
+										sub.id,
+										sub.name
 									);
 
 									localStorage.setItem("subId", sub.id.toString());

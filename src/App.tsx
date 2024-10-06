@@ -59,6 +59,9 @@ const Subscriptions = Loadable(
 const Subscription = Loadable(
 	lazy(() => import("./pages/doctor/subscription/subscription"))
 );
+const Transactions = Loadable(
+	lazy(() => import("./pages/admin/transactions/transactions"))
+);
 /* =============================== PAGES =============================== */
 
 export default function App() {
@@ -137,6 +140,10 @@ export default function App() {
 						{
 							path: "subscriptions",
 							element: <Subscriptions />,
+						},
+						{
+							path: "transactions",
+							element: <Transactions />,
 						},
 					],
 				},

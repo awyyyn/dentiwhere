@@ -15,7 +15,13 @@ import { Button } from "@/components/ui/button";
 import Navbar from "@/components/shared/navbar/navbar";
 
 /* ASSETS */
-import { Hospital, LayoutDashboard, PhilippinePeso, Users } from "lucide-react";
+import {
+	Hospital,
+	LayoutDashboard,
+	PhilippinePeso,
+	ReceiptText,
+	Users,
+} from "lucide-react";
 import Logo from "@/assets/svgs/logo with text.svg";
 
 /* TYPES */
@@ -167,6 +173,26 @@ export default function AdminLayout() {
 									<PhilippinePeso className="max-w-10 min-w-10 ml-2 md:ml-0  " />
 									<p className="hidden md:block md:ml-2 lg:ml-4 xl:ml-8">
 										Subscription
+									</p>
+								</Button>
+							</Tooltip>
+						</NavLink>
+						<NavLink
+							to="transactions"
+							className={({ isActive }) =>
+								`flex w-full border-r-4  group transition-all ${
+									isActive
+										? "border-black bg-1/20"
+										: "border-transparent hover:border-black"
+								}`
+							}>
+							<Tooltip tooltip="Transactions">
+								<Button
+									variant="ghost"
+									className=" md:justify-start lg:px-5 xl:px-10 transition-all duration-300 group-hover:bg-1/20  w-full py-6 rounded-none">
+									<ReceiptText className="max-w-10 min-w-10 ml-2 md:ml-0  " />
+									<p className="hidden md:block md:ml-2 lg:ml-4 xl:ml-8">
+										Transactions
 									</p>
 								</Button>
 							</Tooltip>

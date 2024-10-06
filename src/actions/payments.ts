@@ -1,5 +1,5 @@
 import { Payment, PaymentPartialInfo } from "@/types/types";
-import { formatDate, fromUnixTime, parse } from "date-fns";
+import { fromUnixTime } from "date-fns";
 import { isEmpty } from "lodash";
 
 const options = {

@@ -7,6 +7,7 @@ export * from "./dashboard-atom";
 export * from "./dialogs-atom";
 export * from "./doctors-atom";
 export * from "./notification-atom";
+export * from "./payments";
 export * from "./review-atom";
 export * from "./service-atom";
 export * from "./subscription-atom";

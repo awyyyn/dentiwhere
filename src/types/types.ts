@@ -23,6 +23,46 @@ export type Visit = {
 	createdAt: Date | string;
 };
 
+export type PaymentPartialInfo = {
+	id: string;
+	status: string;
+	paid_at: Date | string;
+	amount: number;
+	description: string;
+	name: string;
+	email: string;
+};
+
+export type Payment = {
+	id: string;
+	type: string;
+	attributes: {
+		amount: number;
+		billing: {
+			email: string;
+			name: string;
+			phone: string;
+		};
+		cancel_url: string;
+		description: string;
+		line_items: {
+			amount: number;
+			currency: string;
+			description: string;
+			name: string;
+			quantity: number;
+		}[];
+		payment_method_types: string[];
+		show_description: boolean;
+		show_line_items: boolean;
+		success_url: string;
+		currency: string;
+		status: string | "paid" | "failed";
+		paid_at: Date | string;
+		created_at: Date | string;
+	};
+};
+
 export type User = {
 	id: number;
 	licenseNumber: string;

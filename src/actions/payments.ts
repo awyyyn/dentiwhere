@@ -1,3 +1,5 @@
+import { Payment, PaymentPartialInfo } from "@/types/types";
+import { formatDate, fromUnixTime, parse } from "date-fns";
 import { isEmpty } from "lodash";
 
 const options = {
@@ -22,7 +24,11 @@ interface CreateLinkProps {
 	name: string;
 }
 
-export const createLink = async (val: CreateLinkProps, subId: number) => {
+export const createLink = async (
+	val: CreateLinkProps,
+	subId: number,
+	subName: string
+) => {
 	const data = await fetch(url, {
 		...options,
 		body: JSON.stringify({
@@ -48,18 +54,43 @@ export const createLink = async (val: CreateLinkProps, subId: number) => {
 								: val.description,
 						},
 					],
-					cancel_url: "http://localhost:5173/subscribe?status=cancelled",
-					success_url: `http://localhost:5173/subscribe?status=success&id=${subId}`,
+					cancel_url: import.meta.env.DEV
+						? "http://localhost:5173/subscribe?status=cancelled"
+						: "https://dentiwhere.vercel.app:5173/subscribe?status=cancelled",
+					success_url: `${
+						import.meta.env.DEV
+							? "http://localhost:5173/"
+							: "https://dentiwhere.vercel.app"
+					}subscribe?status=success&id=${subId}`,
 					payment_method_types: ["gcash"],
-					description: isEmpty(val.description)
-						? "Subscribe to a plan"
-						: val.description,
+					description: subName,
 				},
 			},
 		}),
 	});
 
 	return data.json();
+};
+
+export const listOfPayments = async (): Promise<PaymentPartialInfo[]> => {
+	const url = "https://api.paymongo.com/v1/payments?limit=999999999999";
+
+	const res = await fetch(url, {
+		headers: options.headers,
+		method: "GET",
+	});
+
+	const data: { data: Payment[] } = await res.json();
+
+	return data.data.flatMap((d) => ({
+		id: d.id,
+		status: d.attributes.status,
+		paid_at: fromUnixTime(parseInt(d.attributes.paid_at as string)),
+		amount: d.attributes.amount,
+		description: d.attributes.description,
+		name: d.attributes.billing.name,
+		email: d.attributes.billing.email,
+	}));
 };
 
 /* 

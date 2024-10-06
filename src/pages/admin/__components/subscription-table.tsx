@@ -12,7 +12,6 @@ import {
 	getSortedRowModel,
 	useReactTable,
 } from "@tanstack/react-table";
-import { Link } from "react-router-dom";
 import { useAtomValue, useSetAtom } from "jotai";
 
 /* STATES */
@@ -41,10 +40,9 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { Tooltip } from "../../../components/shared/tooltip/tooltip";
 
 /* ASSETS */
-import { CircleCheck, CircleX, PencilIcon, TrashIcon } from "lucide-react";
+import { PencilIcon, TrashIcon } from "lucide-react";
 
 /* TYPES */
 import { Subscription } from "@/types/types";

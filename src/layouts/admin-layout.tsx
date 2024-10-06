@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useAtomValue, useSetAtom } from "jotai";
-import { AsyncImage } from "loadable-image";
 
 /* UTILS */
 import { db } from "@/utils/supabase";

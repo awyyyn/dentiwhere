@@ -63,7 +63,7 @@ export const updateSubscription = async (
 	return transformSubscription(data);
 };
 
-export const deleteSubscription = async (id: nubmer) => {
+export const deleteSubscription = async (id: number) => {
 	const { error } = await db.from("subscription").delete().eq("id", id);
 	if (error) throw new Error(error.message);
 	return true;

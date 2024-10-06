@@ -90,7 +90,6 @@ const OpenStreetMap = ({
 				}
 			});
 
-		console.log("qqqq", data);
 		if (data && data.length > 0) {
 			const markerHeight = 0,
 				markerRadius = 0,

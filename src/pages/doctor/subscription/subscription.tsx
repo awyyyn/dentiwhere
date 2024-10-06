@@ -38,7 +38,6 @@ export default function Subscribe() {
 	useEffect(() => {
 		(async () => {
 			if (sParams.size > 0) {
-				console.log(sParams.get("id"), "asdas");
 				const subId = sParams.get("id");
 				if (
 					sParams.get("status") === "success" &&

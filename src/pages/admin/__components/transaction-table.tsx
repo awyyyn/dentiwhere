@@ -47,8 +47,6 @@ export default function TransactionaTable() {
 	const payments = useAtomValue(paymentsAtom);
 	// const setSubscriptionData = useSetAtom(subscriptionDataAtom);
 
-	console.log("asdasdasd asdasdasd", payments);
-
 	const columns: ColumnDef<PaymentPartialInfo>[] = [
 		{
 			accessorKey: "id",

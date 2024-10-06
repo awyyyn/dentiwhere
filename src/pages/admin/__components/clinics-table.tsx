@@ -165,8 +165,6 @@ export default function ClinicsTable() {
 	];
 	const clinics = useAtomValue(clinicsAtom);
 
-	console.log(clinics, "caluesss");
-
 	const table = useReactTable({
 		data: clinics,
 		columns,

@@ -182,6 +182,7 @@ export default function AccountSettings() {
 				last_name: v.last_name,
 				boost: user?.boost ?? 0,
 				verified: user?.verified ?? false,
+
 				license_id: {
 					frontImg: frontId,
 					backImg: backId,

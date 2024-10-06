@@ -60,7 +60,6 @@ export default function SearchClinic() {
 			try {
 				setLoading(true);
 				const results = await getBoostedClinics();
-				console.log(results, "qewqeqw");
 				setDefaultClinics(results);
 				setLoading(false);
 			} catch {

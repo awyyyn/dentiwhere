@@ -1,5 +1,5 @@
 import { ERR_INTERNAL, ERR_USER_ALREADY_REGISTERED } from "@/constants/errors";
-import { DBUser, Role, Status, Subscription, User } from "@/types/types";
+import { DBUser, Role, Status, User } from "@/types/types";
 import { db } from "@/utils/supabase";
 import { transformNotification } from "./notification";
 import { transformSubscription } from "./subscription";
@@ -192,7 +192,15 @@ export const createUser = async (user: any): Promise<User> => {
 };
 
 export const updateUser = async (
-	inputs: Omit<DBUser, "created_at" | "updated_at" | "auth_id" | "clinic_id">
+	inputs: Omit<
+		DBUser,
+		| "created_at"
+		| "updated_at"
+		| "auth_id"
+		| "clinic_id"
+		| "subscribe"
+		| "subscription_end_date"
+	>
 ): Promise<User> => {
 	const { data, error } = await db
 		.from("user")

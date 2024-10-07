@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import dentist from "@/assets/images/dentist.png";
 import MiniCalendar from "@/assets/images/mini-calendar.png";
 import logo from "@/assets/svgs/logo.svg";
+import { Link } from "react-router-dom";
 
 export default function Hero() {
 	const setsearchClinicDialogAtom = useSetAtom(searchClinicDialogAtom);
@@ -44,9 +45,11 @@ export default function Hero() {
 								onClick: () => setsearchClinicDialogAtom(true),
 							}}
 						/>
-						<h1 className="text-right text-[#1D4968] drop-shadow-[0_4px_4px_#00000040] text-p my-4 md:my-8">
+						<Link
+							to="faqs"
+							className="block text-right cursor-pointer text-[#1D4968] drop-shadow-[0_4px_4px_#00000040] text-p my-4 md:my-8">
 							Need help?
-						</h1>
+						</Link>
 					</div>
 					<div className="bg-opacity-70 bg-white md:w-[115%] self-end z-20  rounded-[20px] p-6 sm:p-12 space-y-3 md:space-y-5 relative overflow-hidden">
 						<p className="  md:leading-[36.31px] text-[20px] md:text-[30px] font-semibold text-wrap lg:max-w-[70%] ">
@@ -57,7 +60,11 @@ export default function Hero() {
 						<p className="text-[16px] md:text-[20px]">
 							We have an available doctor in town!
 						</p>
-						<Button className={"btn-1"}>Canvas Now!</Button>
+						<Link to="/">
+							<Button className={"btn-1 mt-4 hover:bg-1/80"}>
+								Canvas Now!
+							</Button>
+						</Link>
 						<img
 							src={MiniCalendar}
 							alt="Mini Calendar"

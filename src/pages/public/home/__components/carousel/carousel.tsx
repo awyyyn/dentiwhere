@@ -51,13 +51,16 @@ export default function CarouselSize() {
 			<div className="flex md:flex-row flex-col justify-between   mx-auto w-11/12 md:w-10/12">
 				<Carousel
 					opts={{
-						align: "start",
+						align: "center",
+						loop: true,
+						dragFree: true,
+						active: true,
 					}}
-					className="w-full bg-blend-screen  bg-wshite ">
-					<CarouselContent>
+					className="w-full  px-[10%] md:px-0  bg-blend-screen    ">
+					<CarouselContent className=" ">
 						{items.map((item, index) => (
-							<CarouselItem key={index} className="md:basis-1/2 lg:basis-1/5">
-								<div className="p-1 h-[300px] ">
+							<CarouselItem key={index} className="md:basis-1/2   lg:basis-1/5">
+								<div className="p-1 h-[300px] w-[300px] ">
 									<AsyncImage
 										className="h-full w-full object-contain bg-blend-screen"
 										src={item.img}

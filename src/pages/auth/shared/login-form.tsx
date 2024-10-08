@@ -53,7 +53,7 @@ export default function LoginForm() {
 	const { toast } = useToast();
 	const navigate = useNavigate();
 	const setUser = useSetAtom(userAtom);
-	const setClinic = useSetAtom(clinicAtom)
+	const setClinic = useSetAtom(clinicAtom);
 	const setNotifications = useSetAtom(notificationsAtom);
 	const setCategories = useSetAtom(categoriesAtom);
 	const setServices = useSetAtom(servicesAtom);
@@ -99,7 +99,7 @@ export default function LoginForm() {
 			}
 			if (data.clinicId !== 0) {
 				const clinic = await getClinicByDoctor(data.id);
-				setClinic(clinic)
+				setClinic(clinic);
 				setCategories(clinic.categories ?? []);
 				setServices(clinic.services ?? []);
 				setAmenities(clinic.amenities ?? []);

@@ -63,6 +63,7 @@ const Transactions = Loadable(
 	lazy(() => import("./pages/admin/transactions/transactions"))
 );
 const FAQs = Loadable(lazy(() => import("./pages/public/faqs/faqs")));
+const About = Loadable(lazy(() => import("./pages/public/about/about")));
 /* =============================== PAGES =============================== */
 
 export default function App() {
@@ -111,6 +112,10 @@ export default function App() {
 						{
 							path: "clinics",
 							element: <PublicViewClinics />,
+						},
+						{
+							path: "about-us",
+							element: <About />,
 						},
 					],
 				},

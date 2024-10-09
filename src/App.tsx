@@ -70,6 +70,9 @@ const PrivacyPolicy = Loadable(
 const TermsAndConditions = Loadable(
 	lazy(() => import("./pages/public/terms-and-conditions/terms-and-conditions"))
 );
+const SuggestedClinics = Loadable(
+	lazy(() => import("./pages/public/suggested-clinics/suggested-clinics"))
+);
 /* =============================== PAGES =============================== */
 
 export default function App() {
@@ -130,6 +133,10 @@ export default function App() {
 						{
 							path: "terms-and-conditions",
 							element: <TermsAndConditions />,
+						},
+						{
+							path: "suggested-clinics",
+							element: <SuggestedClinics />,
 						},
 					],
 				},

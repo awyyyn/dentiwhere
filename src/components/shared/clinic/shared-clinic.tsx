@@ -43,7 +43,7 @@ export default function SharedClinic({
 			setLoading(true);
 			if (isEmpty(params.id) || isUndefined(params.id)) {
 				setLoading(false);
-				return navigate("/clinics", { replace: true });
+				return navigate(state.navigateToClinics ?? "/");
 			} else {
 				try {
 					const response = await getClinic(parseInt(params.id));
@@ -51,7 +51,7 @@ export default function SharedClinic({
 					setClinic(response);
 					setLoading(false);
 				} catch {
-					return navigate("/clinics", { replace: true });
+					return navigate(state.navigateToClinics ?? "/");
 				}
 			}
 		})();
@@ -65,9 +65,7 @@ export default function SharedClinic({
 				{viewOnly && (
 					<Tooltip tooltip="Back" side="right" delayDuration={500}>
 						<Button
-							onClick={() =>
-								navigate(state?.navigateToClinics ? "/clinics" : "/")
-							}
+							onClick={() => navigate(state?.navigateToClinics ?? "/")}
 							variant="ghost"
 							className="mb-5">
 							<ChevronLeft />

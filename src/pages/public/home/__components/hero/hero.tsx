@@ -60,7 +60,7 @@ export default function Hero() {
 						<p className="text-[16px] md:text-[20px]">
 							We have an available doctor in town!
 						</p>
-						<Link to="/">
+						<Link to="suggested-clinics">
 							<Button className={"btn-1 mt-4 hover:bg-1/80"}>
 								Canvas Now!
 							</Button>

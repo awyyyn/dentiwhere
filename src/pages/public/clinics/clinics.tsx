@@ -28,7 +28,7 @@ export default function Clinics() {
 				<div className="space-y-12 flex flex-col">
 					{clinics.map((clinic) => (
 						<ClinicCard
-							navigateToRoot
+							navigateTo="/clinics"
 							clinic={{
 								contact: `+63${clinic.contacts[0].slice(1)}`,
 								id: clinic.id,

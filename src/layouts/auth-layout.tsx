@@ -4,11 +4,14 @@ import { Alert, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { IoClose } from "react-icons/io5";
 import { useState } from "react";
+import Back from "@/pages/public/__components/back/back";
 
 export default function AuthLayout() {
 	const [alert, setAlert] = useState(true);
 	return (
 		<div className="min-h-dvh flex justify-center items-center gradient-auth-page py-10 md:py-0 relative">
+			<Back toRoot />
+
 			<Alert
 				className={`mb-4 fixed top-[-100%] items-center z-50 w-[90dvw] animate-in    max-w-fit py-1  bg-1 text-white ${
 					alert
@@ -30,11 +33,6 @@ export default function AuthLayout() {
 			</Alert>
 
 			<div className="w-11/12 xl:w-9/12 bg-[#BCF0F9] relative p-5  flex flex-row">
-				<Link to="/">
-					<Button variant="link" className="absolute min-w-max top-1 left-2">
-						Go to dashboard
-					</Button>
-				</Link>
 				<div className="hidden md:flex items-center  w-[50%] relative justify-center ">
 					<img src={dentist} alt="dentist" className=" object-contain" />
 				</div>

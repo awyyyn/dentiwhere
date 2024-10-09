@@ -12,17 +12,14 @@ interface ClinicProps {
 		location: string;
 		contact: string;
 	};
-	navigateToRoot?: boolean;
+	navigateTo?: string;
 }
 
-export default function ClinicCard({
-	clinic,
-	navigateToRoot = false,
-}: ClinicProps) {
+export default function ClinicCard({ clinic, navigateTo }: ClinicProps) {
 	const navigate = useNavigate();
 	const handleNavigate = () =>
 		navigate(`/clinics/view/${clinic.id}`, {
-			state: { navigateToClinics: navigateToRoot },
+			state: { navigateToClinics: navigateTo },
 		});
 	return (
 		<div className="bg-white flex gap-4 flex-col md:flex-row  rounded-xl shadow-xl p-6 md:p-14 ">

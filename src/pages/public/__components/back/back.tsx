@@ -7,10 +7,10 @@ import { Tooltip } from "@/components/shared/tooltip/tooltip";
 /* ASSETS */
 import { ChevronLeft } from "lucide-react";
 
-export default function Back() {
+export default function Back({ toRoot = false }: { toRoot?: boolean }) {
 	const navigate = useNavigate();
 
-	const handleNavigate = () => navigate(-1);
+	const handleNavigate = () => (toRoot ? navigate("/") : navigate(-1));
 
 	return (
 		<div>
@@ -19,7 +19,7 @@ export default function Back() {
 					onClick={handleNavigate}
 					size="icon"
 					variant="ghost"
-					className="absolute top-2 left-2">
+					className="fixed top-2 left-2">
 					<ChevronLeft />
 				</Button>
 			</Tooltip>

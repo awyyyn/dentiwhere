@@ -611,20 +611,22 @@ export default function AccountSettings() {
 												className="shadow-md rounded-2xl mb-4 md:mb-0 w-[250px] h-[150px] hover:cursor-pointer overflow-hidden relative hover:shadow-xl transition-all duration-300 group"
 												{...getRootProps()}>
 												<input {...getInputProps()} disabled={uploading} />
-												<div
-													className={`absolute  w-full h-full items-center justify-center backdrop-blur-sm flex-wrap bg-black  z-50 bg-opacity-20 hover:opacity-100 ${
-														uploading || loading
-															? "opacity-100 cursor-wait"
-															: "opacity-0"
-													} flex transition-all duration-300`}>
-													{uploading || loading ? (
-														<ImSpinner2 className="animate-spin" size={30} />
-													) : (
-														<p className="transition-all duration-300 text-white font-bold">
-															{frontId ? "Replace Image" : "Upload Image"}
-														</p>
-													)}
-												</div>
+												{editing && (
+													<div
+														className={`absolute  w-full h-full items-center justify-center backdrop-blur-sm flex-wrap bg-black  z-50 bg-opacity-20 hover:opacity-100 ${
+															uploading || loading
+																? "opacity-100 cursor-wait"
+																: "opacity-0"
+														} flex transition-all duration-300`}>
+														{uploading || loading ? (
+															<ImSpinner2 className="animate-spin" size={30} />
+														) : (
+															<p className="transition-all duration-300 text-white font-bold">
+																{frontId ? "Replace Image" : "Upload Image"}
+															</p>
+														)}
+													</div>
+												)}
 												<img
 													src={
 														frontId
@@ -641,10 +643,10 @@ export default function AccountSettings() {
 										<Button
 											type="button"
 											onClick={() => frontIdRef.current.open()}
-											className="w-full lg:max-w-min bg-gray-300/90 shadow-lg text-[#1D4968]">
+											className="w-full lg:max-w-min bg-gray-300/90 shadow-lg text-[#1D4968] hover:bg-gray-300/80">
 											{frontId ? "Change" : "Upload"}
 										</Button>
-										{user.status !== "VERIFIED" && (
+										{user.status !== "VERIFIED" && editing && (
 											<Button
 												onClick={() =>
 													setFrontId(
@@ -677,20 +679,22 @@ export default function AccountSettings() {
 												className="shadow-md rounded-2xl mb-4 md:mb-0 w-[250px] h-[150px] hover:cursor-pointer overflow-hidden relative hover:shadow-xl transition-all duration-300 group"
 												{...getRootProps()}>
 												<input {...getInputProps()} disabled={uploading} />
-												<div
-													className={`absolute  w-full h-full items-center justify-center backdrop-blur-sm flex-wrap bg-black  z-50 bg-opacity-20 hover:opacity-100 ${
-														uploading || loading
-															? "opacity-100 cursor-wait"
-															: "opacity-0"
-													} flex transition-all duration-300`}>
-													{uploading || loading ? (
-														<ImSpinner2 className="animate-spin" size={30} />
-													) : (
-														<p className="transition-all duration-300 text-white font-bold">
-															{backId ? "Replace Image" : "Upload Image"}
-														</p>
-													)}
-												</div>
+												{editing && (
+													<div
+														className={`absolute  w-full h-full items-center justify-center backdrop-blur-sm flex-wrap bg-black  z-50 bg-opacity-20 hover:opacity-100 ${
+															uploading || loading
+																? "opacity-100 cursor-wait"
+																: "opacity-0"
+														} flex transition-all duration-300`}>
+														{uploading || loading ? (
+															<ImSpinner2 className="animate-spin" size={30} />
+														) : (
+															<p className="transition-all duration-300 text-white font-bold">
+																{backId ? "Replace Image" : "Upload Image"}
+															</p>
+														)}
+													</div>
+												)}
 												<img
 													src={
 														backId
@@ -707,11 +711,11 @@ export default function AccountSettings() {
 										<Button
 											type="button"
 											onClick={() => backIdRef.current?.open()}
-											className="w-full lg:max-w-min bg-gray-300/90 shadow-lg text-[#1D4968]">
+											className="hover:bg-gray-300/80 w-full lg:max-w-min bg-gray-300/90 shadow-lg text-[#1D4968]">
 											{backId ? "Change" : "Upload"}
 										</Button>
 
-										{user.status !== "VERIFIED" && (
+										{user.status !== "VERIFIED" && editing && (
 											<Button
 												onClick={() =>
 													setBackId(
@@ -731,7 +735,13 @@ export default function AccountSettings() {
 					{editing && (
 						<div className="lg:col-span-4 mt-5 flex items-center flex-wrap gap-4 h-20">
 							<Button
-								onClick={() => setEditing(false)}
+								onClick={() => {
+									setEditing(false);
+									setFrontId(user.licenseId.frontImg);
+									setBackId(user.licenseId.backImg);
+									setPlaceholder(user.img);
+									form.reset();
+								}}
 								type="button"
 								disabled={submitting}
 								className={`bg-white w-full md:max-w-min hover:bg-white text-gray-800 shadow-lg ${

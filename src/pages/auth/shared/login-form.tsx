@@ -197,7 +197,7 @@ export default function LoginForm() {
 						)}
 					</Button>
 
-					<div className="flex flex-row space-x-1 justify-center mt-5">
+					<div className="flex flex-row space-x-1 text-sm justify-center mt-5">
 						<p>Don&apos;t have an account?</p>
 
 						<Link to={loading ? "#" : "/sign-up"} className="font-bold">

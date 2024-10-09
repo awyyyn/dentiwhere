@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import dentist from "@/assets/images/dentist.png";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
@@ -29,9 +29,14 @@ export default function AuthLayout() {
 				</div>
 			</Alert>
 
-			<div className="w-11/12 xl:w-9/12 bg-[#BCF0F9] p-5 flex flex-row">
-				<div className="hidden md:flex items-center w-[50%] relative justify-center ">
-					<img src={dentist} alt="dentist" className="object-contain" />
+			<div className="w-11/12 xl:w-9/12 bg-[#BCF0F9] relative p-5  flex flex-row">
+				<Link to="/">
+					<Button variant="link" className="absolute min-w-max top-1 left-2">
+						Go to dashboard
+					</Button>
+				</Link>
+				<div className="hidden md:flex items-center  w-[50%] relative justify-center ">
+					<img src={dentist} alt="dentist" className=" object-contain" />
 				</div>
 				<div className="w-full md:w-[50%] flex justify-center items-center">
 					<div className="w-[80%] md:w-[90%] lg:w-[80%] py-5">

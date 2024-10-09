@@ -269,7 +269,7 @@ export default function SignUpForm() {
 						)}
 					</Button>
 
-					<div className="flex flex-row space-x-1 justify-center mt-5">
+					<div className="flex  flex-row space-x-1 justify-center mt-5">
 						<p>I have an account?</p>
 						<Link to={loading ? "#" : "/login"} className="font-bold">
 							Sign in

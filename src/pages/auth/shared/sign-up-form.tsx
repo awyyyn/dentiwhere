@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
 import { useSetAtom } from "jotai";
-import { useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 /* ACTIONS */
 import { createUser } from "@/actions";
@@ -27,12 +27,27 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
 
 /* CONSTANTS */
 import { ERR_INTERNAL } from "@/constants/errors";
 
 /* ASSETS */
 import { ImSpinner2 } from "react-icons/im";
+import { Checkbox } from "@/components/ui/checkbox";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import TermsAndConditions from "@/pages/public/terms-and-conditions/terms-and-conditions";
+import PrivacyPolicy from "@/pages/public/privacy-policy/privacy-policy";
+import { Separator } from "@/components/ui/separator";
 
 const formSchema = z.object({
 	licenseNumber: z.string().min(1, {
@@ -54,6 +69,7 @@ const formSchema = z.object({
 });
 
 export default function SignUpForm() {
+	const [agree, setAgree] = useState(false);
 	const { toast } = useToast();
 	const navigate = useNavigate();
 	const setUser = useSetAtom(userAtom);
@@ -233,8 +249,14 @@ export default function SignUpForm() {
 							</FormItem>
 						)}
 					/>
+					<div>
+						<TermsAndConditionsAndPrivacyPolicy
+							agree={agree}
+							handleAgree={(v) => setAgree(v)}
+						/>
+					</div>
 					<Button
-						disabled={loading}
+						disabled={loading || !agree}
 						type="submit"
 						className="rounded-lg w-full hover:bg-[#00000080] bg-[#00000080] text-white">
 						{loading ? (
@@ -256,5 +278,66 @@ export default function SignUpForm() {
 				</form>
 			</Form>
 		</>
+	);
+}
+
+function TermsAndConditionsAndPrivacyPolicy({
+	agree,
+	handleAgree,
+}: {
+	agree: boolean;
+	handleAgree: (v: boolean) => void;
+}) {
+	const [open, setOpen] = useState(false);
+
+	return (
+		<Dialog open={open}>
+			<DialogTrigger asChild>
+				<div
+					className="flex items-start   gap-2
+				">
+					<Checkbox
+						className="checked:bg-1 mt-1  "
+						onClick={() => (agree ? handleAgree(false) : setOpen(true))}
+						checked={agree}
+					/>
+					<p className="text-sm">
+						By creating an account, you agree to the `
+						<b>Terms and conditions</b>` of service and `<b>Privacy Policy</b>`
+					</p>
+				</div>
+			</DialogTrigger>
+			<DialogContent
+				suppressHydrationWarning
+				removeClose
+				className="sm:max-w-[425px]">
+				<DialogHeader>
+					<DialogTitle>Privacy Policy and Terms and Conditions</DialogTitle>
+					<DialogDescription>
+						Doctors are required to agree to the terms and conditions before
+						proceeding.
+					</DialogDescription>
+				</DialogHeader>
+				<ScrollArea className="max-h-[300px] h-[300px]    ">
+					<PrivacyPolicy />
+					<Separator />
+					<TermsAndConditions />
+					<Button
+						onClick={() => {
+							handleAgree(true);
+							setOpen(false);
+						}}
+						type="submit"
+						className="bg-1 -mt-5 text-black w-full hover:text-black hover:bg-1">
+						Accept
+					</Button>
+				</ScrollArea>
+				<DialogFooter className="gap-2">
+					<Button onClick={() => setOpen(false)} className="">
+						Cancel
+					</Button>
+				</DialogFooter>
+			</DialogContent>
+		</Dialog>
 	);
 }

@@ -1,15 +1,12 @@
 /* COMPONENTS */
-import { Tooltip } from "@/components/shared/tooltip/tooltip";
 import {
 	Accordion,
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
-import { ChevronLeft } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import SectionHeader from "../home/__components/section-header/section-header";
+import Back from "../__components/back/back";
 
 const faqs = [
 	{
@@ -60,19 +57,9 @@ const faqs = [
 ];
 
 export default function FAQs() {
-	const navigate = useNavigate();
-
 	return (
 		<div className="py-5">
-			<Tooltip tooltip="Back" side="right" delayDuration={500}>
-				<Button
-					onClick={() => navigate("/")}
-					size="icon"
-					variant="ghost"
-					className="absolute top-2 left-2">
-					<ChevronLeft />
-				</Button>
-			</Tooltip>
+			<Back />
 			<div className="w-11/12 mx-auto md:w-10/12 space-y-10">
 				<header className="space-y-7">
 					<SectionHeader title="Frequently Asked Questions" description="" />

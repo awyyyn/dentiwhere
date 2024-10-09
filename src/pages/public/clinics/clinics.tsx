@@ -1,31 +1,23 @@
 import { useAtomValue } from "jotai";
-import { useNavigate } from "react-router-dom";
 
 /* STATES */
 import { clinicsLoadable } from "@/atoms";
 
 /* COMPONENTS */
-import { Button } from "@/components/ui/button";
-import { Tooltip } from "@/components/shared/tooltip/tooltip";
 import SectionHeader from "../home/__components/section-header/section-header";
 import ClinicCard from "../home/__components/list-of-clinics/card";
+
 /* ASSETS */
-import { ChevronLeft } from "lucide-react";
+import Back from "../__components/back/back";
 
 export default function Clinics() {
 	const clinicsLoadableAtom = useAtomValue(clinicsLoadable);
 	const clinics =
 		clinicsLoadableAtom.state === "hasData" ? clinicsLoadableAtom.data : [];
-	const navigate = useNavigate();
 
 	return (
 		<div className="mx-auto  w-11/12 md:w-10/12 py-5 pb-32">
-			<Tooltip tooltip="Back" side="right" delayDuration={500}>
-				<Button onClick={() => navigate("/")} variant="ghost" className="mb-5">
-					<ChevronLeft />
-					&nbsp;Back
-				</Button>
-			</Tooltip>
+			<Back />
 			<div className="space-y-5 md:space-y-10">
 				<SectionHeader
 					title="Dental Clinics Available"

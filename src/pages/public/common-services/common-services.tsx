@@ -2,24 +2,12 @@ import { services } from "@/constants/services";
 import SectionHeader from "../home/__components/section-header/section-header";
 import { AsyncImage } from "loadable-image";
 import { Blur } from "transitions-kit";
-import { Button } from "@/components/ui/button";
-import { ChevronLeft } from "lucide-react";
-import { Tooltip } from "@/components/shared/tooltip/tooltip";
-import { useNavigate } from "react-router-dom";
+import Back from "../__components/back/back";
 
 export default function CommonServices() {
-	const navigate = useNavigate();
 	return (
 		<div className="py-5">
-			<Tooltip tooltip="Back" side="right" delayDuration={500}>
-				<Button
-					onClick={() => navigate("/")}
-					size="icon"
-					variant="ghost"
-					className="absolute top-2 left-2">
-					<ChevronLeft />
-				</Button>
-			</Tooltip>
+			<Back />
 			<div className="w-11/12 mx-auto md:w-10/12 space-y-10">
 				<header className="space-y-7">
 					<SectionHeader

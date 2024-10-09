@@ -2,10 +2,12 @@ import { Button } from "@/components/ui/button";
 import { AsyncImage } from "loadable-image";
 import Dental from "@/assets/images/dental.webp";
 import { Link } from "react-router-dom";
+import Back from "../__components/back/back";
 
 export default function About() {
 	return (
 		<div className="py-5">
+			<Back />
 			<div className="w-11/12 mx-auto md:w-10/12 space-y-10">
 				<div className="flex flex-col items-center mb-12  ">
 					<h1 className="text-2xl md:text-4xl font-bold text-center mb-4">

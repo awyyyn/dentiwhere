@@ -64,6 +64,12 @@ const Transactions = Loadable(
 );
 const FAQs = Loadable(lazy(() => import("./pages/public/faqs/faqs")));
 const About = Loadable(lazy(() => import("./pages/public/about/about")));
+const PrivacyPolicy = Loadable(
+	lazy(() => import("./pages/public/privacy-policy/privacy-policy"))
+);
+const TermsAndConditions = Loadable(
+	lazy(() => import("./pages/public/terms-and-conditions/terms-and-conditions"))
+);
 /* =============================== PAGES =============================== */
 
 export default function App() {
@@ -116,6 +122,14 @@ export default function App() {
 						{
 							path: "about-us",
 							element: <About />,
+						},
+						{
+							path: "privacy-policy",
+							element: <PrivacyPolicy />,
+						},
+						{
+							path: "terms-and-conditions",
+							element: <TermsAndConditions />,
 						},
 					],
 				},

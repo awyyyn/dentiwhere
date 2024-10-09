@@ -1,10 +1,5 @@
 import { Link } from "react-router-dom";
-import {
-	FaSquareXTwitter,
-	FaSquareFacebook,
-	FaSquareInstagram,
-} from "react-icons/fa6";
-import { Button } from "@/components/ui/button";
+import SocialLinks from "../social-links/social-links";
 
 export default function Footer() {
 	const patientLinks = [
@@ -18,7 +13,7 @@ export default function Footer() {
 	const generalLinks = [
 		{ path: "about-us", name: "About Us" },
 		{ path: "terms-and-conditions", name: "Terms and Conditions" },
-		{ path: "", name: "Privacy Policy" },
+		{ path: "privacy-policy", name: "Privacy Policy" },
 	];
 
 	const doctorsLinks = [
@@ -46,26 +41,7 @@ export default function Footer() {
 					</div>
 					<div className="space-y-3">
 						<h1 className="text-lg font-bold sm:text-2xl">Social Media</h1>
-						<div className="flex flex-row gap-x-5   pl-5">
-							<Button
-								size="icon"
-								variant="ghost"
-								className="hover:shadow-xl transition-shadow duration-300">
-								<FaSquareXTwitter size={40} />
-							</Button>
-							<Button
-								size="icon"
-								variant="ghost"
-								className="hover:shadow-xl transition-shadow duration-300">
-								<FaSquareFacebook size={40} />
-							</Button>
-							<Button
-								size="icon"
-								variant="ghost"
-								className="hover:shadow-xl transition-shadow duration-300">
-								<FaSquareInstagram size={40} />
-							</Button>
-						</div>
+						<SocialLinks />
 					</div>
 				</div>
 				<div className="space-y-3 flex flex-col sm:items-center">

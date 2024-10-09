@@ -1,15 +1,34 @@
 import { Outlet } from "react-router-dom";
 import dentist from "@/assets/images/dentist.png";
 import { Alert, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { IoClose } from "react-icons/io5";
+import { useState } from "react";
 
 export default function AuthLayout() {
+	const [alert, setAlert] = useState(true);
 	return (
 		<div className="min-h-dvh flex justify-center items-center gradient-auth-page py-10 md:py-0 relative">
-			<Alert className="mb-4 fixed z-50 w-[90dvw] max-w-fit py-1 top-3 bg-1 text-white ">
-				<AlertTitle className="tracking-wider text-lg ">
-					Patients do not need to sign up or log in to use the platform.
-				</AlertTitle>
+			<Alert
+				className={`mb-4 fixed top-[-100%] items-center z-50 w-[90dvw] animate-in    max-w-fit py-1  bg-1 text-white ${
+					alert
+						? "top-3 slide-in-from-top-10 duration-300"
+						: " slide-out-to-top duration-700"
+				}`}>
+				<div className="flex justify-between gap-4">
+					<AlertTitle className="tracking-wider text-lg ">
+						Patients do not need to sign up or log in to use the platform.
+					</AlertTitle>
+					<Button
+						onClick={() => setAlert(false)}
+						variant="ghost"
+						size="icon"
+						className="group text-black">
+						<IoClose className="group-hover:scale-150 group-active:scale-90 duration-500 group-hover:stroke-black " />
+					</Button>
+				</div>
 			</Alert>
+
 			<div className="w-11/12 xl:w-9/12 bg-[#BCF0F9] p-5 flex flex-row">
 				<div className="hidden md:flex items-center w-[50%] relative justify-center ">
 					<img src={dentist} alt="dentist" className="object-contain" />

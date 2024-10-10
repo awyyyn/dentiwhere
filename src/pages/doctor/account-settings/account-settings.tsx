@@ -29,6 +29,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import LogoWithText from "@/components/shared/logo-with-text/logo-with-text";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import {
 	Form,
 	FormControl,
@@ -40,6 +41,7 @@ import {
 
 /* ASSETS */
 import { ImSpinner2 } from "react-icons/im";
+import { VscVerifiedFilled } from "react-icons/vsc";
 
 const userForm = z.object({
 	fist_name: z.string().min(1, { message: "First name is required" }),
@@ -199,7 +201,7 @@ export default function AccountSettings() {
 			if (data.status === Status.PENDING) {
 				await sendNotification({
 					name: `${data.firstName} ${data.lastName}`,
-					message: `Dr. ${data.firstName} ${data.lastName}'s data has been submitted for your verification.`,
+					message: `The data for Dr. ${data.firstName} ${data.lastName} has been submitted for your verification.`,
 					title: "Data Verification Required",
 					from: data.id,
 				});
@@ -238,7 +240,7 @@ export default function AccountSettings() {
 					className=" p-1 sm:px-10 lg:pb-20"
 					onSubmit={form.handleSubmit(handleSubmit)}>
 					<div className="grid  grid-cols-1 lg:grid-cols-4   gap-y-8 lg:gap-y-0 ">
-						<div className="flex order-2 lg:order-1 md:w-full flex-col lg:flex-row  items-center lg:col-span-3 lg:space-x-10 xl:space-x-20 ">
+						<div className="relative flex order-2 lg:order-1 md:w-full flex-col lg:flex-row  items-center lg:col-span-3 lg:space-x-10 xl:space-x-20 ">
 							<Dropzone
 								disabled={!editing || loading || uploading || submitting}
 								useFsAccessApi
@@ -246,7 +248,7 @@ export default function AccountSettings() {
 								onDrop={(e) => handleDropImage(e, "avatar")}>
 								{({ getRootProps, getInputProps }) => (
 									<div
-										className="shadow-md rounded-full mb-4 md:mb-0 max-w-[180px] h-[180px] min-w-[180px] sm:min-h-[200px]  sm:max-h-[200px] sm:min-w-[200px] lg:min-h-[250px] lg:max-h-[250px] lg:min-w-[250px] hover:cursor-pointer overflow-hidden relative hover:shadow-xl transition-all duration-300 group"
+										className="shadow-md rounded-full mb-4 md:mb-0 max-w-[180px] h-[180px] min-w-[180px] sm:min-h-[200px]  sm:max-h-[200px] sm:min-w-[200px] lg:min-h-[250px] lg:max-h-[250px] lg:min-w-[250px] hover:cursor-pointer overflow-hisdden relative hover:shadow-xl transition-all duration-300 group"
 										{...getRootProps()}>
 										<input
 											type="file"
@@ -256,7 +258,7 @@ export default function AccountSettings() {
 											disabled={!editing}
 										/>
 										<div
-											className={`absolute  w-full h-full items-center justify-center backdrop-blur-sm flex-wrap bg-black  z-50 bg-opacity-20 hover:opacity-100 ${
+											className={`absolute rounded-full  w-full h-full items-center justify-center backdrop-blur-sm flex-wrap bg-black  z-50 bg-opacity-20 hover:opacity-100 ${
 												uploading || loading
 													? "opacity-100 cursor-wait"
 													: "opacity-0"
@@ -275,12 +277,15 @@ export default function AccountSettings() {
 													? placeholder
 													: "https://www.wibits.com/wp-content/themes/wibits-theme/images/sample.jpg"
 											}
-											className="absolute h-full z-10 object-cover transition-all duration-300"
+											className="absolute rounded-full h-full z-10 object-cover transition-all duration-300"
 										/>
+										{user.status === Status.verified && (
+											<VscVerifiedFilled className="z-50 absolute bottom-2 right-4 h-14 w-14 fill-emerald-500" />
+										)}
 									</div>
 								)}
 							</Dropzone>
-							<div className=" flex-wrap flex  gap-4  lg:space-y-0 mt-5 lg:mt-0 ">
+							<div className="relative flex-wrap flex  gap-4  lg:space-y-0 mt-5 lg:mt-0 ">
 								{!editing ? (
 									<Button
 										onClick={() => setEditing(true)}
@@ -639,27 +644,32 @@ export default function AccountSettings() {
 											</div>
 										)}
 									</Dropzone>
-									<div className="flex w-full justify-center gap-y-2 lg:gap-y-2 lg:space-x-4 flex-wrap ">
-										<Button
-											type="button"
-											onClick={() => frontIdRef.current.open()}
-											className="w-full lg:max-w-min bg-gray-300/90 shadow-lg text-[#1D4968] hover:bg-gray-300/80">
-											{frontId ? "Change" : "Upload"}
-										</Button>
-										{user.status !== "VERIFIED" && editing && (
+									{editing && (
+										<div className="flex w-full justify-center gap-y-2 lg:gap-y-2 lg:space-x-4 flex-wrap ">
 											<Button
-												onClick={() =>
-													setFrontId(
-														"https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
-													)
-												}
 												type="button"
-												className="w-full lg:max-w-min text-destructive hover:bg-gray-300 bg-gray-300/90 shadow-lg">
-												Remove
+												onClick={() => frontIdRef.current.open()}
+												className="w-full lg:max-w-min bg-gray-300/90 shadow-lg text-[#1D4968] hover:bg-gray-300/80">
+												{frontId ? "Change" : "Upload"}
 											</Button>
-										)}
-									</div>
+											{user.status !== "VERIFIED" && (
+												<Button
+													onClick={() =>
+														setFrontId(
+															"https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
+														)
+													}
+													type="button"
+													className="w-full lg:max-w-min text-destructive hover:bg-gray-300 bg-gray-300/90 shadow-lg">
+													Remove
+												</Button>
+											)}
+										</div>
+									)}
 								</div>
+								<Separator
+									className={`${!editing ? "block my-3" : "hidden"}`}
+								/>
 								<div className="space-y-3">
 									<Label>
 										Back ID <span className="text-destructive">*</span>
@@ -707,27 +717,30 @@ export default function AccountSettings() {
 											</div>
 										)}
 									</Dropzone>
-									<div className="flex  w-full justify-center gap-y-2 lg:gap-y-2 lg:space-x-4 flex-wrap ">
-										<Button
-											type="button"
-											onClick={() => backIdRef.current?.open()}
-											className="hover:bg-gray-300/80 w-full lg:max-w-min bg-gray-300/90 shadow-lg text-[#1D4968]">
-											{backId ? "Change" : "Upload"}
-										</Button>
 
-										{user.status !== "VERIFIED" && editing && (
+									{editing && (
+										<div className="flex  w-full justify-center gap-y-2 lg:gap-y-2 lg:space-x-4 flex-wrap ">
 											<Button
-												onClick={() =>
-													setBackId(
-														"https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
-													)
-												}
 												type="button"
-												className="w-full lg:max-w-min text-destructive hover:bg-gray-300 bg-gray-300/90 shadow-lg">
-												Remove
+												onClick={() => backIdRef.current?.open()}
+												className="hover:bg-gray-300/80 w-full lg:max-w-min bg-gray-300/90 shadow-lg text-[#1D4968]">
+												{backId ? "Change" : "Upload"}
 											</Button>
-										)}
-									</div>
+
+											{user.status !== "VERIFIED" && (
+												<Button
+													onClick={() =>
+														setBackId(
+															"https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
+														)
+													}
+													type="button"
+													className="w-full lg:max-w-min text-destructive hover:bg-gray-300 bg-gray-300/90 shadow-lg">
+													Remove
+												</Button>
+											)}
+										</div>
+									)}
 								</div>
 							</div>
 						</div>

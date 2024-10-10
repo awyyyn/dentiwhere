@@ -9,7 +9,7 @@ import { db } from "@/utils/supabase";
 import { notificationsAtom, userAtom } from "@/atoms";
 
 /* TYPES */
-import { Role } from "@/types/types";
+import { Role, Status } from "@/types/types";
 
 /* COMPONENTS */
 import {
@@ -34,7 +34,7 @@ import { formatDate, isPast } from "date-fns";
 import { Tooltip } from "@/components/shared/tooltip/tooltip";
 
 export default function DoctorLayout() {
-	const user = useAtomValue(userAtom);
+	const [user, setUser] = useAtom(userAtom);
 	const [bannerAlert, setBannerAlert] = useState(false);
 	const [bannerExpiredAlert, setBannerExpiredAlert] = useState(false);
 	const [open, setIsOpen] = useState(false);
@@ -82,6 +82,10 @@ export default function DoctorLayout() {
 							...notifications,
 						];
 					});
+
+					if (payload.new.title === "Account Verified") {
+						setUser((u) => ({ ...u, status: Status.verified }));
+					}
 				}
 			})
 			.subscribe();

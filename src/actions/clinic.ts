@@ -204,19 +204,21 @@ export const getClinic = async (id: number): Promise<ClinicWithDoctor> => {
 			response.data.user?.last_name ?? ""
 		}`,
 		status: response.data.archive ? "INACTIVE" : "ACTIVE",
-		services: response.data?.services.map((service) => ({
-			img: service.img!,
-			name: service.name,
-			updated_at: service.id,
-			rate: service.rate || "",
-			description: service.description || "",
-			categoryId: service.category_id,
-			clinicId: service.clinic_id,
-			createdAt: service.created_at,
-			updatedAt: service.updated_at!,
-			id: service.id,
-			active: service.active,
-		})),
+		services: response.data?.services
+			.map((service) => ({
+				img: service.img!,
+				name: service.name,
+				updated_at: service.id,
+				rate: service.rate || "",
+				description: service.description || "",
+				categoryId: service.category_id,
+				clinicId: service.clinic_id,
+				createdAt: service.created_at,
+				updatedAt: service.updated_at!,
+				id: service.id,
+				active: service.active,
+			}))
+			.filter((s) => s.active),
 		amenities: response.data?.amenities?.map((ame) => ({
 			clinicId: ame.clinic_id,
 			name: ame.name,
@@ -385,9 +387,7 @@ export const getClinicsGeo = async () => {
 	if (data === null || error) throw new Error("Error fetching clinics");
 
 	return data
-		.filter(
-			(d) => !isPast(d.user?.subscription_end_date as string) && d.user?.boost
-		)
+		.filter((d) => !isPast(d.user?.subscription_end_date as string))
 		?.map((d) => {
 			return {
 				id: d.id,

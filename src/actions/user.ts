@@ -177,7 +177,10 @@ export const createUser = async (user: any): Promise<User> => {
 			contacts: user.contacts,
 			role: user.role,
 			verified: false,
-			subscription_end_date: add(new Date(), { years: 1 }).toString(),
+			subscription_end_date: formatDate(
+				add(new Date(), { years: 1 }),
+				"yyyy-MM-dd"
+			),
 		})
 		.select("*, subscription(*)");
 

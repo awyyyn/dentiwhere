@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { AsyncImage } from "loadable-image";
+import QRCode from "@/assets/images/qr.png";
 
 export default function QrLink() {
 	const { toast } = useToast();
@@ -11,8 +12,8 @@ export default function QrLink() {
 			<div className="flex md:flex-row flex-col justify-between  mx-auto w-11/12 md:w-10/12">
 				<div className="mx-auto md:mx-0 ">
 					<AsyncImage
-						src="https://qr.io/qr-svg/qPeYmX.svg?1728265697051"
-						srcSet="https://qr.io/qr-svg/qPeYmX.svg?1728265697051"
+						src={QRCode}
+						srcSet={QRCode}
 						className="md:h-[400px] md:w-[400px] w-[300px] h-[300px]"
 					/>
 				</div>

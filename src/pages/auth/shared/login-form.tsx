@@ -109,7 +109,8 @@ export default function LoginForm() {
 			navigate("/", {
 				replace: true,
 			});
-		} catch {
+		} catch (e) {
+			console.error(e);
 			setLoading(false);
 			toast({
 				title: "Login Error",

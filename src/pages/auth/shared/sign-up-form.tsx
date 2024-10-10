@@ -319,9 +319,9 @@ function TermsAndConditionsAndPrivacyPolicy({
 					</DialogDescription>
 				</DialogHeader>
 				<ScrollArea className="max-h-[300px] h-[300px]    ">
-					<PrivacyPolicy />
+					<PrivacyPolicy hideBackButton />
 					<Separator />
-					<TermsAndConditions />
+					<TermsAndConditions hideBackButton />
 					<Button
 						onClick={() => {
 							handleAgree(true);

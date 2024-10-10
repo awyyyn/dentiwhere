@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAtomValue } from "jotai";
 import { formatDate, isEqual, isFuture, isPast } from "date-fns";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 /* STATES */
 import { userAtom, clinicAtom } from "@/atoms";
@@ -42,8 +42,11 @@ type Manage =
 export default function DentalSetting() {
 	const user = useAtomValue(userAtom);
 	const [adding, setAdding] = useState(false);
+	const { state } = useLocation();
 	// const [editing, setEditing] = useState(false);
-	const [manage, setManage] = useState<Manage>("clinic");
+	const [manage, setManage] = useState<Manage>(
+		state?.manage ? state?.manage : "clinic"
+	);
 	const clinic = useAtomValue(clinicAtom);
 	const navigate = useNavigate();
 
@@ -92,11 +95,6 @@ export default function DentalSetting() {
 						)}
 					</div>
 					<div>
-						{isFreeAccess && (
-							<Badge className="bg-emerald-500 hover:bg-emerald-500">
-								Free
-							</Badge>
-						)}
 						{noSubscription ? (
 							<Badge variant="destructive">No Subscription</Badge>
 						) : (

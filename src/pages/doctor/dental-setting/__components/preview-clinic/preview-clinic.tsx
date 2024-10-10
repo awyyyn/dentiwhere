@@ -21,10 +21,12 @@ import { BriefcaseMedical } from "lucide-react";
 import { TbWorldWww } from "react-icons/tb";
 import { CiLocationOn } from "react-icons/ci";
 import { PiPhoneLight } from "react-icons/pi";
+import { useLocation } from "react-router-dom";
 
 export default function PreviewClinic({ id }: { id: number }) {
 	const [clinic, setClinic] = useAtom(clinicWithDoctorAtom);
 	const setReviews = useSetAtom(reviewsAtom);
+	const { state } = useLocation();
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
@@ -82,7 +84,9 @@ export default function PreviewClinic({ id }: { id: number }) {
 					</div>
 				</div>
 			</section>
-			<Tabs defaultValue="services" className="mt-4">
+			<Tabs
+				defaultValue={state.manage ? "reviews" : "services"}
+				className="mt-4">
 				{/* <Separator className='my-5' /> */}
 				<TabsList className="w-full flex justify-evenly  rounded-lg bg-transparent space-x-2   py-6">
 					<TabsTrigger

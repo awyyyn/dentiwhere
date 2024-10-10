@@ -13,27 +13,30 @@ export default function Services({ categories, services }: ServicesProps) {
 					const servicesByCategory = services.filter(
 						(service) => service.categoryId === category.id
 					);
+
 					return (
-						<div
-							className="shadow-lg p-3 bg-1/10 rounded-lg border-none"
-							key={`${category.id}`}>
-							<div className="flex flex-row justify-between p-2 ">
-								<h1 className="font-extrabold tracking-wide md:text-2xl text-lg capitalize">
-									{category.name}
-								</h1>
+						servicesByCategory.length > 0 && (
+							<div
+								className="shadow-lg p-3 bg-1/10 rounded-lg border-none"
+								key={`${category.id}`}>
+								<div className="flex flex-row justify-between p-2 ">
+									<h1 className="font-extrabold tracking-wide md:text-2xl text-lg capitalize">
+										{category.name}
+									</h1>
+								</div>
+								<div className="px-5 pt-2  ">
+									<ul className="list-disc pl-5	">
+										{servicesByCategory.map((service) => (
+											<li
+												key={service.id}
+												className="text-lg md:text-xl font-semibold capitalize">
+												{service.name}
+											</li>
+										))}
+									</ul>
+								</div>
 							</div>
-							<div className="px-5 pt-2  ">
-								<ul className="list-disc pl-5	">
-									{servicesByCategory.map((service) => (
-										<li
-											key={service.id}
-											className="text-lg md:text-xl font-semibold capitalize">
-											{service.name}
-										</li>
-									))}
-								</ul>
-							</div>
-						</div>
+						)
 					);
 				})
 			) : (

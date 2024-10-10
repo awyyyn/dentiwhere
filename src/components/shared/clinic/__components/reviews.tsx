@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAtom, useAtomValue } from "jotai";
 import { useParams } from "react-router-dom";
+import { v4 } from "uuid";
 import { format, isSameDay, isYesterday } from "date-fns";
 
 /* ACTIONS */
@@ -16,6 +17,7 @@ import { Button } from "@/components/ui/button.tsx";
 
 /* STATES */
 import { userAtom, reviewsAtom } from "@/atoms";
+import { randomName } from "@/lib/chance";
 
 interface ReviewsProps {
 	doctorId: number;
@@ -39,10 +41,10 @@ export default function Reviews({ doctorId }: ReviewsProps) {
 				clinicId: Number(params?.id),
 				review: String(review),
 				name,
-				uuid,
+				uuid: uuid ?? v4(),
 			});
 			await sendNotification({
-				name,
+				name: name ?? randomName(),
 				title: "Sent a Review",
 				message: review,
 				to: doctorId,
@@ -135,11 +137,9 @@ export default function Reviews({ doctorId }: ReviewsProps) {
 											<p className="text-sm capitalize">{review.name}</p>
 											<p className="text-sm text-gray-700">{timeLabel}</p>
 										</div>
-										<Textarea
-											value={review?.review}
-											readOnly
-											className="bg-white/30 focus:border-none border-none outline-none focus:outline-none resize-none "
-										/>
+										<p className="p-2 bg-white/30 focus:border-none border-none outline-none focus:outline-none resize-none ">
+											{review?.review}
+										</p>
 									</div>
 								</div>
 							</div>

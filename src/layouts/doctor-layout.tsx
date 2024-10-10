@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { useAtomValue, useAtom } from "jotai";
+import { useAtom } from "jotai";
 
 /* UTILS */
 import { db } from "@/utils/supabase";

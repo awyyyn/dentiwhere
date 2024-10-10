@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
 import { useSetAtom } from "jotai";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 /* ACTIONS */
 import { createUser } from "@/actions";
@@ -36,7 +36,6 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
 
 /* CONSTANTS */
 import { ERR_INTERNAL } from "@/constants/errors";

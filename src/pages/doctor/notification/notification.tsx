@@ -10,10 +10,15 @@ import { notificationsAtom } from "@/atoms";
 /* COMPONENTS */
 import LogoWithText from "@/components/shared/logo-with-text/logo-with-text";
 
+/* TYPES */
+import { Notification as Notif } from "@/types/types";
+import { useNavigate } from "react-router-dom";
+
 export default function Notification() {
 	const [notifications, setNotifications] = useAtom(notificationsAtom);
-
-	const handleReadNotification = async (id: number, read: boolean) => {
+	const navigate = useNavigate();
+	const handleReadNotification = async (notification: Notif) => {
+		const { id, read, title } = notification;
 		if (!read) {
 			await readNotification(id);
 			setNotifications((notifs) => {
@@ -24,6 +29,11 @@ export default function Notification() {
 					return notif;
 				});
 			});
+		}
+		if (title.toLowerCase() === "account verified") {
+			navigate("/profile");
+		} else if (title.toLowerCase() === "sent a review") {
+			navigate("/dental-setting", { state: { manage: "view" } });
 		}
 	};
 
@@ -50,11 +60,7 @@ export default function Notification() {
 
 							return (
 								<div
-									onClick={handleReadNotification.bind(
-										null,
-										notif.id,
-										notif.read
-									)}
+									onClick={handleReadNotification.bind(null, notif)}
 									key={notif.id}
 									className={`p-3 max-w-3xl lg:p-5 group hover:bg-white/50 transition-all duration-300 cursor-pointer shadow-md rounded-lg    ${style}`}>
 									<h1 className="font-semibold">{notif.title}</h1>

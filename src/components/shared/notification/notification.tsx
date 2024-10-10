@@ -31,13 +31,14 @@ export default function Notification() {
 
 	const handleNavigate = async (
 		id: number,
+		notifId: number,
 		type: "verification" | "notification"
 	) => {
 		if (type === "notification") return;
-		await readNotification(id);
+		await readNotification(notifId);
 		setNotifications((prev) => {
 			return prev.map((notif) => {
-				if (notif.id === id) {
+				if (notif.id === notifId) {
 					return { ...notif, read: true };
 				}
 				return notif;
@@ -117,7 +118,9 @@ export default function Notification() {
 										side="bottom"
 										delayDuration={1500}>
 										<div
-											onClick={() => handleNavigate(Number(notif?.from), type)}
+											onClick={() =>
+												handleNavigate(Number(notif?.from), notif.id, type)
+											}
 											className={`group relative group hover:shadow-lg active:shadow-sm transition-all duration-300 rounded-md hover:cursor-pointer hover:bg-gray-100 p-2 -space-y-1
 									${style}`}>
 											<h1 className="font-semibold">{notif.title}</h1>

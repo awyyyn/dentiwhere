@@ -435,7 +435,7 @@ export default function AccountSettings() {
 								<FormField
 									control={form.control}
 									name="gender"
-									render={({ field }) => (
+									render={() => (
 										<FormItem>
 											<FormLabel>
 												Gender <span className="text-destructive">*</span>

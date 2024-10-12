@@ -22,7 +22,6 @@ import Ligao2 from "@/assets/images/third_district/city-of-ligao.jpg";
 // import Oas2 from "@/assets/images/third_district/oas.png";
 // import Pioduran2 from "@/assets/images/third_district/pioduran.png";
 import Polangui2 from "@/assets/images/third_district/mucipality-of-polangui.jpg";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 const items = [
 	{

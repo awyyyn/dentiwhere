@@ -30,6 +30,7 @@ import { TbDental } from "react-icons/tb";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert.tsx";
 import { Badge } from "@/components/ui/badge.tsx";
 import { Button } from "@/components/ui/button.tsx";
+import ManageSubscription from "./__components/manage-subscription/manage-subscription.tsx";
 
 type Manage =
 	| "view"
@@ -224,7 +225,7 @@ export default function DentalSetting() {
 				{manage === "services" && <ManageServices />}
 				{manage === "accessibility" && <ManageAccesibility />}
 				{manage === "amenities" && <ManageAmenities />}
-				{manage === "subscription"}
+				{manage === "subscription" && <ManageSubscription />}
 			</Layout>
 		</>
 	);

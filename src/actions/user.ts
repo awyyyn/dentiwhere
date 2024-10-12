@@ -162,6 +162,12 @@ export const createUser = async (user: any): Promise<User> => {
 		throw new Error(ERR_INTERNAL);
 	}
 
+	const sub = await db
+		.from("subscription")
+		.select("*")
+		.eq("id", 8)
+		.maybeSingle();
+
 	const insertToUserTable = await db
 		.from("user")
 		.insert({
@@ -177,8 +183,9 @@ export const createUser = async (user: any): Promise<User> => {
 			contacts: user.contacts,
 			role: user.role,
 			verified: false,
+			subscribe: 8,
 			subscription_end_date: formatDate(
-				add(new Date(), { years: 1 }),
+				add(new Date(), { months: sub.data?.months ?? 12 }),
 				"yyyy-MM-dd"
 			),
 		})

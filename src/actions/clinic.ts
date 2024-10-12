@@ -306,11 +306,12 @@ export const searchClinic = async (
 		? data
 				.filter(
 					(d) =>
-						isFuture(new Date(d.user?.subscription_end_date as string)) ||
-						isEqual(
-							new Date(d.user?.subscription_end_date as string),
-							formatDate(new Date(), "yyyy-MM-dd")
-						)
+						!d.archive &&
+						(isFuture(new Date(d.user?.subscription_end_date as string)) ||
+							isEqual(
+								new Date(d.user?.subscription_end_date as string),
+								formatDate(new Date(), "yyyy-MM-dd")
+							))
 				)
 				?.map((clinic) => {
 					return {
@@ -343,7 +344,9 @@ export const getBoostedClinics = async (): Promise<ClinicWithDoctor[]> => {
 		? data
 				.filter(
 					(d) =>
-						!isPast(d.user?.subscription_end_date as string) && d.user?.boost
+						!d.archive &&
+						!isPast(d.user?.subscription_end_date as string) &&
+						d.user?.boost
 				)
 				?.map((clinic) => {
 					return {
@@ -381,13 +384,15 @@ export const getClinicsGeo = async () => {
 	const { data, error } = await db
 		.from("clinics")
 		.select(
-			"id, name, map, user!clinics_doctor_id_fkey(subscription_end_date, boost)"
+			"id, name, map, archive, user!clinics_doctor_id_fkey(subscription_end_date, boost)"
 		);
 
 	if (data === null || error) throw new Error("Error fetching clinics");
 
 	return data
-		.filter((d) => !isPast(d.user?.subscription_end_date as string))
+		.filter(
+			(d) => !d.archive && !isPast(d.user?.subscription_end_date as string)
+		)
 		?.map((d) => {
 			return {
 				id: d.id,

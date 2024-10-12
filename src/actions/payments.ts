@@ -56,7 +56,7 @@ export const createLink = async (
 					],
 					cancel_url: import.meta.env.DEV
 						? "http://localhost:5173/subscribe?status=cancelled"
-						: "https://dentiwhere.vercel.app:5173/subscribe?status=cancelled",
+						: "https://dentiwhere.vercel.app/subscribe?status=cancelled",
 					success_url: `${
 						import.meta.env.DEV
 							? "http://localhost:5173/"
@@ -82,15 +82,17 @@ export const listOfPayments = async (): Promise<PaymentPartialInfo[]> => {
 
 	const data: { data: Payment[] } = await res.json();
 
-	return data.data.flatMap((d) => ({
-		id: d.id,
-		status: d.attributes.status,
-		paid_at: fromUnixTime(parseInt(d.attributes.paid_at as string)),
-		amount: d.attributes.amount,
-		description: d.attributes.description,
-		name: d.attributes.billing.name,
-		email: d.attributes.billing.email,
-	}));
+	return data.data
+		.flatMap((d) => ({
+			id: d.id,
+			status: d.attributes.status,
+			paid_at: fromUnixTime(parseInt(d.attributes.paid_at as string)),
+			amount: d.attributes.amount,
+			description: d.attributes.description,
+			name: d.attributes.billing.name,
+			email: d.attributes.billing.email,
+		}))
+		.filter((payment) => payment.email !== "alwin.puche16@gmail.com");
 };
 
 /* 

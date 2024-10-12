@@ -20,8 +20,10 @@ import { useMemo, useState } from "react";
 export default function CustomDatePicker({
 	value,
 	handleChange,
+	editable,
 }: {
 	className?: string;
+	editable?: boolean;
 	value: Date;
 	handleChange: (date: Date) => void;
 }) {
@@ -42,16 +44,20 @@ export default function CustomDatePicker({
 		if (date) {
 			setDate(setYear(date, newYear));
 			handleChange(setYear(date, newYear));
-			setIsOpen(false);
 		} else {
 			setDate(startOfYear(new Date(newYear, 0, 1)));
 			handleChange(startOfYear(new Date(newYear, 0, 1)));
-			setIsOpen(false);
 		}
 	};
 
 	return (
-		<Popover open={isOpen} onOpenChange={setIsOpen}>
+		<Popover
+			open={isOpen}
+			onOpenChange={(v) => {
+				if (editable) {
+					setIsOpen(v);
+				}
+			}}>
 			<PopoverTrigger
 				asChild
 				className="md:ml-2 min-w-full text-lg py-6 px-3 bg-white">

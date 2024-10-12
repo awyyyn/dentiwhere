@@ -448,8 +448,10 @@ export default function AccountSettings() {
 													</div>
 												) : (
 													<RadioGroup
-														value={field.value}
-														onValueChange={field.onChange}
+														onValueChange={(v) => {
+															if (!editing || loading || uploading) return;
+															form.setValue("gender", v);
+														}}
 														className="flex md:ml-2 disabled:opacity-100">
 														<div
 															onClick={() => form.setValue("gender", "male")}
@@ -461,7 +463,10 @@ export default function AccountSettings() {
 																id="male"
 															/>
 															<Label
-																htmlFor="male"
+																onClick={() => {
+																	if (!editing || loading || uploading) return;
+																	form.setValue("gender", "male");
+																}}
 																className=" text-lg text-gray-400 font-light">
 																Male
 															</Label>
@@ -476,7 +481,10 @@ export default function AccountSettings() {
 																id="female"
 															/>
 															<Label
-																htmlFor="female"
+																onClick={() => {
+																	if (!editing || loading || uploading) return;
+																	form.setValue("gender", "female");
+																}}
 																className=" text-lg text-gray-400 font-light">
 																Female
 															</Label>
@@ -504,6 +512,7 @@ export default function AccountSettings() {
 												<Skeleton className="w-full h-[3.1rem]" />
 											) : (
 												<CustomDatePicker
+													editable={!(!editing || loading || uploading)}
 													value={field.value}
 													handleChange={field.onChange}
 												/>

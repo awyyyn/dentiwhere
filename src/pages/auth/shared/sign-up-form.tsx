@@ -158,7 +158,7 @@ export default function SignUpForm() {
 									<FormControl>
 										<Input
 											className="w-full  lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] "
-											placeholder="Full Name"
+											placeholder="First Name"
 											{...field}
 										/>
 									</FormControl>

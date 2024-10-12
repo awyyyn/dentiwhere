@@ -24,7 +24,7 @@ import { Tooltip } from "@/components/shared/tooltip/tooltip.tsx";
 import PreviewClinic from "./__components/preview-clinic/preview-clinic.tsx";
 
 /* ASSETS */
-import { Accessibility, Building } from "lucide-react";
+import { Accessibility, Building, Hospital, ReceiptText } from "lucide-react";
 import { MdCategory, MdMedicalInformation } from "react-icons/md";
 import { TbDental } from "react-icons/tb";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert.tsx";
@@ -37,7 +37,8 @@ type Manage =
 	| "categories"
 	| "services"
 	| "accessibility"
-	| "amenities";
+	| "amenities"
+	| "subscription";
 
 export default function DentalSetting() {
 	const user = useAtomValue(userAtom);
@@ -137,8 +138,22 @@ export default function DentalSetting() {
 									side="bottom"
 									delayDuration={300}>
 									<p>
-										<MdMedicalInformation size={18} className="md:hidden" />
+										<Hospital size={18} className="md:hidden" />
 										<span className="hidden md:block">Preview Clinic</span>
+									</p>
+								</Tooltip>
+							</ToggleGroupItem>
+							<ToggleGroupItem
+								className={toggleGroupItemStyle}
+								value="subscription">
+								<Tooltip
+									className="block translate-y-2 lg:hidden"
+									tooltip="Manage Subscription"
+									side="bottom"
+									delayDuration={300}>
+									<p>
+										<ReceiptText size={18} className="md:hidden" />
+										<span className="hidden md:block">Manage Subscription</span>
 									</p>
 								</Tooltip>
 							</ToggleGroupItem>
@@ -209,6 +224,7 @@ export default function DentalSetting() {
 				{manage === "services" && <ManageServices />}
 				{manage === "accessibility" && <ManageAccesibility />}
 				{manage === "amenities" && <ManageAmenities />}
+				{manage === "subscription"}
 			</Layout>
 		</>
 	);

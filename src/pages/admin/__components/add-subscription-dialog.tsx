@@ -164,7 +164,7 @@ export function AddSubscriptionDialog() {
 
 	return (
 		<Dialog open={dialog.open}>
-			<DialogContent className="sm:max-w-[425px]">
+			<DialogContent removeClose className="sm:max-w-[425px]">
 				<DialogHeader>
 					<DialogTitle>
 						{editMode ? "Edit" : createMode ? "Add" : "Delete"} Subscription

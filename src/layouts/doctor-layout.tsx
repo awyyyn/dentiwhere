@@ -30,7 +30,7 @@ import { FaUserAlt } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { RiSettingsFill } from "react-icons/ri";
 import { AlignJustify, CircleX, Info } from "lucide-react";
-import { formatDate, isPast } from "date-fns";
+import { formatDate, isFuture, isPast } from "date-fns";
 import { Tooltip } from "@/components/shared/tooltip/tooltip";
 
 export default function DoctorLayout() {
@@ -47,9 +47,7 @@ export default function DoctorLayout() {
 		}
 
 		if (user) {
-			setBannerAlert(
-				!user.boost && new Date(user.subscriptionEndDate) >= new Date()
-			);
+			setBannerAlert(!user.boost && isFuture(user.subscriptionEndDate));
 			setBannerExpiredAlert(isPast(user.subscriptionEndDate));
 		}
 	}, [user]);

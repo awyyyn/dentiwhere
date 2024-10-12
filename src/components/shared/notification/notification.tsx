@@ -17,7 +17,6 @@ import {
 	PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import { Tooltip } from "@/components/shared/tooltip/tooltip";
 
 /* ASSETS */
 import { RiNotificationFill } from "react-icons/ri";
@@ -55,10 +54,7 @@ export default function Notification() {
 					className="relative rounded-full group px-3  "
 					variant="ghost"
 					size="icon">
-					<RiNotificationFill
-						className="scale-150 group-hover:scale-[1.8]  
-					group-active:scale-90 transition-all"
-					/>
+					<RiNotificationFill className="scale-150 group-hover:scale-[1.8] group-active:scale-90 transition-all" />
 					{unread > 0 && (
 						<span className="absolute text-xs   transition-all top-1 -right-1 bg-red-500 text-white rounded-full px-1 ">
 							{unread}
@@ -112,32 +108,27 @@ export default function Notification() {
 								const type = verification ? "verification" : "notification";
 
 								return (
-									<Tooltip
-										tooltip="view"
+									<div
 										key={notif.id}
-										side="bottom"
-										delayDuration={1500}>
-										<div
-											onClick={() =>
-												handleNavigate(Number(notif?.from), notif.id, type)
-											}
-											className={`group relative group hover:shadow-lg active:shadow-sm transition-all duration-300 rounded-md hover:cursor-pointer hover:bg-gray-100 p-2 -space-y-1
+										onClick={() =>
+											handleNavigate(Number(notif?.from), notif.id, type)
+										}
+										className={`group relative group hover:shadow-lg active:shadow-sm transition-all duration-300 rounded-md hover:cursor-pointer hover:bg-gray-100 p-2 -space-y-1
 									${style}`}>
-											<h1 className="font-semibold">{notif.title}</h1>
-											<p className="truncate first-letter:capitalize lowercase pr-6 text-gray-800/70">
-												{notif.content}
-											</p>
-											<p className="text-xs text-right text-gray-600/60">
-												{timeLabel}
-											</p>
-											<Button
-												variant="ghost"
-												size="icon"
-												className="transition-all opacity-0 group-hover:opacity-100 absolute bg-transparent group:hover:bg-transparent right-2 top-[50%] -translate-y-[50%]">
-												<ChevronRight className="stroke-black" />
-											</Button>
-										</div>
-									</Tooltip>
+										<h1 className="font-semibold">{notif.title}</h1>
+										<p className="truncate first-letter:capitalize lowercase pr-6 text-gray-800/70">
+											{notif.content}
+										</p>
+										<p className="text-xs text-right text-gray-600/60">
+											{timeLabel}
+										</p>
+										<Button
+											variant="ghost"
+											size="icon"
+											className="transition-all opacity-0 group-hover:opacity-100 absolute bg-transparent group:hover:bg-transparent right-2 top-[50%] -translate-y-[50%]">
+											<ChevronRight className="stroke-black" />
+										</Button>
+									</div>
 								);
 							})
 						) : (

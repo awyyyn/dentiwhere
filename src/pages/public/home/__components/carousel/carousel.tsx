@@ -19,7 +19,7 @@ import Guinobatan2 from "@/assets/images/third_district/municipality-of-guinobat
 import Jovellar2 from "@/assets/images/third_district/municipality-of-jovellar.jpg";
 import Libon2 from "@/assets/images/third_district/mucipality-of-libon.jpg";
 import Ligao2 from "@/assets/images/third_district/city-of-ligao.jpg";
-// import Oas2 from "@/assets/images/third_district/oas.png";
+import Oas2 from "@/assets/images/third_district/municipality-of-oas.jpg";
 // import Pioduran2 from "@/assets/images/third_district/pioduran.png";
 import Polangui2 from "@/assets/images/third_district/mucipality-of-polangui.jpg";
 
@@ -72,6 +72,10 @@ const items2 = [
 		name: "Ligao",
 	},
 	{
+		img: Oas2,
+		name: "Oas",
+	},
+	{
 		img: Polangui2,
 		name: "Polangui",
 	},
@@ -117,17 +121,14 @@ export default function CarouselSize() {
 					infiniteLoop
 					stopOnHover
 					interval={5000}
-					className="   w-full max-h-[700px]">
+					className=" overflow-hidden   w-full md:min-h-[700px]  h-[230px] max-h-[230px] md:h-[700px] ">
 					{items2.map((item, index) => (
 						<div
 							key={index}
-							className="relative min-h-[700px] w-full h-[700px] group  ">
-							{/* <div className="capitalize text-xl tracking-wide text-left px-5 font-bold z-50 absolute w-full  py-5 -bottom-full group-hover:bottom-0 transition-all duration-500 left-0 backdrop-blur-ssm bg-white/60">
-								{item.name}
-							</div> */}
+							className="relative w-full  md:min-h-[700px]  h-[230px] max-h-[230px] md:h-[700px] group  ">
 							<img
 								src={item.img}
-								className="absolute min-h-[700px] h-[700px] top-0 left-0   w-full "
+								className="absolute md:min-h-[700px] object-center  h-[230px] max-h-[230px] md:h-[700px] top-0 left-0   w-full "
 								alt="Carousel item"
 							/>
 						</div>

@@ -6,8 +6,6 @@ export default function Footer() {
 		{ path: "/", name: "" },
 		{ path: "conditions", name: "Conditions" },
 		{ path: "services", name: "Services" },
-		{ path: "book-now", name: "Book Now" },
-		{ path: "inquire-now", name: "Inquire Now" },
 	];
 
 	const generalLinks = [

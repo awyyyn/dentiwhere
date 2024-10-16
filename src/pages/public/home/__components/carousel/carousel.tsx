@@ -126,9 +126,10 @@ export default function CarouselSize() {
 						<div
 							key={index}
 							className="relative w-full  md:min-h-[700px]  h-[230px] max-h-[230px] md:h-[700px] group  ">
+							className="relative w-full  md:min-h-[700px]  h-[230px] max-h-[230px] md:h-[700px] group  ">
 							<img
 								src={item.img}
-								className="absolute md:min-h-[700px]  h-[230px] max-h-[230px] md:h-[700px] top-0 left-0   w-full "
+								className="absolute md:min-h-[700px] object-center  h-[230px] max-h-[230px] md:h-[700px] top-0 left-0   w-full "
 								alt="Carousel item"
 							/>
 						</div>

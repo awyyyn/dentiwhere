@@ -47,6 +47,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import TermsAndConditions from "@/pages/public/terms-and-conditions/terms-and-conditions";
 import PrivacyPolicy from "@/pages/public/privacy-policy/privacy-policy";
 import { Separator } from "@/components/ui/separator";
+import { useTranslation } from "react-i18next";
 
 const formSchema = z.object({
 	licenseNumber: z.string().min(1, {
@@ -69,6 +70,7 @@ const formSchema = z.object({
 
 export default function SignUpForm() {
 	const [agree, setAgree] = useState(false);
+	const { t } = useTranslation();
 	const { toast } = useToast();
 	const navigate = useNavigate();
 	const setUser = useSetAtom(userAtom);
@@ -142,7 +144,7 @@ export default function SignUpForm() {
 		<>
 			<div className="flex flex-row items-center space-x-2 justify-center">
 				<div className="border-b-2 w-3 border-gray-700" />
-				<p className="uppercase text-gray-700 text-sm">OR</p>
+				<p className="uppercase text-gray-700 text-sm">{t("or")}</p>
 				<div className="border-b-2 w-3 border-gray-700" />
 			</div>
 			<Form {...form}>
@@ -158,7 +160,7 @@ export default function SignUpForm() {
 									<FormControl>
 										<Input
 											className="w-full  lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] "
-											placeholder="First Name"
+											placeholder={t("firstName")}
 											{...field}
 										/>
 									</FormControl>
@@ -174,7 +176,7 @@ export default function SignUpForm() {
 									<FormControl>
 										<Input
 											className="w-full  lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] "
-											placeholder="Last Name"
+											placeholder={t("lastName")}
 											{...field}
 										/>
 									</FormControl>
@@ -191,7 +193,7 @@ export default function SignUpForm() {
 								<FormControl>
 									<Input
 										className="lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] "
-										placeholder="License Number"
+										placeholder={t("licenseNumber")}
 										{...field}
 									/>
 								</FormControl>
@@ -223,7 +225,7 @@ export default function SignUpForm() {
 								<FormControl>
 									<Input
 										className="lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] "
-										placeholder="Phone Number"
+										placeholder={t("phoneNumber")}
 										{...field}
 									/>
 								</FormControl>
@@ -261,17 +263,17 @@ export default function SignUpForm() {
 						{loading ? (
 							<>
 								<ImSpinner2 className="animate-spin mr-2" />
-								<span>Signing up...</span>
+								<span>{t("signingUp")}</span>
 							</>
 						) : (
-							"Sign up"
+							t("signUp")
 						)}
 					</Button>
 
 					<div className="flex  flex-row space-x-1 justify-center mt-5">
-						<p>I have an account?</p>
+						<p>{t("alreadyHaveAccount")}</p>
 						<Link to={loading ? "#" : "/login"} className="font-bold">
-							Sign in
+							{t("signIn")}
 						</Link>
 					</div>
 				</form>
@@ -287,6 +289,7 @@ function TermsAndConditionsAndPrivacyPolicy({
 	agree: boolean;
 	handleAgree: (v: boolean) => void;
 }) {
+	const { t } = useTranslation();
 	const [open, setOpen] = useState(false);
 
 	return (
@@ -300,10 +303,7 @@ function TermsAndConditionsAndPrivacyPolicy({
 						onClick={() => (agree ? handleAgree(false) : setOpen(true))}
 						checked={agree}
 					/>
-					<p className="text-sm">
-						By creating an account, you agree to the `
-						<b>Terms and conditions</b>` of service and `<b>Privacy Policy</b>`
-					</p>
+					<p className="text-sm">{t("byCreatingAccountDesc")}</p>
 				</div>
 			</DialogTrigger>
 			<DialogContent
@@ -312,10 +312,7 @@ function TermsAndConditionsAndPrivacyPolicy({
 				className="sm:max-w-[425px]">
 				<DialogHeader>
 					<DialogTitle>Privacy Policy and Terms and Conditions</DialogTitle>
-					<DialogDescription>
-						Doctors are required to agree to the terms and conditions before
-						proceeding.
-					</DialogDescription>
+					<DialogDescription>{t("privacyAndTermsDesc")}</DialogDescription>
 				</DialogHeader>
 				<ScrollArea className="max-h-[300px] h-[300px]    ">
 					<PrivacyPolicy hideBackButton />
@@ -328,12 +325,12 @@ function TermsAndConditionsAndPrivacyPolicy({
 						}}
 						type="submit"
 						className="bg-1 -mt-5 text-black w-full hover:text-black hover:bg-1">
-						Accept
+						{t("accept")}
 					</Button>
 				</ScrollArea>
 				<DialogFooter className="gap-2">
 					<Button onClick={() => setOpen(false)} className="">
-						Cancel
+						{t("close")}
 					</Button>
 				</DialogFooter>
 			</DialogContent>

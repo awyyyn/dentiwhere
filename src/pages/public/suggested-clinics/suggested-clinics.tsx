@@ -14,11 +14,13 @@ import Back from "../__components/back/back";
 import SectionHeader from "../home/__components/section-header/section-header";
 import ClinicCard from "../home/__components/list-of-clinics/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useTranslation } from "react-i18next";
 
 export default function SuggestedClinics() {
 	const [loading, setLoading] = useState(false);
 	const [clinics, setClinics] = useState<ClinicWithDoctor[]>([]);
 	const { toast } = useToast();
+	const { t } = useTranslation();
 
 	useEffect(() => {
 		(async () => {
@@ -46,8 +48,8 @@ export default function SuggestedClinics() {
 			<Back toRoot />
 			<div className="space-y-5 md:space-y-10">
 				<SectionHeader
-					title="Suggested Clinics for you"
-					description="These clinics are available to serve you with the best care."
+					title={t("suggestedForYour")}
+					description={t("suggestedForYourDesc")}
 				/>
 
 				<div className="space-y-12 flex flex-col">

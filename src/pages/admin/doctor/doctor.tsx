@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import ImgDialog from "../__components/img-dialog.tsx";
 import { Loader } from "@/components/shared/loader/loader.tsx";
 import { Label } from "@/components/ui/label";
+import { useTranslation } from "react-i18next";
 
 export default function Doctor() {
 	const params = useParams();
@@ -20,6 +21,7 @@ export default function Doctor() {
 	const [doctor, setDoctor] = useAtom(doctorAtom);
 	const [loading, setLoading] = useState(false);
 	const [open, setOpen] = useState(false);
+	const { t } = useTranslation();
 	const placeholderImg =
 		"https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png";
 
@@ -50,7 +52,7 @@ export default function Doctor() {
 	return (
 		<div className="p-2 md:p-5 lg:p-10 xl:p-14 pb-10 ">
 			<section className="md:space-y-2">
-				<h1 className="text-2xl lg:text-5xl font-bold">Doctor details</h1>
+				<h1 className="text-2xl lg:text-5xl font-bold">{t("doctorDetails")}</h1>
 				<p className="text-gray-600 md:text-lg"></p>
 			</section>
 			<section className="mt-10">
@@ -64,11 +66,11 @@ export default function Doctor() {
 					</div>
 					<div className="space-y-5">
 						<div>
-							<Label>First Name</Label>
+							<Label>{t("firstName")}</Label>
 							<Input value={doctor?.firstName} readOnly className="bg-white" />
 						</div>
 						<div>
-							<Label>Last Name</Label>
+							<Label>{t("lastName")}</Label>
 							<Input value={doctor?.lastName} readOnly className="bg-white" />
 						</div>
 						<div>
@@ -81,10 +83,10 @@ export default function Doctor() {
 						</div>
 					</div>
 					<div>
-						<Label>Clinic</Label>
+						<Label>{t("clinic")}</Label>
 						<Input
 							value={
-								doctor?.clinicName === "" ? "No Clinic" : doctor?.clinicName
+								doctor?.clinicName === "" ? t("noClinic") : doctor?.clinicName
 							}
 							readOnly
 							className="bg-white"
@@ -95,7 +97,7 @@ export default function Doctor() {
 						<Input value={doctor?.email} readOnly className="bg-white" />
 					</div>
 					<div>
-						<Label>License Number</Label>
+						<Label>{t("licenseNumber")}</Label>
 						<Input
 							value={doctor?.licenseNumber}
 							readOnly
@@ -107,7 +109,7 @@ export default function Doctor() {
 						<Input value={doctor?.postalId} readOnly className="bg-white" />
 					</div>
 					<div>
-						<Label>Account Status</Label>
+						<Label>{t("accountStatus")}</Label>
 						<Input value={doctor?.status} readOnly className="bg-white" />
 					</div>
 					<div>
@@ -115,10 +117,10 @@ export default function Doctor() {
 						<Input value={doctor?.address} readOnly className="bg-white" />
 					</div>
 					<div className="lg:col-span-2">
-						<h1 className="font-bold text-xl">License Pictures</h1>
+						<h1 className="font-bold text-xl">{t("licensePicture")}</h1>
 					</div>
 					<div className="space-y-2 p-1">
-						<h1 className="font-semibold">Front Image</h1>
+						<h1 className="font-semibold">{t("frontImage")}</h1>
 						<div
 							onClick={() =>
 								doctor?.licenseId.frontImg &&
@@ -128,7 +130,7 @@ export default function Doctor() {
 							className="relative overflow-hidden cursor-pointer h-72 w-full  ring  ring-white  shadow-lg group">
 							{doctor?.licenseId.frontImg && doctor?.licenseId.backImg && (
 								<div className=" opacity-0 absolute h-full w-full top-0 left-0 grid place-content-center backdrop-blur-sm bg-white/30 z-50 group-hover:opacity-100 translate-y-full  group-hover:translate-y-0 transition-all duration-300">
-									<h1 className="font-bold tracking-wider">View Image</h1>
+									<h1 className="font-bold tracking-wider">{t("viewImage")}</h1>
 								</div>
 							)}
 							<img
@@ -138,7 +140,7 @@ export default function Doctor() {
 						</div>
 					</div>
 					<div className="space-y-2 p-1">
-						<h1 className="font-semibold">Back Image</h1>
+						<h1 className="font-semibold">{t("backImage")}</h1>
 						<div
 							onClick={() =>
 								doctor?.licenseId.frontImg &&
@@ -148,7 +150,7 @@ export default function Doctor() {
 							className="relative overflow-hidden cursor-pointer h-72 w-full  ring  ring-white  shadow-lg group">
 							{doctor?.licenseId.frontImg && doctor?.licenseId.backImg && (
 								<div className=" opacity-0 absolute h-full w-full top-0 left-0 grid place-content-center backdrop-blur-sm bg-white/30 z-50 group-hover:opacity-100 translate-y-full  group-hover:translate-y-0 transition-all duration-300">
-									<h1 className="font-bold tracking-wider">View Image</h1>
+									<h1 className="font-bold tracking-wider">{t("viewImage")}</h1>
 								</div>
 							)}
 							<img

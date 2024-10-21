@@ -28,6 +28,7 @@ import { Badge } from "@/components/ui/badge.tsx";
 
 /* ASSETS */
 import { ImSpinner2 } from "react-icons/im";
+import { useTranslation } from "react-i18next";
 
 export const VerifyDialog = () => {
 	const [loading, setLoading] = useState(false);
@@ -36,6 +37,7 @@ export const VerifyDialog = () => {
 	const { toast } = useToast();
 	const user = useAtomValue(userAtom);
 	const [open, setOpen] = useState(false);
+	const { t } = useTranslation();
 
 	const handleUpdateStatus = async () => {
 		try {
@@ -80,24 +82,25 @@ export const VerifyDialog = () => {
 				onClick={() => setOpen(true)}
 				variant="default"
 				className="bg-emerald-500/90 border-transparent hover:bg-emerald-500">
-				Verify Doctor
+				{t("verifyDoctor")}
 			</Button>
 			<DialogContent removeClose className=" ">
 				<DialogHeader>
-					<DialogTitle className="text-2xl">Verify</DialogTitle>
+					<DialogTitle className="text-2xl">{t("verify")}</DialogTitle>
 					<DialogDescription className="text-gray-800 leading-loose text-lg">
-						Are you sure you want to verify your this doctor?
+						{t("verifyDescription")}
 					</DialogDescription>
 					<div className="space-y-2">
 						<p className="text-xs">
-							Type <Badge variant="secondary">confirm</Badge> to continue
+							{t(`type`)} <Badge variant="secondary">confirm</Badge>{" "}
+							{t("toConfirm")}
 						</p>
 						<Input value={input} onChange={(e) => setInput(e.target.value)} />
 					</div>
 				</DialogHeader>
 				<DialogFooter>
 					<Button onClick={() => !loading && setOpen(false)} disabled={loading}>
-						Close
+						{t("close")}
 					</Button>
 					<Button
 						disabled={input !== "confirm" || loading}
@@ -106,10 +109,10 @@ export const VerifyDialog = () => {
 						{loading ? (
 							<>
 								<ImSpinner2 className="animate-spin " size={24} />
-								<p>Updating account status...</p>
+								<p>{t("updatingAccountStatus")}</p>
 							</>
 						) : (
-							"Confirm"
+							t("confirm")
 						)}
 					</Button>
 				</DialogFooter>

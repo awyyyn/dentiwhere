@@ -1,11 +1,13 @@
 import SocialLinks from "@/components/shared/social-links/social-links";
 import Back from "../__components/back/back";
+import { useTranslation } from "react-i18next";
 
 export default function PrivacyPolicy({
 	hideBackButton = false,
 }: {
 	hideBackButton?: boolean;
 }) {
+	const { t } = useTranslation();
 	return (
 		<div className="py-5">
 			{!hideBackButton && <Back />}
@@ -14,133 +16,82 @@ export default function PrivacyPolicy({
 
 				<div className="max-w-3xl mx-auto space-y-8">
 					<section>
-						<p className="text-lg">
-							At Dentiwhere, we are committed to protecting your privacy. This
-							Privacy Policy outlines how we collect, use, and safeguard your
-							personal information when you use our platform.
-						</p>
+						<p className="text-lg">{t("atDentiwhere")}</p>
 					</section>
 
 					<section>
-						<h2 className="text-2xl font-semibold mb-4">
-							1. Information We Collect
-						</h2>
-						<p>We may collect the following types of information:</p>
+						<h2 className="text-2xl font-semibold mb-4">{t("privacy1")}</h2>
+						<p>{t("weMayCollect")}</p>
 						<ul className="list-disc pl-6 space-y-2">
 							<li>
-								<strong>Personal Information:</strong> When you register as a
-								dentist or make an inquiry as a patient, we collect your name,
-								contact information, and clinic details (for dentists).
+								<strong>{t("personalInformation")}</strong>{" "}
+								{t("personalInformationDesc")}
 							</li>
 							<li>
-								<strong>Location Data:</strong> We collect and use location data
-								to show nearby clinics.
+								<strong>{t("locationData")}</strong>
+								{t("locationDataDesc")}
 							</li>
 							<li>
-								<strong>Usage Data:</strong> We gather information about your
-								interactions with the platform, including pages viewed and
-								features used.
+								<strong>{t("usagedata")}</strong> {t("usageDataDesc")}
 							</li>
 						</ul>
 					</section>
 
 					<section>
-						<h2 className="text-2xl font-semibold mb-4">
-							2. How We Use Your Information
-						</h2>
-						<p>We use the information we collect for the following purposes:</p>
+						<h2 className="text-2xl font-semibold mb-4">{t("privacy2")}</h2>
+						<p>{t("weUseTheInformation")}</p>
 						<ul className="list-disc pl-6 space-y-2">
-							<li>
-								To connect patients with dental clinics and professionals.
-							</li>
-							<li>
-								To improve the functionality and user experience of the
-								platform.
-							</li>
-							<li>
-								To send notifications and relevant updates regarding
-								appointments or services.
-							</li>
-							<li>To analyze usage trends and gather feedback.</li>
+							<li>{t("weUseTheInformation1")}</li>
+							<li>{t("weUseTheInformation2")}</li>
+							<li>{t("weUseTheInformation3")}</li>
+							<li>{t("weUseTheInformation4")}</li>
 						</ul>
 					</section>
 
 					<section>
-						<h2 className="text-2xl font-semibold mb-4">
-							3. Sharing Your Information
-						</h2>
-						<p>
-							We do not sell your personal information to third parties.
-							However, we may share your information with:
-						</p>
+						<h2 className="text-2xl font-semibold mb-4">{t("privacy3")}</h2>
+						<p>{t("weDoNotSell")}</p>
 						<ul className="list-disc pl-6 space-y-2">
 							<li>
-								<strong>Dental Clinics:</strong> When patients inquire or book
-								appointments, their contact information may be shared with the
-								clinic.
+								<strong>{t("dentalClinics")}</strong> {t("dentalClinicsDesc")}
 							</li>
 							<li>
-								<strong>Service Providers:</strong> We may share your data with
-								third-party providers who help us operate the platform, subject
-								to strict confidentiality agreements.
+								<strong>{t("serviceProviders")}</strong>{" "}
+								{t("serviceProvidersDesc")}
 							</li>
 						</ul>
 					</section>
 
 					<section>
-						<h2 className="text-2xl font-semibold mb-4">4. Data Security</h2>
-						<p>
-							We implement reasonable security measures to protect your personal
-							information from unauthorized access, loss, or misuse. However, no
-							method of transmission over the internet is completely secure.
-						</p>
+						<h2 className="text-2xl font-semibold mb-4">{t("privacy4")}</h2>
+						<p>{t("weImplementReasonable")}</p>
 					</section>
 
 					<section>
-						<h2 className="text-2xl font-semibold mb-4">5. Cookies</h2>
-						<p>
-							We use cookies to track user behavior and improve the user
-							experience. You can disable cookies in your browser settings, but
-							this may limit certain functionalities of the platform.
-						</p>
+						<h2 className="text-2xl font-semibold mb-4">{t("privacy5")}</h2>
+						<p>{t("weUseCookies")}</p>
 					</section>
 
 					<section>
-						<h2 className="text-2xl font-semibold mb-4">6. Your Rights</h2>
-						<p>
-							You have the right to access, correct, or delete your personal
-							data. To exercise any of these rights, please contact us through
-							our social media platforms listed below.
-						</p>
+						<h2 className="text-2xl font-semibold mb-4">{t("privacy6")}</h2>
+						<p>{t("youHaveTheRight")}</p>
 					</section>
 
 					<section>
-						<h2 className="text-2xl font-semibold mb-4">
-							7. Changes to This Policy
-						</h2>
-						<p>
-							We reserve the right to update this Privacy Policy from time to
-							time. Any changes will be posted here, and continued use of the
-							platform constitutes acceptance of the updated policy.
-						</p>
+						<h2 className="text-2xl font-semibold mb-4">{t("privacy7")}</h2>
+						<p>{t("weReserveTheRight")}</p>
 					</section>
 
 					<section>
-						<h2 className="text-2xl font-semibold mb-4">8. Contact Us</h2>
-						<p>
-							If you have any questions or concerns about this Privacy Policy,
-							please contact us through our social media platforms:
-						</p>
+						<h2 className="text-2xl font-semibold mb-4">{t("privacy8")}</h2>
+						<p>{t("ifYouHaveQuestions")}</p>
 						<div className="mt-3">
 							<SocialLinks />
 						</div>
 					</section>
 
 					<section>
-						<p className="text-lg font-semibold">
-							By using Dentiwhere, you consent to the collection and use of your
-							information as outlined in this Privacy Policy.
-						</p>
+						<p className="text-lg font-semibold">{t("byUsingPlatform")}</p>
 					</section>
 				</div>
 			</div>

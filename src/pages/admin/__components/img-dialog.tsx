@@ -12,6 +12,7 @@ import {
 	TabsList,
 	TabsTrigger,
 } from "@/components/ui/tabs.tsx";
+import { useTranslation } from "react-i18next";
 
 interface ImgDialogProps {
 	imgs: string[];
@@ -24,19 +25,21 @@ export default function ImgDialog({
 	imgs,
 	isOpen,
 }: ImgDialogProps) {
+	const { t } = useTranslation();
+
 	return (
 		<Dialog open={isOpen}>
 			<DialogContent removeClose className="md:min-w-[600px] lg:min-w-[900px]">
 				<DialogHeader>
-					<DialogTitle>License Picture</DialogTitle>
+					<DialogTitle>{t("licensePicture")}</DialogTitle>
 					<div className=" ">
 						<Tabs defaultValue="frontId" className="w-full">
 							<TabsList className="w-full ">
 								<TabsTrigger className="w-[50%]" value="frontId">
-									Front ID
+									{t("frontId")}
 								</TabsTrigger>
 								<TabsTrigger className="w-[50%]" value="backId">
-									Back ID
+									{t("backId")}
 								</TabsTrigger>
 							</TabsList>
 							<TabsContent value="frontId">
@@ -53,7 +56,7 @@ export default function ImgDialog({
 					</div>
 
 					<DialogClose className="self-end">
-						<Button onClick={handleClose}>Close</Button>
+						<Button onClick={handleClose}>{t("close")}</Button>
 					</DialogClose>
 				</DialogHeader>
 			</DialogContent>

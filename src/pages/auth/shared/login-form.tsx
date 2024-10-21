@@ -38,6 +38,7 @@ import { Button } from "@/components/ui/button";
 
 /* ASSETS */
 import { ImSpinner2 } from "react-icons/im";
+import { useTranslation } from "react-i18next";
 
 const formSchema = z.object({
 	email: z.string().email({
@@ -60,6 +61,7 @@ export default function LoginForm() {
 	const setAmenities = useSetAtom(amenitiesAtom);
 	const setAccessibilities = useSetAtom(accessibilitiesAtom);
 	const [loading, setLoading] = useState(false);
+	const { t } = useTranslation();
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -125,7 +127,7 @@ export default function LoginForm() {
 		<>
 			<div className="flex flex-row items-center space-x-2 justify-center">
 				<div className="border-b-[3px] w-3  border-gray-500" />
-				<p className="uppercase text-gray-700 text-sm">OR</p>
+				<p className="uppercase text-gray-700 text-sm">{t("or")}</p>
 				<div className="border-b-[3px] w-3  border-gray-500" />
 			</div>
 			<Form {...form}>
@@ -158,7 +160,7 @@ export default function LoginForm() {
 									<Input
 										readOnly={loading}
 										className="lg:px-2 border-none  lg:py-4 lg:text-lg xl:px-4 xl:py-6 xl:text-xl bg-[#D9D9D9] "
-										placeholder="License Number"
+										placeholder={t("licenseNumber")}
 										{...field}
 									/>
 								</FormControl>
@@ -191,18 +193,18 @@ export default function LoginForm() {
 						{loading ? (
 							<>
 								<ImSpinner2 className="animate-spin mr-2" />
-								<span>Logging in...</span>
+								<span>{t("loggingIn")}</span>
 							</>
 						) : (
-							"Log in"
+							t("logIn")
 						)}
 					</Button>
 
 					<div className="flex flex-row space-x-1 text-sm justify-center mt-5">
-						<p>Don&apos;t have an account?</p>
+						<p>{t("dontHaveAccount")}</p>
 
 						<Link to={loading ? "#" : "/sign-up"} className="font-bold">
-							Sign up
+							{t("signUp")}
 						</Link>
 					</div>
 				</form>

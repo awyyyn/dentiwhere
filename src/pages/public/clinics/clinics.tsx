@@ -9,20 +9,22 @@ import ClinicCard from "../home/__components/list-of-clinics/card";
 
 /* ASSETS */
 import Back from "../__components/back/back";
+import { useTranslation } from "react-i18next";
 
 export default function Clinics() {
 	const clinicsLoadableAtom = useAtomValue(clinicsLoadable);
 	const clinics =
 		clinicsLoadableAtom.state === "hasData" ? clinicsLoadableAtom.data : [];
+	const { t } = useTranslation();
 
 	return (
 		<div className="mx-auto  w-11/12 md:w-10/12 py-5 pb-32">
 			<Back toRoot />
 			<div className="space-y-5 md:space-y-10">
 				<SectionHeader
-					title="Dental Clinics Available"
-					description="We have Doctors in these hospitals who are ready to serve you!"
-					buttonLabel="List Your Dental Clinic"
+					title={t("availableClinics")}
+					description={t("weHaveDoctors")}
+					buttonLabel={t("listYourDentalClinic")}
 				/>
 
 				<div className="space-y-12 flex flex-col">

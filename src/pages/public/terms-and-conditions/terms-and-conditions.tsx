@@ -1,11 +1,13 @@
 import SocialLinks from "@/components/shared/social-links/social-links";
 import Back from "../__components/back/back";
+import { useTranslation } from "react-i18next";
 
 export default function TermsAndConditions({
 	hideBackButton = false,
 }: {
 	hideBackButton?: boolean;
 }) {
+	const { t } = useTranslation();
 	return (
 		<div className="py-5">
 			{!hideBackButton && <Back />}
@@ -16,147 +18,78 @@ export default function TermsAndConditions({
 
 				<div className="max-w-3xl mx-auto space-y-8">
 					<section>
-						<p className="text-lg">
-							Welcome to Dentiwhere. By accessing or using our website, you
-							agree to comply with and be bound by the following terms and
-							conditions. Please read them carefully.
-						</p>
+						<p className="text-lg">{t("welcome2")}</p>
 					</section>
 
 					<section>
-						<h2 className="text-2xl font-semibold mb-4">1. Introduction</h2>
-						<p>
-							These Terms and Conditions ("Terms") govern your use of
-							Dentiwhere, a dental clinic directory service. By accessing or
-							using our platform, you agree to comply with these Terms. If you
-							do not agree, you should not use our platform.
-						</p>
+						<h2 className="text-2xl font-semibold mb-4">{t("term1")}</h2>
+						<p>{t("termDesc")}</p>
 					</section>
 
 					<section>
-						<h2 className="text-2xl font-semibold mb-4">2. User Eligibility</h2>
-						<p>
-							You must be at least 18 years old to use our services. By using
-							our platform, you represent that you meet this age requirement.
-						</p>
+						<h2 className="text-2xl font-semibold mb-4">{t("term2")}</h2>
+						<p>{t("term2Desc")}</p>
 					</section>
 
 					<section>
-						<h2 className="text-2xl font-semibold mb-4">
-							3. Dentist Registration and Clinic Listings
-						</h2>
-						<p>
-							Dentists may register an account to list their clinic on the
-							platform. By registering, you agree to provide accurate and
-							complete information and to keep your account details updated.
-						</p>
+						<h2 className="text-2xl font-semibold mb-4">{t("term3")}</h2>
+						<p>{t("term3Desc")}</p>
 					</section>
 
 					<section>
-						<h2 className="text-2xl font-semibold mb-4">4. Subscription</h2>
-						<p>
-							Our platform offers subscription-based services for clinics. By
-							subscribing, you agree to the payment terms provided at the time
-							of subscription. Subscription fees are non-refundable unless
-							stated otherwise.
-						</p>
+						<h2 className="text-2xl font-semibold mb-4">{t("term4")}</h2>
+						<p>{t("term4Desc")}</p>
 					</section>
 
 					<section>
-						<h2 className="text-2xl font-semibold mb-4">
-							5. Services Provided
-						</h2>
-						<p>
-							Dentiwhere provides a platform for users to search for and inquire
-							about dental clinics. We do not provide dental services directly
-							and are not responsible for the quality of services provided by
-							listed clinics.
-						</p>
+						<h2 className="text-2xl font-semibold mb-4">{t("term5")}</h2>
+						<p>{t("term5Desc")}</p>
 					</section>
 
 					<section>
-						<h2 className="text-2xl font-semibold mb-4">6. Prohibited Uses</h2>
-						<p>You agree not to:</p>
+						<h2 className="text-2xl font-semibold mb-4">{t("term6")}</h2>
+						<p>{t("term6Desc")}</p>
 						<ul className="list-disc pl-6 space-y-2">
-							<li>Provide false information or create multiple accounts.</li>
-							<li>
-								Use the platform for any illegal activity or harm others in any
-								way.
-							</li>
-							<li>
-								Attempt to hack or exploit vulnerabilities in the platform.
-							</li>
+							<li>{t("term6Desc1")}</li>
+							<li>{t("term6Desc2")}</li>
+							<li>{t("term6Desc3")}</li>
 						</ul>
 					</section>
 
 					<section>
-						<h2 className="text-2xl font-semibold mb-4">
-							7. User Responsibilities
-						</h2>
+						<h2 className="text-2xl font-semibold mb-4">{t("term7Desc")}</h2>
 						<ul className="list-disc pl-6 space-y-2">
-							<li>
-								Users must provide accurate and complete information when
-								creating an account or making inquiries.
-							</li>
-							<li>
-								Users are responsible for maintaining the confidentiality of
-								their account information.
-							</li>
-							<li>
-								Users must use the platform for lawful purposes and not engage
-								in any activity that may harm the platform or its users.
-							</li>
+							<li>{t("term7Desc")}</li>
+							<li>{t("term7Desc1")}</li>
+							<li>{t("term7Desc2")}</li>
 						</ul>
 					</section>
 
 					<section>
-						<h2 className="text-2xl font-semibold mb-4">
-							8. Limitation of Liability
-						</h2>
-						<p>
-							Dentiwhere is not responsible for the quality or outcomes of
-							dental care provided by listed clinics. We do not guarantee any
-							specific results from using our platform.
-						</p>
+						<h2 className="text-2xl font-semibold mb-4">{t("term8")}</h2>
+						<p>{t("term8Desc")}</p>
 					</section>
 
 					<section>
-						<h2 className="text-2xl font-semibold mb-4">
-							9. Third-Party Links
-						</h2>
-						<p>
-							Our platform may contain links to third-party websites. We do not
-							endorse or take responsibility for the content or practices of
-							these sites. Use them at your own risk.
-						</p>
+						<h2 className="text-2xl font-semibold mb-4">{t("term9")}</h2>
+						<p>{t("term9Desc")}</p>
 					</section>
 
 					<section>
-						<h2 className="text-2xl font-semibold mb-4">10. Amendments</h2>
-						<p>
-							We reserve the right to modify these Terms at any time. Any
-							changes will be posted here, and your continued use of the
-							platform constitutes acceptance of the updated Terms.
-						</p>
+						<h2 className="text-2xl font-semibold mb-4">{t("term10")}</h2>
+						<p>{t("term10Desc")}</p>
 					</section>
 
 					<section>
-						<h2 className="text-2xl font-semibold mb-4">11. Contact Us</h2>
-						<p>
-							If you have any questions regarding these Terms, feel free to
-							contact us via our social media platforms:
-						</p>
+						<h2 className="text-2xl font-semibold mb-4">{t("term11")}</h2>
+						<p>{t("term11Desc")}</p>
 						<div className="flex space-x-4 mt-4">
 							<SocialLinks />
 						</div>
 					</section>
 
 					<section>
-						<p className="text-lg font-semibold">
-							By using Dentiwhere, you acknowledge that you have read and
-							understood these Terms and Conditions and agree to be bound by
-							them.
-						</p>
+						<p className="text-lg font-semibold">{t("byUsingPlatform2")}</p>
 					</section>
 				</div>
 			</div>

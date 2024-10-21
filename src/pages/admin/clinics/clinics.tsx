@@ -21,7 +21,7 @@ export default function Clinics() {
 		const fetchClinics = async () => {
 			try {
 				setLoading(true);
-				const data = await getAllClinics();
+				const data = await getAllClinics(true);
 				setClinics(data);
 				setLoading(false);
 			} catch {

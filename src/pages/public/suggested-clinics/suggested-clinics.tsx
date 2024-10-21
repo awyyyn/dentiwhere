@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 /* ACTIONS */
-import { getBoostedClinics } from "@/actions";
+import { getAllClinics } from "@/actions";
 
 /* HOOKS */
 import { useToast } from "@/hooks/use-toast";
@@ -24,8 +24,11 @@ export default function SuggestedClinics() {
 		(async () => {
 			setLoading(true);
 			try {
-				const clinics = await getBoostedClinics();
-				setClinics(clinics);
+				const data = await getAllClinics();
+				const sortedClinics = data.sort(
+					(a, b) => (b.boosted ? 1 : 0) - (a.boosted ? 1 : 0)
+				);
+				setClinics(sortedClinics);
 				setLoading(false);
 			} catch {
 				toast({

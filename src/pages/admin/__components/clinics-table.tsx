@@ -91,6 +91,7 @@ export default function ClinicsTable() {
 				return <div className="text-start  ">{`+63${contact.slice(1)}`}</div>;
 			},
 		},
+
 		{
 			accessorKey: "archive",
 			header: () => <div className="text-start">Status</div>,

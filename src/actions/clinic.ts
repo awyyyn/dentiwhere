@@ -181,7 +181,7 @@ export const getClinic = async (id: number): Promise<ClinicWithDoctor> => {
             accessibility (id, clinic_id, name, created_at, updated_at),
 			category (id, clinic_id, name, created_at, updated_at),
 			reviews ( * ),
-			user!clinics_doctor_id_fkey(first_name, last_name, id)
+			user!clinics_doctor_id_fkey(first_name, last_name, id, subscribe)
         `
 		)
 		.eq("id", id)
@@ -203,6 +203,7 @@ export const getClinic = async (id: number): Promise<ClinicWithDoctor> => {
 		doctor: ` ${response.data.user?.first_name ?? ""} ${
 			response.data.user?.last_name ?? ""
 		}`,
+		subscribe: Number(response.data.user?.subscribe ?? 8),
 		status: response.data.archive ? "INACTIVE" : "ACTIVE",
 		services: response.data?.services
 			.map((service) => ({
@@ -257,28 +258,32 @@ export const getClinic = async (id: number): Promise<ClinicWithDoctor> => {
 	};
 };
 
-export const getAllClinics = async (): Promise<ClinicWithDoctor[]> => {
+export const getAllClinics = async (
+	getAll: boolean = false
+): Promise<ClinicWithDoctor[]> => {
 	const { data, error } = await db.from("clinics").select(
 		`*,
-		user!clinics_doctor_id_fkey(first_name, last_name, id, subscription_end_date)
+		user!clinics_doctor_id_fkey(first_name, last_name, id, subscription_end_date, subscribe)
         `
 	);
 
 	if (error) throw new Error(error.message);
 
 	return data
-		.filter(
-			(d) =>
-				isFuture(new Date(d.user?.subscription_end_date as string)) ||
-				isEqual(
-					new Date(d.user?.subscription_end_date as string),
-					formatDate(new Date(), "yyyy-MM-dd")
-				)
+		.filter((d) =>
+			getAll
+				? d
+				: isFuture(new Date(d.user?.subscription_end_date as string)) ||
+				  isEqual(
+						new Date(d.user?.subscription_end_date as string),
+						formatDate(new Date(), "yyyy-MM-dd")
+				  )
 		)
 		.map((d) => {
 			return {
 				...transformClinic(d),
 				doctor: ` ${d.user?.first_name ?? ""} ${d.user?.last_name ?? ""}`,
+				subscribe: Number(d.user?.subscribe ?? 8),
 				status: d.archive ? "INACTIVE" : "ACTIVE",
 				map: !isEmpty(d?.map)
 					? {
@@ -287,7 +292,7 @@ export const getAllClinics = async (): Promise<ClinicWithDoctor[]> => {
 					  }
 					: undefined,
 			};
-		}) as ClinicWithDoctor[];
+		}) as Array<ClinicWithDoctor & { subscribe: number }>;
 };
 
 export const searchClinic = async (
@@ -296,7 +301,7 @@ export const searchClinic = async (
 	const { data, error } = await db
 		.from("clinics")
 		.select(
-			"*, user!clinics_doctor_id_fkey(first_name, last_name, id, subscription_end_date)"
+			"*, user!clinics_doctor_id_fkey(first_name, last_name, id, subscription_end_date, subscribe)"
 		)
 		.or(`name.ilike.%${query}%,address.ilike.%${query}%`);
 
@@ -320,6 +325,7 @@ export const searchClinic = async (
 							clinic.user?.last_name ?? ""
 						}`,
 						status: clinic.archive ? "INACTIVE" : "ACTIVE",
+						subscribe: Number(clinic.user?.subscribe ?? 8),
 						map: !isEmpty(clinic?.map)
 							? {
 									lat: Number((clinic?.map as Clinic["map"])?.lat),
@@ -335,7 +341,7 @@ export const getBoostedClinics = async (): Promise<ClinicWithDoctor[]> => {
 	const { data, error } = await db
 		.from("clinics")
 		.select(
-			"*, user!clinics_doctor_id_fkey(first_name, last_name, id, subscription_end_date, boost)"
+			"*, user!clinics_doctor_id_fkey(first_name, last_name, id, subscription_end_date, boost, subscribe)"
 		);
 
 	if (error) throw new Error(ERR_INTERNAL);
@@ -355,6 +361,7 @@ export const getBoostedClinics = async (): Promise<ClinicWithDoctor[]> => {
 							clinic.user?.last_name ?? ""
 						}`,
 						status: clinic.archive ? "INACTIVE" : "ACTIVE",
+						subscribe: Number(clinic.user?.subscribe ?? 8),
 						map: !isEmpty(clinic?.map)
 							? {
 									lat: Number((clinic?.map as Clinic["map"])?.lat),

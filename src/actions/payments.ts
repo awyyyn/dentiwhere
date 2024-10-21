@@ -60,7 +60,7 @@ export const createLink = async (
 					success_url: `${
 						import.meta.env.DEV
 							? "http://localhost:5173/"
-							: "https://dentiwhere.vercel.app"
+							: "https://dentiwhere.vercel.app/"
 					}subscribe?status=success&id=${subId}`,
 					payment_method_types: ["gcash"],
 					description: subName,

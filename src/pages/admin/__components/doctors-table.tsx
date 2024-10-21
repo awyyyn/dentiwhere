@@ -35,110 +35,8 @@ import { User } from "@/types/types";
 import { BadgeCheck, BadgeX, CircleEllipsis } from "lucide-react";
 import { Tooltip } from "../../../components/shared/tooltip/tooltip";
 import { Link } from "react-router-dom";
-
-export const columns: ColumnDef<User>[] = [
-	{
-		accessorKey: "id",
-		id: "id",
-		enableHiding: false,
-		header: () => <p className="hidsden">#</p>,
-		cell: ({ row }) => <p className="s">{row.index + 1}</p>,
-	},
-	{
-		accessorKey: "firstName",
-		header: "Name",
-		enableHiding: false,
-		cell: ({ row }) => (
-			<h1>
-				{row.getValue("firstName")} {row.renderValue("lastName")}
-			</h1>
-		),
-	},
-	{
-		accessorKey: "lastName",
-		enableHiding: false,
-		header: () => <p className="hidden"></p>,
-		cell: () => <p className="hidden" />,
-	},
-
-	{
-		accessorKey: "email",
-		header: () => <div className="text-start">Email</div>,
-		cell: ({ row }) => (
-			<div className="lowercase text-start">{row.getValue("email")}</div>
-		),
-	},
-	{
-		accessorKey: "licenseNumber",
-		header: () => <div className="text-start">License Number</div>,
-	},
-	{
-		accessorKey: "status",
-		header: () => <div className="text-start">Status</div>,
-		cell: ({ row }) => {
-			const verified = row.getValue("status") === "VERIFIED";
-			const unverified = row.getValue("status") === "UNVERIFIED";
-
-			return (
-				<div className="text-start font-medium flex">
-					<Tooltip
-						className={
-							verified
-								? "bg-green-500"
-								: unverified
-								? "bg-red-500"
-								: "bg-slate-800"
-						}
-						tooltip={row.getValue("status")}
-						delayDuration={300}>
-						{unverified ? (
-							<BadgeX size={24} className="cursor-pointer" />
-						) : verified ? (
-							<BadgeCheck size={24} className="cursor-pointer" />
-						) : (
-							<CircleEllipsis size={24} className="cursor-pointer" />
-						)}
-					</Tooltip>
-				</div>
-			);
-		},
-	},
-	{
-		id: "actions",
-		enableHiding: false,
-		header: () => <div className="justify-center flex   ">Actions</div>,
-		cell: ({ row }) => {
-			const status = row.getValue("status");
-			return (
-				<div className="flex  justify-center mr-2">
-					<DropdownMenu>
-						<DropdownMenuTrigger asChild className="w-full ">
-							<Button variant="ghost" className="h-8 w-8 p-0 ">
-								<span className="sr-only">Open menu</span>
-								<DotsHorizontalIcon className="h-4 w-4 " />
-							</Button>
-						</DropdownMenuTrigger>
-						<DropdownMenuContent align="end">
-							<DropdownMenuLabel>Actions</DropdownMenuLabel>
-							<Link to={`view/${row.getValue("id")}`}>
-								<DropdownMenuItem className="cursor-pointer hover:bg-gray-800/10">
-									View Doctor Details
-								</DropdownMenuItem>
-							</Link>
-							{status === "PENDING" && (
-								<Link to={`verify/${row.getValue("id")}`}>
-									<DropdownMenuItem className="cursor-pointer hover:bg-gray-800/10">
-										Verify Doctor
-									</DropdownMenuItem>
-								</Link>
-							)}
-						</DropdownMenuContent>
-					</DropdownMenu>
-				</div>
-			);
-		},
-	},
-];
+import { formatDate, isPast } from "date-fns";
+import { Badge } from "@/components/ui/badge";
 
 export default function DataTable({ doctors }: { doctors: User[] }) {
 	const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -148,6 +46,137 @@ export default function DataTable({ doctors }: { doctors: User[] }) {
 	const [columnVisibility, setColumnVisibility] =
 		React.useState<VisibilityState>({});
 	const [globalFilter, setGlobalFilter] = React.useState("");
+
+	const columns: ColumnDef<User>[] = [
+		{
+			accessorKey: "id",
+			id: "id",
+			enableHiding: false,
+			header: () => <p className="hidsden">#</p>,
+			cell: ({ row }) => <p className="s">{row.index + 1}</p>,
+		},
+		{
+			accessorKey: "firstName",
+			header: "Name",
+			enableHiding: false,
+			cell: ({ row }) => (
+				<h1>
+					{row.getValue("firstName")} {row.renderValue("lastName")}
+				</h1>
+			),
+		},
+		{
+			accessorKey: "lastName",
+			enableHiding: false,
+			header: () => <p className="hidden"></p>,
+			cell: () => <p className="hidden" />,
+		},
+
+		{
+			accessorKey: "email",
+			header: () => <div className="text-start">Email</div>,
+			cell: ({ row }) => (
+				<div className="lowercase text-start">{row.getValue("email")}</div>
+			),
+		},
+		{
+			accessorKey: "subscribe",
+			header: () => <div className="text-start">Subscription</div>,
+			cell: ({ row }) => (
+				<Tooltip
+					tooltip={
+						isPast(row.original.subscriptionEndDate)
+							? "EXPIRED"
+							: formatDate(row.original.subscriptionEndDate, "MMMM dd, yyyy")
+					}
+					side="top"
+					delayDuration={300}
+					className="">
+					<span>
+						<Badge
+							className={`uppercase ${
+								row.original.subscribe === 8 &&
+								"bg-1 text-black hover:bg-1 hover:text-black"
+							}`}>
+							{isPast(row.original.subscriptionEndDate)
+								? "No Subscription"
+								: row.original.subscription.name}
+						</Badge>
+					</span>
+				</Tooltip>
+			),
+		},
+		{
+			accessorKey: "licenseNumber",
+			header: () => <div className="text-start">License Number</div>,
+		},
+		{
+			accessorKey: "status",
+			header: () => <div className="text-start">Status</div>,
+			cell: ({ row }) => {
+				const verified = row.getValue("status") === "VERIFIED";
+				const unverified = row.getValue("status") === "UNVERIFIED";
+
+				return (
+					<div className="text-start font-medium flex">
+						<Tooltip
+							className={
+								verified
+									? "bg-green-500"
+									: unverified
+									? "bg-red-500"
+									: "bg-slate-800"
+							}
+							tooltip={row.getValue("status")}
+							delayDuration={300}>
+							{unverified ? (
+								<BadgeX size={24} className="cursor-pointer" />
+							) : verified ? (
+								<BadgeCheck size={24} className="cursor-pointer" />
+							) : (
+								<CircleEllipsis size={24} className="cursor-pointer" />
+							)}
+						</Tooltip>
+					</div>
+				);
+			},
+		},
+		{
+			id: "actions",
+			enableHiding: false,
+			header: () => <div className="justify-center flex   ">Actions</div>,
+			cell: ({ row }) => {
+				const status = row.getValue("status");
+				return (
+					<div className="flex  justify-center mr-2">
+						<DropdownMenu>
+							<DropdownMenuTrigger asChild className="w-full ">
+								<Button variant="ghost" className="h-8 w-8 p-0 ">
+									<span className="sr-only">Open menu</span>
+									<DotsHorizontalIcon className="h-4 w-4 " />
+								</Button>
+							</DropdownMenuTrigger>
+							<DropdownMenuContent align="end">
+								<DropdownMenuLabel>Actions</DropdownMenuLabel>
+								<Link to={`view/${row.getValue("id")}`}>
+									<DropdownMenuItem className="cursor-pointer hover:bg-gray-800/10">
+										View Doctor Details
+									</DropdownMenuItem>
+								</Link>
+								{status === "PENDING" && (
+									<Link to={`verify/${row.getValue("id")}`}>
+										<DropdownMenuItem className="cursor-pointer hover:bg-gray-800/10">
+											Verify Doctor
+										</DropdownMenuItem>
+									</Link>
+								)}
+							</DropdownMenuContent>
+						</DropdownMenu>
+					</div>
+				);
+			},
+		},
+	];
 
 	const table = useReactTable({
 		data: doctors,

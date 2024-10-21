@@ -24,7 +24,7 @@ export default function Hero() {
 				className="absolute lg:top-14 lg:left-14 h-20 w-20 top-2 left-8 md:w-40 md:h-40"
 			/>
 			<div className="relative justify-between flex items-center w-11/12 md:w-10/12 h-[80dvh]">
-				<div className="hidden md:flex relative w-[30%] ">
+				<div className="hidden md:flex relative w-[30%]">
 					<img
 						src={dentist}
 						alt="Dentist"

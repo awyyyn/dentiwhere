@@ -95,8 +95,10 @@ export default function CarouselSize() {
 					className="w-full  px-[10%] md:px-0  bg-blend-screen    ">
 					<CarouselContent className=" ">
 						{items.map((item, index) => (
-							<CarouselItem key={index} className="md:basis-1/2   lg:basis-1/5">
-								<div className="p-1 h-[300px] w-[300px] ">
+							<CarouselItem
+								key={index}
+								className="md:basis-1/2   lg:basis-1/3 xl:basis-1/4">
+								<div className="p-1 h-[300px] w-[300px] mx-20">
 									<AsyncImage
 										className="h-full w-full object-contain bg-blend-screen"
 										src={item.img}

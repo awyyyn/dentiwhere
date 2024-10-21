@@ -17,7 +17,7 @@ export default function Clinics() {
 
 	return (
 		<div className="mx-auto  w-11/12 md:w-10/12 py-5 pb-32">
-			<Back />
+			<Back toRoot />
 			<div className="space-y-5 md:space-y-10">
 				<SectionHeader
 					title="Dental Clinics Available"

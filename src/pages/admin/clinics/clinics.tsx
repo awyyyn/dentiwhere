@@ -12,8 +12,10 @@ import ClinicsTable from "../__components/clinics-table";
 
 /* ASSETS */
 import { ImSpinner2 } from "react-icons/im";
+import { useTranslation } from "react-i18next";
 
 export default function Clinics() {
+	const { t } = useTranslation();
 	const setClinics = useSetAtom(clinicsAtom);
 	const [loading, setLoading] = useState(false);
 
@@ -35,8 +37,8 @@ export default function Clinics() {
 	return (
 		<div className="p-2 md:p-5 lg:p-10 xl:p-14   space-y-5">
 			<section className="md:space-y-2">
-				<h1 className="text-2xl lg:text-5xl font-bold">Clinics</h1>
-				<p className="text-gray-600 md:text-lg">Manage clinics</p>
+				<h1 className="text-2xl lg:text-5xl font-bold">{t("clinics")}</h1>
+				<p className="text-gray-600 md:text-lg">{t("manageClinics")}</p>
 			</section>
 			{loading ? (
 				<div className="w-full p-2 h-[50vh] flex justify-center items-center flex-col bg-white rounded-lg shadow-xl">

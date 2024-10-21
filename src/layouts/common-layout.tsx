@@ -11,12 +11,12 @@ import { userAtom } from "@/atoms";
 import Footer from "@/components/shared/footer/footer";
 import { Toaster } from "@/components/ui/toaster";
 import { Button } from "@/components/ui/button";
-
 /* TYPES */
 import { Role } from "@/types/types";
 
 /* ASSETS */
 import { SlArrowUp } from "react-icons/sl";
+import LangToggle from "@/components/shared/lang-toggle/lang-toggle";
 
 export default function CommonLayout() {
 	const { pathname } = useLocation();
@@ -30,7 +30,10 @@ export default function CommonLayout() {
 
 	return (
 		<div className="gradient-landing-page py-10  ">
-			<div className="flex flex-row justify-end w-11/12 mx-auto md:w-10/12 absolute -translate-x-[50%] left-[50%] z-30">
+			<div className="flex flex-row justify-end items-center w-11/12 mx-auto md:w-10/12 absolute -translate-x-[50%] left-[50%] z-30">
+				<div className="mr-3 scale-125 ">
+					<LangToggle />
+				</div>
 				{pathname === "/" && !l.isEmpty(user.authId) ? (
 					<div className="flex space-x-4">
 						<NavLink

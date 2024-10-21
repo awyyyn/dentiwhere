@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/chart";
 import { getVisits } from "@/actions/auth";
 import { differenceInDays, differenceInMonths } from "date-fns";
+import { useTranslation } from "react-i18next";
 
 export const description = "An interactive bar chart";
 
@@ -37,6 +38,7 @@ const chartConfig = {
 
 export default function ChartData() {
 	// const { toast } = useToast()
+	const { t } = useTranslation();
 	const [_, setError] = React.useState(false);
 	const [activeChart, setActiveChart] =
 		React.useState<keyof typeof chartConfig>("desktop");
@@ -70,18 +72,18 @@ export default function ChartData() {
 
 	const displayMessage =
 		monthsDifference > 0
-			? `Showing total visitors for the last ${monthsDifference} ${
-					monthsDifference > 1 ? "months" : "month"
+			? `${t("showTotalChart")} ${monthsDifference} ${
+					monthsDifference > 1 ? t("months") : t("month")
 			  }`
-			: `Showing total visitors for the last ${daysDifference} ${
-					daysDifference > 1 ? "days" : "day"
+			: `${t("showTotalChart")} ${daysDifference} ${
+					daysDifference > 1 ? t("days") : t("day")
 			  }`;
 
 	return (
 		<Card>
 			<CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
 				<div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
-					<CardTitle>Visits</CardTitle>
+					<CardTitle>{t("visits")}</CardTitle>
 					<CardDescription>{displayMessage}</CardDescription>
 				</div>
 				<div className="flex">

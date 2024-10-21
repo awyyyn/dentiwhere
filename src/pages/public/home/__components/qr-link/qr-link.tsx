@@ -4,8 +4,10 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { AsyncImage } from "loadable-image";
 import QRCode from "@/assets/images/qr.png";
+import { useTranslation } from "react-i18next";
 
 export default function QrLink() {
+	const { t } = useTranslation();
 	const { toast } = useToast();
 	return (
 		<section className="gradient-qr overflow-hidden py-10 md:py-0 ">
@@ -19,11 +21,11 @@ export default function QrLink() {
 				</div>
 				<div className=" flex flex-col items-center sm:items-end justify-center">
 					<h1 className="sm:text-right text-white drop-shadow-lg xl:text-[60px] text-[30px] md:text-[30px] z-30 lg:leading-[72.61px] tracking-wide font-semibold">
-						For a seamless experience
+						{t("seamlessTransaction")}
 					</h1>
 					<div className="z-30 flex flex-col ">
 						<h1 className="text-white drop-shadow-lg xl:text-[60px] font-extrabold text-[50px] md:text-[50px] lg:text-[60px] leading-[3rem] md:leading-normal">
-							Access us now!
+							{t("accessNow")}
 						</h1>
 						<Button
 							onClick={() => {
@@ -35,7 +37,7 @@ export default function QrLink() {
 								});
 							}}
 							className="bg-[#33DDBB] max-w-fit self-center shadow-md rounded-[50px] mt-10  ">
-							Share Link!
+							{t("shareLink")}
 						</Button>
 					</div>
 				</div>

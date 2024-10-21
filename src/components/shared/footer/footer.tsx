@@ -1,23 +1,25 @@
 import { Link } from "react-router-dom";
 import SocialLinks from "../social-links/social-links";
+import { useTranslation } from "react-i18next";
 
 export default function Footer() {
+	const { t } = useTranslation();
 	const patientLinks = [
 		{ path: "/", name: "" },
-		{ path: "conditions", name: "Conditions" },
-		{ path: "services", name: "Services" },
+		{ path: "conditions", name: t("conditions") },
+		{ path: "services", name: t("services") },
 	];
 
 	const generalLinks = [
-		{ path: "about-us", name: "About Us" },
-		{ path: "terms-and-conditions", name: "Terms and Conditions" },
-		{ path: "privacy-policy", name: "Privacy Policy" },
+		{ path: "about-us", name: t("aboutUs") },
+		{ path: "terms-and-conditions", name: t("termsAndConditions") },
+		{ path: "privacy-policy", name: t("privacyPolicy") },
 	];
 
 	const doctorsLinks = [
-		{ path: "list-your-dental-clinic", name: "List Your Dental Clinic" },
-		{ path: "sign-up", name: "Create an Account" },
-		{ path: "login", name: "Log in" },
+		{ path: "dental-setting", name: t("listYourDentalClinic") },
+		{ path: "sign-up", name: t("createAccount") },
+		{ path: "login", name: t("logIn") },
 	];
 
 	return (
@@ -25,7 +27,7 @@ export default function Footer() {
 			<div className="w-11/12 mx-auto md:w-10/12 gap-y-5 sm:gap-10 grid sm:grid-cols-3   ">
 				<div className="flex flex-col gap-y-5 sm:gap-y-none justify-between h-full   ">
 					<div className="space-y-3">
-						<h1 className="text-lg font-bold sm:text-2xl">General</h1>
+						<h1 className="text-lg font-bold sm:text-2xl">{t("general")}</h1>
 						<div className="space-y-3  pl-5">
 							{generalLinks.map(({ name, path }, indx) => (
 								<Link
@@ -43,7 +45,7 @@ export default function Footer() {
 					</div>
 				</div>
 				<div className="space-y-3 flex flex-col sm:items-center">
-					<h1 className="text-lg font-bold sm:text-2xl">For Patients</h1>
+					<h1 className="text-lg font-bold sm:text-2xl">{t("forPatients")}</h1>
 					<div className="space-y-3 sm:pl-10 pl-5">
 						{patientLinks.map(({ name, path }, indx) => (
 							<Link
@@ -56,7 +58,7 @@ export default function Footer() {
 					</div>
 				</div>
 				<div className="space-y-3  flex flex-col sm:items-center">
-					<h1 className="text-lg font-bold sm:text-2xl">For Doctors</h1>
+					<h1 className="text-lg font-bold sm:text-2xl">{t("forDoctors")}</h1>
 					<div className="space-y-3 sm:pl-10 pl-5">
 						{doctorsLinks.map(({ name, path }, indx) => (
 							<Link

@@ -44,6 +44,7 @@ import { ImSpinner9 } from "react-icons/im";
 
 /* CONSTANTS */
 import { ERR_INTERNAL } from "@/constants/errors";
+import { useTranslation } from "react-i18next";
 
 const subscriptionSchema = z.object({
 	name: z.string().min(1, { message: "Name is required!" }),
@@ -60,6 +61,7 @@ const initialValues = {
 };
 
 export function AddSubscriptionDialog() {
+	const { t } = useTranslation();
 	const [dialog, setDialog] = useAtom(subscriptionDialogAtom);
 	const setSubscriptions = useSetAtom(subscriptionsAtom);
 	const [values, setValues] = useAtom(subscriptionDataAtom);
@@ -93,12 +95,20 @@ export function AddSubscriptionDialog() {
 
 	const handleClose = (type: "edit" | "create" | "delete") => {
 		toast({
-			title: `Subscription ${
-				type === "edit" ? "updated" : type === "create" ? "created" : "deleted"
-			} successfully`,
-			description: `Subscription ${
-				type === "edit" ? "updated" : type === "create" ? "created" : "deleted"
-			} successfully`,
+			title: `${t("subscriptionToast")} ${
+				type === "edit"
+					? t("updated")
+					: type === "create"
+					? t("created")
+					: t("deleted")
+			} ${t("successfully")}`,
+			description: `${t("subscriptionToast")}  ${
+				type === "edit"
+					? t("updated")
+					: type === "create"
+					? t("created")
+					: t("deleted")
+			} ${t("successfully")}`,
 			variant: "default",
 			className: "bg-emerald-600 text-white",
 			duration: 5000,
@@ -149,7 +159,7 @@ export function AddSubscriptionDialog() {
 			console.error(error);
 			if (error instanceof Error) {
 				toast({
-					title: "Accessibility creation error",
+					title: t("accessibilityCreationError"),
 					description: error.message,
 					variant: "destructive",
 				});
@@ -167,7 +177,11 @@ export function AddSubscriptionDialog() {
 			<DialogContent removeClose className="sm:max-w-[425px]">
 				<DialogHeader>
 					<DialogTitle>
-						{editMode ? "Edit" : createMode ? "Add" : "Delete"} Subscription
+						{editMode
+							? t("editSubscription")
+							: createMode
+							? t("addSubscription")
+							: t("deleteSubscription")}
 					</DialogTitle>
 					{/* <DialogDescription>
 						Make changes to your profile here. Click save when you're done.
@@ -180,14 +194,14 @@ export function AddSubscriptionDialog() {
 							name="name"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Name</FormLabel>
+									<FormLabel>{t("name")}</FormLabel>
 									<FormControl>
 										<Input
 											autoComplete="off"
 											autoFocus={false}
 											readOnly={loading || viewMode}
 											className="first-letter:uppercase"
-											placeholder="Name"
+											placeholder={t("name")}
 											{...field}
 										/>
 									</FormControl>
@@ -203,14 +217,14 @@ export function AddSubscriptionDialog() {
 								name="price"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Price</FormLabel>
+										<FormLabel>{t("price")}</FormLabel>
 										<FormControl>
 											<Input
 												autoComplete="off"
 												autoFocus={false}
 												readOnly={loading || viewMode}
 												className="first-letter:uppercase"
-												placeholder="Price"
+												placeholder={t("price")}
 												{...field}
 											/>
 										</FormControl>
@@ -226,14 +240,14 @@ export function AddSubscriptionDialog() {
 							name="months"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Months</FormLabel>
+									<FormLabel className="capitalize">{t("months")}</FormLabel>
 									<FormControl>
 										<Input
 											autoComplete="off"
 											autoFocus={false}
 											readOnly={loading || viewMode}
 											className="first-letter:uppercase"
-											placeholder="Months"
+											placeholder={t("months")}
 											{...field}
 										/>
 									</FormControl>
@@ -248,14 +262,14 @@ export function AddSubscriptionDialog() {
 							name="description"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Description</FormLabel>
+									<FormLabel>{t("description")}</FormLabel>
 									<FormControl>
 										<Input
 											autoComplete="off"
 											autoFocus={false}
 											readOnly={loading || viewMode}
 											className="first-letter:uppercase"
-											placeholder="Description"
+											placeholder={t("description")}
 											{...field}
 										/>
 									</FormControl>
@@ -272,21 +286,21 @@ export function AddSubscriptionDialog() {
 								variant="destructive"
 								className="btn-scale transition-1"
 								onClick={() => {
-									setValues(null);
-									form.reset();
-									setDialog({ open: false });
+									setDialog({ open: false, mode: "edit" });
+									/* setValues(null);
+									form.reset(); */
 								}}>
-								{editMode ? "Cancel" : "Close"}
+								{editMode ? t("cancel") : t("close")}
 							</Button>
 							<Button type="submit">
 								{loading && <ImSpinner9 className="animate-spin " />}
 								{loading
 									? "Loading..."
 									: createMode
-									? "Create"
+									? t("createNew")
 									: editMode
-									? "Update"
-									: "Delete"}
+									? t("edit")
+									: t("delete")}
 							</Button>
 						</div>
 					</form>

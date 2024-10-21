@@ -1,5 +1,6 @@
 import { lazy } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import "./i18";
 
 /* =============================== LAYOUTS =============================== */
 import AuthLayout from "./layouts/auth-layout";

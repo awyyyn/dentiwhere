@@ -45,8 +45,10 @@ import { CircleCheck, CircleX } from "lucide-react";
 
 /* TYPES */
 import { ClinicWithDoctor } from "@/types/types";
+import { useTranslation } from "react-i18next";
 
 export default function ClinicsTable() {
+	const { t } = useTranslation();
 	const [sorting, setSorting] = React.useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
 		[]
@@ -67,7 +69,7 @@ export default function ClinicsTable() {
 		{
 			enableHiding: false,
 			accessorKey: "name",
-			header: "Clinic Name",
+			header: t("clinicName"),
 			cell: ({ row }) => (
 				<div className="capitalize">{row.getValue("name")}</div>
 			),
@@ -75,7 +77,7 @@ export default function ClinicsTable() {
 		{
 			accessorKey: "doctor",
 			header: () => {
-				return <div className="text-start">Doctor</div>;
+				return <div className="text-start">{t("doctor")}</div>;
 			},
 			cell: ({ row }) => (
 				<div className="  text-start capitalize">
@@ -91,10 +93,9 @@ export default function ClinicsTable() {
 				return <div className="text-start  ">{`+63${contact.slice(1)}`}</div>;
 			},
 		},
-
 		{
 			accessorKey: "archive",
-			header: () => <div className="text-start">Status</div>,
+			header: () => <div className="text-start">{t("status")}</div>,
 			cell: ({ row }) => {
 				const isActive = row.original.archive;
 				return (
@@ -120,7 +121,7 @@ export default function ClinicsTable() {
 			id: "actions",
 			enableHiding: false,
 
-			header: () => <div className="justify-end flex   ">Actions</div>,
+			header: () => <div className="justify-end flex   ">{t("actions")}</div>,
 			cell: ({ row }) => {
 				const id = row.original.id;
 				const archive = row.original.archive;
@@ -135,16 +136,16 @@ export default function ClinicsTable() {
 								</Button>
 							</DropdownMenuTrigger>
 							<DropdownMenuContent align="end">
-								<DropdownMenuLabel>Actions</DropdownMenuLabel>
+								<DropdownMenuLabel>{t("actions")}</DropdownMenuLabel>
 								<Link to={`view/${id}`}>
 									<DropdownMenuItem className="cursor-pointer hover:bg-gray-800/10">
-										View Clinic
+										{t("viewClinic")}
 									</DropdownMenuItem>
 								</Link>
 								<DropdownMenuItem
 									onClick={() => setOpenDialog(true)}
 									className="cursor-pointer hover:bg-gray-800/10">
-									{archive ? "Activate" : "Deactivate"}
+									{archive ? t("activate") : t("deactivate")}
 								</DropdownMenuItem>
 								{/* <DropdownMenuSeparator />
 							<DropdownMenuItem>View customer</DropdownMenuItem>
@@ -197,7 +198,7 @@ export default function ClinicsTable() {
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
 						<Button variant="outline" className="ml-auto">
-							Show/Hide Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
+							{t("showHideColumn")} <ChevronDownIcon className="ml-2 h-4 w-4" />
 						</Button>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent align="end">
@@ -261,7 +262,7 @@ export default function ClinicsTable() {
 								<TableCell
 									colSpan={columns.length}
 									className="h-24 text-center">
-									No results.
+									{t("noResults")}
 								</TableCell>
 							</TableRow>
 						)}
@@ -269,10 +270,6 @@ export default function ClinicsTable() {
 				</Table>
 			</div>
 			<div className="flex items-center justify-end space-x-2 py-4">
-				<div className="flex-1 text-sm text-muted-foreground">
-					{table.getFilteredSelectedRowModel().rows.length} of{" "}
-					{table.getFilteredRowModel().rows.length} row(s) selected.
-				</div>
 				<div className="space-x-2">
 					<Button
 						variant="outline"

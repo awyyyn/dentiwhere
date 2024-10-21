@@ -24,6 +24,7 @@ import {
 	DialogTrigger,
 	DialogClose,
 } from "@/components/ui/dialog";
+import LangToggle from "../lang-toggle/lang-toggle";
 
 export default function Navbar() {
 	const setUser = useSetAtom(userAtom);
@@ -43,9 +44,9 @@ export default function Navbar() {
 		<>
 			<header className=" right-0 fixed top-0   z-10  ">
 				<nav className="pl-6 bg-white shadow-lg rounded-bl-2xl">
-					<div className="space-x-3 py-3 px-2 md:w-10/12 lg:md:w-9/12 mx-auto flex flex-row justify-end">
+					<div className="space-x-3 py-3 px-2 md:w-10/12 lg:md:w-9/12 mx-auto flex flex-row items-center justify-end">
+						<LangToggle />
 						<Notification />
-
 						<Dialog>
 							<DialogTrigger asChild>
 								<LogoutButton

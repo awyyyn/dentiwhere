@@ -24,6 +24,7 @@ import { Label } from "@/components/ui/label";
 /* ASSETS */
 import { TriangleAlert } from "lucide-react";
 import { ImSpinner2 } from "react-icons/im";
+import { useTranslation } from "react-i18next";
 
 interface ActivateDeactivateClinic {
 	activate: boolean;
@@ -40,6 +41,7 @@ export function ActivateDeactivateClinic({
 	handleClose,
 	open,
 }: ActivateDeactivateClinic) {
+	const { t } = useTranslation();
 	const [loading, setLoading] = useState(false);
 	const [disabled, setDisabled] = useState(true);
 	const [input, setInput] = useState("");
@@ -71,10 +73,10 @@ export function ActivateDeactivateClinic({
 
 	return (
 		<Dialog open={open}>
-			<DialogContent className="sm:max-w-[425px]">
+			<DialogContent removeClose className="sm:max-w-[425px]">
 				<DialogHeader>
-					<DialogTitle>
-						{activate ? "Deactivate" : "Activate"} Clinic
+					<DialogTitle className="capitalize">
+						{activate ? t("deactivate") : t("activate")} {t("clinic")}
 					</DialogTitle>
 					{alert && (
 						<Alert
@@ -90,22 +92,22 @@ export function ActivateDeactivateClinic({
 						</Alert>
 					)}
 					<DialogDescription>
-						Are you sure you want to{" "}
+						{t("promptDeactivateClinic")}{" "}
 						<span
 							className={`${
 								activate ? "text-destructive" : "text-emerald-500"
 							} font-semibold`}>
 							{activate ? "Deactivate" : "Activate"}{" "}
 						</span>
-						<span className="font-bold italic">{name}</span> clinic
+						<span className="font-bold italic">{name}</span> {t("clinic")}?
 					</DialogDescription>
 					<div className="space-y-1">
 						<Label className="font-normal">
-							Type{" "}
+							{t("type")}{" "}
 							<code className="font-bold bg-gray-200 rounded-sm p-0.5 text-xs">
 								`{activate ? "deactivate" : "activate"}`
 							</code>{" "}
-							to confirm
+							{t("toConfirm")}
 						</Label>
 						<Input
 							value={input}
@@ -128,7 +130,7 @@ export function ActivateDeactivateClinic({
 						disabled={loading}
 						onClick={handleClose}
 						className="bg-emerald-500 hover:bg-emerald-500">
-						Cancel
+						{t("cancel")}
 					</Button>
 					<Button
 						type="submit"
@@ -140,7 +142,7 @@ export function ActivateDeactivateClinic({
 							? activate
 								? "Deactivating..."
 								: "Activating..."
-							: "Confirm"}
+							: t("confirm")}
 					</Button>
 				</DialogFooter>
 			</DialogContent>

@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { AsyncImage } from "loadable-image";
+import { useTranslation } from "react-i18next";
 import { CiLocationOn } from "react-icons/ci";
 import { PiPhoneLight } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +18,7 @@ interface ClinicProps {
 
 export default function ClinicCard({ clinic, navigateTo }: ClinicProps) {
 	const navigate = useNavigate();
+	const { t } = useTranslation();
 	const handleNavigate = () =>
 		navigate(`/clinics/view/${clinic.id}`, {
 			state: { navigateToClinics: navigateTo },
@@ -48,7 +50,7 @@ export default function ClinicCard({ clinic, navigateTo }: ClinicProps) {
 						<Button
 							onClick={handleNavigate}
 							className="btn-1 hover:bg-1 transition-all duration-300 shadow-2xl">
-							View Profile
+							{t("viewProfile")}
 						</Button>
 					</div>
 				</div>

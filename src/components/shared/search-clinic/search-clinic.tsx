@@ -32,9 +32,11 @@ import { searchClinicDialogAtom } from "@/atoms";
 
 /* TYPES */
 import { ClinicWithDoctor } from "@/types/types.ts";
+import { useTranslation } from "react-i18next";
 
 export default function SearchClinic() {
 	const navigate = useNavigate();
+	const { t } = useTranslation();
 	const [isOpen, setIsOpen] = useAtom(searchClinicDialogAtom);
 	const [defaultClinics, setDefaultClinics] = useState<ClinicWithDoctor[]>([]);
 	const [results, setResults] = useState<ClinicWithDoctor[]>([]);
@@ -140,7 +142,7 @@ export default function SearchClinic() {
 					<RiCloseLargeLine size={25} />
 				</Button>
 				<DialogHeader>
-					<DialogTitle>Search Clinic</DialogTitle>
+					<DialogTitle>{t("searchClinic")}</DialogTitle>
 				</DialogHeader>
 				<div>
 					<InputWithIcon
@@ -148,7 +150,7 @@ export default function SearchClinic() {
 						startIcon={<FaSearch size={25} />}
 						inputProps={{
 							onChange: (e) => debouncedSearch(e.target.value),
-							placeholder: "Search...",
+							placeholder: t("search"),
 						}}
 					/>
 				</div>

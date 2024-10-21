@@ -6,6 +6,7 @@ export * from "./clinic-atom";
 export * from "./dashboard-atom";
 export * from "./dialogs-atom";
 export * from "./doctors-atom";
+export * from "./i18-atom";
 export * from "./notification-atom";
 export * from "./payments";
 export * from "./review-atom";

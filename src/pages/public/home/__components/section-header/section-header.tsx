@@ -1,40 +1,37 @@
-import { Button } from '@/components/ui/button'
- 
+import { Button } from "@/components/ui/button";
 
 interface SectionHeaderProps {
-  title: string;
-  description: string;
-  buttonLabel?: string;
-  showButton?: boolean;
-  buttonAction?: () => void
+	title: string;
+	description: string;
+	buttonLabel?: string;
+	showButton?: boolean;
+	buttonAction?: () => void;
 }
 
 export default function SectionHeader({
-  buttonLabel, 
-  description, 
-  title, 
-  showButton,
-  buttonAction = () => {}
-}:SectionHeaderProps) {
-
-
-  return (
-    <>
-      <div className='flex justify-between items-center flex-row'>
-          <h1 className='text-3xl md:text-5xl lg:text-6xl leading-tight'>
-            {title}
-          </h1>
-          {showButton &&
-            <Button className={`btn-2 hover:bg-2 transition-all duration-300`} onClick={buttonAction}>
-              {buttonLabel}
-            </Button>
-          } 
-        </div> 
-        <div className=''>
-          <p className='text-p md:pl-12 font-light'>
-            {description}
-          </p>
-        </div> 
-    </>
-  )
+	buttonLabel,
+	description,
+	title,
+	showButton,
+	buttonAction = () => {},
+}: SectionHeaderProps) {
+	return (
+		<>
+			<div className="flex justify-between items-center flex-row flex-wrap flex-1">
+				<h1 className="text-3xl md:text-5xl lg:text-6xl leading-tight">
+					{title}
+				</h1>
+				{showButton && (
+					<Button
+						className={`btn-2 hover:bg-2 transition-all duration-300`}
+						onClick={buttonAction}>
+						{buttonLabel}
+					</Button>
+				)}
+			</div>
+			<div className="">
+				<p className="text-p md:pl-12 font-light">{description}</p>
+			</div>
+		</>
+	);
 }

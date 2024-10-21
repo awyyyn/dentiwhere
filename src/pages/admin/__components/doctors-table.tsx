@@ -37,9 +37,11 @@ import { Tooltip } from "../../../components/shared/tooltip/tooltip";
 import { Link } from "react-router-dom";
 import { formatDate, isPast } from "date-fns";
 import { Badge } from "@/components/ui/badge";
+import { useTranslation } from "react-i18next";
 
 export default function DataTable({ doctors }: { doctors: User[] }) {
 	const [sorting, setSorting] = React.useState<SortingState>([]);
+	const { t } = useTranslation();
 	const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
 		[]
 	);
@@ -57,7 +59,7 @@ export default function DataTable({ doctors }: { doctors: User[] }) {
 		},
 		{
 			accessorKey: "firstName",
-			header: "Name",
+			header: t("name"),
 			enableHiding: false,
 			cell: ({ row }) => (
 				<h1>
@@ -108,11 +110,11 @@ export default function DataTable({ doctors }: { doctors: User[] }) {
 		},
 		{
 			accessorKey: "licenseNumber",
-			header: () => <div className="text-start">License Number</div>,
+			header: () => <div className="text-start">{t("licenseNumber")}</div>,
 		},
 		{
 			accessorKey: "status",
-			header: () => <div className="text-start">Status</div>,
+			header: () => <div className="text-start">{t("status")}</div>,
 			cell: ({ row }) => {
 				const verified = row.getValue("status") === "VERIFIED";
 				const unverified = row.getValue("status") === "UNVERIFIED";
@@ -144,7 +146,9 @@ export default function DataTable({ doctors }: { doctors: User[] }) {
 		{
 			id: "actions",
 			enableHiding: false,
-			header: () => <div className="justify-center flex   ">Actions</div>,
+			header: () => (
+				<div className="justify-center flex   ">{t("actions")}</div>
+			),
 			cell: ({ row }) => {
 				const status = row.getValue("status");
 				return (
@@ -157,16 +161,16 @@ export default function DataTable({ doctors }: { doctors: User[] }) {
 								</Button>
 							</DropdownMenuTrigger>
 							<DropdownMenuContent align="end">
-								<DropdownMenuLabel>Actions</DropdownMenuLabel>
+								<DropdownMenuLabel>{t("actions")}</DropdownMenuLabel>
 								<Link to={`view/${row.getValue("id")}`}>
 									<DropdownMenuItem className="cursor-pointer hover:bg-gray-800/10">
-										View Doctor Details
+										{t("viewDoctorDetails")}
 									</DropdownMenuItem>
 								</Link>
 								{status === "PENDING" && (
 									<Link to={`verify/${row.getValue("id")}`}>
 										<DropdownMenuItem className="cursor-pointer hover:bg-gray-800/10">
-											Verify Doctor
+											{t("verifyDoctor")}
 										</DropdownMenuItem>
 									</Link>
 								)}
@@ -203,7 +207,7 @@ export default function DataTable({ doctors }: { doctors: User[] }) {
 		<div className="w-full p-2 bg-white rounded-lg shadow-xl">
 			<div className="flex items-center py-4">
 				<Input
-					placeholder="Search..."
+					placeholder={t("search")}
 					value={globalFilter}
 					onChange={(e) => setGlobalFilter(e.target.value)}
 					className="max-w-sm"
@@ -283,10 +287,6 @@ export default function DataTable({ doctors }: { doctors: User[] }) {
 				</Table>
 			</div>
 			<div className="flex items-center justify-end space-x-2 py-4">
-				<div className="flex-1 text-sm text-muted-foreground">
-					{table.getFilteredSelectedRowModel().rows.length} of{" "}
-					{table.getFilteredRowModel().rows.length} row(s) selected.
-				</div>
 				<div className="space-x-2">
 					<Button
 						variant="outline"

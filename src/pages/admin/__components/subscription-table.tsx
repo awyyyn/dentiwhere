@@ -12,7 +12,7 @@ import {
 	getSortedRowModel,
 	useReactTable,
 } from "@tanstack/react-table";
-import { useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 
 /* STATES */
 import {
@@ -48,8 +48,10 @@ import { PencilIcon, TrashIcon } from "lucide-react";
 import { Subscription } from "@/types/types";
 import { AddSubscriptionDialog } from "./add-subscription-dialog";
 import { monthsToYears } from "date-fns";
+import { useTranslation } from "react-i18next";
 
 export default function SubscriptionTable() {
+	const { t } = useTranslation();
 	const [sorting, setSorting] = React.useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
 		[]
@@ -57,7 +59,7 @@ export default function SubscriptionTable() {
 	const [columnVisibility, setColumnVisibility] =
 		React.useState<VisibilityState>({});
 	const [globalFilter, setGlobalFilter] = React.useState("");
-	const setSubscriptionDialog = useSetAtom(subscriptionDialogAtom);
+	const [subDialog, setSubscriptionDialog] = useAtom(subscriptionDialogAtom);
 	const subscriptions = useAtomValue(subscriptionsAtom);
 	const setSubscriptionData = useSetAtom(subscriptionDataAtom);
 
@@ -72,13 +74,13 @@ export default function SubscriptionTable() {
 		{
 			enableHiding: false,
 			accessorKey: "name",
-			header: "Subscription Name",
+			header: t("subscriptionName"),
 			cell: ({ row }) => <div className="capitalize">{row.original.name}</div>,
 		},
 		{
 			accessorKey: "months",
 			header: () => {
-				return <div className="text-start">Duration</div>;
+				return <div className="text-start">{t("duration")}</div>;
 			},
 			cell: ({ row }) => {
 				const months = row.original.months;
@@ -89,16 +91,18 @@ export default function SubscriptionTable() {
 					<div className="  text-start  ">
 						{years
 							? remainingMonths === 0
-								? "1 year"
-								: `${years} year(s) and ${remainingMonths} month(s)`
-							: `${row.original.months} month(s)`}
+								? `1 ${t("year")}`
+								: `${years} ${t("year")}(s) ${t("and")} ${remainingMonths} ${t(
+										"month"
+								  )}(s)`
+							: `${row.original.months} ${t("month")}(s)`}
 					</div>
 				);
 			},
 		},
 		{
 			accessorKey: "price",
-			header: () => <div className="text-start">Price</div>,
+			header: () => <div className="text-start">{t("price")}</div>,
 			cell: ({ row }) => {
 				return (
 					<div className="text-start  ">
@@ -112,7 +116,7 @@ export default function SubscriptionTable() {
 		},
 		{
 			accessorKey: "description",
-			header: () => <div className="text-start">Description</div>,
+			header: () => <div className="text-start">{t("description")}</div>,
 			cell: ({ row }) => {
 				return <p className="truncate">{row.original.description}</p>;
 			},
@@ -121,7 +125,7 @@ export default function SubscriptionTable() {
 			id: "actions",
 			enableHiding: false,
 
-			header: () => <div className="justify-end flex   ">Actions</div>,
+			header: () => <div className="justify-end flex   ">{t("actions")}</div>,
 			cell: ({ row }) => {
 				return (
 					<div className="flex  justify-end mr-2">
@@ -133,7 +137,7 @@ export default function SubscriptionTable() {
 								</Button>
 							</DropdownMenuTrigger>
 							<DropdownMenuContent align="end">
-								<DropdownMenuLabel>Actions</DropdownMenuLabel>
+								<DropdownMenuLabel>{t("actions")}</DropdownMenuLabel>
 								<DropdownMenuItem
 									onClick={() => {
 										setSubscriptionData(row.original);
@@ -144,7 +148,7 @@ export default function SubscriptionTable() {
 									}} // Add your edit action handler here
 									className="cursor-pointer hover:bg-gray-800/10">
 									<PencilIcon className="h-4 w-4 mr-2" />
-									Edit
+									{t("edit")}
 								</DropdownMenuItem>
 								{row.original.id !== 8 && (
 									<DropdownMenuItem
@@ -157,7 +161,7 @@ export default function SubscriptionTable() {
 										}} // Add your delete action handler here
 										className="cursor-pointer hover:bg-gray-800/10">
 										<TrashIcon className="h-4 w-4 mr-2" />
-										Delete
+										{t("delete")}
 									</DropdownMenuItem>
 								)}
 							</DropdownMenuContent>
@@ -192,7 +196,7 @@ export default function SubscriptionTable() {
 			<div className="flex items-center py-4 flex-wrap space-y-2 lg:space-y-0 lg:justify-between">
 				<div className="w-full lg:max-w-fit">
 					<Input
-						placeholder="Search..."
+						placeholder={t("search")}
 						value={globalFilter}
 						onChange={(e) => setGlobalFilter(e.target.value)}
 						className=" lg:max-w-sm  "
@@ -205,14 +209,15 @@ export default function SubscriptionTable() {
 							setSubscriptionDialog({ open: true, mode: "create" })
 						}
 						className="w-full lg:max-w-fit">
-						Add New Subscription
+						{t("addNewSubscription")}
 					</Button>
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
 							<Button
 								variant="outline"
 								className="lg:ml-auto w-full lg:max-w-fit">
-								Show/Hide Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
+								{t("showHideColumn")}{" "}
+								<ChevronDownIcon className="ml-2 h-4 w-4" />
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="end">
@@ -277,7 +282,7 @@ export default function SubscriptionTable() {
 								<TableCell
 									colSpan={columns.length}
 									className="h-24 text-center">
-									No results.
+									{t("noResults")}
 								</TableCell>
 							</TableRow>
 						)}
@@ -285,10 +290,6 @@ export default function SubscriptionTable() {
 				</Table>
 			</div>
 			<div className="flex items-center justify-end space-x-2 py-4">
-				<div className="flex-1 text-sm text-muted-foreground">
-					{table.getFilteredSelectedRowModel().rows.length} of{" "}
-					{table.getFilteredRowModel().rows.length} row(s) selected.
-				</div>
 				<div className="space-x-2">
 					<Button
 						variant="outline"
@@ -306,8 +307,7 @@ export default function SubscriptionTable() {
 					</Button>
 				</div>
 			</div>
-
-			<AddSubscriptionDialog />
+			{subDialog.open && <AddSubscriptionDialog />}
 		</div>
 	);
 }

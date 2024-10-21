@@ -13,8 +13,10 @@ import dentist from "@/assets/images/dentist.png";
 import MiniCalendar from "@/assets/images/mini-calendar.png";
 import logo from "@/assets/svgs/logo.svg";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function Hero() {
+	const { t } = useTranslation();
 	const setsearchClinicDialogAtom = useSetAtom(searchClinicDialogAtom);
 
 	return (
@@ -34,35 +36,31 @@ export default function Hero() {
 				<div className="md:w-[60%] flex flex-col z-20 ">
 					<div className="">
 						<h1 className="-ml-1 sm:-ml-3 lg:-ml-5 leading-4 text-xl font-semibold">
-							Find your Dental Doctor
+							{t("findDentist")}
 						</h1>
-						<h1 className="font-bold text-[40px]">Inquire Now</h1>
+						<h1 className="font-bold text-[40px]">{t("inquire")}</h1>
 						<InputWithIcon
 							className="py-4 rounded-[7px] bg-white"
 							startIcon={<FaSearch size={25} />}
 							inputProps={{
-								placeholder: "Search for Dental Clinic...",
+								placeholder: t("searchDentalClinic"),
 								onClick: () => setsearchClinicDialogAtom(true),
 							}}
 						/>
 						<Link
 							to="faqs"
 							className="block text-right cursor-pointer text-[#1D4968] drop-shadow-[0_4px_4px_#00000040] text-p my-4 md:my-8">
-							Need help?
+							{t("needHelp")}
 						</Link>
 					</div>
 					<div className="bg-opacity-70 bg-white md:w-[115%] self-end z-20  rounded-[20px] p-6 sm:p-12 space-y-3 md:space-y-5 relative overflow-hidden">
 						<p className="  md:leading-[36.31px] text-[20px] md:text-[30px] font-semibold text-wrap lg:max-w-[70%] ">
-							Looking for an immediate Dental advice or{" "}
-							{/* <br className='hidden lg:block' /> */}
-							planning to have a dental appointment?
+							{t("lookingFor")}
 						</p>
-						<p className="text-[16px] md:text-[20px]">
-							We have an available doctor in town!
-						</p>
+						<p className="text-[16px] md:text-[20px]">{t("availableInTown")}</p>
 						<Link to="suggested-clinics">
 							<Button className={"btn-1 mt-4 hover:bg-1/80"}>
-								Canvas Now!
+								{t("canvasNow")}
 							</Button>
 						</Link>
 						<img

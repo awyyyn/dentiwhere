@@ -12,9 +12,11 @@ import DataTable from "../__components/doctors-table";
 
 /* ASSETS */
 import { ImSpinner2 } from "react-icons/im";
+import { useTranslation } from "react-i18next";
 
 export default function Doctors() {
 	const [loading, setLoading] = useState(false);
+	const { t } = useTranslation();
 	const [doctors, setDoctors] = useAtom(doctorsAtom);
 
 	useEffect(() => {
@@ -35,8 +37,8 @@ export default function Doctors() {
 	return (
 		<div className="p-2 md:p-5 lg:p-10 xl:p-14   space-y-5">
 			<section className="md:space-y-2">
-				<h1 className="text-2xl lg:text-5xl font-bold">Doctors</h1>
-				<p className="text-gray-600 md:text-lg">Manage doctors</p>
+				<h1 className="text-2xl lg:text-5xl font-bold">{t("doctors")}</h1>
+				<p className="text-gray-600 md:text-lg">{t("manageDoctors")}</p>
 			</section>
 			<section>
 				<div className="bg-white/0">

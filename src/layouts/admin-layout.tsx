@@ -15,6 +15,7 @@ import Navbar from "@/components/shared/navbar/navbar";
 
 /* ASSETS */
 import {
+	Home,
 	Hospital,
 	LayoutDashboard,
 	PhilippinePeso,
@@ -103,7 +104,7 @@ export default function AdminLayout() {
 								<Button
 									variant="ghost"
 									className=" md:justify-start lg:px-5 xl:px-10 transition-all duration-300 group-hover:bg-1/20  w-full py-6 rounded-none">
-									<Users className="max-w-10 min-w-10 ml-2 md:ml-0  " />
+									<Home className="max-w-10 min-w-10 ml-2 md:ml-0  " />
 									<p className="hidden md:block md:ml-2 lg:ml-4 xl:ml-8">
 										Home
 									</p>

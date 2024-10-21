@@ -35,8 +35,10 @@ import {
 import { formatDate } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { PaymentPartialInfo } from "@/types/types";
+import { useTranslation } from "react-i18next";
 
 export default function TransactionaTable() {
+	const { t } = useTranslation();
 	const [sorting, setSorting] = React.useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
 		[]
@@ -58,7 +60,7 @@ export default function TransactionaTable() {
 		{
 			enableHiding: false,
 			accessorKey: "name",
-			header: "Name",
+			header: t("name"),
 			cell: ({ row }) => <div className="capitalize">{row.original.name}</div>,
 		},
 		{
@@ -72,7 +74,7 @@ export default function TransactionaTable() {
 		},
 		{
 			accessorKey: "amount",
-			header: () => <div className="text-start">Amount</div>,
+			header: () => <div className="text-start">{t("amount")}</div>,
 			cell: ({ row }) => {
 				return (
 					<div className="text-start  ">
@@ -86,14 +88,14 @@ export default function TransactionaTable() {
 		},
 		{
 			accessorKey: "description",
-			header: () => <div className="text-start">Description</div>,
+			header: () => <div className="text-start">{t("description")}</div>,
 			cell: ({ row }) => {
 				return <p className="truncate">{row.original?.description}</p>;
 			},
 		},
 		{
 			accessorKey: "paid_at",
-			header: () => <div className="text-start">Paid At</div>,
+			header: () => <div className="text-start">{t("paidAt")}</div>,
 			cell: ({ row }) => {
 				const status = row.original?.status;
 				const isPaid = status === "paid";
@@ -111,7 +113,7 @@ export default function TransactionaTable() {
 		},
 		{
 			accessorKey: "status",
-			header: () => <div className="text-start">Status</div>,
+			header: () => <div className="text-start">{t("status")}</div>,
 			cell: ({ row }) => {
 				const status = row.original?.status;
 				const isPaid = status === "paid";
@@ -209,10 +211,6 @@ export default function TransactionaTable() {
 				</Table>
 			</div>
 			<div className="flex items-center justify-end space-x-2 py-4">
-				<div className="flex-1 text-sm text-muted-foreground">
-					{table.getFilteredSelectedRowModel().rows.length} of{" "}
-					{table.getFilteredRowModel().rows.length} row(s) selected.
-				</div>
 				<div className="space-x-2">
 					<Button
 						variant="outline"

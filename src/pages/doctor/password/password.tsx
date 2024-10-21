@@ -28,6 +28,7 @@ import {
 
 /* ASSETS */
 import { RiLockPasswordFill } from "react-icons/ri";
+import { useTranslation } from "react-i18next";
 
 const passwordSchema = z.object({
 	oldPassword: z.string(),
@@ -36,6 +37,7 @@ const passwordSchema = z.object({
 });
 
 export default function Password() {
+	const { t } = useTranslation();
 	const { toast } = useToast();
 	const user = useAtomValue(userAtom);
 	const form = useForm({
@@ -100,7 +102,8 @@ export default function Password() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>
-											Old Password <span className="text-destructive">*</span>
+											{t("oldPassword")}{" "}
+											<span className="text-destructive">*</span>
 										</FormLabel>
 										<FormControl>
 											<InputWithIcon
@@ -108,7 +111,7 @@ export default function Password() {
 												inputProps={{
 													...field,
 													type: "password",
-													placeholder: "Old Password",
+													placeholder: t("oldPassword"),
 												}}
 												startIcon={<RiLockPasswordFill />}
 											/>
@@ -123,7 +126,8 @@ export default function Password() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>
-											New Password <span className="text-destructive">*</span>
+											{t("newPassword")}{" "}
+											<span className="text-destructive">*</span>
 										</FormLabel>
 										<FormControl>
 											<InputWithIcon
@@ -131,13 +135,13 @@ export default function Password() {
 												inputProps={{
 													...field,
 													type: "password",
-													placeholder: "New Password",
+													placeholder: t("newPassword"),
 												}}
 												startIcon={<RiLockPasswordFill />}
 											/>
 										</FormControl>
 										<FormDescription className=" ml-1">
-											Minimum 8 characters
+											{t("min8")}
 										</FormDescription>
 										<FormMessage />
 									</FormItem>
@@ -149,7 +153,7 @@ export default function Password() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>
-											Confirm Password{" "}
+											{t("confirmPassword")}{" "}
 											<span className="text-destructive">*</span>
 										</FormLabel>
 										<FormControl>
@@ -158,7 +162,7 @@ export default function Password() {
 												inputProps={{
 													...field,
 													type: "password",
-													placeholder: "Confirm Password",
+													placeholder: t("confirmPassword"),
 													onChange: (e) => {
 														if (
 															e.target.value !== form.getValues().newPassword
@@ -178,7 +182,7 @@ export default function Password() {
 											/>
 										</FormControl>
 										<FormDescription className=" ml-1">
-											Minimum 8 characters
+											{t("min8")}
 										</FormDescription>
 										<FormMessage />
 									</FormItem>
@@ -187,7 +191,7 @@ export default function Password() {
 							<Button
 								className="w-full lg:w-[500px] ml-2 text-xl py-6"
 								size="lg">
-								Change Password{" "}
+								{t("changePassword")}{" "}
 							</Button>
 						</form>
 					</Form>

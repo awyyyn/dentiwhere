@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import {
@@ -19,14 +19,9 @@ export default function LangToggle() {
 
 	const handleChangeLanguage = (val: typeof lang) => {
 		i18n.changeLanguage(val);
-		localStorage.setItem("i18n", val);
 		setLang(val);
 		setOpen(false);
 	};
-
-	useEffect(() => {
-		i18n.changeLanguage(localStorage.getItem("i18n") || "en");
-	}, []);
 
 	return (
 		<Popover open={open}>

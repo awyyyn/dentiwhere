@@ -31,6 +31,7 @@ import Services from "./__components/services";
 import { TbWorldWww } from "react-icons/tb";
 import { CiLocationOn } from "react-icons/ci";
 import { PiPhoneLight } from "react-icons/pi";
+import { useTranslation } from "react-i18next";
 
 export default function Clinic() {
 	const user = useAtomValue(userAtom);
@@ -41,6 +42,7 @@ export default function Clinic() {
 	const setServices = useSetAtom(servicesAtom);
 	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
+	const { t } = useTranslation();
 
 	useEffect(() => {
 		(async () => {
@@ -101,7 +103,7 @@ export default function Clinic() {
 										state: { clinic: clinic },
 									});
 								}}>
-								Edit
+								{t("edit")}
 							</Button>
 						</div>
 					</div>
@@ -114,17 +116,17 @@ export default function Clinic() {
 					<TabsTrigger
 						className="w-[33.3%] scale-100 hover:scale-100 data-[selected]:bg-red-200 data-[state=active]:shadow-lg lg:text-xl"
 						value="services">
-						Services
+						{t("services")}
 					</TabsTrigger>
 					<TabsTrigger
 						value="about"
 						className=" w-[33.3%] scale-100 hover:scale-100 data-[state=active]:shadow-lg lg:text-xl">
-						About
+						{t("about")}
 					</TabsTrigger>
 					<TabsTrigger
 						value="reviews"
 						className=" w-[33.3%] scale-100 hover:scale-100 data-[state=active]:shadow-lg lg:text-xl">
-						Reviews
+						{t("reviews")}
 					</TabsTrigger>
 				</TabsList>
 				{/* <Separator className='my-5' /> */}

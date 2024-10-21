@@ -14,11 +14,13 @@ import LogoWithText from "@/components/shared/logo-with-text/logo-with-text";
 /* ASSETS */
 import { ImSpinner2 } from "react-icons/im";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function Logout() {
 	const setUser = useSetAtom(userAtom);
 	const navigate = useNavigate();
 	const [loading, setLoading] = useState(false);
+	const { t } = useTranslation();
 
 	const handleLogout = async () => {
 		setLoading(true);
@@ -37,9 +39,7 @@ export default function Logout() {
 				</div>
 			</div>
 			<div className="absolute h-full flex flex-col w-full  space-y-5 justify-center items-center lg:-mt-14 md:mt-0">
-				<h1 className="text-3xl text-center">
-					Are you sure you want to log out?
-				</h1>
+				<h1 className="text-3xl text-center">{t("logoutConfirmation")}</h1>
 				<div className="flex space-x-4">
 					<Button
 						disabled={loading}
@@ -48,14 +48,14 @@ export default function Logout() {
 						{loading ? (
 							<>
 								<ImSpinner2 className="animate-spin mr-2" />
-								<span>Logging out...</span>
+								<span>{t("loggingOut")}</span>
 							</>
 						) : (
-							"Yes"
+							t("yes")
 						)}
 					</Button>
 					<Button disabled={loading} className="rounded-3xl py-6 px-8">
-						No
+						{t("no")}
 					</Button>
 				</div>
 			</div>

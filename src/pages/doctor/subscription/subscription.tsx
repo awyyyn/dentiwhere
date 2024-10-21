@@ -26,6 +26,7 @@ import { CheckCircle2, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { isEmpty } from "lodash";
 import SubscriptionCard from "@/components/shared/subscription-card/subscription-card";
+import { useTranslation } from "react-i18next";
 
 /* ASSETS */
 
@@ -34,6 +35,7 @@ export default function Subscribe() {
 	const navigate = useNavigate();
 	const [user, setUser] = useAtom(userAtom);
 	const [sParams] = useSearchParams();
+	const { t } = useTranslation();
 
 	useEffect(() => {
 		(async () => {
@@ -84,21 +86,21 @@ export default function Subscribe() {
 						) : (
 							<XCircle className="w-12 h-12 mx-auto mb-4 text-red-500" />
 						)}
-						{isSuccess ? "Thanks for Subscribing" : "Payment Unsuccessful"}
+						{isSuccess ? t("thanksForSubscribing") : t("paymentUnsuccessful")}
 					</CardTitle>
 				</CardHeader>
 				<CardContent>
 					<p className="text-center text-muted-foreground">
 						{isSuccess
-							? "We appreciate your subscription. Enjoy our services and the exclusive features and benefits that come with your plan."
-							: "We're sorry, but there was an issue processing your payment. Please try again or contact our support team for assistance."}
+							? t("thanksForSubscribingDesc")
+							: t("paymentUnsuccessfulDesc")}
 					</p>
 				</CardContent>
 				<CardFooter className="flex justify-center">
 					<Button
 						onClick={handlePostPayment}
 						variant={isSuccess ? "default" : "destructive"}>
-						{isSuccess ? "Go to Dental Settings" : "Try Again"}
+						{isSuccess ? t("goToDentalSettings") : t("tryAgain")}
 					</Button>
 				</CardFooter>
 			</Card>
@@ -125,11 +127,7 @@ export default function Subscribe() {
 							<h1 className="font-extrabold text-3xl md:text-5xl tracking-wide">
 								Subscribe
 							</h1>
-							<p className="lg:max-w-2xl">
-								Subscribe to one of our plans to continue enjoying our services.
-								Choose the plan that best suits your needs and gain access to
-								exclusive features and benefits.
-							</p>
+							<p className="lg:max-w-2xl">{t("subscribeDesc")}</p>
 						</>
 					)}
 					<div className="space-y-5">

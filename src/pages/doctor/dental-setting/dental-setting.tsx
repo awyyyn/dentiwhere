@@ -31,6 +31,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert.tsx";
 import { Badge } from "@/components/ui/badge.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import ManageSubscription from "./__components/manage-subscription/manage-subscription.tsx";
+import { useTranslation } from "react-i18next";
 
 type Manage =
 	| "view"
@@ -42,6 +43,7 @@ type Manage =
 	| "subscription";
 
 export default function DentalSetting() {
+	const { t } = useTranslation();
 	const user = useAtomValue(userAtom);
 	const [adding, setAdding] = useState(false);
 	const { state } = useLocation();
@@ -77,12 +79,12 @@ export default function DentalSetting() {
 							Subscription
 						</AlertTitle>
 						<AlertDescription className="text-md">
-							{isFreeAccess && "You are currently subscribed to the free plan."}
+							{isFreeAccess && t("subscriptionReminder")}
 							{noSubscription ? (
-								"You do not have an active subscription."
+								t("subscriptionReminder2")
 							) : (
 								<span>
-									You're currently subscribed to
+									{t("subscriptionReminder3")}
 									<b> "{user.subscription.name}"</b>
 								</span>
 							)}
@@ -98,7 +100,7 @@ export default function DentalSetting() {
 					</div>
 					<div>
 						{noSubscription ? (
-							<Badge variant="destructive">No Subscription</Badge>
+							<Badge variant="destructive">{t("noSubscription")}</Badge>
 						) : (
 							<Badge>{user.subscription.name}</Badge>
 						)}
@@ -106,7 +108,7 @@ export default function DentalSetting() {
 				</Alert>
 				<div>
 					<div>
-						<h1 className="text-3xl font-bold">Dental Setting</h1>
+						<h1 className="text-3xl font-bold">{t("dentalSetting")}</h1>
 					</div>
 					<div className="flex">
 						<ToggleGroup
@@ -127,7 +129,7 @@ export default function DentalSetting() {
 									<p>
 										<MdMedicalInformation size={18} className="md:hidden" />
 										<span className="hidden md:block">
-											Manage Clinic Information
+											{t("manageClinicInformation")}
 										</span>
 									</p>
 								</Tooltip>
@@ -154,7 +156,9 @@ export default function DentalSetting() {
 									delayDuration={300}>
 									<p>
 										<ReceiptText size={18} className="md:hidden" />
-										<span className="hidden md:block">Manage Subscription</span>
+										<span className="hidden md:block">
+											{t("manageSubscription")}
+										</span>
 									</p>
 								</Tooltip>
 							</ToggleGroupItem>
@@ -168,7 +172,9 @@ export default function DentalSetting() {
 									delayDuration={300}>
 									<p>
 										<MdCategory size={18} className="md:hidden" />
-										<span className="hidden md:block">Manage Categories</span>
+										<span className="hidden md:block">
+											{t("manageCategories")}
+										</span>
 									</p>
 								</Tooltip>
 							</ToggleGroupItem>
@@ -182,7 +188,9 @@ export default function DentalSetting() {
 									delayDuration={300}>
 									<p>
 										<TbDental size={18} className="md:hidden" />
-										<span className="hidden md:block">Manage Services</span>
+										<span className="hidden md:block">
+											{t("manageServices")}
+										</span>
 									</p>
 								</Tooltip>
 							</ToggleGroupItem>
@@ -197,7 +205,7 @@ export default function DentalSetting() {
 									<p>
 										<Accessibility size={18} className="md:hidden" />
 										<span className="hidden md:block">
-											Manage Accessibility
+											{t("manageAccessibilities")}
 										</span>
 									</p>
 								</Tooltip>
@@ -212,7 +220,9 @@ export default function DentalSetting() {
 									delayDuration={300}>
 									<p>
 										<Building size={18} className="md:hidden" />
-										<span className="hidden md:block">Manage Amenities</span>
+										<span className="hidden md:block">
+											{t("manageAmenities")}
+										</span>
 									</p>
 								</Tooltip>
 							</ToggleGroupItem>

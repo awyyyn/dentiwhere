@@ -5,9 +5,11 @@ import { Button } from "@/components/ui/button";
 import { IoClose } from "react-icons/io5";
 import { useState } from "react";
 import Back from "@/pages/public/__components/back/back";
+import { useTranslation } from "react-i18next";
 
 export default function AuthLayout() {
 	const [alert, setAlert] = useState(true);
+	const { t } = useTranslation();
 	return (
 		<div className="min-h-dvh flex justify-center items-center gradient-auth-page py-10 md:py-0 relative">
 			<Back toRoot />
@@ -20,7 +22,7 @@ export default function AuthLayout() {
 				}`}>
 				<div className="flex justify-between gap-4">
 					<AlertTitle className="tracking-wider text-lg ">
-						Patients do not need to sign up or log in to use the platform.
+						{t("authReminder")}
 					</AlertTitle>
 					<Button
 						onClick={() => setAlert(false)}

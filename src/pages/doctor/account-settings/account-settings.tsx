@@ -5,6 +5,7 @@ import { useAtom } from "jotai";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslation } from "react-i18next";
 
 /* UTILS */
 import { db } from "@/utils/supabase";
@@ -63,6 +64,7 @@ const userForm = z.object({
 
 export default function AccountSettings() {
 	const { toast } = useToast();
+	const { t } = useTranslation();
 	const avatarRef = useRef<DropzoneRef>(null!);
 	const frontIdRef = useRef<DropzoneRef>(null!);
 	const backIdRef = useRef<DropzoneRef>(null!);
@@ -267,7 +269,7 @@ export default function AccountSettings() {
 												<ImSpinner2 className="animate-spin" size={30} />
 											) : (
 												<p className="transition-all duration-300 text-white font-bold">
-													{placeholder ? "Replace Image" : "Upload Image"}
+													{placeholder ? t("replaceImage") : t("uploadImage")}
 												</p>
 											)}
 										</div>
@@ -291,7 +293,7 @@ export default function AccountSettings() {
 										onClick={() => setEditing(true)}
 										type="button"
 										className="w-48 mx-auto text-md lg:max-w-min lg:mx-0    xl:text-2xl bg-1 hover:text-black text-black p-6 shadow-lg hover:bg-1 shadow-gray-700/50 hover:shadow-lg active:scale-90 transition-all duration-300">
-										Edit Profile
+										{t("editProfile")}
 									</Button>
 								) : (
 									<>
@@ -302,7 +304,7 @@ export default function AccountSettings() {
 												avatarRef.current?.open();
 											}}
 											className="w-48 mx-auto text-md lg:max-w-min lg:mx-0    xl:text-2xl bg-1 hover:text-black text-black p-6 shadow-lg hover:bg-1 shadow-gray-700/50 hover:shadow-lg active:scale-90 transition-all duration-300">
-											Upload Now
+											{t("uploadNow")}
 										</Button>
 										<Button
 											onClick={() => {
@@ -312,7 +314,7 @@ export default function AccountSettings() {
 											}}
 											type="button"
 											className="w-48 mx-auto text-md lg:max-w-min lg:mx-0    xl:text-2xl p-6 bg-white text-black shadow-md shadow-gray-700/50 hover:text-black hover:bg-white hover:shadow-lg active:scale-90 transition-all duration-300">
-											Delete Avatar
+											{t("deleteAvatar")}
 										</Button>
 									</>
 								)}
@@ -331,7 +333,8 @@ export default function AccountSettings() {
 								render={({ field }) => (
 									<FormItem className="min-w-full">
 										<FormLabel>
-											First Name <span className="text-destructive ">*</span>
+											{t("firstName")}{" "}
+											<span className="text-destructive ">*</span>
 										</FormLabel>
 										<FormControl>
 											{loading ? (
@@ -340,7 +343,7 @@ export default function AccountSettings() {
 												<Input
 													readOnly={!editing || loading || uploading}
 													className="md:ml-2 text-lg py-6 px-3 w-full bg-white"
-													placeholder="First Name"
+													placeholder={t("firstName")}
 													{...field}
 												/>
 											)}
@@ -355,7 +358,8 @@ export default function AccountSettings() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>
-											Last Name <span className="text-destructive">*</span>
+											{t("lastName")}{" "}
+											<span className="text-destructive">*</span>
 										</FormLabel>
 										<FormControl>
 											{loading ? (
@@ -364,7 +368,7 @@ export default function AccountSettings() {
 												<Input
 													readOnly={!editing || loading || uploading}
 													className="md:ml-2 text-lg py-6 px-3 bg-white"
-													placeholder="Last Name"
+													placeholder={t("lastName")}
 													{...field}
 												/>
 											)}
@@ -405,7 +409,8 @@ export default function AccountSettings() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>
-											Phone Number <span className="text-destructive">*</span>
+											{t("phoneNumber")}{" "}
+											<span className="text-destructive">*</span>
 										</FormLabel>
 										<FormControl>
 											{loading ? (
@@ -438,7 +443,8 @@ export default function AccountSettings() {
 									render={() => (
 										<FormItem>
 											<FormLabel>
-												Gender <span className="text-destructive">*</span>
+												{t("gender")}{" "}
+												<span className="text-destructive">*</span>
 											</FormLabel>
 											<FormControl>
 												{loading ? (
@@ -468,7 +474,7 @@ export default function AccountSettings() {
 																	form.setValue("gender", "male");
 																}}
 																className=" text-lg text-gray-400 font-light">
-																Male
+																{t("male")}
 															</Label>
 														</div>
 														<div
@@ -486,7 +492,7 @@ export default function AccountSettings() {
 																	form.setValue("gender", "female");
 																}}
 																className=" text-lg text-gray-400 font-light">
-																Female
+																{t("female")}
 															</Label>
 														</div>
 													</RadioGroup>
@@ -504,7 +510,7 @@ export default function AccountSettings() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>
-											Birth Date
+											{t("birthDate")}{" "}
 											<span className="text-destructive">*</span>
 										</FormLabel>
 										<FormControl className="block">
@@ -554,7 +560,7 @@ export default function AccountSettings() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>
-											License ID Number{" "}
+											{t("licenseIdNumber")}{" "}
 											<span className="text-destructive">*</span>
 										</FormLabel>
 										<FormControl>
@@ -580,7 +586,7 @@ export default function AccountSettings() {
 								render={({ field }) => (
 									<FormItem className="col-span-2">
 										<FormLabel>
-											Complete Address{" "}
+											{t("completeAddress")}{" "}
 											<span className="text-destructive">*</span>
 										</FormLabel>
 										<FormControl>
@@ -603,15 +609,15 @@ export default function AccountSettings() {
 
 						<div className=" mx-auto lg:col-span-1   mt-10 xl:mt-20  space-y-5 ">
 							<h1 className="text-xl font-bold">
-								Verify your ID <span className="text-destructive">*</span>
+								{t("verifyYourId")} <span className="text-destructive">*</span>
 							</h1>
 							<div className="flex flex-col lg:flex-row xl:flex-col gap-5 md:gap-y-0">
 								<div className="  space-y-3">
 									<Label>
-										Front ID <span className="text-destructive">*</span>
+										{t("frontId")} <span className="text-destructive">*</span>
 										{errors.frontImg && (
 											<span className="text-xs text-destructive ml-2">
-												Required
+												{t("required")}
 											</span>
 										)}
 									</Label>
@@ -636,7 +642,7 @@ export default function AccountSettings() {
 															<ImSpinner2 className="animate-spin" size={30} />
 														) : (
 															<p className="transition-all duration-300 text-white font-bold">
-																{frontId ? "Replace Image" : "Upload Image"}
+																{frontId ? t("replaceImage") : t("uploadImage")}
 															</p>
 														)}
 													</div>
@@ -659,7 +665,7 @@ export default function AccountSettings() {
 												type="button"
 												onClick={() => frontIdRef.current.open()}
 												className="w-full lg:max-w-min bg-gray-300/90 shadow-lg text-[#1D4968] hover:bg-gray-300/80">
-												{frontId ? "Change" : "Upload"}
+												{frontId ? t("change") : t("upload")}
 											</Button>
 											{user.status !== "VERIFIED" && (
 												<Button
@@ -670,7 +676,7 @@ export default function AccountSettings() {
 													}
 													type="button"
 													className="w-full lg:max-w-min text-destructive hover:bg-gray-300 bg-gray-300/90 shadow-lg">
-													Remove
+													{t("remove")}
 												</Button>
 											)}
 										</div>
@@ -681,10 +687,10 @@ export default function AccountSettings() {
 								/>
 								<div className="space-y-3">
 									<Label>
-										Back ID <span className="text-destructive">*</span>
+										{t("backId")} <span className="text-destructive">*</span>
 										{errors.backImg && (
 											<span className="text-xs text-destructive ml-2">
-												Required
+												{t("required")}
 											</span>
 										)}
 									</Label>
@@ -709,7 +715,7 @@ export default function AccountSettings() {
 															<ImSpinner2 className="animate-spin" size={30} />
 														) : (
 															<p className="transition-all duration-300 text-white font-bold">
-																{backId ? "Replace Image" : "Upload Image"}
+																{backId ? t("replaceImage") : t("uploadImage")}
 															</p>
 														)}
 													</div>
@@ -733,7 +739,7 @@ export default function AccountSettings() {
 												type="button"
 												onClick={() => backIdRef.current?.open()}
 												className="hover:bg-gray-300/80 w-full lg:max-w-min bg-gray-300/90 shadow-lg text-[#1D4968]">
-												{backId ? "Change" : "Upload"}
+												{backId ? t("change") : t("upload")}
 											</Button>
 
 											{user.status !== "VERIFIED" && (
@@ -745,7 +751,7 @@ export default function AccountSettings() {
 													}
 													type="button"
 													className="w-full lg:max-w-min text-destructive hover:bg-gray-300 bg-gray-300/90 shadow-lg">
-													Remove
+													{t("remove")}
 												</Button>
 											)}
 										</div>
@@ -769,14 +775,14 @@ export default function AccountSettings() {
 								className={`bg-white w-full md:max-w-min hover:bg-white text-gray-800 shadow-lg ${
 									editing ?? "hidden"
 								}`}>
-								Cancel
+								{t("cancel")}
 							</Button>
 							<Button
 								type="submit"
 								disabled={submitting}
 								className="bg-1 w-full md:max-w-min hover:bg-1 text-gray-800 shadow-lg">
 								{submitting && <ImSpinner2 className="mr-2 animate-spin" />}
-								{submitting ? "Saving..." : "Save Changes"}
+								{submitting ? "Saving..." : t("saveChanges")}
 							</Button>
 						</div>
 					)}

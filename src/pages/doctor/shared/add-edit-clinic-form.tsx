@@ -52,6 +52,7 @@ import { Button } from "@/components/ui/button";
 import { Map as MapIcon } from "lucide-react";
 import { ImSpinner2 } from "react-icons/im";
 import { IoMdAdd } from "react-icons/io";
+import { useTranslation } from "react-i18next";
 
 const formSchema = z.object({
 	name: z.string().min(1, { message: "Please enter your clinic name!" }),
@@ -88,6 +89,7 @@ const AddClinic = ({
 	edit?: boolean;
 	clinic?: Clinic;
 }) => {
+	const { t } = useTranslation();
 	const { toast } = useToast();
 	const setClinic = useSetAtom(clinicAtom);
 	const [openMap, setOpenMap] = useState(false);
@@ -354,7 +356,7 @@ const AddClinic = ({
 					name="map.lat"
 					render={({ field }) => (
 						<FormItem className="w-full hidden ">
-							<FormLabel>Map Lat</FormLabel>
+							<FormLabel>{t("mapLat")}</FormLabel>
 							<FormControl>
 								<Input
 									readOnly
@@ -371,7 +373,7 @@ const AddClinic = ({
 					name="map.lng"
 					render={({ field }) => (
 						<FormItem className="w-full hidden ">
-							<FormLabel>Map Lng</FormLabel>
+							<FormLabel>{t("mapLng")}</FormLabel>
 							<FormControl>
 								<Input
 									readOnly
@@ -404,7 +406,7 @@ const AddClinic = ({
 						}
 					}}
 					variant="destructive">
-					Cancel
+					{t("cancel")}
 				</Button>
 				<Button
 					onClick={() => setOpenMap(false)}
@@ -444,7 +446,7 @@ const AddClinic = ({
 													<ImSpinner2 className="animate-spin" size={30} />
 												) : (
 													<p className="transition-all duration-300 text-white font-bold">
-														{placeholder ? "Replace Image" : "Upload Image"}
+														{placeholder ? t("replaceImage") : t("uploadImage")}
 													</p>
 												)}
 											</div>
@@ -466,12 +468,12 @@ const AddClinic = ({
 										name="name"
 										render={({ field }) => (
 											<FormItem className="ful">
-												<FormLabel>Clinic Name</FormLabel>
+												<FormLabel>{t("clinicName")}</FormLabel>
 												<FormControl>
 													<Input
 														readOnly={loading || uploading}
 														className="text-lg py-5 px-3 bg-white"
-														placeholder="Enter your clinic name"
+														placeholder={t("enterClinicName")}
 														{...field}
 													/>
 												</FormControl>
@@ -484,17 +486,17 @@ const AddClinic = ({
 										name="address"
 										render={({ field }) => (
 											<FormItem>
-												<FormLabel>Clinic Address</FormLabel>
+												<FormLabel>{t("clinicAddress")}</FormLabel>
 												<FormControl>
 													<div className="flex gap-2 items-center">
 														<Input
 															readOnly={loading || uploading}
 															className="text-lg py-5 px-3 bg-white w-11/12"
-															placeholder="Enter your clinic address"
+															placeholder={t("enterEmail")}
 															{...field}
 														/>
 														<Tooltip
-															tooltip="Map"
+															tooltip={t("map")}
 															delayDuration={500}
 															side="bottom">
 															<Button
@@ -522,7 +524,7 @@ const AddClinic = ({
 													<Input
 														readOnly={loading || uploading}
 														className="text-lg py-5 px-3 bg-white"
-														placeholder="Enter your clinic email address"
+														placeholder={t("enterClinicEmail")}
 														{...field}
 													/>
 												</FormControl>
@@ -544,7 +546,7 @@ const AddClinic = ({
 													<Input
 														readOnly={loading || uploading}
 														className="text-lg py-5 px-3 bg-white"
-														placeholder="Enter you clinic contact"
+														placeholder={t("enterContact")}
 														{...field}
 													/>
 												</FormControl>
@@ -557,12 +559,12 @@ const AddClinic = ({
 										name="contact2"
 										render={({ field }) => (
 											<FormItem className="w-full sm:w-[50%]">
-												<FormLabel>Alternative Contact</FormLabel>
+												<FormLabel>{t("altContact")}</FormLabel>
 												<FormControl>
 													<Input
 														readOnly={loading || uploading}
 														className="text-lg py-5 px-3 bg-white"
-														placeholder="Enter you clinic contact"
+														placeholder={t("enterContact")}
 														{...field}
 													/>
 												</FormControl>
@@ -576,7 +578,7 @@ const AddClinic = ({
 									name="map.lat"
 									render={({ field }) => (
 										<FormItem className="w-full hidden ">
-											<FormLabel>Map Lat</FormLabel>
+											<FormLabel>{t("mapLat")}</FormLabel>
 											<FormControl>
 												<Input
 													readOnly
@@ -593,7 +595,7 @@ const AddClinic = ({
 									name="map.lng"
 									render={({ field }) => (
 										<FormItem className="w-full hidden ">
-											<FormLabel>Map Lng</FormLabel>
+											<FormLabel>{t("mapLang")}</FormLabel>
 											<FormControl>
 												<Input
 													readOnly
@@ -615,7 +617,7 @@ const AddClinic = ({
 												<Input
 													readOnly={loading || uploading}
 													className="text-lg py-5 px-3 bg-white"
-													placeholder="Enter you clinic website"
+													placeholder={t("enterWebsite")}
 													{...field}
 												/>
 											</FormControl>
@@ -629,11 +631,11 @@ const AddClinic = ({
 									name="description"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Description</FormLabel>
+											<FormLabel>{t("description")}</FormLabel>
 											<FormControl className="min-h-fit">
 												<Textarea
 													className="text-lg py-3 px-3 bg-white "
-													placeholder="Clinic Description...."
+													placeholder={`${t("cliniceDescription")}...`}
 													rows={Math.max(
 														Math.min(
 															form.getValues("description").length / 10,
@@ -652,7 +654,7 @@ const AddClinic = ({
 									<div className="flex  flex-col sm:flex-row space-y-5 sm:space-y-0 sm:space-x-5">
 										<div className="w-full sm:w-[50%] ">
 											<h1 className="font-bold text-xl sm:mb-3">
-												Accessibility
+												{t("accessibility")}
 											</h1>
 											<div className="space-y-5">
 												{accessibilityForm.map((acc, indx) => {
@@ -693,11 +695,13 @@ const AddClinic = ({
 												size="sm"
 												onClick={() => handleAddInput("accessibility")}>
 												<IoMdAdd />
-												Add Amenity
+												{t("addAccessibility")}
 											</Button>
 										</div>
 										<div className="w-full sm:w-[50%]  ">
-											<h1 className="font-bold text-xl  sm:mb-3">Amenities</h1>
+											<h1 className="font-bold text-xl  sm:mb-3">
+												{t("amenities")}
+											</h1>
 											<div className={`space-y-5 group `}>
 												{amenitiesForm.map((ame, indx) => {
 													return (
@@ -737,20 +741,20 @@ const AddClinic = ({
 												size="sm"
 												onClick={() => handleAddInput("amenity")}>
 												<IoMdAdd />
-												Add Amenity
+												{t("addAmenity")}
 											</Button>
 										</div>
 									</div>
 								)}
 								<div className="flex justify-end space-x-3 mt-5  ">
 									<Button type="reset" onClick={() => form.reset()}>
-										Reset form
+										{t("resetForm")}
 									</Button>
 									<Button
 										// disabled={}
 										className="bg-1/70 text-gray-800 hover:bg-1/100 hover:text-gray-700"
 										type={"submit"}>
-										{edit ? "Save changes" : "Submit"}
+										{edit ? t("saveChanges") : t("submit")}
 									</Button>
 								</div>
 							</div>

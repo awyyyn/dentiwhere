@@ -44,7 +44,7 @@ export default function CommonLayout() {
 								{user.role === Role.doctor
 									? user.clinicId
 										? "Clinic"
-										: "Add your clinic"
+										: t("addYourClinic")
 									: "Dashboard"}
 							</Button>
 						</NavLink>

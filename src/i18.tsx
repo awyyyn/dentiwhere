@@ -380,6 +380,14 @@ const resources: Resource = {
 			notVerified: "Please Verify your account first!",
 			notVerified1: "Please complete your information to verify your account.",
 			completeInformation: "Complete Information",
+			addYourClinic: "Add your clinic",
+			reminder: "Reminder",
+			your: "Your",
+			subscriptionHasAlready: "subscription has already",
+			free: "free",
+			toKeepYourClinic: "",
+			renew: "renew",
+			yourSubscriptionWillExpireOn: "Your free subscription will expire on",
 		},
 	},
 	fil: {
@@ -773,6 +781,17 @@ const resources: Resource = {
 			notVerified1:
 				"Kumpletuhin lamang ang iyong impormasyon upang i verify ang iyong account.",
 			completeInformation: "Kumpletuhin ang Impormasyon",
+			addYourClinic: "Idagdag ang iyong klinika",
+			reminder: "Paalala",
+			your: "ang iyong",
+			subscriptionHasAlready: "ay nag-expire na noong nakaraang",
+			free: "libreng",
+			toKeepYourClinic:
+				"Upang mapanatili ang iyong klinika na nakikita ng mga pasyente",
+			please: "mangyaring",
+			renew: "i renew",
+			yourSubscriptionWillExpireOn:
+				"Ang iyong libreng subscription ay mawawalan ng bisa sa",
 		},
 	},
 };

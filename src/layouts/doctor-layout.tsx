@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
 
 /* UTILS */
@@ -32,6 +32,7 @@ import { RiSettingsFill } from "react-icons/ri";
 import { AlignJustify, CircleX, Info } from "lucide-react";
 import { formatDate, isFuture, isPast } from "date-fns";
 import { Tooltip } from "@/components/shared/tooltip/tooltip";
+import { useTranslation } from "react-i18next";
 
 export default function DoctorLayout() {
 	const [user, setUser] = useAtom(userAtom);
@@ -40,6 +41,7 @@ export default function DoctorLayout() {
 	const [open, setIsOpen] = useState(false);
 	const [notifications, setNotifications] = useAtom(notificationsAtom);
 	const navigate = useNavigate();
+	const { t } = useTranslation();
 
 	useEffect(() => {
 		if (user.role !== Role.doctor && user.id !== 0) {
@@ -100,9 +102,9 @@ export default function DoctorLayout() {
 			<div className="flex space-x-3 items-center">
 				<Info className="h-6 w-6" />
 				<div className="flex flex-col">
-					<AlertTitle>Reminder !</AlertTitle>
+					<AlertTitle>{t("reminder")}!</AlertTitle>
 					<AlertDescription>
-						Your free subscription will expire on{" "}
+						{t("yourSubscriptionWillExpireOn")}{" "}
 						{formatDate(user.subscriptionEndDate, "PP")}
 					</AlertDescription>
 				</div>
@@ -118,20 +120,23 @@ export default function DoctorLayout() {
 			<div className="flex space-x-3 items-center">
 				<Info className="h-6 w-6" />
 				<div className="flex flex-col">
-					<AlertTitle>Reminder !</AlertTitle>
-					<AlertDescription>
-						Your {!user.boost && "free "}subscription has already <b>expired</b>{" "}
-						last {formatDate(user.subscriptionEndDate, "PP")}. To keep your
-						clinic visible to patients, please{" "}
+					<AlertTitle>{t("reminder")}!</AlertTitle>
+					<AlertDescription className="first-letter:uppercase">
+						{t("your")} {!user.boost && t("free")}subscription{" "}
+						{t("subscriptionHasAlready")}{" "}
+						{formatDate(user.subscriptionEndDate, "PP")}.{" "}
+						{t("toKeepYourClinic")}, {t("please")}{" "}
 						<Tooltip
 							side="bottom"
 							tooltip="Renew your subscription by clicking here"
 							delayDuration={300}>
-							<span className="font-bold hover:underline hover:cursor-pointer">
-								renew
-							</span>
+							<Link
+								to="/subscribe"
+								className="font-bold hover:underline hover:cursor-pointer">
+								{t("renew")}
+							</Link>
 						</Tooltip>{" "}
-						your subscription.
+						{t("your")} subscription.
 					</AlertDescription>
 				</div>
 			</div>

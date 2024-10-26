@@ -34,6 +34,7 @@ import { Tooltip } from "@/components/shared/tooltip/tooltip.tsx";
 
 /* ASSETS */
 import { Edit, Trash2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function ManageAmenities() {
 	const amenities = useAtomValue(amenitiesAtom);
@@ -42,6 +43,7 @@ export default function ManageAmenities() {
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 	const [globalFilter, setGlobalFilter] = useState("");
+	const { t } = useTranslation();
 
 	const columns: ColumnDef<Amenities>[] = [
 		{
@@ -53,18 +55,18 @@ export default function ManageAmenities() {
 		},
 		{
 			accessorKey: "name",
-			header: "Name",
+			header: t("name"),
 			enableHiding: false,
 			cell: ({ row }) => <h1 className="w-[]"> {row.getValue("name")}</h1>,
 		},
 		{
 			id: "actions",
 			enableHiding: false,
-			header: () => <div className=" text-right pr-4  ">Actions</div>,
+			header: () => <div className=" text-right pr-4  ">{t("actions")}</div>,
 			cell: ({ row }) => {
 				return (
 					<div className="flex gap-1 justify-end ">
-						<Tooltip tooltip="Edit" delayDuration={500} side="left">
+						<Tooltip tooltip={t("edit")} delayDuration={500} side="left">
 							<Button
 								size="icon"
 								className="bg-emerald-600 hover:bg-emerald-600"
@@ -75,7 +77,7 @@ export default function ManageAmenities() {
 								<Edit size={18} />
 							</Button>
 						</Tooltip>
-						<Tooltip tooltip="Delete" delayDuration={500}>
+						<Tooltip tooltip={t("delete")} delayDuration={500}>
 							<Button
 								size="icon"
 								variant="destructive"
@@ -116,7 +118,7 @@ export default function ManageAmenities() {
 			<div className="w-full mb-10 p-2 bg-white rounded-lg shadow-xl">
 				<div className="flex items-center justify-between py-4 flex-wrap gap-2">
 					<Input
-						placeholder="Search..."
+						placeholder={t("search")}
 						value={globalFilter}
 						onChange={(e) => setGlobalFilter(e.target.value)}
 						className="md:max-w-sm"
@@ -125,7 +127,7 @@ export default function ManageAmenities() {
 						<Button
 							className="w-full"
 							onClick={() => setAmenityDialog({ mode: "create", open: true })}>
-							Add Amenity
+							{t("add")} Amenity
 						</Button>
 					</div>
 				</div>
@@ -170,7 +172,7 @@ export default function ManageAmenities() {
 									<TableCell
 										colSpan={columns.length}
 										className="h-24 text-center">
-										No results.
+										{t("noResults")}
 									</TableCell>
 								</TableRow>
 							)}
@@ -178,10 +180,6 @@ export default function ManageAmenities() {
 					</Table>
 				</div>
 				<div className="flex items-center justify-end space-x-2 py-4">
-					<div className="flex-1 text-sm text-muted-foreground">
-						{table.getFilteredSelectedRowModel().rows.length} of{" "}
-						{table.getFilteredRowModel().rows.length} row(s) selected.
-					</div>
 					<div className="space-x-2">
 						<Button
 							variant="outline"

@@ -25,12 +25,14 @@ import { BriefcaseMedical, ChevronLeft } from "lucide-react";
 import { CiLocationOn } from "react-icons/ci";
 import { PiPhoneLight } from "react-icons/pi";
 import { TbWorldWww } from "react-icons/tb";
+import { useTranslation } from "react-i18next";
 
 export default function SharedClinic({
 	viewOnly = false,
 }: {
 	viewOnly: boolean;
 }) {
+	const { t } = useTranslation();
 	const { state } = useLocation();
 	const params = useParams();
 	const navigate = useNavigate();
@@ -69,7 +71,7 @@ export default function SharedClinic({
 							variant="ghost"
 							className="mb-5">
 							<ChevronLeft />
-							&nbsp;Back
+							&nbsp;{t("back")}
 						</Button>
 					</Tooltip>
 				)}
@@ -117,17 +119,17 @@ export default function SharedClinic({
 					<TabsTrigger
 						className="w-[33.3%]  data-[state=active]:text-white scale-100 hover:scale-100 data-[state=active]:bg-1 data-[state=active]:shadow-lg lg:text-xl"
 						value="services">
-						Services
+						{t("services")}
 					</TabsTrigger>
 					<TabsTrigger
 						value="about"
 						className="w-[33.3%]  data-[state=active]:text-white scale-100 hover:scale-100 data-[state=active]:bg-1 data-[state=active]:shadow-lg lg:text-xl">
-						About
+						{`${t("about")} ${t("clinic")}`}
 					</TabsTrigger>
 					<TabsTrigger
 						value="reviews"
 						className="w-[33.3%]  data-[state=active]:text-white scale-100 hover:scale-100 data-[state=active]:bg-1 data-[state=active]:shadow-lg lg:text-xl">
-						Reviews
+						{t("reviews")}
 					</TabsTrigger>
 				</TabsList>
 				{/* <Separator className='my-5' /> */}

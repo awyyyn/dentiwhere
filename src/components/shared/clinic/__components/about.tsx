@@ -1,6 +1,7 @@
 import { Separator } from "@/components/ui/separator";
 import { Accessibility, Amenities } from "@/types/types";
 import Map from "../../map/map";
+import { useTranslation } from "react-i18next";
 
 interface AboutProps {
 	description: string;
@@ -15,10 +16,13 @@ export default function About({
 	accessibilities,
 	map,
 }: AboutProps) {
+	const { t } = useTranslation();
 	return (
 		<section className="space-y-8 mt-4">
 			<div>
-				<h1 className="md:text-2xl font-bold tracking-wider">Description</h1>
+				<h1 className="md:text-2xl font-bold tracking-wider">
+					{t("description")}
+				</h1>
 				<p className="md:text-xl leading-loose first-letter:ml-[2ch]">
 					{description}
 				</p>
@@ -26,7 +30,9 @@ export default function About({
 			<Separator className="w-full h-1 bg-1/20 " />
 			<div className="grid grid-cols-2 grid-flow-row">
 				<div className="space-y-2">
-					<h1 className="md:text-2xl font-bold tracking-wider">Amenities</h1>
+					<h1 className="md:text-2xl font-bold tracking-wider">
+						{t("amenities")}
+					</h1>
 					<div className="space-y-1 px-2">
 						{amenities.map((amenity) => (
 							<div className="" key={`amenity-${amenity.id}`}>
@@ -37,7 +43,7 @@ export default function About({
 				</div>
 				<div className="space-y-2">
 					<h1 className="md:text-2xl font-bold tracking-wider">
-						Accessibility
+						{t("accessibility")}
 					</h1>
 					<div className="space-y-1 px-2">
 						{accessibilities.map((accessibility) => (
@@ -52,7 +58,7 @@ export default function About({
 				<>
 					<Separator className="w-full h-1 bg-1/20 " />
 					<div>
-						<h1 className="md:text-2xl font-bold tracking-wider">Map</h1>
+						<h1 className="md:text-2xl font-bold tracking-wider">{t("map")}</h1>
 						<Map
 							defaultCenter={[map.lng, map.lat]}
 							showMarker

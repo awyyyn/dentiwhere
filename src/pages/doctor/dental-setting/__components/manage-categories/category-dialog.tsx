@@ -41,6 +41,7 @@ import { Input } from "@/components/ui/input.tsx";
 
 /* ASSETS */
 import { ImSpinner9 } from "react-icons/im";
+import { useTranslation } from "react-i18next";
 
 const serviceSchema = z.object({
 	name: z.string().min(1, { message: "Name is required!" }),
@@ -57,6 +58,7 @@ const CategoryDialog = () => {
 	const setCategories = useSetAtom(categoriesAtom);
 	const user = useAtomValue(userAtom);
 	const { toast } = useToast();
+	const { t } = useTranslation();
 
 	const form = useForm<z.infer<typeof serviceSchema>>({
 		resolver: zodResolver(serviceSchema),
@@ -148,7 +150,12 @@ const CategoryDialog = () => {
 			<DialogContent removeClose>
 				<DialogHeader>
 					<DialogTitle className="mb-">
-						{createMode ? "Add" : editMode ? "Edit" : "Delete"} Category
+						{editMode
+							? `${t("delete")} ${t("the")}`
+							: createMode
+							? t("create")
+							: `${t("delete")} ${t("the")}`}{" "}
+						Category
 					</DialogTitle>
 				</DialogHeader>
 				<Form {...form}>
@@ -160,8 +167,8 @@ const CategoryDialog = () => {
 								<FormItem>
 									<FormLabel>
 										{deleteMode
-											? "Are you sure to delete this category?"
-											: "Category Name"}{" "}
+											? t("categoryDeleteConfirmation")
+											: t("categoryName")}
 									</FormLabel>
 									<FormControl>
 										<Input
@@ -169,7 +176,7 @@ const CategoryDialog = () => {
 											autoFocus={false}
 											readOnly={loading || viewMode || deleteMode}
 											className="first-letter:uppercase"
-											placeholder="Name"
+											placeholder={t("name")}
 											{...field}
 										/>
 									</FormControl>
@@ -190,17 +197,17 @@ const CategoryDialog = () => {
 									form.reset();
 									setCategoryAtom({ open: false });
 								}}>
-								Close
+								{t("close")}
 							</Button>
 							<Button type="submit">
 								{loading && <ImSpinner9 className="animate-spin mr-2" />}
 								{loading
 									? "Loading..."
 									: createMode
-									? "Create"
-									: editMode
-									? "Update"
-									: "Delete"}
+									? `${t("add")} ${t("category")}`
+									: deleteMode
+									? t("delete")
+									: t("edit")}
 							</Button>
 						</div>
 					</form>

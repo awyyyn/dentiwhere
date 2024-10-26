@@ -46,6 +46,7 @@ import { Input } from "@/components/ui/input.tsx";
 
 /* ASSETS */
 import { ImSpinner9 } from "react-icons/im";
+import { useTranslation } from "react-i18next";
 
 const serviceSchema = z.object({
 	name: z.string().min(1, { message: "Name is required!" }),
@@ -56,6 +57,7 @@ const initialValues = {
 };
 
 const AccessibilityDialog = () => {
+	const { t } = useTranslation();
 	const [values, setValues] = useAtom(accessibilitiesDataAtom);
 	const [accessibilityState, setAccessiblityState] = useAtom(
 		accessbilityDialogAtom
@@ -154,7 +156,8 @@ const AccessibilityDialog = () => {
 			<DialogContent removeClose className="">
 				<DialogHeader>
 					<DialogTitle className="mb-">
-						{createMode ? "Create" : editMode ? "Edit" : "Delete"} Accessibility
+						{createMode ? t("create") : editMode ? t("edit") : t("delete")}{" "}
+						Accessibility
 					</DialogTitle>
 				</DialogHeader>
 				<Form {...form}>
@@ -175,7 +178,7 @@ const AccessibilityDialog = () => {
 											autoFocus={false}
 											readOnly={loading || viewMode}
 											className="first-letter:uppercase"
-											placeholder="Name"
+											placeholder={t("name")}
 											{...field}
 										/>
 									</FormControl>
@@ -196,16 +199,16 @@ const AccessibilityDialog = () => {
 									form.reset();
 									setAccessiblityState({ open: false });
 								}}>
-								Close
+								{t("close")}
 							</Button>
 							<Button type="submit">
 								{loading && <ImSpinner9 className="animate-spin  mr-2" />}
 								{loading
 									? "Loading..."
 									: createMode
-									? "Create"
+									? `${t("create")} Accessibility`
 									: deleteMode
-									? "Delete"
+									? t("delete")
 									: "Update"}
 							</Button>
 						</div>

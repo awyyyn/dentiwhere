@@ -25,10 +25,12 @@ import {
 	DialogClose,
 } from "@/components/ui/dialog";
 import LangToggle from "../lang-toggle/lang-toggle";
+import { useTranslation } from "react-i18next";
 
 export default function Navbar() {
 	const setUser = useSetAtom(userAtom);
 	const navigate = useNavigate();
+	const { t } = useTranslation();
 	const [loading, setLoading] = useState(false);
 
 	const handleLogout = async () => {
@@ -58,7 +60,7 @@ export default function Navbar() {
 								<DialogHeader>
 									<DialogTitle>Logout</DialogTitle>
 									<DialogDescription>
-										Are you sure you want to log out?
+										{t("logoutConfirmation")}
 									</DialogDescription>
 								</DialogHeader>
 								<DialogFooter>
@@ -66,7 +68,7 @@ export default function Navbar() {
 										<Button
 											disabled={loading}
 											className="bg-emerald-500 hover:bg-emerald-600">
-											Cancel
+											{t("cancel")}
 										</Button>
 									</DialogClose>
 									<Button
@@ -76,10 +78,10 @@ export default function Navbar() {
 										{loading ? (
 											<>
 												<ImSpinner2 className="animate-spin mr-2" />
-												<span>Logging out...</span>
+												<span>{t("loggingOut")}</span>
 											</>
 										) : (
-											"Logout"
+											t("logOut")
 										)}
 									</Button>
 								</DialogFooter>

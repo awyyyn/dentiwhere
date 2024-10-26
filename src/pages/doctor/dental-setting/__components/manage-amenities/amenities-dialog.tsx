@@ -41,6 +41,7 @@ import { Input } from "@/components/ui/input.tsx";
 
 /* ASSETS */
 import { ImSpinner9 } from "react-icons/im";
+import { useTranslation } from "react-i18next";
 
 const serviceSchema = z.object({
 	name: z.string().min(1, { message: "Name is required!" }),
@@ -57,6 +58,7 @@ const AmenityDialog = () => {
 	const setAmenities = useSetAtom(amenitiesAtom);
 	const user = useAtomValue(userAtom);
 	const { toast } = useToast();
+	const { t } = useTranslation();
 
 	const form = useForm<z.infer<typeof serviceSchema>>({
 		resolver: zodResolver(serviceSchema),
@@ -149,7 +151,12 @@ const AmenityDialog = () => {
 			<DialogContent removeClose className="">
 				<DialogHeader>
 					<DialogTitle className="mb-">
-						{editMode ? "Edit" : createMode ? "Add" : "Delete"} Amenity
+						{editMode
+							? `${t("delete")} ${t("the")}`
+							: createMode
+							? t("create")
+							: `${t("delete")} ${t("the")}`}
+						Amenity
 					</DialogTitle>
 				</DialogHeader>
 				<Form {...form}>
@@ -160,9 +167,7 @@ const AmenityDialog = () => {
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>
-										{deleteMode
-											? "Are you sure to delete this amenity?"
-											: "Name"}
+										{deleteMode ? t("amenityDeleteConfirmation") : t("name")}
 									</FormLabel>
 									<FormControl>
 										<Input
@@ -170,7 +175,7 @@ const AmenityDialog = () => {
 											autoFocus={false}
 											readOnly={loading || deleteMode}
 											className="first-letter:uppercase"
-											placeholder="Name"
+											placeholder={t("name")}
 											{...field}
 										/>
 									</FormControl>
@@ -191,17 +196,17 @@ const AmenityDialog = () => {
 									form.reset();
 									setAmenityState({ open: false });
 								}}>
-								Close
+								{t("close")}
 							</Button>
 							<Button type="submit">
 								{loading && <ImSpinner9 className="animate-spin  mr-2" />}
 								{loading
 									? "Loading..."
 									: createMode
-									? "Create"
+									? `${t("add")} Amenity`
 									: deleteMode
-									? "Delete"
-									: "Update"}
+									? t("delete")
+									: t("edit")}
 							</Button>
 						</div>
 					</form>

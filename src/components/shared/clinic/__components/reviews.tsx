@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button.tsx";
 /* STATES */
 import { userAtom, reviewsAtom } from "@/atoms";
 import { randomName } from "@/lib/chance";
+import { useTranslation } from "react-i18next";
 
 interface ReviewsProps {
 	doctorId: number;
@@ -29,6 +30,7 @@ export default function Reviews({ doctorId }: ReviewsProps) {
 	const [review, setReview] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [reviews, setReviews] = useAtom(reviewsAtom);
+	const { t } = useTranslation();
 	const user = useAtomValue(userAtom);
 	const name = localStorage.getItem("name") ?? "U";
 
@@ -97,7 +99,7 @@ export default function Reviews({ doctorId }: ReviewsProps) {
 										size="sm"
 										onClick={() => setReview("")}
 										disabled={loading}>
-										Cancel
+										{t("cancel")}
 									</Button>
 								)}
 								<Button
@@ -105,7 +107,7 @@ export default function Reviews({ doctorId }: ReviewsProps) {
 									className=""
 									size="sm"
 									disabled={!review || loading}>
-									Submit Review
+									{t("submitReview")}
 								</Button>
 							</div>
 						</>

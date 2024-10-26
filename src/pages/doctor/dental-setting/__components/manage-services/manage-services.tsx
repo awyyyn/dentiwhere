@@ -34,6 +34,7 @@ import ServiceDialog from "./service-dialog.tsx";
 
 /* ASSETS */
 import { Edit, Trash2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function ManageServices() {
 	const services = useAtomValue(servicesAtom);
@@ -42,6 +43,7 @@ export default function ManageServices() {
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 	const [globalFilter, setGlobalFilter] = useState("");
+	const { t } = useTranslation();
 
 	const columns: ColumnDef<Service>[] = [
 		{
@@ -53,7 +55,7 @@ export default function ManageServices() {
 		},
 		{
 			accessorKey: "name",
-			header: "Name",
+			header: t("name"),
 			enableHiding: false,
 			cell: ({ row }) => (
 				<h1 className="first-letter:uppercase"> {row.getValue("name")}</h1>
@@ -62,7 +64,9 @@ export default function ManageServices() {
 		{
 			accessorKey: "description",
 			header: () => (
-				<h1 className="max-w-[20px] sm:max-w-max truncate">Description</h1>
+				<h1 className="max-w-[20px] sm:max-w-max truncate">
+					{t("description")}
+				</h1>
 			),
 			enableHiding: false,
 			cell: ({ row }) => (
@@ -85,11 +89,11 @@ export default function ManageServices() {
 		{
 			id: "actions",
 			enableHiding: false,
-			header: () => <div className=" text-right pr-4  ">Actions</div>,
+			header: () => <div className=" text-right pr-4  ">{t("actions")}</div>,
 			cell: ({ row }) => {
 				return (
 					<div className="flex gap-1 justify-end ">
-						<Tooltip tooltip="Edit" delayDuration={500} side="left">
+						<Tooltip tooltip={t("edit")} delayDuration={500} side="left">
 							<Button
 								size="icon"
 								className="bg-emerald-600 hover:bg-emerald-600"
@@ -100,7 +104,7 @@ export default function ManageServices() {
 								<Edit size={18} />
 							</Button>
 						</Tooltip>
-						<Tooltip tooltip="Delete" delayDuration={500}>
+						<Tooltip tooltip={t("delete")} delayDuration={500}>
 							<Button
 								size="icon"
 								variant="destructive"
@@ -137,11 +141,11 @@ export default function ManageServices() {
 
 	return (
 		<div className="sm:mr-5 sm:ml-2 ">
-			<h1 className="mb-5 text-xl lg:text-3xl ">Services</h1>
+			<h1 className="mb-5 text-xl lg:text-3xl ">{t("services")}</h1>
 			<div className="w-full mb-10 p-2 bg-white rounded-lg shadow-xl">
 				<div className="flex items-center justify-between py-4 flex-wrap gap-2">
 					<Input
-						placeholder="Search..."
+						placeholder={t("search")}
 						value={globalFilter}
 						onChange={(e) => setGlobalFilter(e.target.value)}
 						className="max-w-sm"
@@ -150,7 +154,7 @@ export default function ManageServices() {
 						<Button
 							className="w-full"
 							onClick={() => setServiceDialog({ mode: "create", open: true })}>
-							Add Service
+							{`${t("add")} ${t("service")}`}
 						</Button>
 					</div>
 				</div>
@@ -195,7 +199,7 @@ export default function ManageServices() {
 									<TableCell
 										colSpan={columns.length}
 										className="h-24 text-center">
-										No results.
+										{t("noResults")}
 									</TableCell>
 								</TableRow>
 							)}
@@ -203,10 +207,6 @@ export default function ManageServices() {
 					</Table>
 				</div>
 				<div className="flex items-center justify-end space-x-2 py-4">
-					<div className="flex-1 text-sm text-muted-foreground">
-						{table.getFilteredSelectedRowModel().rows.length} of{" "}
-						{table.getFilteredRowModel().rows.length} row(s) selected.
-					</div>
 					<div className="space-x-2">
 						<Button
 							variant="outline"

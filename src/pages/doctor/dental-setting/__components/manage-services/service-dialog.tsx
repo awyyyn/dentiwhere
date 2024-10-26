@@ -57,12 +57,11 @@ import {
 
 /* ASSETS */
 import { ImSpinner9 } from "react-icons/im";
+import { useTranslation } from "react-i18next";
 
 const serviceSchema = z.object({
 	img: z.string().optional(),
-	name: z
-		.string()
-		.min(1, { message: "Name is required!" }),
+	name: z.string().min(1, { message: "Name is required!" }),
 	description: z.string().optional(),
 	categoryId: z.string().min(1, { message: "Category is required" }),
 	rate: z.string().optional(),
@@ -86,7 +85,7 @@ const ServiceDialog = () => {
 	const setServices = useSetAtom(servicesAtom);
 	const user = useAtomValue(userAtom);
 	const { toast } = useToast();
-
+	const { t } = useTranslation();
 	const createMode = dialogAtom.mode === "create";
 	const editMode = dialogAtom.mode === "edit";
 	const deleteMode = dialogAtom.mode === "delete";
@@ -192,11 +191,16 @@ const ServiceDialog = () => {
 			<DialogContent removeClose className="">
 				<DialogHeader>
 					<DialogTitle className="mb-">
-						{editMode ? "Edit" : createMode ? "Add" : "Delete"} Service
+						{editMode
+							? `${t("delete")} ${t("the")}`
+							: createMode
+							? t("create")
+							: `${t("delete")} ${t("the")}`}{" "}
+						Service
 					</DialogTitle>
 					{deleteMode && (
 						<DialogDescription>
-							Are you sure to delete this service?
+							{t("serviceDeleteConfirmation")}
 						</DialogDescription>
 					)}
 				</DialogHeader>
@@ -207,7 +211,7 @@ const ServiceDialog = () => {
 							name="categoryId"
 							render={({ field }) => (
 								<FormItem className={`${deleteMode ? "hidden" : "block"}`}>
-									<FormLabel>Category</FormLabel>
+									<FormLabel>{t("category")}</FormLabel>
 									{categories.length > 0 ? (
 										<FormControl className="">
 											<Select
@@ -219,7 +223,7 @@ const ServiceDialog = () => {
 												value={field?.value}>
 												<SelectTrigger className="disabled:bg-white disabled:border-gray-900 disabled:cursor-text">
 													<SelectValue
-														placeholder="Select a Category"
+														placeholder={t("selectCategory")}
 														className="min-w-full first-letter:uppercase"
 													/>
 												</SelectTrigger>
@@ -242,7 +246,7 @@ const ServiceDialog = () => {
 												autoFocus={false}
 												readOnly={loading || deleteMode}
 												className="first-letter:uppercase"
-												placeholder="Category name..."
+												placeholder={`${t("categoryName")}...`}
 												{...field}
 											/>
 										</FormControl>
@@ -258,14 +262,14 @@ const ServiceDialog = () => {
 							name="name"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Name</FormLabel>
+									<FormLabel>{t("name")}</FormLabel>
 									<FormControl>
 										<Input
 											autoComplete="off"
 											autoFocus={false}
 											readOnly={loading || deleteMode}
 											className="first-letter:uppercase"
-											placeholder="Name"
+											placeholder={t("name")}
 											{...field}
 										/>
 									</FormControl>
@@ -280,14 +284,14 @@ const ServiceDialog = () => {
 							name="description"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Description</FormLabel>
+									<FormLabel>{t("description")}</FormLabel>
 									<FormControl>
 										<Input
 											autoFocus={false}
 											autoComplete="off"
 											className="first-letter:uppercase"
 											readOnly={loading || deleteMode}
-											placeholder="Description..."
+											placeholder={`${t("description")}...`}
 											multiple
 											{...field}
 										/>
@@ -305,7 +309,7 @@ const ServiceDialog = () => {
 								<FormItem>
 									<FormControl className="">
 										<div className="flex items-center py-2 space-x-3">
-											<FormLabel>Active</FormLabel>
+											<FormLabel>{t("active")}</FormLabel>
 											<Switch
 												disabled={loading || deleteMode}
 												checked={field.value}
@@ -334,17 +338,17 @@ const ServiceDialog = () => {
 									setValues(null);
 									setDialogAtom({ open: false });
 								}}>
-								Close
+								{t("close")}
 							</Button>
 							<Button type="submit">
 								{loading && <ImSpinner9 className="animate-spin mr-2" />}
 								{loading
 									? "Loading..."
 									: createMode
-									? "Create"
-									: editMode
-									? "Update"
-									: "Delete"}
+									? `${t("add")} ${t("service")}`
+									: deleteMode
+									? t("delete")
+									: t("edit")}
 							</Button>
 						</div>
 					</form>

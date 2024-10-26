@@ -38,6 +38,7 @@ import { Tooltip } from "@/components/shared/tooltip/tooltip.tsx";
 
 /* ASSETS */
 import { Edit, Trash2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function ManageAccessibility() {
 	const accessibilities = useAtomValue(accessibilitiesAtom);
@@ -46,6 +47,7 @@ export default function ManageAccessibility() {
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 	const [globalFilter, setGlobalFilter] = useState("");
+	const { t } = useTranslation();
 
 	const columns: ColumnDef<Accessibility>[] = [
 		{
@@ -57,18 +59,18 @@ export default function ManageAccessibility() {
 		},
 		{
 			accessorKey: "name",
-			header: "Name",
+			header: t("name"),
 			enableHiding: false,
 			cell: ({ row }) => <h1 className="w-[]"> {row.getValue("name")}</h1>,
 		},
 		{
 			id: "actions",
 			enableHiding: false,
-			header: () => <div className=" text-right pr-4  ">Actions</div>,
+			header: () => <div className=" text-right pr-4  ">{t("actions")}</div>,
 			cell: ({ row }) => {
 				return (
 					<div className="flex gap-1 justify-end ">
-						<Tooltip tooltip="Edit" delayDuration={500} side="left">
+						<Tooltip tooltip={t("edit")} delayDuration={500} side="left">
 							<Button
 								size="icon"
 								className="bg-emerald-600 hover:bg-emerald-600"
@@ -79,7 +81,7 @@ export default function ManageAccessibility() {
 								<Edit size={18} />
 							</Button>
 						</Tooltip>
-						<Tooltip tooltip="Delete" delayDuration={500}>
+						<Tooltip tooltip={t("delete")} delayDuration={500}>
 							<Button
 								size="icon"
 								variant="destructive"
@@ -120,7 +122,7 @@ export default function ManageAccessibility() {
 			<div className="w-full mb-10 p-2 bg-white rounded-lg shadow-xl">
 				<div className="flex items-center justify-between py-4 flex-wrap gap-2">
 					<Input
-						placeholder="Search..."
+						placeholder={t("search")}
 						value={globalFilter}
 						onChange={(e) => setGlobalFilter(e.target.value)}
 						className="max-w-sm"
@@ -131,7 +133,7 @@ export default function ManageAccessibility() {
 							onClick={() =>
 								setAccessibilityDialog({ mode: "create", open: true })
 							}>
-							Add Accessibility
+							{t("add")} Accessibility
 						</Button>
 					</div>
 				</div>
@@ -176,7 +178,7 @@ export default function ManageAccessibility() {
 									<TableCell
 										colSpan={columns.length}
 										className="h-24 text-center">
-										No results.
+										{t("noResults")}
 									</TableCell>
 								</TableRow>
 							)}

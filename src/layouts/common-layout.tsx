@@ -17,11 +17,13 @@ import { Role } from "@/types/types";
 /* ASSETS */
 import { SlArrowUp } from "react-icons/sl";
 import LangToggle from "@/components/shared/lang-toggle/lang-toggle";
+import { useTranslation } from "react-i18next";
 
 export default function CommonLayout() {
 	const { pathname } = useLocation();
 	const user = useAtomValue(userAtom);
 	const location = useLocation();
+	const { t } = useTranslation();
 
 	useLayoutEffect(() => {
 		// Scroll to the top of the page when the route changes
@@ -52,7 +54,7 @@ export default function CommonLayout() {
 					location.pathname === "/" && (
 						<Link to={"login"}>
 							<Button className="transition-all duration-300">
-								Create Account / Log in
+								{t("createAccount")} / {t("logIn")}
 							</Button>
 						</Link>
 					)
@@ -64,7 +66,7 @@ export default function CommonLayout() {
 			<Footer />
 			<ScrollToTop showUnder={150} duration={900}>
 				<Button className="bg-white text-black   hover:bg-white hover:shadow-md shadow-lg transition-all duration-500 hover:scale-105 rounded-full p-4 space-x-3">
-					<span className="font-light">Back to Top</span>
+					<span className="font-light">{t("backToTop")}</span>
 					<SlArrowUp strokeWidth={100} />
 				</Button>
 			</ScrollToTop>

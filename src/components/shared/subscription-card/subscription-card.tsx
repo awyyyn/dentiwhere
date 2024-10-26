@@ -18,10 +18,12 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function SubscriptionCard(sub: Subscription & { user?: User }) {
 	const user = useAtomValue(userAtom);
 	const [alert, setAlert] = useState(false);
+	const { t } = useTranslation();
 
 	const handlePayment = async () => {
 		const response = await createLink(
@@ -73,7 +75,7 @@ export default function SubscriptionCard(sub: Subscription & { user?: User }) {
 					<Button
 						disabled
 						className="   disabled:bg-emerald-100 disabled:text-black bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition-colors duration-300">
-						Active
+						{t("active")}
 					</Button>
 				) : (
 					<Button
@@ -92,7 +94,7 @@ export default function SubscriptionCard(sub: Subscription & { user?: User }) {
 				</p>
 				{!isUndefined(sub?.user) && sub.user.subscribe === sub.id && (
 					<p className="">
-						Please note that your subscription will expire on{" "}
+						{t("subscriptionNote1")}{" "}
 						{formatDate(user.subscriptionEndDate, "MMM d, yyyy")}
 					</p>
 				)}
@@ -115,25 +117,25 @@ const Alert = ({
 	handelClose: VoidFunction;
 	handlePayment: VoidFunction;
 }) => {
+	const { t } = useTranslation();
+
 	return (
 		<AlertDialog open={isOpen}>
 			<AlertDialogContent>
 				<AlertDialogHeader>
-					<AlertDialogTitle>
-						Are you sure you want to change subscription?
-					</AlertDialogTitle>
+					<AlertDialogTitle>{t("subscriptionTitle")}</AlertDialogTitle>
 					<AlertDialogDescription>
-						Please note that if you proceed with changing subscription, your
-						current active subscription will be replaced. This action is
-						irreversible.
+						{t("subscriptionNote")}
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter>
-					<AlertDialogCancel onClick={handelClose}>Cancel</AlertDialogCancel>
+					<AlertDialogCancel onClick={handelClose}>
+						{t("cancel")}
+					</AlertDialogCancel>
 					<AlertDialogAction
 						onClick={handlePayment}
 						className="bg-1 hover:bg-2 text-black">
-						Continue
+						{t("confirm")}
 					</AlertDialogAction>
 				</AlertDialogFooter>
 			</AlertDialogContent>

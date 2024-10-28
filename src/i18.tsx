@@ -388,6 +388,33 @@ const resources: Resource = {
 			toKeepYourClinic: "",
 			renew: "renew",
 			yourSubscriptionWillExpireOn: "Your free subscription will expire on",
+			getStarted: "Get Started",
+			termDesc:
+				'These Terms and Conditions ("Terms") govern your use of Dentiwhere, a dental clinic directory service. By accessing or using our platform, you agree to comply with these Terms. If you do not agree, you should not use our platform.',
+			diastemaDesc:
+				"refers to a gap between your teeth. Gaps can occur anywhere in your mouth, but they’re most common between your two front teeth.",
+			malocclusionDesc:
+				"is the misalignment of teeth. It can lead to oral health complications if left untreated.",
+			toothAgenesisDesc:
+				"is a congenital condition wherein a patient's mouth just didn't get directions to make some of their permanent teeth when they were born.",
+			periodontalDiseaseDesc:
+				"is an infection of the tissues that hold your teeth in place.",
+			tootDecayDesc:
+				"occurs when bacteria in the mouth produce acids that attack the enamel, or protective outer layer of the tooth. If left untreated, tooth decay could lead to gum disease, cavities, and possibly tooth loss. ",
+			crackedToothDesc:
+				"is where a tooth has incompletely cracked but no part of the tooth has yet broken off. Sometimes it is described as a greenstick fracture. ",
+			toothExtractionDesc:
+				"Tooth extraction is a dental procedure that involves removing a tooth from its socket in the jawbone, often due to severe decay, damage, or overcrowding.",
+			rootCanalDesc:
+				"A root canal is a dental procedure designed to treat infection or damage within the pulp of a tooth, which is the innermost soft tissue containing nerves and blood vessels.",
+			dentalCrownDesc:
+				"A dental crown is a cap placed over a tooth to restore its shape, size, strength, and appearance. It is typically used when a tooth is severely damaged, decayed, or after a root canal procedure.",
+			toothFillingDesc:
+				"A tooth filling is a dental treatment used to repair a cavity or a small area of decay in a tooth.",
+			fullDenturesDesc:
+				"Full dentures replace all missing teeth in either the upper or lower jaw, featuring a complete set of artificial teeth set in a pink acrylic base that mimics the gums.",
+			bracesDesc:
+				"Braces are orthodontic devices used to correct misaligned teeth and jaws, improving both dental function and appearance.",
 		},
 	},
 	fil: {
@@ -792,6 +819,33 @@ const resources: Resource = {
 			renew: "i renew",
 			yourSubscriptionWillExpireOn:
 				"Ang iyong libreng subscription ay mawawalan ng bisa sa",
+			termDesc:
+				'Ang mga Tuntunin at Kundisyon ("Mga Tuntunin") ay namamahala sa iyong paggamit ng Dentiwhere, isang dental clinic directory service. Sa pamamagitan ng pag access o paggamit ng aming platform, sumasang ayon ka na sumunod sa mga Tuntunin na ito. Kung hindi ka sumasang ayon, hindi mo dapat gamitin ang aming platform.',
+			diastemaDesc:
+				"tumutukoy sa isang agwat sa pagitan ng iyong mga ngipin. Ang mga gaps ay maaaring mangyari kahit saan sa iyong bibig, ngunit ang mga ito ay pinaka karaniwan sa pagitan ng iyong dalawang ngipin sa harap.",
+			malocclusionDesc:
+				"ay ang misalignment ng ngipin. Maaari itong humantong sa mga komplikasyon sa kalusugan ng bibig kung hindi ito ginagamot.",
+			toothAgenesisDesc:
+				"ay isang congenital condition kung saan ang bibig ng isang pasyente ay hindi lamang nakakuha ng direksyon upang gumawa ng ilan sa kanilang mga permanenteng ngipin kapag sila ay ipinanganak.",
+			periodontalDiseaseDesc:
+				"ay isang impeksyon ng mga tisyu na humahawak sa iyong mga ngipin sa lugar.",
+			tootDecayDesc:
+				"nangyayari kapag ang bakterya sa bibig ay gumagawa ng mga asido na umaatake sa enamel, o proteksiyon na panlabas na layer ng ngipin. Kung hindi ito ginagamot, ang pagkabulok ng ngipin ay maaaring humantong sa sakit sa gilagid, mga lukab, at posibleng pagkawala ng ngipin. ",
+			crackedTooth: "Cracked Tooth Syndrome (CTS)",
+			crackedToothDesc:
+				"ay kung saan ang isang ngipin ay hindi ganap na basag ngunit walang bahagi ng ngipin ay hindi pa naputol. Minsan ito ay inilarawan bilang isang greenstick fracture.",
+			toothExtractionDesc:
+				"Ang tooth extraction ay isang dental na pamamaraan na nagsasangkot ng pag alis ng isang ngipin mula sa socket nito sa panga, kadalasan dahil sa matinding pagkabulok, pinsala, o sobrang dami ng tao.",
+			rootCanalDesc:
+				"Ang root canal ay isang dental procedure na dinisenyo upang gamutin ang impeksyon o pinsala sa loob ng pulp ng isang ngipin, na siyang pinakaloob na malambot na tisyu na naglalaman ng mga nerbiyos at daluyan ng dugo.",
+			dentalCrownDesc:
+				"Ang dental crown ay isang cap na inilalagay sa ibabaw ng ngipin upang maibalik ang hugis, laki, lakas, at anyo nito. Karaniwang ginagamit ito kapag ang isang ngipin ay malubhang nasira, nabubulok, o pagkatapos ng isang pamamaraan ng root canal.",
+			toothFillingDesc:
+				"Ang pagpuno ng ngipin ay isang dental treatment na ginagamit sa pag aayos ng isang lukab o isang maliit na lugar ng pagkabulok sa isang ngipin.",
+			fullDenturesDesc:
+				"Ang buong dentures ay pumapalit sa lahat ng nawawalang ngipin sa alinman sa itaas o mas mababang panga, na nagtatampok ng isang kumpletong hanay ng mga artipisyal na ngipin na nakatakda sa isang kulay rosas na acrylic base na ginagaya ang mga gilagid.",
+			bracesDesc:
+				"Braces ay orthodontic aparato na ginagamit upang iwasto ang misaligned ngipin at jaws, pagpapabuti ng parehong dental function at hitsura.",
 		},
 	},
 };

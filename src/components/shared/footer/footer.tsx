@@ -1,9 +1,14 @@
 import { Link } from "react-router-dom";
 import SocialLinks from "../social-links/social-links";
 import { useTranslation } from "react-i18next";
+import { useAtomValue } from "jotai";
+import { userAtom } from "@/atoms";
+import { isEmpty } from "lodash";
 
 export default function Footer() {
 	const { t } = useTranslation();
+	const { authId } = useAtomValue(userAtom);
+
 	const patientLinks = [
 		{ path: "/", name: "" },
 		{ path: "conditions", name: t("conditions") },
@@ -17,9 +22,13 @@ export default function Footer() {
 	];
 
 	const doctorsLinks = [
-		{ path: "dental-setting", name: t("listYourDentalClinic") },
-		{ path: "sign-up", name: t("createAccount") },
-		{ path: "login", name: t("logIn") },
+		{
+			path: "dental-setting",
+			name: t("listYourDentalClinic"),
+			isDisplay: true,
+		},
+		{ path: "sign-up", name: t("createAccount"), isDisplay: isEmpty(authId) },
+		{ path: "login", name: t("logIn"), isDisplay: isEmpty(authId) },
 	];
 
 	return (
@@ -60,14 +69,17 @@ export default function Footer() {
 				<div className="space-y-3  flex flex-col sm:items-center">
 					<h1 className="text-lg font-bold sm:text-2xl">{t("forDoctors")}</h1>
 					<div className="space-y-3 sm:pl-10 pl-5">
-						{doctorsLinks.map(({ name, path }, indx) => (
-							<Link
-								to={path}
-								key={`doctor-link-${path}-${indx}`}
-								className="block">
-								{name}
-							</Link>
-						))}
+						{doctorsLinks.map(
+							({ name, path, isDisplay }, indx) =>
+								isDisplay && (
+									<Link
+										to={path}
+										key={`doctor-link-${path}-${indx}`}
+										className="block">
+										{name}
+									</Link>
+								)
+						)}
 					</div>
 				</div>
 			</div>

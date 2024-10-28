@@ -1,15 +1,27 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import dentist from "@/assets/images/dentist.png";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { IoClose } from "react-icons/io5";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Back from "@/pages/public/__components/back/back";
 import { useTranslation } from "react-i18next";
+import { useAtomValue } from "jotai";
+import { userAtom } from "@/atoms";
+import { isEmpty } from "lodash";
 
 export default function AuthLayout() {
 	const [alert, setAlert] = useState(true);
 	const { t } = useTranslation();
+	const user = useAtomValue(userAtom);
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (!isEmpty(user.authId)) {
+			navigate(-1);
+		}
+	}, []);
+
 	return (
 		<div className="min-h-dvh flex justify-center items-center gradient-auth-page py-10 md:py-0 relative">
 			<Back toRoot />

@@ -1,5 +1,5 @@
 import { Payment, PaymentPartialInfo } from "@/types/types";
-import { fromUnixTime } from "date-fns";
+import { fromUnixTime, isAfter, isEqual } from "date-fns";
 import { isEmpty } from "lodash";
 
 const options = {
@@ -91,8 +91,13 @@ export const listOfPayments = async (): Promise<PaymentPartialInfo[]> => {
 			description: d.attributes.description,
 			name: d.attributes.billing.name,
 			email: d.attributes.billing.email,
+			createdAt: fromUnixTime(parseInt(d.attributes.created_at as string)),
 		}))
-		.filter((payment) => payment.email !== "alwin.puche16@gmail.com");
+		.filter(
+			(payment) =>
+				isAfter(payment.createdAt, "10/27/2024") ||
+				isEqual(payment.createdAt, "10/27/2024")
+		);
 };
 
 /* 

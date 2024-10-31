@@ -285,7 +285,7 @@ const resources: Resource = {
 			gender: "Gender",
 			male: "Male",
 			female: "Female",
-			birthDate: "birthDate",
+			birthDate: "Birthdate",
 			completeAddress: "Complete Address",
 			verifyYourId: "Verify Your ID",
 			replaceImage: "Replace Image",
@@ -371,7 +371,7 @@ const resources: Resource = {
 			selectCategory: "Select a Category",
 			welcome0: "Welcome",
 			welcome0Desc:
-				"Excited na kami na nandito ka. Looking forward sa kung ano ang itatayo mo Sa Dentiwhere, mabait na kumpletuhin ang iyong dental impormasyon upang makapagsimula!",
+				"We are excited to have you here. Looking forward to what you will build With Dentiwhere, kindly complete your dental information to get started!",
 			underReview:
 				"Your account is under review. You will be notified once your account is approved.",
 			noDataAvailable: "No data available",
@@ -745,7 +745,7 @@ const resources: Resource = {
 			addAmenity: "Magdagdag ng Amenidad",
 			addAccessibility: "Magdagdag ng Accessibility",
 			resetForm: "I-reset ang Form",
-			cliniceDescription: "Deskripsyon ng Klinika",
+			clinicDescription: "Deskripsyon ng Klinika",
 			submit: "Ipasa",
 			enterWebsite: "I-type ang iyong website ng klinika",
 			enterContact: "I-type ang iyong contact number",
@@ -798,7 +798,8 @@ const resources: Resource = {
 			service: "Serbisyo",
 			selectCategory: "Pumili ng Kategorya",
 			welcome0: "Maligayang pagdating",
-			welcome0Desc: "Maligayang pagdating",
+			welcome0Desc:
+				"Excited na kami na nandito ka. Looking forward sa kung ano ang itatayo mo Sa Dentiwhere, mabait na kumpletuhin ang iyong dental impormasyon upang makapagsimula!",
 			underReview:
 				"Ang iyong account ay nasa ilalim ng pagsusuri. Aabisuhan ka sa sandaling maaprubahan ang iyong account.",
 			noDataAvailable: "Walang data ng iyong klinik",

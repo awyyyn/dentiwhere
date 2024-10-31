@@ -84,8 +84,14 @@ export const ViewVerifyDoctor = ({ verify = false }: SharedClinicProps) => {
 						/>
 					</div>
 					<div>
-						<Label>Postal ID</Label>
-						<Input value={doctor?.postalId} readOnly className="bg-white" />
+						<Label>Zip Code</Label>
+						<Input
+							value={doctor?.postalId}
+							readOnly
+							className="bg-white"
+							maxLength={4}
+							minLength={4}
+						/>
 					</div>
 					<div>
 						<Label>{t("accountStatus")}</Label>

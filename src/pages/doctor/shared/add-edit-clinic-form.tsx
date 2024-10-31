@@ -635,7 +635,7 @@ const AddClinic = ({
 											<FormControl className="min-h-fit">
 												<Textarea
 													className="text-lg py-3 px-3 bg-white "
-													placeholder={`${t("cliniceDescription")}...`}
+													placeholder={`${t("clinicDescription")}...`}
 													rows={Math.max(
 														Math.min(
 															form.getValues("description").length / 10,

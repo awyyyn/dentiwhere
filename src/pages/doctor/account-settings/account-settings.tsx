@@ -56,7 +56,7 @@ const userForm = z.object({
 			message: "Please enter a valid phone number.",
 		}),
 	gender: z.string(),
-	postal_id: z.string().min(1, { message: "Postal ID is required" }),
+	postal_id: z.string().min(1, { message: "Zip Code is required" }),
 	birth_date: z.date(),
 	license_id: z.string().min(1, { message: "License ID Number is required" }),
 	address: z.string().min(1, { message: "Address is required" }),
@@ -535,7 +535,7 @@ export default function AccountSettings() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>
-											Postal ID <span className="text-destructive">*</span>
+											Zip Code <span className="text-destructive">*</span>
 										</FormLabel>
 										<FormControl>
 											{loading ? (
@@ -544,7 +544,9 @@ export default function AccountSettings() {
 												<Input
 													readOnly={!editing || loading || uploading}
 													className="md:ml-2 text-lg py-6 px-3 bg-white"
-													placeholder="1234 0000 5566 7890"
+													placeholder="1234"
+													maxLength={4}
+													minLength={4}
 													{...field}
 												/>
 											)}

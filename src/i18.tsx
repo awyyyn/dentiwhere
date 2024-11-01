@@ -312,6 +312,7 @@ const resources: Resource = {
 			mapLat: "Map Latitude",
 			mapLng: "Map Longitude",
 			clinicAddress: "Clinic Address",
+			enterYourClinicAddress: "Enter your clinic address",
 			altContact: "Alternative Contact",
 			enterWebsite: "Enter you clinic website",
 			accessibility: "Accessibility",
@@ -423,6 +424,7 @@ const resources: Resource = {
 			inquire: "Mag-inquire Ngayon",
 			searchDentalClinic: "Maghanap ng Dental Clinic...",
 			needHelp: "Kailangan ng tulong?",
+			enterYourClinicAddress: "Ilagay ang iyong address ng klinika",
 			lookingFor:
 				"Naghahanap ng agarang payo sa ngipin o nagpaplanong magkaroon ng appointment sa dentista?",
 			availableInTown: "Mayroon kaming available na doktor sa bayan!",

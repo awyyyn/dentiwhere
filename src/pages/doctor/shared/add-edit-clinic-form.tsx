@@ -492,7 +492,7 @@ const AddClinic = ({
 														<Input
 															readOnly={loading || uploading}
 															className="text-lg py-5 px-3 bg-white w-11/12"
-															placeholder={t("enterClinicEmail")}
+															placeholder={t("enterYourClinicAddress")}
 															{...field}
 														/>
 														<Tooltip

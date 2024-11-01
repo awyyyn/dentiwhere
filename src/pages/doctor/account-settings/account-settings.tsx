@@ -95,6 +95,9 @@ export default function AccountSettings() {
 			license_id: user?.licenseNumber ?? "",
 		},
 	});
+	const [gender, setGender] = useState<"male" | "female" | string>(
+		form.getValues("gender") as "male" | "female"
+	);
 
 	const handleDropImage = async (
 		e: any,
@@ -140,6 +143,10 @@ export default function AccountSettings() {
 	};
 
 	useEffect(() => {
+		form.setValue("gender", gender === "male" ? "male" : "female");
+	}, [gender]);
+
+	useEffect(() => {
 		if (user.id !== 0) {
 			if (sessionStorage.getItem("editProfile") === "true") {
 				setEditing(true);
@@ -157,6 +164,7 @@ export default function AccountSettings() {
 			}
 			form.setValue("address", user.address ?? "");
 			form.setValue("gender", user.gender);
+			setGender(user.gender as "male" | "female");
 			form.setValue("postal_id", user.postalId);
 			form.setValue("license_id", user.licenseNumber);
 			setFrontId(user.licenseId.frontImg);
@@ -454,10 +462,9 @@ export default function AccountSettings() {
 													</div>
 												) : (
 													<RadioGroup
-														onValueChange={(v) => {
-															if (!editing || loading || uploading) return;
-															form.setValue("gender", v);
-														}}
+														onValueChange={setGender}
+														disabled={!editing || loading || uploading}
+														value={gender}
 														className="flex md:ml-2 disabled:opacity-100">
 														<div
 															onClick={() => form.setValue("gender", "male")}
@@ -471,14 +478,17 @@ export default function AccountSettings() {
 															<Label
 																onClick={() => {
 																	if (!editing || loading || uploading) return;
-																	form.setValue("gender", "male");
+																	setGender("male");
 																}}
 																className=" text-lg text-gray-400 font-light">
 																{t("male")}
 															</Label>
 														</div>
 														<div
-															onClick={() => form.setValue("gender", "female")}
+															onClick={() => {
+																if (!editing || loading || uploading) return;
+																setGender("female");
+															}}
 															className="flex items-center space-x-2 bg-white rounded-lg px-6 py-3">
 															<RadioGroupItem
 																disabled={!editing || loading || uploading}

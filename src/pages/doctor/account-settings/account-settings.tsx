@@ -144,7 +144,7 @@ export default function AccountSettings() {
 
 	useEffect(() => {
 		form.setValue("gender", gender === "male" ? "male" : "female");
-	}, [gender]);
+	}, [gender, setGender]);
 
 	useEffect(() => {
 		if (user.id !== 0) {
@@ -467,7 +467,7 @@ export default function AccountSettings() {
 														value={gender}
 														className="flex md:ml-2 disabled:opacity-100">
 														<div
-															onClick={() => form.setValue("gender", "male")}
+															// onClick={() => setGender("male")}
 															className="flex items-center space-x-2 bg-white rounded-lg px-6 py-3">
 															<RadioGroupItem
 																disabled={!editing || loading || uploading}
@@ -476,19 +476,13 @@ export default function AccountSettings() {
 																id="male"
 															/>
 															<Label
-																onClick={() => {
-																	if (!editing || loading || uploading) return;
-																	setGender("male");
-																}}
+																// onClick={() => setGender("male")}
 																className=" text-lg text-gray-400 font-light">
 																{t("male")}
 															</Label>
 														</div>
 														<div
-															onClick={() => {
-																if (!editing || loading || uploading) return;
-																setGender("female");
-															}}
+															// onClick={() => setGender("female")}
 															className="flex items-center space-x-2 bg-white rounded-lg px-6 py-3">
 															<RadioGroupItem
 																disabled={!editing || loading || uploading}
@@ -497,10 +491,7 @@ export default function AccountSettings() {
 																id="female"
 															/>
 															<Label
-																onClick={() => {
-																	if (!editing || loading || uploading) return;
-																	form.setValue("gender", "female");
-																}}
+																// onClick={() => setGender("female")}
 																className=" text-lg text-gray-400 font-light">
 																{t("female")}
 															</Label>

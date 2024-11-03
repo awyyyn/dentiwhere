@@ -122,7 +122,7 @@ export default function DoctorLayout() {
 				<div className="flex flex-col">
 					<AlertTitle>{t("reminder")}!</AlertTitle>
 					<AlertDescription className="first-letter:uppercase">
-						{t("your")} {!user.boost && t("free")}subscription{" "}
+						{t("your")} {!user.boost && t("free")} subscription{" "}
 						{t("subscriptionHasAlready")}{" "}
 						{formatDate(user.subscriptionEndDate, "PP")}.{" "}
 						{t("toKeepYourClinic")}, {t("please")}{" "}

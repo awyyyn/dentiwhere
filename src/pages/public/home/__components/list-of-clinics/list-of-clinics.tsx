@@ -21,9 +21,9 @@ export default function ListOfClinics() {
 			<SectionHeader
 				title={t("Dental Clinics Available")}
 				description={t("availableClinics")}
-				buttonLabel={t("listYourClinic")}
-				showButton
-				buttonAction={() => navigate("/dental-setting")}
+				// buttonLabel={t("listYourClinic")}
+				// showButton
+				// buttonAction={() => navigate("/dental-setting")}
 			/>
 
 			<div className="space-y-12 flex flex-col">

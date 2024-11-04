@@ -22,11 +22,11 @@ export default function Footer() {
 	];
 
 	const doctorsLinks = [
-		{
+		/* {
 			path: "dental-setting",
 			name: t("listYourDentalClinic"),
-			isDisplay: true,
-		},
+			isDisplay: !isEmpty(authId),
+		}, */
 		{ path: "sign-up", name: t("createAccount"), isDisplay: isEmpty(authId) },
 		{ path: "login", name: t("logIn"), isDisplay: isEmpty(authId) },
 	];

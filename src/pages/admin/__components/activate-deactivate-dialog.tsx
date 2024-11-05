@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSetAtom } from "jotai";
 
 /* ACTIONS */
@@ -48,21 +48,28 @@ export function ActivateDeactivateClinic({
 	const setClinics = useSetAtom(clinicsAtom);
 	const [alert, setAlert] = useState(false);
 
+	const [idToEdit, setIdToEdit] = useState<number>(id);
+
+	useEffect(() => {
+		setIdToEdit(id);
+	}, [id, name, open]);
+
 	const handleUpdateArchive = async () => {
 		setLoading(true);
 		try {
-			const response = await updateClinicStatus(id, activate);
+			const response = await updateClinicStatus(idToEdit, activate);
 			if (!response) {
 				return setAlert(true);
 			}
 			setClinics((prev) =>
 				prev.map((clinic) => {
-					if (clinic.id === id) {
+					if (clinic.id === idToEdit) {
 						return { ...clinic, archive: activate };
 					}
 					return clinic;
 				})
 			);
+			setInput("");
 			handleClose();
 			setLoading(false);
 		} catch {

@@ -53,6 +53,10 @@ export default function ClinicsTable() {
 	const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
 		[]
 	);
+
+	const [rowToEdit, setRowToEdit] = React.useState<ClinicWithDoctor | null>(
+		null
+	);
 	const [columnVisibility, setColumnVisibility] =
 		React.useState<VisibilityState>({});
 	const [globalFilter, setGlobalFilter] = React.useState("");
@@ -64,7 +68,7 @@ export default function ClinicsTable() {
 			id: "id",
 			enableHiding: false,
 			header: () => <p className="hidsden">#</p>,
-			cell: ({ row }) => <p className="s">{row.index + 1}</p>,
+			cell: ({ row }) => <p className="s">{row.original.id}</p>,
 		},
 		{
 			enableHiding: false,
@@ -120,7 +124,6 @@ export default function ClinicsTable() {
 		{
 			id: "actions",
 			enableHiding: false,
-
 			header: () => <div className="justify-end flex   ">{t("actions")}</div>,
 			cell: ({ row }) => {
 				const id = row.original.id;
@@ -143,7 +146,10 @@ export default function ClinicsTable() {
 									</DropdownMenuItem>
 								</Link>
 								<DropdownMenuItem
-									onClick={() => setOpenDialog(true)}
+									onClick={() => {
+										setOpenDialog(true);
+										setRowToEdit(row.original);
+									}}
 									className="cursor-pointer hover:bg-gray-800/10">
 									{archive ? t("activate") : t("deactivate")}
 								</DropdownMenuItem>
@@ -152,14 +158,6 @@ export default function ClinicsTable() {
 							<DropdownMenuItem>View payment details</DropdownMenuItem> */}
 							</DropdownMenuContent>
 						</DropdownMenu>
-
-						<ActivateDeactivateClinic
-							activate={!archive}
-							id={id}
-							name={row.original.name}
-							open={openDialog}
-							handleClose={() => setOpenDialog(false)}
-						/>
 					</div>
 				);
 			},
@@ -287,6 +285,15 @@ export default function ClinicsTable() {
 					</Button>
 				</div>
 			</div>
+			{rowToEdit && (
+				<ActivateDeactivateClinic
+					activate={!rowToEdit.archive}
+					id={rowToEdit.id}
+					name={rowToEdit.name}
+					open={openDialog}
+					handleClose={() => setOpenDialog(false)}
+				/>
+			)}
 		</div>
 	);
 }

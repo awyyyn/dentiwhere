@@ -32,7 +32,7 @@ export default function ListOfClinics() {
 				) : clinicsLoadableAtom.state === "hasError" ? (
 					<h1>Error</h1>
 				) : (
-					clinicsLoadableAtom.data.map((clinic, indx) => (
+					clinicsLoadableAtom.data.slice(0, 3).map((clinic, indx) => (
 						<Clinic
 							key={`${clinic.name}-card-${indx}`}
 							clinic={{

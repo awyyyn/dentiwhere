@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -37,11 +37,20 @@ import {
 	FormMessage,
 	Form,
 } from "@/components/ui/form.tsx";
-import { Input } from "@/components/ui/input.tsx";
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 
 /* ASSETS */
 import { ImSpinner9 } from "react-icons/im";
 import { useTranslation } from "react-i18next";
+import { categories } from "@/constants/categories";
 
 const serviceSchema = z.object({
 	name: z.string().min(1, { message: "Name is required!" }),
@@ -55,11 +64,13 @@ const CategoryDialog = () => {
 	const [values, setValues] = useAtom(categoryDataAtom);
 	const [category, setCategoryAtom] = useAtom(categoryDialogAtom);
 	const [loading, setLoading] = useState(false);
-	const setCategories = useSetAtom(categoriesAtom);
+	const [categoriesData, setCategories] = useAtom(categoriesAtom);
 	const user = useAtomValue(userAtom);
 	const { toast } = useToast();
 	const { t } = useTranslation();
-
+	const [categoryChoices, setCategoryChoices] = useState<
+		{ name: string; disabled: boolean }[]
+	>([]);
 	const form = useForm<z.infer<typeof serviceSchema>>({
 		resolver: zodResolver(serviceSchema),
 		defaultValues: values ?? initialValues,
@@ -67,7 +78,16 @@ const CategoryDialog = () => {
 		values: values ?? initialValues,
 	});
 
-	const viewMode = category.mode === "view";
+	useEffect(() => {
+		const choices = categories.map((c) => {
+			return {
+				name: c.toUpperCase(),
+				disabled: categoriesData.map((cD) => cD.name).includes(c.toUpperCase()),
+			};
+		});
+		setCategoryChoices(choices);
+	}, [category, categoriesData, values?.name]);
+
 	const createMode = category.mode === "create";
 	const editMode = category.mode === "edit";
 	const deleteMode = category.mode === "delete";
@@ -171,14 +191,24 @@ const CategoryDialog = () => {
 											: t("categoryName")}
 									</FormLabel>
 									<FormControl>
-										<Input
-											autoComplete="off"
-											autoFocus={false}
-											readOnly={loading || viewMode || deleteMode}
-											className="first-letter:uppercase"
-											placeholder={t("name")}
-											{...field}
-										/>
+										<Select onValueChange={field.onChange} value={field.value}>
+											<SelectTrigger disabled={loading || deleteMode}>
+												<SelectValue placeholder="Select a category" />
+											</SelectTrigger>
+											<SelectContent>
+												<SelectGroup>
+													<SelectLabel>Category</SelectLabel>
+													{categoryChoices.map((category) => (
+														<SelectItem
+															disabled={category.disabled}
+															value={category.name}
+															key={category.name}>
+															{category.name}
+														</SelectItem>
+													))}
+												</SelectGroup>
+											</SelectContent>
+										</Select>
 									</FormControl>
 									<div className="flex justify-end">
 										<FormMessage />

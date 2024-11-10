@@ -61,3 +61,67 @@ export const services = [
 		img: Braces,
 	},
 ];
+
+export const servicesChoices = {
+	"General Dentistry": [
+		"Routine check-ups and cleanings",
+		"Oral health screenings",
+		"Dental fillings",
+		"Preventive treatments (e.g., fluoride, sealants)",
+		"Dental X-rays",
+	],
+	"Oral Surgery": [
+		"Tooth extractions (including wisdom teeth)",
+		"Surgical extractions for impacted teeth",
+		"Dental implant placement",
+		"Bone grafting",
+		"Sinus lifts",
+	],
+	"Aesthetic Dentistry ": [
+		"Teeth whitening",
+		"Veneers",
+		"Cosmetic bonding",
+		"Tooth reshaping",
+		"Smile makeovers",
+	],
+	Orthodontics: [
+		"Braces (traditional metal, ceramic, lingual)",
+		"Clear aligners (e.g., Invisalign)",
+		"Retainers and maintenance",
+		"Treatment for bite alignment (malocclusion)",
+	],
+	Pediatrics: [
+		"Dental care for children(infants to adolescents)",
+		"Early orthodontic evaluations",
+		"Fluoride treatments and sealants for children",
+		"Cavity prevention education",
+		"Dental care for special needs children",
+	],
+	"Endodontic Treatment": [
+		"Root canal therapy",
+		"Treatment for infected or abscessed teeth",
+		"Apicoectomy (endodontic surgery)",
+		"Retreatment of previous root canals",
+	],
+	Prosthodontics: [
+		"Crowns and bridges",
+		"Dentures (full and partial)",
+		"Dental implants and implant-supported dentures",
+		"Inlays and onlays",
+		"Full mouth rehabilitation",
+	],
+	Periodontics: [
+		"Gum disease treatment (scaling and root planing)",
+		"Gum grafting",
+		"Crown lengthening",
+		"Dental implant maintenance",
+		"Soft tissue management",
+	],
+	"Other Services": [
+		"Emergency dental care",
+		"TMJ/TMD treatment",
+		"Sedation dentistry (oral or IV sedation)",
+		"Snoring and sleep apnea treatment",
+		"Custom mouthguards for sports",
+	],
+};

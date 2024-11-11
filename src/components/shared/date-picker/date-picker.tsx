@@ -21,20 +21,32 @@ export default function CustomDatePicker({
 	value,
 	handleChange,
 	editable,
+	isFutureChoice = false,
 }: {
 	className?: string;
 	editable?: boolean;
 	value: Date;
 	handleChange: (date: Date) => void;
+	isFutureChoice?: boolean;
 }) {
 	const [date, setDate] = useState<Date>(value);
 	const [isOpen, setIsOpen] = useState(false);
 	const [selectedYear, setSelectedYear] = useState<number>(
-		new Date().getFullYear() - 20
+		value
+			? value.getFullYear()
+			: isFutureChoice
+			? new Date().getFullYear()
+			: new Date().getFullYear() - 20
 	);
 
 	const years = useMemo(() => {
 		const last18Year = new Date().getFullYear() - 18;
+		const currentYear = new Date().getFullYear();
+
+		if (isFutureChoice) {
+			return Array.from({ length: 50 }, (_, i) => currentYear + i);
+		}
+
 		return Array.from({ length: 50 }, (_, i) => last18Year - 50 + i);
 	}, []);
 

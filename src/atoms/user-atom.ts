@@ -27,6 +27,7 @@ export const userAtomDefaultValue: User = {
 	updatedAt: "",
 	address: "",
 	birthDate: "",
+	expirationDate: "",
 	gender: "",
 	postalId: "",
 	verifiedId: "",

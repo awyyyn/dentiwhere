@@ -58,6 +58,7 @@ const userForm = z.object({
 	gender: z.string(),
 	postal_id: z.string().min(1, { message: "Zip Code is required" }),
 	birth_date: z.date(),
+	expiration_date: z.date(),
 	license_id: z.string().min(1, { message: "License ID Number is required" }),
 	address: z.string().min(1, { message: "Address is required" }),
 });
@@ -92,6 +93,7 @@ export default function AccountSettings() {
 			address: user?.address ?? "",
 			gender: user?.address ?? "",
 			postal_id: user?.address ?? "",
+
 			license_id: user?.licenseNumber ?? "",
 		},
 	});
@@ -162,6 +164,9 @@ export default function AccountSettings() {
 			if (user.birthDate) {
 				form.setValue("birth_date", new Date(user.birthDate));
 			}
+			if (user.expirationDate) {
+				form.setValue("expiration_date", new Date(user.expirationDate));
+			}
 			form.setValue("address", user.address ?? "");
 			form.setValue("gender", user.gender);
 			setGender(user.gender as "male" | "female");
@@ -194,7 +199,7 @@ export default function AccountSettings() {
 				last_name: v.last_name,
 				boost: user?.boost ?? 0,
 				verified: user?.verified ?? false,
-
+				expiration_date: v.expiration_date.toISOString(),
 				license_id: {
 					frontImg: frontId,
 					backImg: backId,
@@ -583,6 +588,31 @@ export default function AccountSettings() {
 								)}
 							/>
 
+							<FormField
+								control={form.control}
+								name="expiration_date"
+								render={({ field }) => (
+									<FormItem className="col-span-2">
+										<FormLabel>
+											License Expiration Date
+											<span className="text-destructive">*</span>
+										</FormLabel>
+										<FormControl>
+											{loading ? (
+												<Skeleton className="w-full h-[3.1rem]" />
+											) : (
+												<CustomDatePicker
+													editable={!(!editing || loading || uploading)}
+													value={field.value}
+													isFutureChoice
+													handleChange={field.onChange}
+												/>
+											)}
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
 							<FormField
 								control={form.control}
 								name="address"

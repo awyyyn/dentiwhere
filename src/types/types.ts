@@ -75,6 +75,7 @@ export type User = {
 	gender: string;
 	address?: string;
 	birthDate?: string;
+	expirationDate: string;
 	contacts: string[];
 	clinicId?: number;
 	clinic?: Clinic;

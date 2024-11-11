@@ -21,11 +21,14 @@ export const transformUser = (user: DBUser): Omit<User, "subscription"> => {
 				? Status["verified"]
 				: Status["unverified"],
 		id: user.id,
-		authId: user.auth_id,
+		authId: user.auth_id!,
 		email: user.email,
 		firstName: user.first_name,
 		lastName: user.last_name,
 		gender: user.gender,
+		expirationDate: user.expiration_date
+			? formatDate(user.expiration_date!, "yyyy-MM-dd")
+			: "",
 		subscriptionEndDate: formatDate(user.subscription_end_date, "yyyy-MM-dd"),
 		subscribe: user.subscribe,
 		licenseId:

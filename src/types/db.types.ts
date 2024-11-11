@@ -343,13 +343,14 @@ export type Database = {
       user: {
         Row: {
           address: string
-          auth_id: string
+          auth_id: string | null
           birth_date: string | null
           boost: boolean
           clinic_id: number | null
           contacts: string[] | null
           created_at: string
           email: string
+          expiration_date: string | null
           first_name: string
           gender: string
           id: number
@@ -367,13 +368,14 @@ export type Database = {
         }
         Insert: {
           address: string
-          auth_id: string
+          auth_id?: string | null
           birth_date?: string | null
           boost?: boolean
           clinic_id?: number | null
           contacts?: string[] | null
           created_at?: string
           email: string
+          expiration_date?: string | null
           first_name: string
           gender: string
           id?: number
@@ -391,13 +393,14 @@ export type Database = {
         }
         Update: {
           address?: string
-          auth_id?: string
+          auth_id?: string | null
           birth_date?: string | null
           boost?: boolean
           clinic_id?: number | null
           contacts?: string[] | null
           created_at?: string
           email?: string
+          expiration_date?: string | null
           first_name?: string
           gender?: string
           id?: number
@@ -414,13 +417,6 @@ export type Database = {
           verified?: boolean
         }
         Relationships: [
-          {
-            foreignKeyName: "user_auth_id_fkey"
-            columns: ["auth_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "user_clinic_id_fkey"
             columns: ["clinic_id"]
@@ -551,4 +547,19 @@ export type Enums<
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+    : never
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof PublicSchema["CompositeTypes"]
+    | { schema: keyof Database },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
+    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never

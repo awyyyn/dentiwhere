@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useForm } from "react-hook-form";
@@ -17,6 +17,7 @@ import { useToast } from "@/hooks/use-toast";
 
 /* CONSTANTS */
 import { ERR_INTERNAL } from "@/constants/errors";
+import { servicesChoices } from "@/constants/services";
 
 /* STATES */
 import {
@@ -58,6 +59,7 @@ import {
 /* ASSETS */
 import { ImSpinner9 } from "react-icons/im";
 import { useTranslation } from "react-i18next";
+import { SelectGroup, SelectLabel } from "@radix-ui/react-select";
 
 const serviceSchema = z.object({
 	img: z.string().optional(),
@@ -81,14 +83,18 @@ const ServiceDialog = () => {
 	const [values, setValues] = useAtom(serviceDataAtom);
 	const [dialogAtom, setDialogAtom] = useAtom(serviceDialogAtom);
 	const [categories, setCategories] = useAtom(categoriesAtom);
+
 	const [loading, setLoading] = useState(false);
-	const setServices = useSetAtom(servicesAtom);
+	const [services, setServices] = useAtom(servicesAtom);
 	const user = useAtomValue(userAtom);
 	const { toast } = useToast();
 	const { t } = useTranslation();
 	const createMode = dialogAtom.mode === "create";
 	const editMode = dialogAtom.mode === "edit";
 	const deleteMode = dialogAtom.mode === "delete";
+	const [serviceChoices, setServiceChoices] = useState<
+		{ name: string; disabled: boolean }[]
+	>([]);
 
 	const form = useForm<z.infer<typeof serviceSchema>>({
 		resolver: zodResolver(serviceSchema),
@@ -118,6 +124,43 @@ const ServiceDialog = () => {
 		setValues(null);
 		setLoading(false);
 	};
+
+	useEffect(() => {
+		// Object.keys(servicesD).map(key => key === c)
+		// const choices = categories.map((c) => {
+		// 	return {
+		// 		name: c.name.toUpperCase(),
+		// 		disabled: categories
+		// 			.map((cD) => cD.name)
+		// 			.includes(c.name.toUpperCase()),
+		// 	};
+		// });
+
+		const categoryName = categories.find(
+			(c) => c.id === Number(form.getValues("categoryId"))
+		)?.name as string;
+		console.log(categoryName, "categoryName");
+		const categoryT = Object.entries(servicesChoices)
+			.map(([key, value]) => {
+				if (key.toUpperCase() === categoryName?.toUpperCase()) {
+					return value;
+				}
+				return null;
+			})
+			.filter((v) => v !== null)
+			.pop();
+
+		const choices = categoryT?.map((c) => {
+			return {
+				name: c,
+				disabled: services.map((s) => s.name).includes(c),
+			};
+		});
+
+		setServiceChoices(choices ?? []);
+
+		console.log(categoryT, "aqqq");
+	}, [values?.categoryId, categories, form.getValues("categoryId")]);
 
 	const onSubmit = async (v: z.infer<typeof serviceSchema>) => {
 		try {
@@ -192,7 +235,7 @@ const ServiceDialog = () => {
 				<DialogHeader>
 					<DialogTitle className="mb-">
 						{editMode
-							? `${t("delete")} ${t("the")}`
+							? `${t("edit")} ${t("the")}`
 							: createMode
 							? t("create")
 							: `${t("delete")} ${t("the")}`}{" "}
@@ -264,15 +307,40 @@ const ServiceDialog = () => {
 								<FormItem>
 									<FormLabel>{t("name")}</FormLabel>
 									<FormControl>
-										<Input
+										{/* <Input
 											autoComplete="off"
 											autoFocus={false}
 											readOnly={loading || deleteMode}
 											className="first-letter:uppercase"
 											placeholder={t("name")}
 											{...field}
-										/>
+										/> */}
+										<Select value={field.value} onValueChange={field.onChange}>
+											<SelectTrigger>
+												<SelectValue placeholder="Select a service" />
+											</SelectTrigger>
+											<SelectContent>
+												<SelectGroup>
+													<SelectLabel>
+														{categories
+															.find(
+																(c) => c.name === form.getValues("categoryId")
+															)
+															?.name.toUpperCase() ?? "Category"}
+													</SelectLabel>
+													{serviceChoices.map((service) => (
+														<SelectItem
+															key={service.name}
+															value={service.name}
+															disabled={service.disabled}>
+															{service.name}
+														</SelectItem>
+													))}
+												</SelectGroup>
+											</SelectContent>
+										</Select>
 									</FormControl>
+
 									<div className="flex justify-end">
 										<FormMessage />
 									</div>

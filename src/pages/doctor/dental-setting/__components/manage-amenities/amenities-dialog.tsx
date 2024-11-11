@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -11,6 +11,7 @@ import { createAmenity, deleteAmenity, updateAmenity } from "@/actions";
 import { useToast } from "@/hooks/use-toast.ts";
 
 /* CONSTANTS */
+import { amenities } from "@/constants/amenities";
 import { ERR_INTERNAL } from "@/constants/errors.ts";
 
 /* STATES */
@@ -37,7 +38,15 @@ import {
 	FormMessage,
 	Form,
 } from "@/components/ui/form.tsx";
-import { Input } from "@/components/ui/input.tsx";
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 
 /* ASSETS */
 import { ImSpinner9 } from "react-icons/im";
@@ -55,7 +64,7 @@ const AmenityDialog = () => {
 	const [values, setValues] = useAtom(amenityDataAtom);
 	const [amenityState, setAmenityState] = useAtom(amenitiesDialogAtom);
 	const [loading, setLoading] = useState(false);
-	const setAmenities = useSetAtom(amenitiesAtom);
+	const [amenitiesD, setAmenities] = useAtom(amenitiesAtom);
 	const user = useAtomValue(userAtom);
 	const { toast } = useToast();
 	const { t } = useTranslation();
@@ -170,14 +179,34 @@ const AmenityDialog = () => {
 										{deleteMode ? t("amenityDeleteConfirmation") : t("name")}
 									</FormLabel>
 									<FormControl>
-										<Input
+										{/* <Input
 											autoComplete="off"
 											autoFocus={false}
 											readOnly={loading || deleteMode}
 											className="first-letter:uppercase"
 											placeholder={t("name")}
 											{...field}
-										/>
+										/> */}
+										<Select value={field.value} onValueChange={field.onChange}>
+											<SelectTrigger>
+												<SelectValue placeholder="Select Amenity" />
+											</SelectTrigger>
+											<SelectContent>
+												<SelectGroup>
+													<SelectLabel>Amenity</SelectLabel>
+													{amenities.map((am) => (
+														<SelectItem
+															disabled={amenitiesD
+																.map((a) => a.name)
+																.includes(am)}
+															key={am}
+															value={am}>
+															{am}
+														</SelectItem>
+													))}
+												</SelectGroup>
+											</SelectContent>
+										</Select>
 									</FormControl>
 									<div className="flex justify-end">
 										<FormMessage />

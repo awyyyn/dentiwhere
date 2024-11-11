@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -16,6 +16,7 @@ import { useToast } from "@/hooks/use-toast.ts";
 
 /* CONSTANTS */
 import { ERR_INTERNAL } from "@/constants/errors.ts";
+import { accessibilities } from "@/constants/accessibilities";
 
 /* STATES */
 import {
@@ -42,7 +43,15 @@ import {
 	FormMessage,
 	Form,
 } from "@/components/ui/form.tsx";
-import { Input } from "@/components/ui/input.tsx";
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 
 /* ASSETS */
 import { ImSpinner9 } from "react-icons/im";
@@ -63,7 +72,7 @@ const AccessibilityDialog = () => {
 		accessbilityDialogAtom
 	);
 	const [loading, setLoading] = useState(false);
-	const setAccessibilities = useSetAtom(accessibilitiesAtom);
+	const [accss, setAccessibilities] = useAtom(accessibilitiesAtom);
 	const user = useAtomValue(userAtom);
 	const { toast } = useToast();
 
@@ -74,7 +83,6 @@ const AccessibilityDialog = () => {
 		values: values ?? initialValues,
 	});
 
-	const viewMode = accessibilityState.mode === "view";
 	const createMode = accessibilityState.mode === "create";
 	const editMode = accessibilityState.mode === "edit";
 	const deleteMode = accessibilityState.mode === "delete";
@@ -173,14 +181,24 @@ const AccessibilityDialog = () => {
 											: "Name"}
 									</FormLabel>
 									<FormControl>
-										<Input
-											autoComplete="off"
-											autoFocus={false}
-											readOnly={loading || viewMode}
-											className="first-letter:uppercase"
-											placeholder={t("name")}
-											{...field}
-										/>
+										<Select value={field.value} onValueChange={field.onChange}>
+											<SelectTrigger>
+												<SelectValue placeholder="Select Amenity" />
+											</SelectTrigger>
+											<SelectContent>
+												<SelectGroup>
+													<SelectLabel>Amenity</SelectLabel>
+													{accessibilities.map((am) => (
+														<SelectItem
+															disabled={accss.map((a) => a.name).includes(am)}
+															key={am}
+															value={am}>
+															{am}
+														</SelectItem>
+													))}
+												</SelectGroup>
+											</SelectContent>
+										</Select>
 									</FormControl>
 									<div className="flex justify-end">
 										<FormMessage />

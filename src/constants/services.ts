@@ -77,20 +77,20 @@ export const servicesChoices = {
 		"Bone grafting",
 		"Sinus lifts",
 	],
-	"Aesthetic Dentistry ": [
+	"Aesthetic Dentistry": [
 		"Teeth whitening",
 		"Veneers",
 		"Cosmetic bonding",
 		"Tooth reshaping",
 		"Smile makeovers",
 	],
-	Orthodontics: [
+	"Orthodontics": [
 		"Braces (traditional metal, ceramic, lingual)",
 		"Clear aligners (e.g., Invisalign)",
 		"Retainers and maintenance",
 		"Treatment for bite alignment (malocclusion)",
 	],
-	Pediatrics: [
+	"Pediatrics": [
 		"Dental care for children(infants to adolescents)",
 		"Early orthodontic evaluations",
 		"Fluoride treatments and sealants for children",
@@ -103,14 +103,14 @@ export const servicesChoices = {
 		"Apicoectomy (endodontic surgery)",
 		"Retreatment of previous root canals",
 	],
-	Prosthodontics: [
+	"Prosthodontics": [
 		"Crowns and bridges",
 		"Dentures (full and partial)",
 		"Dental implants and implant-supported dentures",
 		"Inlays and onlays",
 		"Full mouth rehabilitation",
 	],
-	Periodontics: [
+	"Periodontics": [
 		"Gum disease treatment (scaling and root planing)",
 		"Gum grafting",
 		"Crown lengthening",

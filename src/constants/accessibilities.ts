@@ -1,1 +1,1 @@
-export const categories = ["Elevator", "Wheelchair"];
+export const accessibilities = ["Elevator", "Wheelchair"];

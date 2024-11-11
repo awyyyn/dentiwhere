@@ -82,6 +82,16 @@ export default function DataTable({ doctors }: { doctors: User[] }) {
 			),
 		},
 		{
+			accessorKey: "expirationDate",
+			header: () => <div className="text-start">License Expiration Date</div>,
+			cell: ({ row }) => (
+				<div className="capitalize text-start">
+					{row.original.expirationDate &&
+						formatDate(row.original.expirationDate, "MMMM dd, yyyy")}
+				</div>
+			),
+		},
+		{
 			accessorKey: "subscribe",
 			header: () => <div className="text-start">Subscription</div>,
 			cell: ({ row }) => (

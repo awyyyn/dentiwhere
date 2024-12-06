@@ -1,0 +1,871 @@
+import i18n, { Resource } from "i18next";
+import { initReactI18next } from "react-i18next";
+
+const resources: Resource = {
+	en: {
+		translation: {
+			findDentist: "Find your Dental Doctor",
+			inquire: "Inquire Now",
+			searchDentalClinic: "Search for Dental Clinic...",
+			needHelp: "Need help?",
+			lookingFor:
+				"Looking for an immediate Dental advice or planning to have a dental appointment?",
+			availableInTown: "We have an available doctor in town!",
+			canvasNow: "Canvas Now!",
+			map: "Map",
+			seamlessTransaction: "For a seamless experience",
+			accessNow: "Access us now!",
+			shareLink: "Share Link!",
+			availableClinics:
+				"We have Doctors in these hospitals who are ready to serve you!",
+			"Dental Clinics Available": "Dental Clinics Available",
+			listYourClinic: "List Your Dental Clinic",
+			viewMoreClinic: "View more Dental Clinic",
+			viewProfile: "View Profile",
+			commonConditions: "Common Conditions",
+			commonConditionsDescription:
+				"Easily access doctors treating these conditions",
+			viewAll: "View All",
+			commonServices: "Common Services",
+			commonServicesDescription:
+				"Easily access doctors offering these services",
+			search: "Search...",
+			searchClinic: "Search Clinic",
+			conditions: "Conditions",
+			services: "Services",
+			general: "General",
+			aboutUs: "About us",
+			termsAndConditions: "Terms and Conditions",
+			privacyPolicy: "Privacy Policy",
+			socialMedia: "Social Media",
+			forPatients: "For Patients",
+			forDoctors: "For Doctors",
+			listYourDentalClinic: "List your dental clinic",
+			createAccount: "Create an account",
+			logIn: "Log in",
+			dashboardDescription:
+				"Welcome to your dashboard, manage clinics, doctors, and your profile here",
+			totalDoctors: "Total Doctors",
+			clinics: "Clinics",
+			registeredDoctors: "Registered doctors in the platform",
+			registeredClinics: "Registered clinics in the platform",
+			verifiedDoctors: "Verified Doctors",
+			verifiedDoctorsInPlatform: "Doctors verified in the platform",
+			months: "months",
+			month: "month",
+			days: "days",
+			day: "day",
+			showTotalChart: "Showing total visitors for the last",
+			doctors: "Doctors",
+			manageDoctors: "Manage Doctors",
+			visits: "Visits",
+			name: "Name",
+			licenseNumber: "License Number",
+			status: "Status",
+			actions: "Actions",
+			viewDoctorDetails: "View Doctor Details",
+			verifyDoctor: "Verify Doctor",
+			manageClinics: "Manage Clinics",
+			clinicName: "Clinic Name",
+			doctor: "Doctor",
+			viewClinic: "View Clinic",
+			activate: "Activate",
+			deactivate: "Deactivate",
+			clinic: "clinic",
+			promptDeactivateClinic: "Are you sure you want to deactivate",
+			type: "Type",
+			toConfirm: "to confirm",
+			cancel: "Cancel",
+			confirm: "Confirm",
+			subscriptions: "Subscriptions",
+			manageSubscription: "Manage Subscription",
+			addNewSubscription: "Add New Subscription",
+			showHideColumn: "Show/Hide Column",
+			subscription: "Subscription",
+			subscriptionName: "Subscription Name",
+			duration: "Duration",
+			price: "Price",
+			description: "Description",
+			noResults: "No results",
+			year: "year",
+			years: "years",
+			and: "and",
+			edit: "Edit",
+			delete: "Delete",
+			subscriptionToast: "Subscription",
+			created: "created",
+			deleted: "deleted",
+			updated: "updated",
+			successfully: "successfully",
+			accessibilityCreationError: "Accessibility creation error",
+			addSubscription: "Add Subscription",
+			deleteSubscription: "Delete Subscription",
+			editSubscription: "Edit Subscription",
+			close: "Close",
+			createNew: "Create",
+			transactions: "Transactions",
+			listOfTransactions: "List of Transactions",
+			amount: "Amount",
+			paidAt: "Paid on",
+			licensePicture: "License Picture",
+			frontId: "Front ID",
+			backId: "Back ID",
+			verify: "Verify",
+			verifyDescription: "Are you sure you want to verify your this doctor?",
+			toContinue: "to continue",
+			updatingAccountStatus: "Updating account status...",
+			doctorDetails: "Doctor Details",
+			firstName: "First Name",
+			lastName: "Last Name",
+			accountStatus: "Account Status",
+			goToPRC: "Go to PRC Verification Page",
+			frontImage: "Front Image",
+			backImage: "Back Image",
+			back: "Back",
+			viewImage: "View Image",
+			noClinic: "No Clinic",
+			dontHaveAccount: "Don't have an account?",
+			signUp: "Sign Up",
+			or: "or",
+			loggingIn: "Logging in...",
+			phoneNumber: "Phone Number",
+			accept: "Accept",
+			privacyAndTermsDesc:
+				"Doctors are required to agree to the terms and conditions before proceeding.",
+			byCreatingAccountDesc:
+				'By creating an account, you agree to the "Terms and conditions" of service and "Privacy Policy"',
+			signIn: "Sign in",
+			alreadyHaveAccount: "I have an account?",
+			signingUp: "Signing up...",
+			notFoundDesc: "The page you are looking for is not found.",
+			goBackToHome: "Go back to Home page",
+			welcome: "Welcome to Dentiwhere",
+			description1:
+				"Your go-to online platform for finding the right dental clinic tailored to your needs. We that navigating dental care can be overwhelming, with options and varying services. That's why we've created user-friendly space where you can effortlessly explore clinics, services, and inquire about costs—all from the comfort of home.",
+			ourPriority: "Our Priority: Your Convenience",
+			aboutDentiwhere: "About Dentiwhere",
+			discover: "Discover Your Perfect Dental Match with Ease",
+			description2:
+				"At Dentiwhere, we prioritize convenience. No more long drives or waiting in line to information; our platform empowers you to make informed quickly and easily. Whether you're looking for a routine check-upspecialized treatment, or just want to know more about your optionswe've got you covered.",
+			supportingDental: "Supporting Dental Professionals",
+			description3:
+				"We also believe in supporting dental professionals. Dentiwhere serves as a marketing hub clinics, allowing them to showcase their services and connect potential patients. Our mission is to bridge the gap between and dental care providers, creating a seamless experience everyone involved.",
+			findYourDentalCare: "Ready to Find Your Ideal Dental Care?",
+			getStarte: "Get Started with Dentiwhere",
+			dentalClinicsAvailable: "Dental Clinics Available",
+			weHaveDoctors:
+				"We have Doctors in these hospitals who are ready to serve you!",
+			question1: "What is this platform about?",
+			answer1:
+				"This platform helps patients find dental clinics and doctors near them. It offers features like map pinning, listing services, and common dental conditions. Dentists can register their clinics, allowing easy access for patients.",
+			question2: "How can I find a dental clinic near me?",
+			answer2:
+				"You can use the Inquire Now search bar to look for nearby dental clinics. The map also shows pinned locations of registered clinics for easy navigation.",
+			question3: "Can I book an appointment online?",
+			answer3:
+				"No, but the platform provides the website of the clinic where you can make an appointment.",
+			question4: "How can a dentist register their clinic on this platform?",
+			answer4:
+				"Dentists can create an account by clicking on the 'Create an Account' option. Once registered, they can list their clinic, making it visible on the map for patients to find easily.",
+			question5: "What are the benefits of registering my clinic?",
+			answer5:
+				"By registering your clinic, you can: Pin your clinic’s location on the map, making it easier for patients to find you. Showcase your services and conditions you specialize in.",
+			question6: "Is there a subscription fee for dentists?",
+			answer6:
+				"Yes, the platform offers a subscription model for clinics and doctors to manage their profiles, list services, and access other advanced features.",
+			question7: "What dental conditions and services are covered?",
+			answer7:
+				"Patients can search for clinics that offer treatments for common dental conditions such as: Diastema Malocclusion Tooth decay And services like: Tooth extraction Root canal Full dentures",
+			question8: "How do I get help if I face any issues?",
+			answer8:
+				"You can click on the 'Need Help?' button at the top of the page for assistance or contact us directly through our support email.",
+			question9: "What is the QR code used for?",
+			answer9:
+				"The QR code allows for a seamless user experience. Scan it to access the platform quickly on your mobile device.",
+			faqs: "Freuqently Asked Questions",
+			atDentiwhere:
+				"At Dentiwhere, we are committed to protecting your privacy. This Privacy Policy outlines how collect, use, and safeguard your personal information when you use platform.",
+			privacy1: "1. Information We Collect",
+			privacy2: "2. How We Use Your Information",
+			privacy3: "3. Sharing Your Information",
+			privacy4: "4. Data Security",
+			privacy5: "5. Cookies",
+			privacy6: "6. Your Rights",
+			privacy7: "7. Changes to This Policy",
+			privacy8: "8. Contact Us",
+			byUsingPlatform:
+				"By using the platform, you agree to the collection and use of information in accordance with this policy.",
+			weMayCollect: "We may collect the following types of information:",
+			personalInformation: "Personal Information:",
+			personalInformationDesc:
+				"When you register as a dentist or make an inquiry as a patient, we collect your name, contact information, and clinic details (for dentists).",
+			locationData: "Location Data:",
+			locationDataDesc:
+				"We collect and use location data to show nearby clinics.",
+			usageData: "Usage Data:",
+			usageDataDesc:
+				"We gather information about your interactions with the platform, including pages viewed and features used.",
+			weUseTheInformation:
+				"We use the information we collect for the following purposes:",
+			weUseTheInformation1:
+				"To connect patients with dental clinics and professionals.",
+			weUseTheInformation2:
+				"To improve the functionality and user experience of the platform.",
+			weUseTheInformation3:
+				"To send notifications and relevant updates regarding appointments or services.",
+			weUseTheInformation4: "To analyze usage trends and gather feedback.",
+			weDoNotSell: "We do not sell your personal information to third parties.",
+			dentalClinics: "Dental Clinics:",
+			dentalClinicsDesc:
+				"When patients inquire or book appointments, their contact information may be shared with the clinic.",
+			serviceProviders: "Service Providers:",
+			serviceProvidersDesc:
+				"We may share your data with third-party providers who help us operate the platform, subject to strict confidentiality agreements.",
+			weImplementReasonable:
+				"We implement reasonable security measures to protect your personal information from unauthorized access, loss, or misuse. However, no method of transmission over the internet is completely secure.",
+			weUseCookies:
+				"We use cookies to track user behavior and improve the user experience. You can disable cookies in your browser settings, but this may limit certain functionalities of the platform.",
+			youHaveTheRight:
+				"You have the right to access, correct, or delete your personal data. To exercise any of these rights, please contact us through the support email.",
+			weReserveTheRight:
+				"We reserve the right to update or change our Privacy Policy at any time. You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.",
+			ifYouHaveQuestions:
+				"If you have any questions or concerns about this Privacy Policy, please contact us through our social media platforms:",
+			welcome2:
+				"Welcome to Dentiwhere. By accessing or using our website, you agree to comply with and be bound the following terms and conditions. Please read carefully.",
+			term1: "1. Introduction",
+			term1Desc:
+				"These Terms and Conditions ('Terms') govern your use of Dentiwhere, a dental clinic directory service. By accessing or using our platform, you agree to comply with these Terms. If you do not agree, you should not use our platform.",
+			term2: "2. User Eligibility",
+			term2Desc:
+				"You must be at least 18 years old to use our services. By using our platform, you represent that you meet this age requirement.",
+			term3: "3. Dentist Registration and Clinic Listings",
+			term3Desc:
+				"Dentists may register an account to list their clinic on the platform. By registering, you agree to provide accurate and complete information and to keep your account details updated.",
+			term4: "4. Subscription",
+			term4Desc:
+				"Our platform offers subscription-based services for clinics. By subscribing, you agree to the payment terms provided at the time of subscription. Subscription fees are non-refundable unless stated otherwise.",
+			term5: "5. Services Provided",
+			term5Desc:
+				"Dentiwhere provides a platform for users to search for and inquire about dental clinics. We do not provide dental services directly and are not responsible for the quality of services provided by listed clinics.",
+			term6: "6. Prohibited Uses",
+			term6Desc: "You agree not to:",
+			term6Desc1: "Provide false information or create multiple accounts..",
+			term6Desc2:
+				"Use the platform for any illegal activity or harm others in any way.",
+			term6Desc3:
+				"Attempt to hack or exploit vulnerabilities in the platform..",
+			term7: "7. User Responsibilities",
+			term7Desc:
+				"Users must provide accurate and complete information when creating an account or inquiries.",
+			term7Desc1:
+				"Users are responsible for maintaining the confidentiality of their account details.",
+			term7Desc2:
+				"Users must use the platform for lawful purposes and not engage in any activity that may harm platform or its users.",
+			term8: "8. Limitation of Liability",
+			term8Desc:
+				"Dentiwhere is not responsible for the quality or outcomes of dental care provided by clinics. We do not guarantee any specific results from using platform.",
+			term9: "9. Third-Party Links",
+			term9Desc:
+				"Our platform may contain links to third-party websites. We do not endorse or take responsibility for the content or practices of these sites. Use them at your own risk.",
+			term10: "10. Amendments",
+			term10Desc:
+				"We reserve the right to update or change these Terms at any time. By continuing to use the platform, you agree to the revised Terms.",
+			term11: "11. Contact Us",
+			term11Desc:
+				"If you have any questions or concerns about these Terms, please contact us through our social media platforms.",
+			byUsingPlatform2:
+				"By using Dentiwhere, you acknowledge that you have read and understood these Terms and and agree to be bound by them.",
+			suggestedForYour: "Suggested Clinics for you",
+			suggestedForYourDesc:
+				"These clinics are available to serve you with the best care.",
+			editProfile: "Edit Profile",
+			uploadNow: "Upload Now",
+			deleteAvatar: "Delete Avatar",
+			gender: "Gender",
+			male: "Male",
+			female: "Female",
+			birthDate: "Birthdate",
+			completeAddress: "Complete Address",
+			verifyYourId: "Verify Your ID",
+			replaceImage: "Replace Image",
+			uploadImage: "Upload Image",
+			uploading: "Uploading...",
+			remove: "Remove",
+			saveChanges: "Save Changes",
+			licenseIdNumber: "License ID Number",
+			required: "Required",
+			change: "Change",
+			upload: "Upload",
+			about: "About",
+			reviews: "Reviews",
+			subscriptionReminder: "You are currently subscribed to the free plan.",
+			subscriptionReminder2: "You do not have an active subscription.",
+			subscriptionReminder3: "You're currently subscribed to",
+			noSubscription: "No Subscription.",
+			dentalSetting: "Dental Setting",
+			manageClinicInformation: "Manage Clinic Information",
+			manageCategories: "Manage Categories",
+			manageServices: "Manage Services",
+			manageAmenities: "Manage Amenities",
+			manageAccessibilities: "Manage Accessibilities",
+			mapLat: "Map Latitude",
+			mapLng: "Map Longitude",
+			clinicAddress: "Clinic Address",
+			enterYourClinicAddress: "Enter your clinic address",
+			altContact: "Alternative Contact",
+			enterWebsite: "Enter you clinic website",
+			accessibility: "Accessibility",
+			amenities: "Amenities",
+			addAmenity: "Add Amenity",
+			addAccessibility: "Add Accessibility",
+			resetForm: "Reset Form",
+			submit: "Submit",
+			clinicDescription: "Clinic Description",
+			enterContact: "Enter your contact number",
+			enterClinicEmail: "Enter your clinic email address",
+			enterEmail: "Enter your email address",
+			enterClinicName: "Enter your clinic name",
+			thanksForSubscribing: "Thanks for Subscribing",
+			paymentUnsuccessful:
+				"We're sorry, but there was an issue processing your payment. Please try again or contact our support team for assistance.",
+			thanksForSubscribingDesc:
+				"We appreciate your subscription. Enjoy our services and the exclusive features and benefits that come with your plan.",
+			paymentUnsuccessfulDesc:
+				"We're sorry, but there was an issue processing your payment. Please try again or contact our support team for assistance.",
+			goToDentalSettings: "Go to Dental Settings",
+			tryAgain: "Try Again",
+			subscribeDesc:
+				"Subscribe to one of our plans to continue enjoying our services. Choose the plan that best your needs and gain access to exclusive features and benefits.",
+			min8: "Minimum of 8 characters",
+			changePassword: "Change Password",
+			confirmPassword: "Confirm Password",
+			newPassword: "New Password",
+			oldPassword: "Old Password",
+			password: "Password",
+			logoutConfirmation: "Are you sure you want to log out?",
+			loggingOut: "Logging out...",
+			yes: "Yes",
+			no: "No",
+			authReminder:
+				"Patients do not need to sign up or log in to use the platform.",
+			submitReview: "Submit Review",
+			logOut: "Log out",
+			subscriptionTitle: "Are you sure you want to change subscription?",
+			subscriptionNote:
+				"Please note that if you proceed with changing subscription, your current active subscription will be replaced. This action is irreversible.",
+			active: "Active",
+			subscriptionNote1: "Please note that your subscription will expire on",
+			backToTop: "Back to top",
+			create: "Create",
+			add: "Add",
+			the: "the",
+			amenityDeleteConfirmation: "Are you sure to delete this amenity",
+			categoryDeleteConfirmation: "Are you sure to delete this category",
+			accessibilityDeleteConfirmation:
+				"Are you sure to delete this accessibility",
+			categoryName: "Category Name",
+			category: "Category",
+			serviceDeleteConfirmation: "Are you sure to delete this service?",
+			categories: "Categories",
+			service: "Service",
+			selectCategory: "Select a Category",
+			welcome0: "Welcome",
+			welcome0Desc:
+				"We are excited to have you here. Looking forward to what you will build With Dentiwhere, kindly complete your dental information to get started!",
+			underReview:
+				"Your account is under review. You will be notified once your account is approved.",
+			noDataAvailable: "No data available",
+			click: "Click",
+			toGetStarted: "to get started",
+			notVerified: "Please Verify your account first!",
+			notVerified1: "Please complete your information to verify your account.",
+			completeInformation: "Complete Information",
+			addYourClinic: "Add your clinic",
+			reminder: "Reminder",
+			your: "Your",
+			subscriptionHasAlready: "subscription has already",
+			free: "free",
+			toKeepYourClinic: "",
+			renew: "renew",
+			yourSubscriptionWillExpireOn: "Your free subscription will expire on",
+			getStarted: "Get Started",
+			termDesc:
+				'These Terms and Conditions ("Terms") govern your use of Dentiwhere, a dental clinic directory service. By accessing or using our platform, you agree to comply with these Terms. If you do not agree, you should not use our platform.',
+			diastemaDesc:
+				"refers to a gap between your teeth. Gaps can occur anywhere in your mouth, but they’re most common between your two front teeth.",
+			malocclusionDesc:
+				"is the misalignment of teeth. It can lead to oral health complications if left untreated.",
+			toothAgenesisDesc:
+				"is a congenital condition wherein a patient's mouth just didn't get directions to make some of their permanent teeth when they were born.",
+			periodontalDiseaseDesc:
+				"is an infection of the tissues that hold your teeth in place.",
+			tootDecayDesc:
+				"occurs when bacteria in the mouth produce acids that attack the enamel, or protective outer layer of the tooth. If left untreated, tooth decay could lead to gum disease, cavities, and possibly tooth loss. ",
+			crackedToothDesc:
+				"is where a tooth has incompletely cracked but no part of the tooth has yet broken off. Sometimes it is described as a greenstick fracture. ",
+			toothExtractionDesc:
+				"Tooth extraction is a dental procedure that involves removing a tooth from its socket in the jawbone, often due to severe decay, damage, or overcrowding.",
+			rootCanalDesc:
+				"A root canal is a dental procedure designed to treat infection or damage within the pulp of a tooth, which is the innermost soft tissue containing nerves and blood vessels.",
+			dentalCrownDesc:
+				"A dental crown is a cap placed over a tooth to restore its shape, size, strength, and appearance. It is typically used when a tooth is severely damaged, decayed, or after a root canal procedure.",
+			toothFillingDesc:
+				"A tooth filling is a dental treatment used to repair a cavity or a small area of decay in a tooth.",
+			fullDenturesDesc:
+				"Full dentures replace all missing teeth in either the upper or lower jaw, featuring a complete set of artificial teeth set in a pink acrylic base that mimics the gums.",
+			bracesDesc:
+				"Braces are orthodontic devices used to correct misaligned teeth and jaws, improving both dental function and appearance.",
+		},
+	},
+	fil: {
+		translation: {
+			findDentist: "Hanapin ang Iyong Dentista",
+			inquire: "Mag-inquire Ngayon",
+			searchDentalClinic: "Maghanap ng Dental Clinic...",
+			needHelp: "Kailangan ng tulong?",
+			enterYourClinicAddress: "Ilagay ang iyong address ng klinika",
+			lookingFor:
+				"Naghahanap ng agarang payo sa ngipin o nagpaplanong magkaroon ng appointment sa dentista?",
+			availableInTown: "Mayroon kaming available na doktor sa bayan!",
+			canvasNow: "Mag-canvass Ngayon!",
+			map: "Mapa",
+			seamlessTransaction: "Para sa isang walang putol na karanasan",
+			accessNow: "Access na ngayon!",
+			shareLink: "Ibahagi ang Link!",
+			availableClinics:
+				"Mayroon kaming mga doktor sa mga ospital na ito na handang maglingkod sa iyo!",
+			"Dental Clinics Available": "Mga Available na Dental Clinic",
+			listYourClinic: "Ilista ang Iyong Dental Clinic",
+			viewMoreClinic: "Tignan ang iba pang Dental Clinic",
+			viewProfile: "Tignan ang profile",
+			commonConditions: "Mga Karaniwang Kondisyon",
+			commonConditionsDescription:
+				"Madaling ma-access ang mga doktor na tumutukoy sa mga kondisyong ito.",
+			viewAll: "Tignan Lahat",
+			commonServices: "Mga Karaniwang Serbisyo",
+			commonServicesDescription:
+				"Madaling ma-access ang mga doktor na nag-aalok ng mga serbisyong ito.",
+			search: "Maghanap...",
+			searchClinic: "Maghanap ng Klinik",
+			conditions: "Mga Kondisyon",
+			services: "Mga Serbisyo",
+			general: "Pangkalahatang",
+			aboutUs: "Tungkol sa amin",
+			termsAndConditions: "Mga Tuntunin at Kondisyon",
+			privacyPolicy: "Privacy Policy",
+			socialMedia: "Social Media",
+			forPatients: "Para sa mga pasyente",
+			forDoctors: "Para sa mga doktor",
+			listYourDentalClinic: "Ilista ang iyong dental clinic",
+			createAccount: "Gumawa ng account",
+			logIn: "Mag-log in",
+			logOut: "Mag-log out",
+			dashboardDescription:
+				"Maligayang pagdating sa iyong dashboard, pamahalaan ang mga klinika, doktor, at ang iyong profile dito",
+			clinics: "Mga klinika",
+			totalDoctors: "Kabuuang mga doktor",
+			registeredDoctors: "Mga rehistradong doktor sa platform",
+			registeredClinics: "Mga rehistradong klinika sa platform",
+			verifiedDoctors: "Mga doktor na naverify sa platform",
+			verifiedDoctorsInPlatform: "Doktor na verify sa platform",
+			showTotalChart: "Pagpapakita ng kabuuang mga bisita para sa huling",
+			months: "na buwan",
+			month: "buwan",
+			days: "na araw",
+			day: "araw",
+			visits: "Mga pagbisita",
+			doctors: "Mga doktor",
+			manageDoctors: "Pamahalaan ang mga doktor",
+			name: "Pangalan",
+			licenseNumber: "Numero ng Lisensya",
+			status: "Katayuan",
+			actions: "Mga Aksyon",
+			viewDoctorDetails: "Tignan ang Mga Detalye ng Doktor",
+			verifyDoctor: "Tiyakin ang Doktor",
+			clinicName: "Pangalan ng Klinika",
+			manageClinics: "Pamahalaan ang mga Klinika",
+			doctor: "Doktor",
+			viewClinic: "Tignan ang Klinika",
+			activate: "I-activate",
+			deactivate: "I-deactivate",
+			clinic: "klinika",
+			promptDeactivateClinic: "Sigurado ka bang gusto mong i-deactivate",
+			type: "I-type ang",
+			toConfirm: "upang kumpirmahin",
+			cancel: "Kanselahin",
+			confirm: "Kumpirmahin",
+			subscriptions: "Subscriptions",
+			close: "Isara",
+			createNew: "Lumikha ng bago",
+			editSubscription: "I-edit ang Subscription",
+			deleteSubscription: "Tanggalin ang Subscription",
+			addSubscription: "Magdagdag ng Subscription",
+			accessibilityCreationError: "Mayroong error sa paggawa ng accessibility",
+			successfully: "ng matagumpay",
+			subscriptionToast: "Ang iyong subscription ay",
+			updated: "na-update na",
+			deleted: "na-tanggal na",
+			created: "na-gawa na",
+			manageSubscription: "Pamahalaan ang Subscription",
+			addNewSubscription: "Magdagdag ng Bagong Subscription",
+			showHideColumn: "Ipakita / Itago ang Haligi",
+			subscription: "Subscription",
+			subscriptionName: "Pangalan ng Subscription",
+			duration: "Tagal ng panahon",
+			price: "Presyo",
+			description: "Paglalarawan",
+			noResults: "No results.",
+			years: "na taon",
+			year: "taon",
+			and: "at",
+			the: "ang",
+			edit: "I-edit",
+			delete: "Tanggalin",
+			transactions: "Mga transaksyon",
+			listOfTransactions: "Listahan ng mga Transaksyon",
+			amount: "Halaga",
+			paidAt: "Binayaran noong",
+			licensePicture: "Larawan ng Lisensya",
+			frontId: "Harapang ID",
+			backId: "Likurang ID",
+
+			verify: "Tiyakin",
+			verifyDescription:
+				"Sigurado ka bang gusto mong tiyakin ang iyong doktor na ito?",
+			toContinue: "upang magpatuloy",
+			updatingAccountStatus: "Nag-a-update ng katayuan ng account...",
+			doctorDetails: "Mga Detalye ng Doktor",
+			firstName: "Pangalan",
+			lastName: "Apelyido",
+			accountStatus: "Katayuan ng Account",
+			toToPRC: "Pumunta sa PRC Verification Page",
+			frontImage: "Harapang Larawan",
+			backImage: "Likurang Larawan",
+			back: "Bumalik",
+			viewImage: "Tignan ang Larawan",
+			noClinic: "Walang Klinik",
+			dontHaveAccount: "Wala pang account?",
+			signUp: "Mag-sign up",
+			or: "o",
+			loggingIn: "Naglolog-in...",
+			phoneNumber: "Numero ng Telepono",
+			accept: "Tanggapin",
+			privacyAndTermsDesc:
+				"Kinakailangan sa mga doktor na pumayag sa mga tuntunin at kondisyon bago magpatuloy.",
+			byCreatingAccountDesc:
+				"Sa pamamagitan ng paglikha ng account, sumasang-ayon ka sa 'Mga Tuntunin at Kondisyon' ng serbisyo at 'Privacy Policy'",
+			signIn: "Mag-sign in",
+			alreadyHaveAccount: "May account na ako?",
+			signingUp: "Nagpaparehistro...",
+			notFoundDesc: "Ang pahinang hinahanap mo ay hindi matagpuan.",
+			goBackToHome: "Pumunta sa Home page",
+			welcome: "Maligayang pagdating sa Dentiwhere",
+			description1:
+				"Ang iyong go-to online platform para sa paghahanap ng tamang dental clinic na naayon sa iyong mga pangangailangan. Naiintindihan namin na ang pag-navigate sa dental care ay maaaring nakakalito, may mga pagpipilian at iba't ibang mga serbisyo. Kaya't nilikha namin ang user-friendly na espasyo kung saan maaari mong madaling ma-explore ang mga klinika, serbisyo, at magtanong tungkol sa mga gastos—lahat mula sa kaginhawaan ng bahay.",
+			ourPriority: "Ating prayoridad: Ang Iyong Kaugnayan",
+			aboutDentiwhere: "Tungkol sa Dentiwhere",
+			discover: "Tuklasin ang Iyong Perpektong Dental Match nang Madali",
+			description2:
+				"Sa Dentiwhere, ating prayoridad ang kaginhawaan. Wala nang mahabang biyahe o paghihintay sa linya para sa impormasyon; pinapayagan ka ng aming plataporma na magkaroon ng impormadong desisyon nang mabilis at madali. Kung ikaw ay naghahanap ng isang pampasaherong check-up, espesyalisadong paggamot, o gusto mo lang malaman ang higit pa tungkol sa iyong mga opsyon, nandito kami para sa iyo.",
+			supportingDental: "Suporta sa mga Dental Professionals",
+			description3:
+				"Naniniwala rin kami sa suporta sa mga dental professionals. Ang Dentiwhere ay nagsisilbing marketing hub para sa mga klinika, pinapayagan silang ipakita ang kanilang mga serbisyo at makipag-ugnayan sa mga potensyal na pasyente. Ang aming misyon ay upang mapunan ang agwat sa pagitan ng mga pasyente at mga nagbibigay ng dental care, na lumilikha ng isang walang putol na karanasan para sa lahat ng sangkot.",
+			findYourDentalCare:
+				"Handa ka na bang Hanapin ang Iyong Tamang Dental Care?",
+			getStarted: "Magsimula sa Dentiwhere",
+			dentalClinicsAvailable: "Mga Available na Dental Clinic",
+			weHaveDoctors:
+				"Mayroon kaming mga doktor sa mga ospital na ito na handang maglingkod sa iyo!",
+			question1: "Ano ang tungkol sa platform na ito?",
+			answer1:
+				"Ang platform na ito ay tumutulong sa mga pasyente na makahanap ng mga dental clinic at doktor malapit sa kanila. Nag-aalok ito ng mga tampok tulad ng map pinning, pagli-lista ng mga serbisyo, at mga karaniwang kondisyon sa dental. Maaaring magparehistro ang mga dentista ng kanilang mga klinika, na nagbibigay ng madaling access para sa mga pasyente.",
+			question2: "Paano ko mahahanap ang dental clinic malapit sa akin?",
+			answer2:
+				"Maaari mong gamitin ang Inquire Now search bar upang maghanap ng mga malapit na dental clinic. Nagpapakita rin ang mapa ng mga pin na lokasyon ng mga rehistradong klinika para sa madaling pag-navigate.",
+			question3: "Maaari bang mag-book ng appointment online?",
+			answer3:
+				"Hindi, ngunit nagbibigay ang platform ng website ng klinika kung saan maaari kang mag-book ng appointment.",
+			question4:
+				"Paano magparehistro ang isang dentista ng kanilang klinika sa platform na ito?",
+			answer4:
+				"Maaaring lumikha ng account ang mga dentista sa pamamagitan ng pag-click sa 'Gumawa ng Account' option. Kapag naka-rehistro, maaari nilang ilista ang kanilang klinika, na ginagawang madaling makita sa mapa para sa mga pasyente.",
+			question5: "Ano ang mga benepisyo ng pagpaparehistro ng aking klinika?",
+			answer5:
+				"Sa pamamagitan ng pagpaparehistro ng iyong klinika, maaari kang: I-pin ang lokasyon ng iyong klinika sa mapa, na ginagawang mas madali para sa mga pasyente na makita ka. I-showcase ang iyong mga serbisyo at mga kondisyon na iyong espesyalisado.",
+			question6: "Mayroon bang bayad sa subscription para sa mga dentista?",
+			answer6:
+				"Oo, nag-aalok ang platform ng isang subscription model para sa mga klinika at doktor upang pamahalaan ang kanilang mga profile, maglista ng mga serbisyo, at mag-access ng iba pang mga advanced na tampok.",
+			question7: "Ano ang mga dental conditions at services na saklaw?",
+			answer7:
+				"Maaaring maghanap ang mga pasyente ng mga klinika na nag-aalok ng mga paggamot para sa mga karaniwang dental conditions tulad ng: Diastema Malocclusion Tooth decay At mga serbisyo tulad ng: Tooth extraction Root canal Full dentures",
+			question8:
+				"Paano ako makakakuha ng tulong kung mayroon akong anumang isyu?",
+			answer8:
+				"Maaari kang mag-click sa 'Need Help?' button sa tuktok ng pahina para sa tulong o makipag-ugnayan sa amin nang direkta sa pamamagitan ng aming support email.",
+			question9: "Ano ang ginagamit ang QR code?",
+			answer9:
+				"Ang QR code ay nagbibigay-daan sa isang walang putol na karanasan ng user. I-scan ito upang ma-access ang platform nang mabilis sa iyong mobile device.",
+			faqs: "Madalas Itanong",
+			atDentiwhere:
+				"Sa Dentiwhere, kami ay nangangakong protektahan ang iyong privacy. Ang Privacy Policy na ito ay naglalarawan kung paano namin kinokolekta, ginagamit, at pinoprotektahan ang iyong personal na impormasyon kapag ginagamit mo ang platform.",
+			privacy1: "1. Impormasyon na Kinokolekta Namin",
+			privacy2: "2. Paano Namin Ginagamit ang Iyong Impormasyon",
+			privacy3: "3. Pagbabahagi ng Iyong Impormasyon",
+			privacy4: "4. Seguridad ng Data",
+			privacy5: "5. Cookies",
+			privacy6: "6. Iyong Mga Karapatan",
+			privacy7: "7. Mga Pagbabago sa Patakaran na Ito",
+			privacy8: "8. Makipag-ugnay sa Amin",
+			byUsingPlatform:
+				"Sa paggamit ng platform, sumasang-ayon ka sa pagkolekta at paggamit ng impormasyon ayon sa patakaran na ito.",
+			weMayCollect:
+				"Maaari naming kolektahin ang mga sumusunod na uri ng impormasyon:",
+			personalInformation: "Personal na Impormasyon:",
+			personalInformationDesc:
+				"Kapag nagparehistro ka bilang isang dentista o nagtanong bilang isang pasyente, kinokolekta namin ang iyong pangalan, impormasyon sa contact, at mga detalye ng klinika (para sa mga dentista).",
+			locationData: "Location Data:",
+			locationDataDesc:
+				"Kolektahin at gamitin namin ang data ng lokasyon upang ipakita ang mga malapit na klinika.",
+			usageData: "Usage Data:",
+			usageDataDesc:
+				"Kami ay nagtitipon ng impormasyon tungkol sa iyong mga interaksyon sa platform, kabilang ang mga pahina na tinitingnan at mga ginagamit na mga tampok.",
+			weUseTheInformation:
+				"Ginagamit namin ang impormasyon na kinokolekta namin para sa mga sumusunod na layunin:",
+			weUseTheInformation1:
+				"Upang kumonekta ang mga pasyente sa mga dental clinic at mga propesyonal.",
+			weUseTheInformation2:
+				"Upang mapabuti ang pag-andar at karanasan ng gumagamit ng platform.",
+			weUseTheInformation3:
+				"Upang magpadala ng mga abiso at mga kaugnay na update tungkol sa mga appointment o serbisyo.",
+			weUseTheInformation4:
+				"Upang suriin ang mga trend sa paggamit at magtipon ng feedback.",
+			weDoNotSell:
+				"Hindi namin ibinibenta ang iyong personal na impormasyon sa mga third party.",
+			dentalClinics: "Mga Dental Klinik:",
+			dentalClinicsDesc:
+				"Kapag nagtanong o nag-book ng mga appointment ang mga pasyente, maaaring ibahagi ang kanilang impormasyon sa contact sa klinika.",
+			serviceProviders: "Mga Service Providers:",
+			serviceProvidersDesc:
+				"Maaaring ibahagi namin ang iyong data sa mga third-party provider na tumutulong sa amin sa pagpapatakbo ng platform, na sumasailalim sa mahigpit na kasunduan sa confidentiality.",
+			weImplementReasonable:
+				"Nagpapatupad kami ng mga makatuwirang hakbang upang protektahan ang iyong personal na impormasyon mula sa hindi awtorisadong access, pagkawala, o pang-aabuso. Gayunpaman, walang paraan ng pag-transmit sa internet na lubos na ligtas.",
+			weUseCookies:
+				"Gumagamit kami ng cookies upang subaybayan ang pag-uugali ng gumagamit at mapabuti ang karanasan ng gumagamit. Maaari mong i-disable ang cookies sa iyong mga setting ng browser, ngunit maaaring limitahan nito ang ilang mga kakayahan ng platform.",
+			youHaveTheRight:
+				"May karapatan kang mag-access, mag-correct, o mag-delete ng iyong personal na data. Upang gamitin ang anumang mga karapatan na ito, mangyaring makipag-ugnay sa amin sa pamamagitan ng support email.",
+			weReserveTheRight:
+				"Pinanatili naming karapatan na i-update o baguhin ang aming Privacy Policy sa anumang oras. Ipinapayo sa iyo na suriin ang Privacy Policy na ito sa periodic para sa anumang mga pagbabago. Ang mga pagbabago sa Privacy Policy ay epektibo kapag ito ay na-post sa pahinang ito.",
+			ifYouHaveQuestions:
+				"Kung mayroon kang anumang mga tanong o alalahanin tungkol sa Privacy Policy na ito, mangyaring makipag-ugnay sa amin sa pamamagitan ng aming mga social media platform:",
+			welcome2:
+				"Maligayang pagdating sa Dentiwhere. Sa pag-access o paggamit ng aming website, sumasang-ayon ka na sumunod at sumunod sa mga sumusunod na tuntunin at kondisyon. Mangyaring basahin nang mabuti.",
+			term1: "1. Introduction",
+			term1Desc:
+				"Ang mga Tuntunin at Kondisyon ('Terms') na ito ay nagpapamahala sa iyong paggamit ng Dentiwhere, isang dental clinic directory service. Sa pamamagitan ng pag-access o paggamit ng aming platform, sumasang-ayon ka na sumunod sa mga Tuntunin na ito. Kung hindi ka sumasang-ayon, hindi mo dapat gamitin ang aming platform.",
+			term2: "2. User Eligibility",
+			term2Desc:
+				"Dapat kang mayroong hindi bababa sa 18 taong gulang upang magamit ang aming mga serbisyo. Sa pamamagitan ng paggamit ng aming platform, kinakatawan mo na nasusunod mo ang kinakailangang edad na ito.",
+			term3: "3. Dentist Registration and Clinic Listings",
+			term3Desc:
+				"Maaaring magparehistro ang mga dentista ng account upang ilista ang kanilang klinika sa platform. Sa pamamagitan ng pagrerehistro, sumasang-ayon ka na magbigay ng tama at kumpletong impormasyon at panatilihin ang iyong mga detalye ng account na na-update.",
+			term4: "4. Subscription",
+			term4Desc:
+				"Ang aming platform ay nag-aalok ng mga serbisyong batay sa subscription para sa mga klinika. Sa pamamagitan ng pag-subscribe, sumasang-ayon ka sa mga tuntunin ng pagbabayad na ibinigay sa oras ng subscription. Ang mga bayad sa subscription ay hindi maaaring ma-refund maliban kung iba ang nakasaad.",
+			term5: "5. Services Provided",
+			term5Desc:
+				"Ang Dentiwhere ay nagbibigay ng isang platform para sa mga gumagamit na maghanap at magtanong tungkol sa mga dental clinic. Hindi namin direktang nagbibigay ng mga dental services at hindi kami responsable sa kalidad ng mga serbisyo na ibinibigay ng mga naka-listang klinika.",
+			term6: "6. Prohibited Uses",
+			term6Desc: "Sumasang-ayon ka na hindi mo gagamitin ang platform para:",
+			term6Desc1:
+				"Magbigay ng maling impormasyon o lumikha ng maraming account.",
+			term6Desc2:
+				"Gamitin ang platform para sa anumang ilegal na aktibidad o makasakit ng iba sa anumang paraan.",
+			term6Desc3: "Subukang hack o gamitin ang mga kahinaan sa platform.",
+			term7: "7. User Responsibilities",
+			term7Desc:
+				"Ang mga gumagamit ay dapat magbigay ng tama at kumpletong impormasyon kapag lumilikha ng account o mga tanong.",
+			term7Desc1:
+				"Ang mga gumagamit ay responsable sa pagpapanatili ng kumpidensyalidad ng kanilang mga detalye ng account.",
+			term7Desc2:
+				"Dapat gamitin ng mga gumagamit ang platform para sa legal na layunin at hindi makilahok sa anumang aktibidad na maaaring makasama sa platform o sa mga gumagamit nito.",
+			term8: "8. Limitation of Liability",
+			term8Desc:
+				"Ang Dentiwhere ay hindi responsable sa kalidad o resulta ng dental care na ibinigay ng mga klinika. Hindi namin garantiya ang anumang partikular na resulta mula sa paggamit ng platform.",
+			term9: "9. Third-Party Links",
+			term9Desc:
+				"Ang aming platform ay maaaring maglaman ng mga link patungo sa mga third-party website. Hindi namin sinusuportahan o kinukuha ang responsibilidad para sa nilalaman o mga praktika ng mga site na ito. Gamitin ang mga ito sa iyong sariling panganib.",
+			term10: "10. Amendments",
+			term10Desc:
+				"Pinanatili naming karapatan na i-update o baguhin ang mga Tuntunin na ito sa anumang oras. Sa pamamagitan ng patuloy na paggamit ng platform, sumasang-ayon ka sa binagong Tuntunin.",
+			term11: "11. Contact Us",
+			term11Desc:
+				"Kung mayroon kang anumang mga tanong o alalahanin tungkol sa mga Tuntunin na ito, mangyaring makipag-ugnay sa amin sa pamamagitan ng aming mga social media platform.",
+			byUsingPlatform2:
+				"Sa paggamit ng Dentiwhere, kinikilala mo na nabasa at naintindihan mo ang mga Tuntunin na ito at sumasang-ayon na sumunod dito.",
+			suggestedForYour: "Mga Ipinapayong klinik para sa iyo",
+			suggestedForYourDesc:
+				"Ang mga klinikang ito ay available upang maglingkod sa iyo ng pinakamahusay na pangangalaga.",
+			editProfile: "I-edit ang Profile",
+			uploadNow: "I-upload na",
+			deleteAvatar: "Tanggalin",
+			gender: "Kasarian",
+			male: "Lalaki",
+			female: "Babae",
+			birthDate: "Kaarawan",
+			completeAddress: "Kumpletong Address",
+			verifyYourId: "Tiyakin ang Iyong ID",
+			replaceImage: "Palitan ang Larawan",
+			uploadImage: "I-upload ang Larawan",
+			uploading: "I-uupload...",
+			remove: "Tanggalin",
+			saveChanges: "I-save ang mga Pagbabago",
+			licenseIdNumber: "Numero ng ID ng Lisensya",
+			required: "Kinakailangan",
+			change: "Baguhin",
+			upload: "I-upload",
+			about: "Tungkol sa",
+			reviews: "Mga Puna",
+			subscriptionReminder:
+				"Ikaw ay kasalukuyang naka-subscribe sa libreng plano.",
+			subscriptionReminder2: "Wala kang aktibong subscription.",
+			subscriptionReminder3: "Ikaw ay kasalukuyang naka-subscribe sa",
+			noSubscription: "Walang Subscription.",
+			dentalSetting: "Dental Setting",
+			manageClinicInformation: "Pamahalaan ang Impormasyon ng Klinika",
+			manageCategories: "Pamahalaan ang Mga Kategorya",
+			manageServices: "Pamahalaan ang Mga Serbisyo",
+			manageAmenities: "Pamahalaan ang Mga Amenities",
+			manageAccessibilities: "Pamahalaan ang Mga Accessibilities",
+			mapLat: "Mapa Latitud",
+			mapLng: "Mapa Longhitud",
+			clinicAddress: "Address ng Klinika",
+			altContact: "Alternatibong Contact",
+			website: "Website",
+			accessibility: "Accessibility",
+			amenities: "Mga Amenidad",
+			addAmenity: "Magdagdag ng Amenidad",
+			addAccessibility: "Magdagdag ng Accessibility",
+			resetForm: "I-reset ang Form",
+			clinicDescription: "Deskripsyon ng Klinika",
+			submit: "Ipasa",
+			enterWebsite: "I-type ang iyong website ng klinika",
+			enterContact: "I-type ang iyong contact number",
+			enterClinicEmail: "I-type ang iyong email address ng klinika",
+			enterEmail: "I-type ang iyong email address",
+			enterClinicName: "I-type ang pangalan ng iyong klinika",
+			thanksForSubscribing: "Salamat sa Pag-Subscribe",
+			paymentUnsuccessful:
+				"Paumanhin, ngunit may isyu sa pagproseso ng iyong bayad. Subukan muli o makipag-ugnay sa aming support team para sa tulong.",
+			thanksForSubscribingDesc:
+				"Pinahahalagahan namin ang iyong subscription. Tangkilikin ang aming mga serbisyo at ang mga eksklusibong tampok at benepisyo na kaakibat ng iyong plano.",
+			paymentUnsuccessfulDesc:
+				"Paumanhin, ngunit may isyu sa pagproseso ng iyong bayad. Subukan muli o makipag-ugnay sa aming support team para sa tulong.",
+			goToDentalSettings: "Pumunta sa Mga Dental Setting",
+			tryAgain: "Subukan muli",
+			subscribeDesc:
+				"Mag-subscribe sa isa sa aming mga plano upang magpatuloy sa pagtangkilik sa aming mga serbisyo. Pumili ng plano na angkop sa iyong mga pangangailangan at magkaroon ng access sa mga eksklusibong tampok at benepisyo na kaakibat ng iyong plano.",
+			min8: "Minimum ng 8 na character",
+			changePassword: "Baguhin ang Password",
+			confirmPassword: "Kumpirmahin ang Password",
+			newPassword: "Bagong Password",
+			oldPassword: "Lumang Password",
+			password: "Password",
+			logoutConfirmation: "Sigurado ka bang gusto mong mag-log out?",
+			loggingOut: "Naglo-log out...",
+			no: "Hindi",
+			yes: "Oo",
+			authReminder:
+				"Hindi kailangan ng mga pasyente na mag-sign up o mag-log in upang gamitin ang platform.",
+			submitReview: "Ipasa ang Puna",
+			subscriptionTitle:
+				"Sigurado ka bang gusto mong baguhin ang subscription?",
+			subscriptionNote:
+				"Mangyaring tandaan na kung magpatuloy ka sa pagbabago ng subscription, ang iyong kasalukuyang aktibong subscription ay papalitan. Ang pagkilos na ito ay hindi maibabalik.",
+			active: "Actibo",
+			subscriptionNote1:
+				"Mangyaring tandaan na ang iyong subscription ay mag e expire sa",
+			backToTop: "Bumalik sa itaas",
+			create: "Gumawa ng",
+			add: "Magdagdag ng",
+			amenityDeleteConfirmation:
+				"Sigurado ka bang tanggalin ang amenity na ito?",
+			categoryDeleteConfirmation:
+				"Sigurado ka bang tanggalin ang kategorya na ito?",
+			accessibilityDeleteConfirmation:
+				"Sigurado ka bang tanggalin ang accessibility na ito?",
+			categoryName: "Pangalan ng kategorya",
+			category: "Kategorya",
+			categories: "Mga Kategorya",
+			service: "Serbisyo",
+			selectCategory: "Pumili ng Kategorya",
+			welcome0: "Maligayang pagdating",
+			welcome0Desc:
+				"Excited na kami na nandito ka. Looking forward sa kung ano ang itatayo mo Sa Dentiwhere, mabait na kumpletuhin ang iyong dental impormasyon upang makapagsimula!",
+			underReview:
+				"Ang iyong account ay nasa ilalim ng pagsusuri. Aabisuhan ka sa sandaling maaprubahan ang iyong account.",
+			noDataAvailable: "Walang data ng iyong klinik",
+			click: "I-click",
+			toGetStarted: "para makapagsimula na",
+			notVerified: "Paki-verify muna ang iyong account!",
+			notVerified1:
+				"Kumpletuhin lamang ang iyong impormasyon upang i verify ang iyong account.",
+			completeInformation: "Kumpletuhin ang Impormasyon",
+			addYourClinic: "Idagdag ang iyong klinika",
+			reminder: "Paalala",
+			your: "ang iyong",
+			subscriptionHasAlready: "ay nag-expire na noong nakaraang",
+			free: "libreng",
+			toKeepYourClinic:
+				"Upang mapanatili ang iyong klinika na nakikita ng mga pasyente",
+			please: "mangyaring",
+			renew: "i renew",
+			yourSubscriptionWillExpireOn:
+				"Ang iyong libreng subscription ay mawawalan ng bisa sa",
+			termDesc:
+				'Ang mga Tuntunin at Kundisyon ("Mga Tuntunin") ay namamahala sa iyong paggamit ng Dentiwhere, isang dental clinic directory service. Sa pamamagitan ng pag access o paggamit ng aming platform, sumasang ayon ka na sumunod sa mga Tuntunin na ito. Kung hindi ka sumasang ayon, hindi mo dapat gamitin ang aming platform.',
+			diastemaDesc:
+				"tumutukoy sa isang agwat sa pagitan ng iyong mga ngipin. Ang mga gaps ay maaaring mangyari kahit saan sa iyong bibig, ngunit ang mga ito ay pinaka karaniwan sa pagitan ng iyong dalawang ngipin sa harap.",
+			malocclusionDesc:
+				"ay ang misalignment ng ngipin. Maaari itong humantong sa mga komplikasyon sa kalusugan ng bibig kung hindi ito ginagamot.",
+			toothAgenesisDesc:
+				"ay isang congenital condition kung saan ang bibig ng isang pasyente ay hindi lamang nakakuha ng direksyon upang gumawa ng ilan sa kanilang mga permanenteng ngipin kapag sila ay ipinanganak.",
+			periodontalDiseaseDesc:
+				"ay isang impeksyon ng mga tisyu na humahawak sa iyong mga ngipin sa lugar.",
+			tootDecayDesc:
+				"nangyayari kapag ang bakterya sa bibig ay gumagawa ng mga asido na umaatake sa enamel, o proteksiyon na panlabas na layer ng ngipin. Kung hindi ito ginagamot, ang pagkabulok ng ngipin ay maaaring humantong sa sakit sa gilagid, mga lukab, at posibleng pagkawala ng ngipin. ",
+			crackedTooth: "Cracked Tooth Syndrome (CTS)",
+			crackedToothDesc:
+				"ay kung saan ang isang ngipin ay hindi ganap na basag ngunit walang bahagi ng ngipin ay hindi pa naputol. Minsan ito ay inilarawan bilang isang greenstick fracture.",
+			toothExtractionDesc:
+				"Ang tooth extraction ay isang dental na pamamaraan na nagsasangkot ng pag alis ng isang ngipin mula sa socket nito sa panga, kadalasan dahil sa matinding pagkabulok, pinsala, o sobrang dami ng tao.",
+			rootCanalDesc:
+				"Ang root canal ay isang dental procedure na dinisenyo upang gamutin ang impeksyon o pinsala sa loob ng pulp ng isang ngipin, na siyang pinakaloob na malambot na tisyu na naglalaman ng mga nerbiyos at daluyan ng dugo.",
+			dentalCrownDesc:
+				"Ang dental crown ay isang cap na inilalagay sa ibabaw ng ngipin upang maibalik ang hugis, laki, lakas, at anyo nito. Karaniwang ginagamit ito kapag ang isang ngipin ay malubhang nasira, nabubulok, o pagkatapos ng isang pamamaraan ng root canal.",
+			toothFillingDesc:
+				"Ang pagpuno ng ngipin ay isang dental treatment na ginagamit sa pag aayos ng isang lukab o isang maliit na lugar ng pagkabulok sa isang ngipin.",
+			fullDenturesDesc:
+				"Ang buong dentures ay pumapalit sa lahat ng nawawalang ngipin sa alinman sa itaas o mas mababang panga, na nagtatampok ng isang kumpletong hanay ng mga artipisyal na ngipin na nakatakda sa isang kulay rosas na acrylic base na ginagaya ang mga gilagid.",
+			bracesDesc:
+				"Braces ay orthodontic aparato na ginagamit upang iwasto ang misaligned ngipin at jaws, pagpapabuti ng parehong dental function at hitsura.",
+		},
+	},
+};
+
+i18n
+	.use(initReactI18next) // passes i18n down to react-i18next
+	.init({
+		resources,
+		lng: "en",
+		fallbackLng: "en",
+		// language to use, more information here: https://www.i18next.com/overview/configuration-options#languages-namespaces-resources
+		// you can use the i18n.changeLanguage function to change the language manually: https://www.i18next.com/overview/api#changelanguage
+		// if you're using a language detector, do not define the lng option
+
+		interpolation: {
+			escapeValue: false, // react already safes from xss
+		},
+	});
+
+export default i18n;

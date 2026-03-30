@@ -1,50 +1,48 @@
-# React + TypeScript + Vite
+# 🦷 DentiWhere
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📌 Overview
+**DentiWhere** is a dental-focused web application designed to help users easily locate dental services, manage appointments, and access essential oral health information. It streamlines the connection between patients and dental providers through a user-friendly and responsive platform.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
+- 🔍 Search for nearby dental clinics and professionals  
+- 📅 Book and manage dental appointments  
+- 🧾 Access and manage dental records  
+- 📱 Responsive and user-friendly interface  
+- 🔔 (Future) Notifications and reminders  
+- 🏥 (Future) Clinic and patient management tools  
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 🚀 Project Description
+**DentiWhere** is a full-stack web application built to simplify access to dental care services by connecting users with nearby clinics and professionals. The platform enables users to search for dental providers, schedule appointments, and manage their dental records in a centralized system.  
 
-- Configure the top-level `parserOptions` property like this:
+It aims to improve accessibility and convenience in oral healthcare by offering an intuitive interface and seamless user experience. The system is designed with scalability in mind, allowing integration of additional features such as notifications, patient tracking, and clinic management tools.  
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+By leveraging modern web technologies, DentiWhere provides a reliable and efficient solution for both patients and dental practitioners.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+---
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## 🛠️ Tech Stack
+*(Customize this based on your project)*  
+- Frontend: React / Next.js  
+- Database: PostgreSQL  
+- Styling: Tailwind CSS + ShadcnUI
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+---
+
+## 📦 Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/awyyyn/dentiwhere.git
+
+# Navigate to the project folder
+cd dentiwhere
+
+# Install dependencies
+npm install
+
+# Run the development server
+npm run dev
